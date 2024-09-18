@@ -1,0 +1,90 @@
+/* Reset de estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilo del fondo */
+body {
+    background-image: linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+    ),
+    url("Images/Mecanicos-certificados-en-nuestras-marcas.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    font-family: 'Roboto', sans-serif;
+    justify-content: flex-start;
+    background-attachment: fixed;
+}
+
+/* Contenedor principal de la gestión de mecánicos */
+.mechanic-management-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    min-height: calc(100vh - 80px);
+    margin-top: 80px;
+}
+
+/* Título principal */
+.title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de búsqueda y botón */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.mechanic-search-input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Botón de agregar mecánico */
+.add-button {
+    padding: 10px 20px;
+    background-color: #d30000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #b30000;
+}
+
+/* Lista de mecánicos */
+.mechanic-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Estilos de las tarjetas de mecánicos */
+.mechanic-card {
+    background-color: rgba(209, 0, 0, 0.8);
+    padding: 15px;
+    border: 2px solid #c20000;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: large;
+}
+
+.mechanic-card p {
+    margin: 5px 0;
+}

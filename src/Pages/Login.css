@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Contenedor principal */
+.contenedor {
+  display: flex;
+  flex-direction: column; /* En columnas para pantallas pequeñas */
+  justify-content: center; /* Centra el formulario verticalmente */
+  align-items: center; /* Centra el formulario horizontalmente */
+  height: 100vh;
+  padding: 0 20px;
+  text-align: center;
+}
+
+/* Estilo para el título */
+.contenedor h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+/* Estilo del formulario */
+.contenedor form {
+  width: 100%;
+  max-width: 400px; /* Ancho máximo del formulario */
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo de los campos de entrada */
+.contenedor input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Estilo del botón de inicio de sesión */
+.contenedor button {
+  width: 100%;
+  padding: 10px;
+  background-color: #d10000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contenedor button:hover {
+  background-color: #a50000;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .contenedor h2 {
+      font-size: 2rem;
+  }
+
+  .contenedor form {
+      padding: 15px;
+  }
+
+  .contenedor input {
+      font-size: 1rem;
+  }
+
+  .contenedor button {
+      font-size: 1rem;
+  }
+}
