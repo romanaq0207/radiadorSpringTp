@@ -9,6 +9,7 @@ import QRScanner from '../Pages/QRScanner';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import AddMechanic from '../Pages/AddMechanic'
+import AddClients from '../Pages/AddClients'
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,7 +34,8 @@ const App = () => {
             <Route path="/gestion-mecanicos" element={<MechanicManagement />} />
             <Route path="/agregar-auto" element={ <AddAuto /> } />
             <Route path="/escanear-qr" element={<QRScanner />} />
-            //<Route path="/agregar-mecanico" element={ <AddMechanic /> } />           
+            //<Route path="/agregar-mecanico" element={ <AddMechanic /> } />         
+            <Route path="/agregar-cliente" element={<AddClients />} />  
           </Routes>
         </Router>
       </main>
