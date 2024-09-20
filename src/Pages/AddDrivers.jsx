@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './AddClients.css';
+import './AddDrivers.css';
 import { API_BASE_URL } from '../assets/config';
 
-function AddClients() {
-    const [clienteData, setClienteData] = useState({
+function AddDrivers() {
+    const [conductorData, setConductorData] = useState({
         nombre: '',
         apellido: '',
         dni: '',
@@ -15,55 +15,55 @@ function AddClients() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setClienteData({ ...clienteData, [name]: value });
+        setConductorData({ ...conductorData, [name]: value });  // Corregido: conductorData en minúsculas
     };
 
-    const handleAddCliente = () => {
-        // Enviar los datos del cliente al servidor
-        axios.post(`${API_BASE_URL}/clientes`, clienteData)
+    const handleAddDrivers = () => {
+        // Enviar los datos del conductor al servidor
+        axios.post(`${API_BASE_URL}/conductor`, conductorData)
             .then(response => {
-                console.log('Cliente agregado:', response.data);
+                console.log('Conductor agregado:', response.data);
                 navigate('/'); // Redirige a la página principal
             })
             .catch(error => {
-                console.error('Error al agregar cliente:', error);
+                console.error('Error al agregar conductor:', error);
             });
     };
 
     return (
-        <div className="add-cliente">
-            <h2>Agregar Nuevo Cliente</h2>
+        <div className="add-conductor">
+            <h2>Agregar Nuevo Conductor</h2>
             <input
                 type="text"
                 name="nombre"
                 placeholder="Nombre"
-                value={clienteData.nombre}
+                value={conductorData.nombre}
                 onChange={handleInputChange}
             />
             <input
                 type="text"
                 name="apellido"
                 placeholder="Apellido"
-                value={clienteData.apellido}
+                value={conductorData.apellido}
                 onChange={handleInputChange}
             />
             <input
                 type="text"
                 name="dni"
                 placeholder="DNI"
-                value={clienteData.dni}
+                value={conductorData.dni}
                 onChange={handleInputChange}
             />
             <input
                 type="text"
                 name="telefono"
                 placeholder="Número de Teléfono"
-                value={clienteData.telefono}
+                value={conductorData.telefono}
                 onChange={handleInputChange}
             />
-            <button onClick={handleAddCliente}>Agregar Cliente</button>
+            <button onClick={handleAddDrivers}>Agregar Conductor</button>
         </div>
     );
 }
 
-export default AddClients;
+export default AddDrivers;

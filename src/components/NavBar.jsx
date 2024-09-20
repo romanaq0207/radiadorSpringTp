@@ -34,7 +34,7 @@ function Navbar() {
                     <Link to="/gestion-mecanicos" className="navbar-link" onClick={closeMenu}>Gestión de Mecánicos</Link>
                 </li>
                 <li className="navbar-item">
-                    <Link to="/agregar-cliente" className="navbar-link" onClick={closeMenu}>Agregar Clientes</Link>
+                    <Link to="/gestion-conductor" className="navbar-link" onClick={closeMenu}>Gestión de Conductores</Link>
                 </li>
             </ul>
         </nav>

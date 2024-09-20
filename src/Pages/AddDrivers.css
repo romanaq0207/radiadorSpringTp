@@ -20,7 +20,7 @@ body {
     justify-content: center;
 }
 
-.add-cliente {
+.add-conductor {
     max-width: 500px; /* Ajusta el ancho máximo del formulario */
     margin: 0 auto; /* Centra el formulario horizontalmente */
     padding: 20px;
@@ -29,14 +29,14 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-.add-cliente h2 {
+.add-conductor h2 {
     margin-bottom: 20px;
     font-size: 24px;
     text-align: center;
     color: rgb(255, 255, 255);
 }
 
-.add-cliente input {
+.add-conductor input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -45,7 +45,7 @@ body {
     font-size: 16px;
 }
 
-.add-cliente button {
+.add-conductor button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -57,11 +57,11 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.add-cliente button:hover {
+.add-conductor button:hover {
     background-color: #a50000;
 }
 
-.add-cliente input {
+.add-conductor input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -70,7 +70,7 @@ body {
     font-size: 16px;
 }
 
-.add-cliente button {
+.add-conductor button {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -82,6 +82,6 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.add-cliente button:hover {
+.add-conductor button:hover {
     background-color: #a50000;
 }
