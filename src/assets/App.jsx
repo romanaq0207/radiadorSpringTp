@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AutoSearch from "../Pages/AutoSearch";
 import AutoDetail from "../Pages/AutoDetail";
@@ -9,7 +9,6 @@ import QRScanner from "../Pages/QRScanner";
 import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 import AddMechanic from "../Pages/AddMechanic";
-import AddDrivers from "../Pages/AddDrivers";
 import DriversManagement from "../Pages/DriversManagement";
 import MyRoute from "../Pages/MyRoute";
 import MyBills from "../Pages/MyBills";
@@ -28,9 +27,11 @@ const App = () => {
 
   return (
     <div className="App">
-      <main>
-        <Router>
-          {isAuthenticated && <Navbar />}
+      <Router>
+        {/* Navbar solo se muestra si el usuario está autenticado */}
+        {isAuthenticated && <Navbar />}
+        
+        <main>
           <Routes>
             <Route
               path="/"
@@ -47,16 +48,14 @@ const App = () => {
             <Route path="/gestion-mecanicos" element={<MechanicManagement />} />
             <Route path="/agregar-auto" element={<AddAuto />} />
             <Route path="/escanear-qr" element={<QRScanner />} />
-            //
             <Route path="/agregar-mecanico" element={<AddMechanic />} />
-            <Route path="/agregar-conductor" element={<AddDrivers />} />
             <Route path="/gestion-conductor" element={<DriversManagement />} />
             <Route path="/ver-mi-ruta" element={<MyRoute />} />
             <Route path="/mis-gastos" element={<MyBills />} />
             <Route path="/agregar-gastos" element={<AddBills />} />
           </Routes>
-        </Router>
-      </main>
+        </main>
+      </Router>
     </div>
   );
 };

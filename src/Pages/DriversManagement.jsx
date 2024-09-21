@@ -1,79 +1,140 @@
 import React, { useState, useEffect } from 'react';
-import './DriversManagement.css';
-import Navbar from '../components/NavBar';
-import axios from 'axios';  // Importamos axios para las peticiones
-import { API_BASE_URL } from '../assets/config';  // Importar el URL base de la API
-import { useNavigate } from 'react-router-dom';
+import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
+import './DriversManagement.css'; 
 
-function DriversManagement() {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredConductores, setFilteredConductores] = useState([]);
-    const navigate = useNavigate();
+const DriversManagement = () => {
+  const [conductores, setConductores] = useState([]);
 
-    // Cargar datos de conductores desde la API
-    useEffect(() => {
-        axios.get(`${API_BASE_URL}/conductores`)
-            .then(response => {
-                setFilteredConductores(response.data); // Cargar los datos de la API
-            })
-            .catch(error => {
-                console.error('Error al obtener los conductores:', error);
-            });
-    }, []);
+  useEffect(() => {
+    // Cargar los datos del archivo JSON
+    setConductores(conductoresData.filter((conductor) => conductor.habilitado));  // Filtrar conductores habilitados
+  }, []);
 
-    const handleSearchChange = (event) => {
-        const term = event.target.value;
-        setSearchTerm(term);
-        filterConductores(term);
-    };
+  const [formData, setFormData] = useState({
+    id: '',
+    nombre: '',
+    apellido: '',
+    dni: '',
+    numeroTelefono: '',
+    habilitado: true,
+  });
+  
+  const [isEditing, setIsEditing] = useState(false);
 
-    const filterConductores = (term) => {
-        const filtered = filteredConductores.filter(conductor =>
-            conductor.nombre.toLowerCase().includes(term.toLowerCase()) ||
-            conductor.apellido.toLowerCase().includes(term.toLowerCase())
-        );
-        setFilteredConductores(filtered);
-    };
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    const handleAddConductor = () => {
-        navigate('/agregar-conductor'); 
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    return (
-        <div className="drivers-management-container">
-            <Navbar />
-            <h2 className="title">Gestión de Conductores</h2>
-            <div className="search-container">
-                <input
-                    type="text"
-                    placeholder="Buscar por nombre o apellido..."
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    className="drivers-search-input"
-                />
-                <button onClick={handleAddConductor} className="add-button">
-                    Agregar Conductor
-                </button>
-            </div>
-            
-            <div className="drivers-list">
-                {filteredConductores.length > 0 ? (
-                    filteredConductores.map(conductor => (
-                        <div
-                            key={conductor.id}
-                            className="drivers-card"
-                        >
-                            <p><strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}</p>
-                            <p><strong>DNI:</strong> {conductor.dni}</p>
-                            <p><strong>Teléfono:</strong> {conductor.telefono}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No se encontraron conductores.</p>
-                )}
-            </div>
-        </div>
+    if (isEditing) {
+      setConductores(
+        conductores.map((conductor) =>
+          conductor.id === formData.id ? formData : conductor
+        )
+      );
+      setIsEditing(false);
+    } else {
+      setConductores([
+        ...conductores,
+        { ...formData, id: conductores.length + 1 },
+      ]);
+    }
+
+    setFormData({
+      id: '',
+      nombre: '',
+      apellido: '',
+      dni: '',
+      numeroTelefono: '',
+      habilitado: true,
+    });
+  };
+
+  const handleEdit = (id) => {
+    const conductor = conductores.find((conductor) => conductor.id === id);
+    setFormData(conductor);
+    setIsEditing(true);
+  };
+
+  const handleDelete = (id) => {
+    setConductores(
+      conductores.map((conductor) =>
+        conductor.id === id ? { ...conductor, habilitado: false } : conductor
+      )
     );
-}
+  };
+
+  return (
+    <div className="drivers-management-container">
+      <h2 className="title">Gestión de Conductores</h2>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="nombre"
+          placeholder="Nombre"
+          value={formData.nombre}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="apellido"
+          placeholder="Apellido"
+          value={formData.apellido}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="dni"
+          placeholder="DNI"
+          value={formData.dni}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="numeroTelefono"
+          placeholder="Número de Teléfono"
+          value={formData.numeroTelefono}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit" className="add-button">
+          {isEditing ? 'Modificar Conductor' : 'Agregar Conductor'}
+        </button>
+      </form>
+
+      <div className="drivers-list">
+        {conductores.map((conductor) => (
+          <div key={conductor.id} className="drivers-card">
+            <p>
+              <strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}
+            </p>
+            <p>
+              <strong>DNI:</strong> {conductor.dni}
+            </p>
+            <p>
+              <strong>Teléfono:</strong> {conductor.numeroTelefono}
+            </p>
+
+            <button onClick={() => handleEdit(conductor.id)} className="add-button">
+              Editar
+            </button>
+            <button onClick={() => handleDelete(conductor.id)} className="add-button">
+              Eliminar
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default DriversManagement;

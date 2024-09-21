@@ -6,7 +6,7 @@
         "apellido": "Pérez",
         "dni": "12345678",
         "numeroTelefono": "555-1234",
-        "habilitado": true
+        "habilitado": false
       },
       {
         "id": 2,
@@ -38,7 +38,7 @@
         "apellido": "Ramírez",
         "dni": "45678901",
         "numeroTelefono": "555-8765",
-        "habilitado": false
+        "habilitado": true
       }
     ]
   
