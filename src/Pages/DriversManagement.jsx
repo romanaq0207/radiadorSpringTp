@@ -6,8 +6,8 @@ const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
 
   useEffect(() => {
-    // Cargar los datos del archivo JSON
-    setConductores(conductoresData.filter((conductor) => conductor.habilitado));  // Filtrar conductores habilitados
+    // Cargar los datos del archivo JSON y filtrar los habilitados
+    setConductores(conductoresData.filter((conductor) => conductor.habilitado));
   }, []);
 
   const [formData, setFormData] = useState({
@@ -89,6 +89,7 @@ const DriversManagement = () => {
   };
 
   const handleDelete = (id) => {
+    // Cambiar el estado de habilitado a false para el conductor que se elimina
     setConductores(
       conductores.map((conductor) =>
         conductor.id === id ? { ...conductor, habilitado: false } : conductor
@@ -139,7 +140,8 @@ const DriversManagement = () => {
       </form>
 
       <div className="drivers-list">
-        {conductores.map((conductor) => (
+        {/* Filtrar conductores habilitados para mostrarlos */}
+        {conductores.filter(conductor => conductor.habilitado).map((conductor) => (
           <div key={conductor.id} className="drivers-card">
             <p>
               <strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}
