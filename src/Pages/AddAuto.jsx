@@ -24,6 +24,26 @@ function AddAuto() {
     };
 
     const handleAddAuto = () => {
+        // Validaciones
+        const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Solo letras y espacios
+        const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/; // Letras, números y espacios
+        const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/; // ABC123 o AB123CD
+
+        if (!marcaRegex.test(autoData.marca)) {
+            alert('La marca solo puede contener letras y espacios.');
+            return;
+        }
+
+        if (!modeloRegex.test(autoData.modelo)) {
+            alert('El modelo solo puede contener letras, números y espacios.');
+            return;
+        }
+
+        if (!patenteRegex.test(autoData.nro_patente)) {
+            alert('El número de patente debe seguir el formato ABC123 o AB123CD.');
+            return;
+        }
+
         // Enviar los datos del auto al servidor
         axios.post(`${API_BASE_URL}/autos`, {
             ...autoData,
@@ -34,7 +54,7 @@ function AddAuto() {
             const autoId = response.data.id; // Obtén el ID del nuevo auto
             const qrUrl = `${API_BASE_URL}/autos/${autoId}`; // Genera la URL del QR
             setQrCodeValue(qrUrl); // Asigna la URL como valor del QR
-            //navigate('/'); // Redirige a la página principal
+            // navigate('/'); // Redirige a la página principal
         })
         .catch(error => {
             console.error('Error al agregar auto:', error);
@@ -110,4 +130,3 @@ function AddAuto() {
 }
 
 export default AddAuto;
-

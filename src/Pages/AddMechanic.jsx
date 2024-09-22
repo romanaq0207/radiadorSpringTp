@@ -12,6 +12,7 @@ function AddMechanic() {
         correo_electronico: '',
         especialidad: ''
     });
+
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -20,6 +21,37 @@ function AddMechanic() {
     };
 
     const handleAddMechanic = () => {
+        // Validaciones
+        const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Solo letras y espacios
+        const phoneRegex = /^\d{8,10}$/; // Solo números de 8 o 10 dígitos
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Validación de correo estándar
+        const specialtyRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Solo letras y espacios
+
+        if (!nameRegex.test(mecanicoData.nombre)) {
+            alert('El nombre solo puede contener letras y espacios.');
+            return;
+        }
+
+        if (!nameRegex.test(mecanicoData.apellido)) {
+            alert('El apellido solo puede contener letras y espacios.');
+            return;
+        }
+
+        if (!phoneRegex.test(mecanicoData.telefono)) {
+            alert('El teléfono debe contener entre 8 y 10 dígitos.');
+            return;
+        }
+
+        if (!emailRegex.test(mecanicoData.correo_electronico)) {
+            alert('El correo electrónico no es válido.');
+            return;
+        }
+
+        if (!specialtyRegex.test(mecanicoData.especialidad)) {
+            alert('La especialidad solo puede contener letras y espacios.');
+            return;
+        }
+
         // Enviar los datos del mecánico al servidor
         axios.post(`${API_BASE_URL}/mecanicos`, mecanicoData)
             .then(response => {

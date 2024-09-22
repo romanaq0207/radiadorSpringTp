@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
-import './DriversManagement.css'; 
+import './DriversManagement.css';
 
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
@@ -31,6 +31,32 @@ const DriversManagement = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Validaciones
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; 
+    const dniRegex = /^(\d{1,2}\.?\d{3}\.?\d{3}|\d{1,8})$/;
+    const phoneRegex = /^\d{8}|\d{10}$/; 
+
+    if (!nameRegex.test(formData.nombre)) {
+      alert('El nombre solo puede contener letras y espacios.');
+      return;
+    }
+
+    if (!nameRegex.test(formData.apellido)) {
+      alert('El apellido solo puede contener letras y espacios.');
+      return;
+    }
+
+    if (!dniRegex.test(formData.dni)) {
+      alert('El DNI debe tener un formato válido');
+      return;
+    }
+
+    if (!phoneRegex.test(formData.numeroTelefono)) {
+      alert('El número de teléfono debe tener 8 o 10 dígitos.');
+      return;
+    }
+
+    // Si pasa las validaciones, continuar con el submit
     if (isEditing) {
       setConductores(
         conductores.map((conductor) =>
@@ -45,6 +71,7 @@ const DriversManagement = () => {
       ]);
     }
 
+    // Reset del formulario
     setFormData({
       id: '',
       nombre: '',
