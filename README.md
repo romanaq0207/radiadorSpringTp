@@ -4,17 +4,22 @@
 - Joaquin Splenger (juacospengler@gmail.com)
 - Fiorella Saucedo (saucedo.fiorella00@gmail.com)
 - Catalina Schamberger (catalinaschamberger@hotmail.com.ar)
+- Tomas Navarro (Tomasnavarro0511@hotmail.com)
+- Leandro Gimenez (leandrogimenez991@gmail.com)
+- Santiago González (leosag2507@gmail.com)
+- Román Quevedo (romanquevedo02@gmail.com) 
+- Federico Zapata (federico11zapata@gmail.com)
 
 ## Profesores:
 - Montero Juan Carlos
 - Aragón Evelyn
 
 ## Repositorio Github:
-[link al repositorio de github](https://github.com/JoaquinSpengler/tp-inicial-labo.git)
+[link al repositorio de github](https://github.com/romanaq0207/radiadorSpringTp)
 
 ### Frontend
 
-Como ultima instancia hemos creado una interfaz web donde podran interactuar con la API del chatbot,
+Hemos creado una interfaz web con distintas vistas dependiendo del usuario que inicie sesión, donde podran interactuar con la API del chatbot,
 la cual esta hecha en React.
 
 ### Ejecutar el Frontend
@@ -26,15 +31,15 @@ app-web y colocar los siguientes comandos:
 
 #### Instalar dependencias
 
-```
+
 npm install
-```
+
 
 #### Correr el servidor en localhost
 
-```
+
 npm run dev
-```
+
 
 Una vez hecho esto, ir al link que figura en su consola. Por lo general, el servidor se ejecuta en http://localhost:5173/
 
