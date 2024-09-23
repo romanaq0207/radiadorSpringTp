@@ -36,8 +36,6 @@ function AutoSearch() {
       setFilteredAutos(allAutos);
     } else {
       const filtered = allAutos.filter((auto) =>
-        /*auto.marca.toLowerCase().includes(term.toLowerCase()) ||
-                auto.modelo.toLowerCase().includes(term.toLowerCase())*/
         auto.nro_patente.toLowerCase().includes(term.toLowerCase())
       );
       setFilteredAutos(filtered);
