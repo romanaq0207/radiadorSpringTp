@@ -1,0 +1,65 @@
+/* Reports.css */
+.reportes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px; /* Reduce el margen superior */
+    padding-top: 60px; /* Añadir espacio para evitar que el contenido se superponga con la navbar */
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    margin-top: 0; /* Asegura que no haya espacio innecesario arriba del título */
+    position: relative; /* Mantiene la posición relativa para poder ajustar si es necesario */
+    top: 0; /* Coloca el título en la parte superior */
+  }
+  
+  .filter-section, 
+  .filter-fields {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  
+  .filter-section label, 
+  .filter-fields label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .filter-section select,
+  .filter-fields select,
+  .filter-fields input[type="text"],
+  .filter-fields input[type="date"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 600px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .generate-report {
+    margin-top: 20px;
+  }
+  
+  .generate-report button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #d10000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .generate-report button:hover {
+    background-color: #b10000;
+  }
+  

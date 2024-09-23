@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
+import usuariosData from '../data/usuarios.json'; 
 import './UsersManagement.css'; 
 
 const UsersManagement = () => {
-  const [conductores, setConductores] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
 
   useEffect(() => {
     // Cargar los datos del archivo JSON
-    setConductores(conductoresData.filter((conductor) => conductor.habilitado));  // Filtrar conductores habilitados
+    setUsuarios(usuariosData.filter((usuario) => usuario.habilitado));
   }, []);
 
   const [formData, setFormData] = useState({
@@ -15,7 +15,8 @@ const UsersManagement = () => {
     nombre: '',
     apellido: '',
     dni: '',
-    numeroTelefono: '',
+    mail: '',
+    rol: '',
     habilitado: true,
   });
   
@@ -32,16 +33,16 @@ const UsersManagement = () => {
     e.preventDefault();
 
     if (isEditing) {
-      setConductores(
-        conductores.map((conductor) =>
-          conductor.id === formData.id ? formData : conductor
+      setUsuarios(
+        usuarios.map((usuario) =>
+          usuarios.id === formData.id ? formData : usuario
         )
       );
       setIsEditing(false);
     } else {
-      setConductores([
-        ...conductores,
-        { ...formData, id: conductores.length + 1 },
+      setUsuarios([
+        ...usuarios,
+        { ...formData, id: usuarios.length + 1 },
       ]);
     }
 
@@ -50,29 +51,31 @@ const UsersManagement = () => {
       nombre: '',
       apellido: '',
       dni: '',
-      numeroTelefono: '',
+      mail: '',
+      rol: '',
       habilitado: true,
     });
   };
 
   const handleEdit = (id) => {
-    const conductor = conductores.find((conductor) => conductor.id === id);
-    setFormData(conductor);
+    const usuario = usuarios.find((usuario) => usuiario.id === id);
+    setFormData(usuario);
     setIsEditing(true);
   };
 
   const handleDelete = (id) => {
-    setConductores(
-      conductores.map((conductor) =>
-        conductor.id === id ? { ...conductor, habilitado: false } : conductor
+    setUsuarios(
+      usuarios.map((usuario) =>
+        usuario.id === id ? { ...usuario, habilitado: false } : usuario
       )
     );
   };
 
   return (
-    <div className="drivers-management-container">
-      <h2 className="title">Gestión de Conductores</h2>
-
+    <div className="users-management-container">
+      
+      <div className="filter-conteiner">
+      <h2 className="title">Gestión de Usuarios</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -100,34 +103,53 @@ const UsersManagement = () => {
         />
         <input
           type="text"
-          name="numeroTelefono"
-          placeholder="Número de Teléfono"
-          value={formData.numeroTelefono}
+          name="mail"
+          placeholder="Mail"
+          value={formData.mail}
           onChange={handleChange}
           required
         />
+        <select
+        type="text"
+        name="rol"
+        placeholder="Rol"
+        value={formData.rol}
+        onChange={handleChange}
+        required
+        >
+        <option value="">Selecciona una opción</option>
+        <option value="operador">Operador</option>
+        <option value="administrador">Administrador</option>
+        <option value="cliente">Cliente</option>
+        <option value="gerencia">Gerencia</option>
+        </select>
+        
         <button type="submit" className="add-button">
-          {isEditing ? 'Modificar Conductor' : 'Agregar Conductor'}
+          {isEditing ? 'Modificar Usuario' : 'Agregar Usuario'}
         </button>
       </form>
+      </div>
 
       <div className="drivers-list">
-        {conductores.map((conductor) => (
-          <div key={conductor.id} className="drivers-card">
+        {usuarios.map((usuario) => (
+          <div key={usuario.id} className="user-card">
             <p>
-              <strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}
+              <strong>Nombre:</strong> {usuario.nombre} {usuario.apellido}
             </p>
             <p>
-              <strong>DNI:</strong> {conductor.dni}
+              <strong>DNI:</strong> {usuario.dni}
             </p>
             <p>
-              <strong>Teléfono:</strong> {conductor.numeroTelefono}
+              <strong>Mail:</strong> {usuario.mail}
+            </p>
+            <p>
+              <strong>Rol:</strong> {usuario.rol}
             </p>
 
-            <button onClick={() => handleEdit(conductor.id)} className="add-button">
+            <button onClick={() => handleEdit(usuario.id)} className="add-button">
               Editar
             </button>
-            <button onClick={() => handleDelete(conductor.id)} className="add-button">
+            <button onClick={() => handleDelete(usuario.id)} className="add-button">
               Eliminar
             </button>
           </div>

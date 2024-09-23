@@ -1,0 +1,81 @@
+/* UsersManagement.css */
+
+.users-management-container {
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+    padding: 20px;
+    padding-top: 80px; /* Añadir espacio para evitar que el contenido se superponga con la navbar */
+    gap:20vh;
+
+  }
+
+  .filter-conteiner{
+    flex-direction: column ;
+    min-width: 300px;
+    
+   
+  }
+  
+  .title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+  }
+  
+  form input,
+  form select {
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .add-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .add-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .drivers-list {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .user-card p {
+    margin: 5px 0;
+  }
+  
+  .user-card button {
+    margin-right: 10px;
+  }
+  

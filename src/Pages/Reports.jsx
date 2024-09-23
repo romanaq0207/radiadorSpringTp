@@ -4,16 +4,17 @@ import "./Reports.css";
 
 function Reports() {
   const [reportType, setReportType] = useState("");
+  const [vehicleType, setVehicleType] = useState(""); // Estado para vehículos
+  const [availability, setAvailability] = useState(""); // Estado para disponibilidad
+  const [mechanicSpecialty, setMechanicSpecialty] = useState(""); // Estado para mecánico
   const [filtersCompleted, setFiltersCompleted] = useState(false);
 
-  
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
-    setFiltersCompleted(false); 
+    setFiltersCompleted(false);
   };
 
   const checkFiltersCompleted = () => {
- 
     setFiltersCompleted(true);
   };
 
@@ -21,7 +22,7 @@ function Reports() {
     <div className="reportes-container">
       <Navbar />
       <h2 className="title">Reportes</h2>
-      
+
       <div className="filter-section">
         <label htmlFor="reportType">Generar reporte de:</label>
         <select
@@ -38,44 +39,44 @@ function Reports() {
         </select>
       </div>
 
-    
+      {/* Filtros de Vehículos */}
       {reportType === "vehiculos" && (
         <div className="filter-fields">
           <label>Filtrar por tipo de vehículos:</label>
           <select
-          id="vehiculoType"
-          value={reportType}
-          onChange={checkFiltersCompleted}
-        >
-          <option value="">Selecciona una opción</option>
-          <option value="autos">Autos</option>
-          <option value="camiones">Camiones</option>
-          <option value="micros">Micros</option>
-          <option value="camioneta">Camionetas</option>
-          <option value="moto">Motos</option>
-          <option value="todos">Todos</option>
+            id="vehiculoType"
+            value={vehicleType}
+            onChange={(e) => setVehicleType(e.target.value)} // Actualiza el estado de vehicleType
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="autos">Autos</option>
+            <option value="camiones">Camiones</option>
+            <option value="micros">Micros</option>
+            <option value="camioneta">Camionetas</option>
+            <option value="moto">Motos</option>
+            <option value="todos">Todos</option>
+          </select>
 
-        </select>
-        <label>Filtrar por disponibilidad:</label>
-        <select
-          id="disponibilidad"
-          value={reportType}
-          onChange={checkFiltersCompleted}
-        >
-          <option value="">Selecciona una opción</option>
-          <option value="reservados">Reservados</option>
-          <option value="no reservados">No reservados</option>
-          <option value="Indistinto">Indistinto</option>
+          <label>Filtrar por disponibilidad:</label>
+          <select
+            id="disponibilidad"
+            value={availability}
+            onChange={(e) => setAvailability(e.target.value)} // Actualiza el estado de availability
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="reservados">Reservados</option>
+            <option value="no reservados">No reservados</option>
+            <option value="indistinto">Indistinto</option>
+          </select>
 
-        </select>
-        <label>Desde:</label>
-        <input type="date" placeholder="Fecha desde" onChange={checkFiltersCompleted} />
-        <label>Hasta:</label>
-        <input type="date" placeholder="Fecha hasta" onChange={checkFiltersCompleted} />
-
+          <label>Desde:</label>
+          <input type="date" placeholder="Fecha desde" onChange={checkFiltersCompleted} />
+          <label>Hasta:</label>
+          <input type="date" placeholder="Fecha hasta" onChange={checkFiltersCompleted} />
         </div>
       )}
 
+      {/* Filtros de Conductores */}
       {reportType === "conductor" && (
         <div className="filter-fields">
           <label>Filtrar por nombre del conductor:</label>
@@ -83,28 +84,29 @@ function Reports() {
         </div>
       )}
 
+      {/* Filtros de Mecánicos */}
       {reportType === "mecanico" && (
         <div className="filter-fields">
           <label>Filtrar por especialidad del mecánico:</label>
           <select
-          id="mecanicoType"
-          value={reportType}
-          onChange={checkFiltersCompleted}
-        >
-          <option value="">Selecciona una opción</option>
-          <option value="electromecanica">Electromecanica</option>
-          <option value="frenos">Frenos</option>
-          <option value="mecanica general">Mecanica general</option>
-          <option value="suspension">Suspension</option>
-          <option value="transmision">Transmision</option>
-          <option value="gas">Gas</option>
-          <option value="cambio de correa">Cambio de correa</option>
-          <option value="todos">Todos</option>
-
-        </select>
+            id="mecanicoType"
+            value={mechanicSpecialty}
+            onChange={(e) => setMechanicSpecialty(e.target.value)} // Actualiza el estado de mechanicSpecialty
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="electromecanica">Electromecánica</option>
+            <option value="frenos">Frenos</option>
+            <option value="mecanica general">Mecánica general</option>
+            <option value="suspension">Suspensión</option>
+            <option value="transmision">Transmisión</option>
+            <option value="gas">Gas</option>
+            <option value="cambio de correa">Cambio de correa</option>
+            <option value="todos">Todos</option>
+          </select>
         </div>
       )}
 
+      {/* Filtros de Gastos */}
       {reportType === "gastos" && (
         <div className="filter-fields">
           <label>Filtrar por fecha:</label>
@@ -113,6 +115,7 @@ function Reports() {
         </div>
       )}
 
+      {/* Filtros de Stock */}
       {reportType === "stock" && (
         <div className="filter-fields">
           <label>Filtrar por categoría de stock:</label>
@@ -120,7 +123,7 @@ function Reports() {
         </div>
       )}
 
-      
+      {/* Botón para generar reporte PDF */}
       {filtersCompleted && (
         <div className="generate-report">
           <button onClick={() => alert("Generando PDF...")}>Generar Reporte PDF</button>

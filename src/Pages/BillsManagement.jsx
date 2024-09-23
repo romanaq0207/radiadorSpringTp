@@ -71,7 +71,7 @@ const BillsManagement = () => {
               disabled={gasto.estado === 'Pagado'}
               className="mark-paid-button"
             >
-              {gasto.estado === 'Pagado' ? 'Pagado' : 'Marcar como pago'}
+              Marcar como Pago
             </button>
 
             {/* Botón "Pagar", deshabilitado si ya está pagado */}
