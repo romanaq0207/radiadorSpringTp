@@ -13,6 +13,11 @@ import DriversManagement from "../Pages/DriversManagement";
 import MyRoute from "../Pages/MyRoute";
 import MyBills from "../Pages/MyBills";
 import AddBills from "../Pages/AddBills";
+import Reports from "../Pages/Reports";
+import BillsManagement from "../Pages/BillsManagement";
+import UsersManagement from "../Pages/UsersManagement";
+
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -53,6 +58,11 @@ const App = () => {
             <Route path="/ver-mi-ruta" element={<MyRoute />} />
             <Route path="/mis-gastos" element={<MyBills />} />
             <Route path="/agregar-gastos" element={<AddBills />} />
+            <Route path="/reportes" element={<Reports />} />
+            <Route path="/admin-gastos" element={<BillsManagement />} />
+            <Route path="/admin-usuarios" element={<UsersManagement />} />
+
+
           </Routes>
         </main>
       </Router>

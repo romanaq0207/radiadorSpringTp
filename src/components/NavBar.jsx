@@ -62,6 +62,21 @@ function Navbar() {
             Mis Gastos
           </Link>
         </li>
+        <li className="navbar.item">
+          <Link to="/reportes" className="navbar-link" onAbort={closeMenu}>
+            Reportes
+          </Link>
+        </li>
+        <li className="navbar.item">
+          <Link to="/admin-gastos" className="navbar-link" onAbort={closeMenu}>
+            Administración de Gastos
+          </Link>
+        </li>
+        <li className="navbar.item">
+          <Link to="/admin-usuarios" className="navbar-link" onAbort={closeMenu}>
+            Administración de Usuarios
+          </Link>
+        </li>
       </ul>
     </nav>
   );
