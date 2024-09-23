@@ -91,7 +91,8 @@ function Reports() {
           <select
             id="mecanicoType"
             value={mechanicSpecialty}
-            onChange={(e) => setMechanicSpecialty(e.target.value)} // Actualiza el estado de mechanicSpecialty
+            onChange={(e) => setMechanicSpecialty(e.target.value) & {checkFiltersCompleted} } 
+            
           >
             <option value="">Selecciona una opción</option>
             <option value="electromecanica">Electromecánica</option>

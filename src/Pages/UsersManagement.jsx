@@ -149,7 +149,7 @@ const UsersManagement = () => {
             <button onClick={() => handleEdit(usuario.id)} className="add-button">
               Editar
             </button>
-            <button onClick={() => handleDelete(usuario.id)} className="add-button">
+            <button onClick={() => handleDelete(usuario.id)} className="edit-button">
               Eliminar
             </button>
           </div>
