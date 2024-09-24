@@ -1,41 +1,80 @@
-// Login.jsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { login } from '../Services/authServices';
+import { AuthContext } from '../Context/AuthContext';
 import './Login.css';
 
-function Login({ onLogin }) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+function Login() {
+  const [loading, setLoading] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const { handleLogin } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Llama a la función onLogin con el email y la contraseña
-        onLogin(email, password);
-    };
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      await login(data.email, data.password);
+      handleLogin();
+      setAlertMessage('Bienvenido');
+      setLoading(false);
+    } catch (error) {
+      setAlertMessage('Error al iniciar sesión: ' + error.message);
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className='contenedor'>
-            <h2>Iniciar sesión</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required />
-                </div>
-                <div>
-                    <label>Contraseña:</label>
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required />
-                </div>
-                <button type="submit">Iniciar sesión</button>
-            </form>
+  return (
+    <div className="login-container">
+      <h2>Iniciar sesión</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label>Email:</label>
+          <input
+            type="email"
+            {...register('email', {
+              required: 'El email es obligatorio',
+              pattern: {
+                value: `/^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/`,
+                message: 'Ingrese un email válido',
+              },
+            })}
+            placeholder="Ingrese su email"
+          />
+          {errors.email && <span className="error-message">{errors.email.message}</span>}
         </div>
-    );
+
+        <div>
+          <label>Contraseña:</label>
+          <input
+            type="password"
+            {...register('password', {
+              required: 'La contraseña es obligatoria',
+              minLength: {
+                value: 6,
+                message: 'Debe tener al menos 6 caracteres',
+              },
+              maxLength: {
+                value: 12,
+                message: 'No puede tener más de 12 caracteres',
+              },
+            })}
+            placeholder="Ingrese su contraseña"
+          />
+          {errors.password && <span className="error-message">{errors.password.message}</span>}
+        </div>
+
+        <button type="submit" disabled={loading}>
+          {loading ? 'Cargando...' : 'Iniciar sesión'}
+        </button>
+
+        {alertMessage && <p className="alert-message">{alertMessage}</p>}
+      </form>
+    </div>
+  );
 }
 
 export default Login;

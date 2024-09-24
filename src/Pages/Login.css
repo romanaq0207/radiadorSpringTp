@@ -1,79 +1,67 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-/* Contenedor principal */
-.contenedor {
+.login-container {
   display: flex;
-  flex-direction: column; /* En columnas para pantallas pequeñas */
-  justify-content: center; /* Centra el formulario verticalmente */
-  align-items: center; /* Centra el formulario horizontalmente */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100vh;
-  padding: 0 20px;
-  text-align: center;
-}
-
-/* Estilo para el título */
-.contenedor h2 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-/* Estilo del formulario */
-.contenedor form {
-  width: 100%;
-  max-width: 400px; /* Ancho máximo del formulario */
-  background-color: rgba(0,0,0,0);
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
 
-/* Estilo de los campos de entrada */
-.contenedor input {
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.login-container form {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  max-width: 400px;
+}
+
+.login-container label {
+  margin-bottom: 8px;
   font-size: 1rem;
+  color: #333;
 }
 
-/* Estilo del botón de inicio de sesión */
-.contenedor button {
-  width: 100%;
+.login-container input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.login-container button {
   padding: 10px;
   background-color: #d10000;
   color: white;
+  font-size: 1rem;
   border: none;
   border-radius: 5px;
-  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.contenedor button:hover {
-  background-color: #a50000;
+.login-container button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
-/* Estilos responsivos */
-@media (max-width: 768px) {
-  .contenedor h2 {
-      font-size: 2rem;
-  }
+.login-container button:hover {
+  background-color: #990000;
+}
 
-  .contenedor form {
-      padding: 15px;
-  }
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+}
 
-  .contenedor input {
-      font-size: 1rem;
-  }
-
-  .contenedor button {
-      font-size: 1rem;
-  }
+.alert-message {
+  color: green;
+  font-size: 1rem;
+  margin-top: 10px;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AutoSearch from "../Pages/AutoSearch";
 import AutoDetail from "../Pages/AutoDetail";
@@ -16,58 +16,53 @@ import AddBills from "../Pages/AddBills";
 import Reports from "../Pages/Reports";
 import BillsManagement from "../Pages/BillsManagement";
 import UsersManagement from "../Pages/UsersManagement";
-
+import AuthProvider, { AuthContext } from "../Context/AuthContext";
+//import { AuthProvider, useAuth } from '../Context/AuthContext';
 
 
 const App = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Mueve el useContext adentro del AuthProvider
+  return (
+    <AuthProvider>
+      <div className="App">
+        <Router>
+          <AuthConsumer /> 
+        </Router>
+      </div>
+    </AuthProvider>
+  );
+};
 
-  const handleLogin = () => {
-    setIsAuthenticated(true); // Cambiar el estado de autenticación a verdadero cuando el usuario inicie sesión
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false); // Cambiar el estado de autenticación a falso cuando el usuario cierre sesión
-  };
+const AuthConsumer = () => {
+  const { login, handleLogout } = useContext(AuthContext); // Ahora funciona correctamente dentro de AuthProvider
 
   return (
-    <div className="App">
-      <Router>
-        {/* Navbar solo se muestra si el usuario está autenticado */}
-        {isAuthenticated && <Navbar />}
-        
-        <main>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                isAuthenticated ? (
-                  <Home onLogout={handleLogout} />
-                ) : (
-                  <Login onLogin={handleLogin} />
-                )
-              }
-            />
-            <Route path="/gestion-autos" element={<AutoSearch />} />
-            <Route path="/autos/:id" element={<AutoDetail />} />
-            <Route path="/gestion-mecanicos" element={<MechanicManagement />} />
-            <Route path="/agregar-auto" element={<AddAuto />} />
-            <Route path="/escanear-qr" element={<QRScanner />} />
-            <Route path="/agregar-mecanico" element={<AddMechanic />} />
-            <Route path="/gestion-conductor" element={<DriversManagement />} />
-            <Route path="/ver-mi-ruta" element={<MyRoute />} />
-            <Route path="/mis-gastos" element={<MyBills />} />
-            <Route path="/agregar-gastos" element={<AddBills />} />
-            <Route path="/reportes" element={<Reports />} />
-            <Route path="/admin-gastos" element={<BillsManagement />} />
-            <Route path="/admin-usuarios" element={<UsersManagement />} />
-
-
-          </Routes>
-        </main>
-      </Router>
-    </div>
+    <>
+      {login && <Navbar />}
+      <main>
+        <Routes>
+          <Route
+            path="/"
+            element={login ? <Home onLogout={handleLogout} /> : <Login />}
+          />
+          <Route path="/gestion-autos" element={<AutoSearch />} />
+          <Route path="/autos/:id" element={<AutoDetail />} />
+          <Route path="/gestion-mecanicos" element={<MechanicManagement />} />
+          <Route path="/agregar-auto" element={<AddAuto />} />
+          <Route path="/escanear-qr" element={<QRScanner />} />
+          <Route path="/agregar-mecanico" element={<AddMechanic />} />
+          <Route path="/gestion-conductor" element={<DriversManagement />} />
+          <Route path="/ver-mi-ruta" element={<MyRoute />} />
+          <Route path="/mis-gastos" element={<MyBills />} />
+          <Route path="/agregar-gastos" element={<AddBills />} />
+          <Route path="/reportes" element={<Reports />} />
+          <Route path="/admin-gastos" element={<BillsManagement />} />
+          <Route path="/admin-usuarios" element={<UsersManagement />} />
+        </Routes>
+      </main>
+    </>
   );
 };
 
 export default App;
+

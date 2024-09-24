@@ -15,14 +15,14 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      {/* Botón Hamburguesa */}
+    
       <div className="navbar-toggle" onClick={toggleMenu}>
         <span></span>
         <span></span>
         <span></span>
       </div>
 
-      {/* Lista de Navegación */}
+
       <ul className={`navbar-list ${isOpen ? "navbar-list-open" : ""}`}>
         <li className="navbar-item">
           <Link to="/" className="navbar-link" onClick={closeMenu}>
@@ -83,3 +83,4 @@ function Navbar() {
 }
 
 export default Navbar;
+
