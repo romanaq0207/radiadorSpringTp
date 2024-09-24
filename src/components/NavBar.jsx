@@ -169,11 +169,6 @@ function Navbar() {
                                 Agregar Gasto
                             </Link>
                         </li>
-                        <li className="navbar-item">
-                            <Link to="/mis-gastos" className="navbar-link" onClick={closeMenu}>
-                                Mis Gastos
-                            </Link>
-                        </li>
                     </>
                 )}
             </ul>
