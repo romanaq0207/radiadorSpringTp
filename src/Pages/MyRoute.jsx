@@ -1,5 +1,5 @@
 import React from "react";
-import ejemplo from "./images/ejemplo-map.jpg";
+import ejemplo from "./Images/ejemplo-map.jpg";
 import Navbar from "../components/NavBar";
 import "./MyRoute.css";
 
