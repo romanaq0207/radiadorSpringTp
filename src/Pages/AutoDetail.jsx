@@ -113,7 +113,7 @@ function AutoDetail() {
             />
             <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
 
-            <Link to="/agregar-auto" className="back-link">Volver</Link>
+            <Link to="/gestion-autos" className="back-link">Volver</Link>
         </div>
     );
 }
