@@ -18,8 +18,9 @@ function MyBills() {
   };
 
   const handleAddBills = () => {
+    const billData = { ...billsData, estado: 'pendiente' }; // Agregar estado por defecto
     axios
-      .post(`${API_BASE_URL}/gastos`, billsData)
+      .post(`${API_BASE_URL}/bills`, billData)
       .then((response) => {
         console.log("Gasto agregado:", response.data);
         navigate("/"); // Redirige a la página principal
@@ -27,7 +28,8 @@ function MyBills() {
       .catch((error) => {
         console.error("Error al agregar el gasto:", error);
       });
-  };
+};
+
 
   const handleReturnHome = () => {
     navigate("/mis-gastos");

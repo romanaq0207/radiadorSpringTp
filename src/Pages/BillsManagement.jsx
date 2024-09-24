@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
-import gastosData from '../data/gastos.json'; // Ajusta la ruta según tu estructura
+import axios from 'axios'; // Asegúrate de tener axios instalado
+import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
 import './BillsManagement.css'; 
 
 const BillsManagement = () => {
@@ -11,9 +12,18 @@ const BillsManagement = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar los datos del archivo JSON
-    setGastos(gastosData);
-    setFilteredGastos(gastosData);
+    // Cargar los datos de la API
+    const fetchGastos = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/bills`); // Cambia esto a tu endpoint
+        setGastos(response.data);
+        setFilteredGastos(response.data);
+      } catch (error) {
+        console.error('Error al cargar los gastos:', error);
+      }
+    };
+    
+    fetchGastos();
   }, []);
 
   // Filtrar gastos por descripción y estado
@@ -25,15 +35,22 @@ const BillsManagement = () => {
     setFilteredGastos(filtered);
   }, [filterDescription, filterEstado, gastos]);
 
-  const handleMarkAsPaid = (id) => {
-    setGastos(gastos.map((gasto) =>
-      gasto.id === id ? { ...gasto, estado: 'Pagado' } : gasto
-    ));
-  };
+  const handleMarkAsPaid = async (id) => {
+    try {
+        // Primero, verifica si el gasto existe
+        const response = await axios.get(`${API_BASE_URL}/bills/${id}`);
+        console.log('Gasto encontrado:', response.data);
 
-  //const handlePay = (id) => {
-  //  navigate(`/pagar-gasto/${id}`); // Redirige a la pantalla de pago
-  //};
+        // Si existe, actualiza el estado
+        await axios.patch(`${API_BASE_URL}/bills/${id}`, { estado: 'pagado' });
+        setGastos(gastos.map((gasto) =>
+            gasto.id === id ? { ...gasto, estado: 'pagado' } : gasto
+        ));
+    } catch (error) {
+        console.error('Error al marcar el gasto como pagado:', error);
+    }
+};
+
 
   return (
     <div className="expenses-management-container">
@@ -53,7 +70,7 @@ const BillsManagement = () => {
         >
           <option value="">Todos los estados</option>
           <option value="Pendiente">Pendiente</option>
-          <option value="Pagado">Pagado</option>
+          <option value="pagado">pagado</option>
         </select>
       </div>
 
@@ -68,7 +85,7 @@ const BillsManagement = () => {
             {/* Botón "Marcar como pago", deshabilitado si ya está pagado */}
             <button
               onClick={() => handleMarkAsPaid(gasto.id)}
-              disabled={gasto.estado === 'Pagado'}
+              disabled={gasto.estado === 'pagado'}
               className="mark-paid-button"
             >
               Marcar como Pago
@@ -76,8 +93,8 @@ const BillsManagement = () => {
 
             {/* Botón "Pagar", deshabilitado si ya está pagado */}
             <button
-              //onClick={() => handlePay(gasto.id)}
-              disabled={gasto.estado === 'Pagado'}
+              // onClick={() => handlePay(gasto.id)}
+              disabled={gasto.estado === 'pagado'}
               className="pay-button"
             >
               Pagar
