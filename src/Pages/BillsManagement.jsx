@@ -15,7 +15,7 @@ const BillsManagement = () => {
     // Cargar los datos de la API
     const fetchGastos = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/bills`); // Cambia esto a tu endpoint
+        const response = await axios.get(`${API_BASE_URL}/api/bills`); // Cambia esto a tu endpoint
         setGastos(response.data);
         setFilteredGastos(response.data);
       } catch (error) {
@@ -38,11 +38,11 @@ const BillsManagement = () => {
   const handleMarkAsPaid = async (id) => {
     try {
         // Primero, verifica si el gasto existe
-        const response = await axios.get(`${API_BASE_URL}/bills/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/bills/${id}`);
         console.log('Gasto encontrado:', response.data);
 
         // Si existe, actualiza el estado
-        await axios.patch(`${API_BASE_URL}/bills/${id}`, { estado: 'pagado' });
+        await axios.patch(`${API_BASE_URL}/api/bills/${id}`, { estado: 'pagado' });
         setGastos(gastos.map((gasto) =>
             gasto.id === id ? { ...gasto, estado: 'pagado' } : gasto
         ));
