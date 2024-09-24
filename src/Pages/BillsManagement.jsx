@@ -69,8 +69,8 @@ const BillsManagement = () => {
           onChange={(e) => setFilterEstado(e.target.value)}
         >
           <option value="">Todos los estados</option>
-          <option value="Pendiente">Pendiente</option>
-          <option value="pagado">pagado</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="pagado">Pagado</option>
         </select>
       </div>
 
