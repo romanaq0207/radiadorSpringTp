@@ -43,7 +43,7 @@ const QRScanner = () => {
 
         // Extraer solo la parte final del código QR para usar como ID
         const id = code.data.split('/').pop(); 
-
+        
         // Redirigir a la página de detalles del auto
         navigate(`/autos/${id}`);
         cerrarCamara();

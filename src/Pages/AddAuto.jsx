@@ -69,7 +69,8 @@ function AddAuto() {
                     link.href = dataUrl;
                     link.download = `${autoData.nro_patente}-qr-code.png`;
                     link.click();
-                })
+                }
+            )
                 .catch((error) => {
                     console.error('Error al generar la imagen QR:', error);
                 });
@@ -128,7 +129,12 @@ function AddAuto() {
             {qrCodeValue && (
                 <div>
                     <div ref={qrRef}>
-                        <QRCode value={qrCodeValue} />
+                        <QRCode value={qrCodeValue} 
+                           size={256} // Ajusta el tamaño del QR
+                           bgColor="white" // Fondo blanco alrededor del QR
+                           fgColor="black" // Color del QR
+                           level="H" // Nivel de corrección de errores
+                           />
                     </div>
                     <button onClick={handleDownloadQR}>Descargar QR como imagen</button>
                 </div>
