@@ -13,6 +13,7 @@ function AddAuto() {
         anio: '',
         kilometraje: '',
         nro_patente: '',
+        nro_flota: '', 
     });
     const [qrCodeValue, setQrCodeValue] = useState('');
     const qrRef = useRef(null); // Usado para referenciar el QRCode
@@ -54,7 +55,6 @@ function AddAuto() {
             const autoId = response.data.id; // Obtén el ID del nuevo auto
             const qrUrl = `${API_BASE_URL}/autos/${autoId}`; // Genera la URL del QR
             setQrCodeValue(qrUrl); // Asigna la URL como valor del QR
-            // navigate('/'); // Redirige a la página principal
         })
         .catch(error => {
             console.error('Error al agregar auto:', error);
@@ -112,6 +112,14 @@ function AddAuto() {
                 name="nro_patente"
                 placeholder="Número de Patente"
                 value={autoData.nro_patente}
+                onChange={handleInputChange}
+            />
+            {/* Campo para el número de flota */}
+            <input
+                type="text"
+                name="nro_flota"
+                placeholder="Número de Flota"
+                value={autoData.nro_flota}
                 onChange={handleInputChange}
             />
             <button onClick={handleAddAuto}>Agregar Auto</button>
