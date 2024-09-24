@@ -75,8 +75,15 @@ h2 {
 }
 
 .add-auto-button {
-    background-color: #d30000;
+    padding: 12px 25px;
+    background-color: #525252;
     color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .add-auto-button:hover {

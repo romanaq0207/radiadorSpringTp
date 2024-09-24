@@ -97,9 +97,9 @@ body {
 }
 
 .drivers-card {
-    background-color: rgba(255, 69, 0, 0.8);
+    background-color: rgba(255, 0, 0, 0.8);
     padding: 20px;
-    border: 1px solid #ff4500;
+    border: 1px solid #d10000;
     border-radius: 10px;
     width: 100%;
     max-width: 500px;

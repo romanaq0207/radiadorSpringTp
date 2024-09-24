@@ -58,7 +58,7 @@ const UsersManagement = () => {
   };
 
   const handleEdit = (id) => {
-    const usuario = usuarios.find((usuario) => usuiario.id === id);
+    const usuario = usuarios.find((usuario) => usuario.id === id);
     setFormData(usuario);
     setIsEditing(true);
   };
