@@ -17,6 +17,7 @@ import Reports from "../Pages/Reports";
 import BillsManagement from "../Pages/BillsManagement";
 import UsersManagement from "../Pages/UsersManagement";
 import AuthProvider, { AuthContext } from "../Context/AuthContext";
+import AddFlota from "../Pages/AddFlota";
 //import { AuthProvider, useAuth } from '../Context/AuthContext';
 
 
@@ -58,6 +59,7 @@ const AuthConsumer = () => {
           <Route path="/reportes" element={<Reports />} />
           <Route path="/admin-gastos" element={<BillsManagement />} />
           <Route path="/admin-usuarios" element={<UsersManagement />} />
+          <Route path="/admin-flotas" element={<AddFlota />} />
         </Routes>
       </main>
     </>

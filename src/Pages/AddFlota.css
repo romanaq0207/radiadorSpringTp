@@ -1,0 +1,38 @@
+/* Encapsular los estilos en una clase específica para este componente */
+.add-flota-container {
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff; /* Especifica el color para el texto de este componente */
+    background-color: rgba(0, 0, 0, 0.5); /* Si aplicas colores de fondo */
+    padding: 100px;
+}
+
+.add-flota-container h2, 
+.add-flota-container h3, 
+.add-flota-container p {
+    color: #ffffff; /* Asegúrate de que estos estilos solo se apliquen en este componente */
+}
+
+.flota-input, 
+.flota-search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.add-auto-button, .remove-auto-button, .save-flota-button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #d60303;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-auto-button:hover, .remove-auto-button:hover, .save-flota-button:hover {
+    background-color: #a50000;
+}

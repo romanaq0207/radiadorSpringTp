@@ -66,6 +66,11 @@ function Navbar() {
                                 Administración de Usuarios
                             </Link>
                         </li>
+                        <li className="navbar-item">
+                            <Link to="/admin-flotas" className="navbar-link" onClick={closeMenu}>
+                                Administración de Flotas
+                            </Link>
+                        </li>
                     </>
                 )}
 
