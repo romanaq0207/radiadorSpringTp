@@ -19,7 +19,9 @@ import UsersManagement from "../Pages/UsersManagement";
 import AuthProvider, { AuthContext } from "../Context/AuthContext";
 import AddFlota from "../Pages/AddFlota";
 //import { AuthProvider, useAuth } from '../Context/AuthContext';
-
+import BillStates from "../Pages/BillsStates";
+import RoutesVerify from "../Pages/RoutesVerify";
+import RouteViewVerify from "../Pages/RouteViewVerify";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -27,7 +29,7 @@ const App = () => {
     <AuthProvider>
       <div className="App">
         <Router>
-          <AuthConsumer /> 
+          <AuthConsumer />
         </Router>
       </div>
     </AuthProvider>
@@ -60,6 +62,9 @@ const AuthConsumer = () => {
           <Route path="/admin-gastos" element={<BillsManagement />} />
           <Route path="/admin-usuarios" element={<UsersManagement />} />
           <Route path="/admin-flotas" element={<AddFlota />} />
+          <Route path="/ver-gastos" element={<BillStates />} />
+          <Route path="/verificar-rutas" element={<RoutesVerify />} />
+          <Route path="/rutas/:id" element={<RouteViewVerify />} />
         </Routes>
       </main>
     </>
@@ -67,4 +72,3 @@ const AuthConsumer = () => {
 };
 
 export default App;
-

@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+/* my-bills-container */
+
+#body-gastos {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.bills-states-container h1 {
+  padding-top: 20%;
+  color: white;
+}
+
+#lista {
+  max-width: 500%; /* Ajusta el ancho máximo del formulario */
+  height: auto;
+  margin: 0 auto; /* Centra el formulario horizontalmente */
+  padding: 20px;
+  border: 1px solid #444444;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.lista {
+  color: white;
+}
+
+#selectors {
+  max-width: 300%;
+  height: auto;
+  margin: auto;
+  padding-bottom: 700px;
+  padding-left: 50px;
+}
+
+.gasto-item {
+  border: 1px solid #241b1b;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  background-color: #1b1313;
+}

@@ -36,15 +36,16 @@ h1 {
 }
 
 button {
-    padding: 12px 25px;
-    background-color: #990000;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    transition: background-color 0.3s ease, transform 0.2s;  }
+  padding: 12px 25px;
+  background-color: #990000;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
 
 button:hover {
   background-color: #e63838;
@@ -63,5 +64,4 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
- 
 }

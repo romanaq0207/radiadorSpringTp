@@ -1,79 +1,78 @@
 /* Estilo de la barra de navegación */
 .navbar {
-    min-height: 10vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #d10000;
-    padding: 10px 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
+  min-height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #d10000;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 /* Lista de navegación */
 .navbar-list {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    transition: transform 0.3s ease-in-out;
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  transition: transform 0.3s ease-in-out;
 }
 
 .navbar-link {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-   
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .navbar-link:hover {
-    background-color: #575757;
+  background-color: #575757;
 }
 
 /* Botón Hamburguesa para pantallas pequeñas */
 .navbar-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
 
 .navbar-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 4px 0;
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
 }
 
 /* Ocultar la lista en pantallas pequeñas */
 @media (max-width: 768px) {
-    .navbar-toggle {
-        display: flex;
-    }
+  .navbar-toggle {
+    display: flex;
+  }
 
-    .navbar-list {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background-color: #d10000;
-        width: 100%;
-        text-align: center;
-    }
+  .navbar-list {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #d10000;
+    width: 100%;
+    text-align: center;
+  }
 
-    .navbar-list.navbar-list-open {
-        display: flex;
-    }
+  .navbar-list.navbar-list-open {
+    display: flex;
+  }
 
-    .navbar-item {
-        margin: 10px 0;
-    }
+  .navbar-item {
+    margin: 10px 0;
+  }
 }
