@@ -20,6 +20,7 @@ const DriversManagement = () => {
   });
   
   const [isEditing, setIsEditing] = useState(false);
+  const [ubicacion, setUbicacion] = useState(null);
 
   const handleChange = (e) => {
     setFormData({
@@ -97,6 +98,7 @@ const DriversManagement = () => {
     );
   };
 
+  
   return (
     <div className="drivers-management-container">
       <h2 className="title">Gestión de Conductores</h2>
@@ -159,6 +161,26 @@ const DriversManagement = () => {
             <button onClick={() => handleDelete(conductor.id)} className="add-button">
               Eliminar
             </button>
+            <button
+  onClick={() => {
+    //obtengo posicion del navegador
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUbicacion({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+        alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
+      },
+      (error) => {
+        console.error("Error obteniendo la ubicación:", error);
+      }
+    );
+  }}
+>
+  Mostrar Ubicacion
+</button>
+
           </div>
         ))}
       </div>
