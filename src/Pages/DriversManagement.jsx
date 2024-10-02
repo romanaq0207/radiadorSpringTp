@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
 import './DriversManagement.css';
 
-
-
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
 
   useEffect(() => {
-    // Cargar los datos del archivo JSON y filtrar los habilitados
     setConductores(conductoresData.filter((conductor) => conductor.habilitado));
   }, []);
 
@@ -20,11 +17,10 @@ const DriversManagement = () => {
     numeroTelefono: '',
     habilitado: true,
   });
-  
-  const [isEditing, setIsEditing] = useState(false);
-  const [ubicacion, setUbicacion] = useState(null);
-  const [mostrarMapa, setMostrarMapa] = useState(false); //estado de ocultar mapa
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [ubicaciones, setUbicaciones] = useState({}); // Guardar ubicaciones por conductor
+  const [mapaVisible, setMapaVisible] = useState(null); // ID del conductor cuyo mapa está visible
 
   const handleChange = (e) => {
     setFormData({
@@ -36,10 +32,9 @@ const DriversManagement = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validaciones
-    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; 
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     const dniRegex = /^(\d{1,2}\.?\d{3}\.?\d{3}|\d{1,8})$/;
-    const phoneRegex = /^\d{8}|\d{10}$/; 
+    const phoneRegex = /^\d{8}|\d{10}$/;
 
     if (!nameRegex.test(formData.nombre)) {
       alert('El nombre solo puede contener letras y espacios.');
@@ -61,7 +56,6 @@ const DriversManagement = () => {
       return;
     }
 
-    // Si pasa las validaciones, continuar con el submit
     if (isEditing) {
       setConductores(
         conductores.map((conductor) =>
@@ -76,7 +70,6 @@ const DriversManagement = () => {
       ]);
     }
 
-    // Reset del formulario
     setFormData({
       id: '',
       nombre: '',
@@ -94,7 +87,6 @@ const DriversManagement = () => {
   };
 
   const handleDelete = (id) => {
-    // Cambiar el estado de habilitado a false para el conductor que se elimina
     setConductores(
       conductores.map((conductor) =>
         conductor.id === id ? { ...conductor, habilitado: false } : conductor
@@ -102,55 +94,46 @@ const DriversManagement = () => {
     );
   };
 
-  const handleShowLocation = () => {
+  // Mostrar el mapa solo para el conductor específico
+  const handleShowLocation = (id) => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setUbicacion({
+        const nuevaUbicacion = {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
-        });
-        alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
-
-        //--------------MOSTRAR UBICACION----------------------------
-        // Inicializa el mapa
-        const map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
-
-        // Añade la capa de OpenStreetMap
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(map);
-
-        // Añade un marcador en la ubicación
-        L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
-          .bindPopup('Ubicación guardada')
-          .openPopup();
+        };
+        setUbicaciones((prevUbicaciones) => ({
+          ...prevUbicaciones,
+          [id]: nuevaUbicacion, // Guardar la ubicación para este conductor
+        }));
+        setMapaVisible(id); // Mostrar el mapa solo para este conductor
       },
       (error) => {
         console.error("Error obteniendo la ubicación:", error);
       }
     );
   };
+
   useEffect(() => {
-    if (ubicacion) {
-      // Inicializa el mapa solo si hay una ubicación
-      const map = L.map('map').setView([ubicacion.lat, ubicacion.lon], 15);
+    if (mapaVisible && ubicaciones[mapaVisible]) {
+      const { lat, lon } = ubicaciones[mapaVisible];
+      const map = L.map(`map-${mapaVisible}`).setView([lat, lon], 15);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(map);
 
-      L.marker([ubicacion.lat, ubicacion.lon]).addTo(map)
+      L.marker([lat, lon]).addTo(map)
         .bindPopup('Ubicación guardada')
         .openPopup();
 
-      // Limpia el mapa al desmontar
       return () => {
-        map.remove(); 
+        map.remove();
       };
     }
-  }, [ubicacion]); // Solo se ejecuta cuando 'ubicacion' cambia
+  }, [mapaVisible, ubicaciones]);
+
   return (
     <div className="drivers-management-container">
       <h2 className="title">Gestión de Conductores</h2>
@@ -194,9 +177,8 @@ const DriversManagement = () => {
       </form>
 
       <div className="drivers-list">
-        {/* Filtrar conductores habilitados para mostrarlos */}
         {conductores.filter(conductor => conductor.habilitado).map((conductor) => (
-          <div key={conductor.id} className="drivers-card" id="drivers-card">
+          <div key={conductor.id} className="drivers-card">
             <p>
               <strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}
             </p>
@@ -213,16 +195,15 @@ const DriversManagement = () => {
             <button onClick={() => handleDelete(conductor.id)} className="add-button">
               Eliminar
             </button>
-            <button onClick={handleShowLocation}>
-        Mostrar Ubicación
-      </button>
+            <button onClick={() => handleShowLocation(conductor.id)}>
+              Mostrar Ubicación
+            </button>
 
-      {/* Muestra el mapa si hay una ubicación */}
-      {ubicacion && (
-  <div id="map" style={{ height: '400px', width: '100%' }}></div>
-)}
-
-    </div>
+            {/* Mostrar el mapa solo si el ID coincide */}
+            {mapaVisible === conductor.id && (
+              <div id={`map-${conductor.id}`} style={{ height: '400px', width: '100%' }}></div>
+            )}
+          </div>
         ))}
       </div>
     </div>
