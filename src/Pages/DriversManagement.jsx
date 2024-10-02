@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
 import './DriversManagement.css';
 
+
+
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
 
@@ -21,6 +23,8 @@ const DriversManagement = () => {
   
   const [isEditing, setIsEditing] = useState(false);
   const [ubicacion, setUbicacion] = useState(null);
+  const [mostrarMapa, setMostrarMapa] = useState(false); //estado de ocultar mapa
+
 
   const handleChange = (e) => {
     setFormData({
@@ -98,7 +102,55 @@ const DriversManagement = () => {
     );
   };
 
-  
+  const handleShowLocation = () => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUbicacion({
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        });
+        alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
+
+        //--------------MOSTRAR UBICACION----------------------------
+        // Inicializa el mapa
+        const map = L.map('map').setView([position.coords.latitude, position.coords.longitude], 13);
+
+        // Añade la capa de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        }).addTo(map);
+
+        // Añade un marcador en la ubicación
+        L.marker([position.coords.latitude, position.coords.longitude]).addTo(map)
+          .bindPopup('Ubicación guardada')
+          .openPopup();
+      },
+      (error) => {
+        console.error("Error obteniendo la ubicación:", error);
+      }
+    );
+  };
+  useEffect(() => {
+    if (ubicacion) {
+      // Inicializa el mapa solo si hay una ubicación
+      const map = L.map('map').setView([ubicacion.lat, ubicacion.lon], 15);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      L.marker([ubicacion.lat, ubicacion.lon]).addTo(map)
+        .bindPopup('Ubicación guardada')
+        .openPopup();
+
+      // Limpia el mapa al desmontar
+      return () => {
+        map.remove(); 
+      };
+    }
+  }, [ubicacion]); // Solo se ejecuta cuando 'ubicacion' cambia
   return (
     <div className="drivers-management-container">
       <h2 className="title">Gestión de Conductores</h2>
@@ -144,7 +196,7 @@ const DriversManagement = () => {
       <div className="drivers-list">
         {/* Filtrar conductores habilitados para mostrarlos */}
         {conductores.filter(conductor => conductor.habilitado).map((conductor) => (
-          <div key={conductor.id} className="drivers-card">
+          <div key={conductor.id} className="drivers-card" id="drivers-card">
             <p>
               <strong>Nombre:</strong> {conductor.nombre} {conductor.apellido}
             </p>
@@ -161,27 +213,16 @@ const DriversManagement = () => {
             <button onClick={() => handleDelete(conductor.id)} className="add-button">
               Eliminar
             </button>
-            <button
-  onClick={() => {
-    //obtengo posicion del navegador
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUbicacion({
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-        });
-        alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
-      },
-      (error) => {
-        console.error("Error obteniendo la ubicación:", error);
-      }
-    );
-  }}
->
-  Mostrar Ubicacion
-</button>
+            <button onClick={handleShowLocation}>
+        Mostrar Ubicación
+      </button>
 
-          </div>
+      {/* Muestra el mapa si hay una ubicación */}
+      {ubicacion && (
+  <div id="map" style={{ height: '400px', width: '100%' }}></div>
+)}
+
+    </div>
         ))}
       </div>
     </div>
