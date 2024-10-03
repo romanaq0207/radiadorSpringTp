@@ -137,6 +137,15 @@ function Navbar() {
                 Rutas
               </Link>
             </li>
+            <li className="navbar-item">
+              <Link
+                to="/reportes-gerencia"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Reportes
+              </Link>
+            </li>
           </>
         )}
       </ul>
