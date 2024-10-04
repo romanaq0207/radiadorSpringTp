@@ -19,7 +19,7 @@ function RouteCreate() {
   };
 
   const handleAddRoute = (e) => {
-    event.preventDefault();
+    e.preventDefault();
     alert("Ruta Creada!");
   };
   return (
