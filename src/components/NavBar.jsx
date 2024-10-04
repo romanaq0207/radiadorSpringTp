@@ -128,6 +128,8 @@ function Navbar() {
                 Gastos
               </Link>
             </li>
+
+            {/* cambair a interfaz gerente */}
             <li className="navbar-item">
               <Link
                 to="/verificar-rutas"
@@ -137,6 +139,7 @@ function Navbar() {
                 Rutas
               </Link>
             </li>
+            {/* cambair a interfaz gerente */}
             <li className="navbar-item">
               <Link
                 to="/reportes-gerencia"
@@ -144,6 +147,17 @@ function Navbar() {
                 onClick={closeMenu}
               >
                 Reportes
+              </Link>
+            </li>
+
+            {/* cambair a interfaz supervisor */}
+            <li className="navbar-item">
+              <Link
+                to="/crear-ruta"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Crear Ruta
               </Link>
             </li>
           </>

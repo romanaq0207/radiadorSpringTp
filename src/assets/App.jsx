@@ -23,6 +23,7 @@ import BillStates from "../Pages/BillsStates";
 import RoutesVerify from "../Pages/RoutesVerify";
 import RouteViewVerify from "../Pages/RouteViewVerify";
 import ReportManagement from "../Pages/ReportManagement";
+import RouteCreate from "../Pages/RouteCreate";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -67,6 +68,7 @@ const AuthConsumer = () => {
           <Route path="/verificar-rutas" element={<RoutesVerify />} />
           <Route path="/rutas/:id" element={<RouteViewVerify />} />
           <Route path="/reportes-gerencia" element={<ReportManagement />} />
+          <Route path="/crear-ruta" element={<RouteCreate />} />
         </Routes>
       </main>
     </>
