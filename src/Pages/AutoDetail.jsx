@@ -4,7 +4,6 @@ import axios from 'axios';
 import './AutoDetail.css';
 import { API_BASE_URL } from '../assets/config'; 
 
-
 function AutoDetail() {
     const { id } = useParams();  // Obtiene el ID del auto de la URL
     const [auto, setAuto] = useState(null);
@@ -54,6 +53,16 @@ function AutoDetail() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+
+        // Validar solo letras y espacios en el campo 'tipo_de_mantenimiento'
+        if (name === 'tipo_de_mantenimiento') {
+            const regex = /^[A-Za-z\s]*$/; // Solo letras y espacios
+            if (!regex.test(value)) {
+                return;  // Si no coincide, no actualiza el estado
+            }
+        }
+
+        // Actualizar el estado si la validación pasa
         setNewMantenimiento(prevState => ({ ...prevState, [name]: value }));
     };
 
@@ -63,7 +72,7 @@ function AutoDetail() {
             <h3>{auto.marca} {auto.modelo}</h3>
             <p><strong>Año:</strong> {auto.anio}</p>
             <p><strong>Kilometraje:</strong> {auto.kilometraje} km</p>
-            <p><strong>Pantente: </strong> {auto.nro_patente}</p>
+            <p><strong>Patente:</strong> {auto.nro_patente}</p>
 
             <h3>Historial de Mantenimiento</h3>
             {mantenimientos.length > 0 ? (
