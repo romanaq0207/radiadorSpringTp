@@ -1,4 +1,4 @@
-[
+{"flotas": [
     {
         "id": 1,
         "nombre": "Primera Flota",
@@ -23,4 +23,4 @@
         "estado": "habilitado",
         "en_uso": "si"
       }
-]
+]}

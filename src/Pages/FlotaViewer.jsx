@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import flotasData from '../data/flotas.json'; 
-import './AddFlota.css';
+import './FlotaViewer.css';
 
 function FlotaViewer() {
     const [flotasDisponibles, setFlotasDisponibles] = useState([]); 
@@ -29,10 +29,18 @@ function FlotaViewer() {
             />
 
             <div className="flota-list">
-               // {filteredFlotas.length > 0 ? (
+                {filteredFlotas.length > 0 ? (
                     filteredFlotas.map(flota => (
                         <div key={flota.id} className="flota-item">
-                            <p>{flota.nombre} - Estado: {flota.estado} - En uso: {flota.en_uso ? 'Sí' : 'No'}</p>
+                         <p>
+                            <strong>Nombre:</strong> {flota.nombre}
+                         </p>
+                         <p>
+                            <strong>Estado:</strong> {flota.estado}
+                         </p>
+                         <p>
+                             <strong>La flota esta siendo utilizada:</strong> {flota.en_uso}
+                         </p>
                         </div>
                     ))
                 ) : (
