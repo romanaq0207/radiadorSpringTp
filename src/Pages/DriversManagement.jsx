@@ -2,12 +2,9 @@ import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
 import './DriversManagement.css';
 
-
-
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
-  // Estado para manejar la ubicación de un conductor seleccionado
-  const [selectedLocation, setSelectedLocation] = useState(null); 
+  const [ubicacion, setUbicacion] = useState({ lat: '', lon: '' }); // Estado para la ubicación
 
   useEffect(() => {
     // Cargar los datos del archivo JSON y filtrar los habilitados
@@ -24,7 +21,6 @@ const DriversManagement = () => {
   });
   
   const [isEditing, setIsEditing] = useState(false);
-
 
   const handleChange = (e) => {
     setFormData({
@@ -101,42 +97,27 @@ const DriversManagement = () => {
       )
     );
   };
-  // Función para manejar la simulación de mostrar la ubicación de un conductor
-  const handleShowLocation = (id) => {
-    const conductor = conductores.find((conductor) => conductor.id === id);
-  
-    // Simular obtener la ubicación del conductor
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const simulatedLocation = {
-          latitud: position.coords.latitude,
-          longitud: position.coords.longitude,
-        };
-  
-        setSelectedLocation({ conductor, ...simulatedLocation });
-  
-        alert(
-          `Ubicación de ${conductor.nombre} ${conductor.apellido}: Latitud ${simulatedLocation.latitud.toFixed(
-            2
-          )}, Longitud ${simulatedLocation.longitud.toFixed(2)}`
-        );
-      },
-      (error) => {
-        console.error("Error obteniendo la ubicación:", error);
-        alert("No se pudo obtener la ubicación");
-      }
-    );
+
+  const handleGetLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUbicacion({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
+          alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
+        },
+        (error) => {
+          console.error("Error obteniendo la ubicación:", error);
+          alert("No se pudo obtener la ubicación. Por favor, habilita los permisos.");
+        }
+      );
+    } else {
+      alert("La geolocalización no es soportada por este navegador.");
+    }
   };
-  
 
-    setSelectedLocation({ conductor, ...simulatedLocation });
-    alert(
-      `Ubicación de ${conductor.nombre} ${conductor.apellido}: Latitud ${simulatedLocation.latitud.toFixed(
-        2
-      )}, Longitud ${simulatedLocation.longitud.toFixed(2)}`
-    );
-
- 
   return (
     <div className="drivers-management-container">
       <h2 className="title">Gestión de Conductores</h2>
@@ -199,11 +180,10 @@ const DriversManagement = () => {
             <button onClick={() => handleDelete(conductor.id)} className="add-button">
               Eliminar
             </button>
-            <button>
-        Mostrar Ubicación
-      </button>
-
-    </div>
+            <button onClick={handleGetLocation} className="add-button">
+              Mostrar Ubicación
+            </button>
+          </div>
         ))}
       </div>
     </div>
