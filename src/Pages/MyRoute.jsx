@@ -2,6 +2,20 @@ import React, { useState, useEffect } from "react";
 import ejemplo from "./Images/ejemplo-map.jpg";
 import Navbar from "../components/NavBar";
 import "./MyRoute.css";
+// Importa los componentes de Leaflet
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css"; // Estilos de Leaflet
+import L from "leaflet";
+
+const markerIcon = new L.Icon({
+  iconUrl: "https://unpkg.com/leaflet/dist/images/marker-icon.png",
+  iconSize: [25, 41], // Tamaño del icono
+  iconAnchor: [12, 41], // Punto de anclaje del icono
+  popupAnchor: [1, -34], // Anclaje del popup
+  shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png", // Sombra del icono
+});
+
+
 
 function MyRoute() {
   const [ubicacion, setUbicacion] = useState({ lat: null, lon: null });
@@ -43,8 +57,24 @@ function MyRoute() {
           <div>
             <p>Latitud: {ubicacion.lat}</p>
             <p>Longitud: {ubicacion.lon}</p>
-            {/* Aquí podrías integrar un mapa real en lugar de una imagen de ejemplo */}
-            
+            {/* Mapa de OpenStreetMap */}
+            <MapContainer
+              center={[ubicacion.lat, ubicacion.lon]}
+              zoom={13}
+              style={{ height: "600px", width: "80vw" }}
+              scrollWheelZoom={false}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <Marker position={[ubicacion.lat, ubicacion.lon]} icon={markerIcon}>
+                <Popup>
+                  Estás aquí: <br />
+                  Latitud: {ubicacion.lat}, Longitud: {ubicacion.lon}
+                </Popup>
+              </Marker>
+            </MapContainer>
           </div>
         ) : (
           <p>Cargando ubicación...</p>
