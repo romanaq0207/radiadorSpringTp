@@ -125,7 +125,7 @@ function Navbar() {
                 className="navbar-link"
                 onClick={closeMenu}
               >
-                Mi Ruta
+                Mi Posicion
               </Link>
             </li>
             <li className="navbar-item">
