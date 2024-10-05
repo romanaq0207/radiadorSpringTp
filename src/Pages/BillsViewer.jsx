@@ -4,7 +4,7 @@ import axios from "axios"; // Asegúrate de tener axios instalado
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 import "./BillsManagement.css";
 
-const BillsManagement = () => {
+const BillsViewer = () => {
   const [gastos, setGastos] = useState([]);
   const [filteredGastos, setFilteredGastos] = useState([]);
   const [filterDescription, setFilterDescription] = useState("");
@@ -57,8 +57,8 @@ const BillsManagement = () => {
   };
 
   return (
-    <div className="expenses-management-container">
-      <h2 className="title">Gestión de Gastos</h2>
+    <div className="expenses-viewer-container">
+      <h2 className="title">Visor de Gastos</h2>
 
       {/* Filtros */}
       <div className="filters">
@@ -76,7 +76,7 @@ const BillsManagement = () => {
           <option value="pendiente">Pendiente</option>
           <option value="pagado">Pagado</option>
         </select>
-      </div>
+        </div>
 
       {/* Lista de gastos */}
       <div className="expenses-list">
@@ -91,25 +91,10 @@ const BillsManagement = () => {
             <p>
               <strong>Estado:</strong> {gasto.estado}
             </p>
-
-            {/* Botón "Marcar como pago", deshabilitado si ya está pagado */}
-            
-            <button
-              onClick={() => handleMarkAsPaid(gasto.id)}
-              disabled={gasto.estado === "pagado"}
-              className="mark-paid-button"
-            >
-              Marcar como Pago
-            </button>
-
-            {/* Botón "Pagar", deshabilitado si ya está pagado */}
-            <button
-              // onClick={() => handlePay(gasto.id)}
-              disabled={gasto.estado === "pagado"}
-              className="pay-button"
-            >
-              Pagar
-            </button>
+            <p>
+              <strong>Empleado:</strong> {gasto.nombre}
+            </p>
+   
           </div>
         ))}
       </div>
@@ -117,4 +102,4 @@ const BillsManagement = () => {
   );
 };
 
-export default BillsManagement;
+export default BillsViewer;
