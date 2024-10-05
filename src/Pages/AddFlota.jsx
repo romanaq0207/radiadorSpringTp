@@ -8,6 +8,7 @@ function AddFlota() {
     const [autosDisponibles, setAutosDisponibles] = useState([]);
     const [autosEnFlota, setAutosEnFlota] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState('');  // Estado para manejar el mensaje de error
 
     useEffect(() => {
         // Obtener autos disponibles desde el servidor
@@ -31,11 +32,19 @@ function AddFlota() {
     };
 
     const handleSaveFlota = () => {
+        // Validar que se ingrese un nombre para la flota
         if (flotaName === '') {
-            alert('Por favor, ingresa un nombre para la flota.');
+            setError('Por favor, ingresa un nombre para la flota.');
             return;
         }
-        
+
+        // Validar que se haya agregado al menos un auto a la flota
+        if (autosEnFlota.length === 0) {
+            setError('Debes seleccionar al menos un auto para la flota.');
+            return;
+        }
+
+        // Si todo es válido, se procede a guardar la flota
         const flotaData = {
             nombre: flotaName,
             autos: autosEnFlota.map(auto => auto.id)
@@ -47,6 +56,7 @@ function AddFlota() {
                 alert('Flota guardada con éxito');
                 setFlotaName('');
                 setAutosEnFlota([]);
+                setError('');  // Limpiar el error en caso de éxito
             })
             .catch(error => {
                 console.error('Error al guardar flota:', error);
@@ -57,6 +67,7 @@ function AddFlota() {
     return (
         <div className="add-flota-container">
             <h2>Agregar Nueva Flota</h2>
+            {error && <div className="error-banner">{error}</div>} {/* Mostrar el mensaje de error si existe */}
             <input
                 type="text"
                 placeholder="Nombre de la Flota"
