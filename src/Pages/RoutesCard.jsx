@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./routesCard.css";
+import "./RoutesCard.css";
 
 const RutesCard = ({ ruta }) => {
   const navigate = useNavigate();

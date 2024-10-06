@@ -36,3 +36,15 @@
 .add-auto-button:hover, .remove-auto-button:hover, .save-flota-button:hover {
     background-color: #a50000;
 }
+
+/* Estilos para el banner de error */
+.error-banner {
+    background-color: #ff4d4d; /* Rojo claro */
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px; /* Aumenta el tamaño de la fuente para que sea más visible */
+}

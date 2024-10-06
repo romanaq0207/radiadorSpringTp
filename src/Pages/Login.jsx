@@ -101,11 +101,11 @@ function Login() {
     try {
       const userCredential = await login(data.email, data.password);
       handleLogin();
-      const user = userCredential.user; // Obtén el usuario autenticado
-      const userDoc = await firestore.collection('users').doc(user.uid).get(); // Obtener documento de Firestore
-      const userData = userDoc.data(); // Datos del usuario
+      //const user = userCredential.user; // Obtén el usuario autenticado
+      //const userDoc = await firestore.collection('users').doc(user.uid).get(); // Obtener documento de Firestore
+      //const userData = userDoc.data(); // Datos del usuario
 
-      console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
+    //  console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
 
       setAlertMessage('Bienvenido');
       setLoading(false);
