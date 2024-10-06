@@ -147,7 +147,11 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* cambair a interfaz gerente */}
+            </>
+        )}
+
+        {role === "gerente" && (
+          <>
             <li className="navbar-item">
               <Link
                 to="/verificar-rutas"
@@ -157,7 +161,7 @@ function Navbar() {
                 Rutas
               </Link>
             </li>
-            {/* cambair a interfaz gerente */}
+
             <li className="navbar-item">
               <Link
                 to="/reportes-gerencia"
@@ -168,7 +172,20 @@ function Navbar() {
               </Link>
             </li>
 
-            {/* cambair a interfaz supervisor */}
+            <li className="navbar-item">
+              <Link
+                to="/ver-gastos"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Gastos
+              </Link>
+            </li>
+            </>
+        )}
+
+          {role === "supervisor" && (
+          <>
             <li className="navbar-item">
               <Link
                 to="/crear-ruta"
@@ -178,8 +195,48 @@ function Navbar() {
                 Crear Ruta
               </Link>
             </li>
-          </>
-        )}
+            </> 
+            )}
+
+        {role === "cliente" && (
+          <>
+            <li className="navbar-item">
+              <Link
+                to="visor-flota"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Gastos
+              </Link>
+            </li>
+
+
+            <li className="navbar-item">
+              <Link
+                to="visor-gastos"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Gastos
+              </Link>
+            </li>
+
+
+            <li className="navbar-item">
+              <Link
+                to="reportes"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Reportes
+              </Link>
+            </li>
+
+
+
+            </> 
+            )}
+        
       </ul>
     </nav>
   );
