@@ -105,7 +105,7 @@ function Login() {
       const userDoc = await firestore.collection('users').doc(user.uid).get(); // Obtener documento de Firestore
       const userData = userDoc.data(); // Datos del usuario
 
-      console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
+    //  console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
 
       setAlertMessage('Bienvenido');
       setLoading(false);
