@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import conductoresData from '../data/conductores.json'; // Ajusta la ruta según tu estructura
+import conductoresData from '../data/conductores.json';
 import './DriversManagement.css';
+import { API_BASE_URL } from '../assets/config';  // Asegúrate de que esta ruta sea correcta
 
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
-  const [ubicacion, setUbicacion] = useState({ lat: '', lon: '' }); // Estado para la ubicación
+  const [ubicaciones, setUbicaciones] = useState({}); // Estado para las ubicaciones
 
   useEffect(() => {
-    // Cargar los datos del archivo JSON y filtrar los habilitados
     setConductores(conductoresData.filter((conductor) => conductor.habilitado));
   }, []);
 
@@ -19,7 +19,7 @@ const DriversManagement = () => {
     numeroTelefono: '',
     habilitado: true,
   });
-  
+
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e) => {
@@ -66,10 +66,7 @@ const DriversManagement = () => {
       );
       setIsEditing(false);
     } else {
-      setConductores([
-        ...conductores,
-        { ...formData, id: conductores.length + 1 },
-      ]);
+      setConductores([ ...conductores, { ...formData, id: conductores.length + 1 } ]);
     }
 
     // Reset del formulario
@@ -90,7 +87,6 @@ const DriversManagement = () => {
   };
 
   const handleDelete = (id) => {
-    // Cambiar el estado de habilitado a false para el conductor que se elimina
     setConductores(
       conductores.map((conductor) =>
         conductor.id === id ? { ...conductor, habilitado: false } : conductor
@@ -98,25 +94,21 @@ const DriversManagement = () => {
     );
   };
 
-  const handleGetLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUbicacion({
-            lat: position.coords.latitude,
-            lon: position.coords.longitude,
-          });
-          alert(`Ubicación guardada: ${position.coords.latitude}, ${position.coords.longitude}`);
-        },
-        (error) => {
-          console.error("Error obteniendo la ubicación:", error);
-          alert("No se pudo obtener la ubicación. Por favor, habilita los permisos.");
-        }
-      );
-    } else {
-      alert("La geolocalización no es soportada por este navegador.");
+// Función para obtener la última ubicación del conductor
+const fetchUbicacion = async () => { // Eliminamos el parámetro id
+  try {
+    const response = await fetch(`${API_BASE_URL}/ubicacion-conductor`); // No necesitas el id aquí
+    if (!response.ok) {
+      throw new Error('Error al obtener la ubicación');
     }
-  };
+    const data = await response.json();
+    setUbicaciones((prev) => ({ ...prev, [1]: data })); // Usa siempre el ID 1, si es necesario
+  } catch (error) {
+    console.error('Error:', error);
+    alert('No se pudo obtener la ubicación del conductor');
+  }
+};
+
 
   return (
     <div className="drivers-management-container">
@@ -161,7 +153,6 @@ const DriversManagement = () => {
       </form>
 
       <div className="drivers-list">
-        {/* Filtrar conductores habilitados para mostrarlos */}
         {conductores.filter(conductor => conductor.habilitado).map((conductor) => (
           <div key={conductor.id} className="drivers-card" id="drivers-card">
             <p>
@@ -180,9 +171,18 @@ const DriversManagement = () => {
             <button onClick={() => handleDelete(conductor.id)} className="add-button">
               Eliminar
             </button>
-            <button onClick={handleGetLocation} className="add-button">
+            <button onClick={() => fetchUbicacion(conductor.id)} className="add-button">
               Mostrar Ubicación
             </button>
+
+            {/* Mostrar la ubicación si está disponible */}
+            {ubicaciones[conductor.id] && (
+              <div>
+                <p><strong>Última Ubicación:</strong></p>
+                <p>Latitud: {ubicaciones[conductor.id].latitud}</p>
+                <p>Longitud: {ubicaciones[conductor.id].longitud}</p>
+              </div>
+            )}
           </div>
         ))}
       </div>
