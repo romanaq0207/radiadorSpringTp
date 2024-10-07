@@ -27,6 +27,7 @@ import RouteCreate from "../Pages/RouteCreate";
 import AutoAccidentRegister from "../Pages/AutoAccidentRegister";
 import BillsViewer from "../Pages/BillsViewer";
 import FlotaViewer from "../Pages/FlotaViewer";
+import MechanicAutoSearch from "../Pages/MechanicAutoSearch";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -72,7 +73,8 @@ const AuthConsumer = () => {
           <Route path="/rutas/:id" element={<RouteViewVerify />} />
           <Route path="/reportes-gerencia" element={<ReportManagement />} />
           <Route path="/crear-ruta" element={<RouteCreate />} />
-          <Route path="/autos-accidentes/:id" element={<AutoAccidentRegister />} /> 
+          <Route path="/autos-accidentes/:id" element={<AutoAccidentRegister />} />
+          <Route path="/busqueda-auto-mecanico" element={<MechanicAutoSearch />} />
           <Route path="/visor-gastos" element={<BillsViewer />} /> 
           <Route path="/visor-flota" element={<FlotaViewer />} /> 
 
