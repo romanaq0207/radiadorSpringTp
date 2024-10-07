@@ -31,6 +31,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // Estado de carga para esperar la autenticación
 
     useEffect(() => {
+        // Listener de Firebase para verificar el estado de autenticación
         const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
                 setLogin(true);
@@ -45,7 +46,17 @@ const AuthProvider = ({ children }) => {
             setLoading(false); // Deja de mostrar el estado de carga
         });
 
-        return () => unsubscribe(); // Limpia el listener al desmontar el componente
+        // Listener para desloguear al cerrar la ventana
+        const handleBeforeUnload = async () => {
+            await firebase.auth().signOut(); // Llama a Firebase para cerrar sesión
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            unsubscribe(); // Limpia el listener de Firebase
+            window.removeEventListener('beforeunload', handleBeforeUnload); // Limpia el listener de cierre de ventana
+        };
     }, []);
 
     const handleLogin = async () => { 
@@ -70,4 +81,3 @@ const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
-
