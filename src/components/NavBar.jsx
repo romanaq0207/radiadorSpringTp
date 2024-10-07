@@ -206,7 +206,7 @@ function Navbar() {
                 className="navbar-link"
                 onClick={closeMenu}
               >
-                Gastos
+                Ver Flotas
               </Link>
             </li>
 
