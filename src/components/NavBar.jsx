@@ -200,26 +200,6 @@ function Navbar() {
 
         {role === "cliente" && (
           <>
-            <li className="navbar-item">
-              <Link
-                to="visor-flota"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Ver Flotas
-              </Link>
-            </li>
-
-
-            <li className="navbar-item">
-              <Link
-                to="visor-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gastos
-              </Link>
-            </li>
 
 
             <li className="navbar-item">

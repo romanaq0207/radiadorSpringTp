@@ -138,12 +138,13 @@ import axios from "axios";
 import { API_BASE_URL } from '../assets/config'; // Ajusta la ruta si es necesario
 import "./Reports.css";
 
+
 function Reports() {
-  const [reportType, setReportType] = useState("");
-  const [vehicleType, setVehicleType] = useState(""); 
-  const [availability, setAvailability] = useState(""); 
-  const [mechanicSpecialty, setMechanicSpecialty] = useState(""); 
-  const [filtersCompleted, setFiltersCompleted] = useState(false);
+    const [reportType, setReportType] = useState("");
+    const [availability, setAvailability] = useState(""); 
+    const [fechaDesde, setFechaDesde] = useState(""); 
+    const [fechaHasta, setFechaHasta] = useState(""); 
+    const [filtersCompleted, setFiltersCompleted] = useState(false);
 
   const handleReportTypeChange = (e) => {
     setReportType(e.target.value);
@@ -153,7 +154,6 @@ function Reports() {
   const checkFiltersCompleted = () => {
     setFiltersCompleted(true);
   };
-
   // Función para generar el reporte PDF de gastos
   const generarReporteGastosPDF = async () => {
     try {
@@ -190,74 +190,142 @@ function Reports() {
     }
   };
 
-  // Función para manejar la generación de reportes según el tipo seleccionado
-  const handleGenerarReporte = () => {
-    if (reportType === "gastos") {
-      generarReporteGastosPDF();
-    } else {
-      alert("Generación de reportes para " + reportType + " aún no está implementada.");
+  
+     // Función para generar el reporte PDF de vehículos
+  const generarReporteVehiculosPDF = async () => {
+    console.log( fechaHasta);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/vehiculos`, {
+        params: {
+          disponibilidad: availability,
+          fechaDesde,
+          fechaHasta,
+        },
+      });
+      const vehicles = response.data;
+
+      const doc = new jsPDF();
+      doc.text("Reporte de Vehículos", 14, 20);
+
+      const columns = [
+        { header: "ID", dataKey: "id" },
+        { header: "Marca", dataKey: "marca" },
+        { header: "Modelo", dataKey: "modelo" },
+        { header: "Año", dataKey: "anio" },
+        { header: "Kilómetros", dataKey: "kilometros" },
+        { header: "Patente", dataKey: "patente" },
+      ];
+
+      const rows = vehicles.map((vehicle) => ({
+        id: vehicle.id,
+        marca: vehicle.marca,
+        modelo: vehicle.modelo,
+        anio: vehicle.anio,
+        kilometros: vehicle.kilometraje,
+        patente: vehicle.nro_patente,
+      }));
+
+      doc.autoTable({
+        columns: columns,
+        body: rows,
+        startY: 30,
+      });
+
+      doc.save("reporte_vehiculos.pdf");
+    } catch (error) {
+      console.error("Error al generar el reporte de vehículos:", error);
     }
   };
 
-  return (
-    <div className="reportes-container">
-      <Navbar />
-      <h2 className="title">Reportes</h2>
+    // Función para manejar la generación de reportes según el tipo seleccionado
+    const handleGenerarReporte = () => {
+      if (reportType === "gastos") {
+        generarReporteGastosPDF();
+      } else if (reportType === "vehiculos") {
+        generarReporteVehiculosPDF();
+      } else {
+        alert("Generación de reportes para " + reportType + " aún no está implementada.");
+      }
+    };
+  
+    return (
+      <div className="reportes-container">
+        <Navbar />
+        <h2 className="title">Reportes</h2>
+  
+        <div className="filter-section">
+          <label htmlFor="reportType">Generar reporte de:</label>
+          <select
+            id="reportType"
+            value={reportType}
+            onChange={handleReportTypeChange}
+          >
+            <option value="">Selecciona una opción</option>
+            <option value="vehiculos">Vehículos</option>
+            <option value="conductor">Conductores</option>
+            <option value="mecanico">Mecánicos</option>
+            <option value="gastos">Gastos</option>
+            <option value="stock">Stock</option>
+          </select>
+        </div>
+  
+        {/* Filtros para vehículos */}
+        {reportType === "vehiculos" && (
+          <div className="filter-fields">
+            <label>Filtrar por disponibilidad:</label>
+            <select
+              id="disponibilidad"
+              value={availability}
+              onChange={(e) => setAvailability(e.target.value)}
+            >
+              <option value="">Selecciona una opción</option>
+              <option value="reservados">Reservados</option>
+              <option value="no reservados">No reservados</option>
+              <option value="indistinto">Indistinto</option>
+            </select>
+  
+            <label>Desde:</label>
+            <input type="date" value={fechaDesde} onChange={(e) => setFechaDesde(e.target.value)} onBlur={checkFiltersCompleted} />
+            <label>Hasta:</label>
+            <input type="date" value={fechaHasta} onChange={(e) => setFechaHasta(e.target.value)} onBlur={checkFiltersCompleted} />
+          </div>
+        )}
 
-      <div className="filter-section">
-        <label htmlFor="reportType">Generar reporte de:</label>
-        <select
-          id="reportType"
-          value={reportType}
-          onChange={handleReportTypeChange}
-        >
-          <option value="">Selecciona una opción</option>
-          <option value="vehiculos">Vehículos</option>
-          <option value="conductor">Conductores</option>
-          <option value="mecanico">Mecánicos</option>
-          <option value="gastos">Gastos</option>
-          <option value="stock">Stock</option>
-        </select>
-      </div>
-
-      {/* Filtros dinámicos según el tipo de reporte */}
-      {reportType === "vehiculos" && (
+      {reportType === "stock" && (
         <div className="filter-fields">
-          <label>Filtrar por tipo de vehículos:</label>
-          <select
-            id="vehiculoType"
-            value={vehicleType}
-            onChange={(e) => setVehicleType(e.target.value)}
-          >
-            <option value="">Selecciona una opción</option>
-            <option value="autos">Autos</option>
-            <option value="camiones">Camiones</option>
-            <option value="micros">Micros</option>
-            <option value="camioneta">Camionetas</option>
-            <option value="moto">Motos</option>
-            <option value="todos">Todos</option>
-          </select>
-
-          <label>Filtrar por disponibilidad:</label>
-          <select
-            id="disponibilidad"
-            value={availability}
-            onChange={(e) => setAvailability(e.target.value)}
-          >
-            <option value="">Selecciona una opción</option>
-            <option value="reservados">Reservados</option>
-            <option value="no reservados">No reservados</option>
-            <option value="indistinto">Indistinto</option>
-          </select>
-
-          <label>Desde:</label>
-          <input type="date" placeholder="Fecha desde" onChange={checkFiltersCompleted} />
-          <label>Hasta:</label>
-          <input type="date" placeholder="Fecha hasta" onChange={checkFiltersCompleted} />
+          <label>Filtrar por categoría de stock:</label>
+          <input type="text" placeholder="Ingrese la categoría" onChange={checkFiltersCompleted} />
         </div>
       )}
 
-      {reportType === "gastos" && (
+          {reportType === "mecanico" && (
+        <div className="filter-fields">
+          <label>Filtrar por especialidad del mecánico:</label>
+          <select
+            id="mecanicoType"
+            value={mechanicSpecialty}
+            onChange={(e) => setMechanicSpecialty(e.target.value) & {checkFiltersCompleted} }>
+            <option value="">Selecciona una opción</option>
+            <option value="electromecanica">Electromecánica</option>
+            <option value="frenos">Frenos</option>
+            <option value="mecanica general">Mecánica general</option>
+            <option value="suspension">Suspensión</option>
+            <option value="transmision">Transmisión</option>
+            <option value="gas">Gas</option>
+            <option value="cambio de correa">Cambio de correa</option>
+            <option value="todos">Todos</option>
+          </select>
+        </div>
+      )}
+
+        {reportType === "conductor" && (
+        <div className="filter-fields">
+          <label>Filtrar por nombre del conductor:</label>
+          <input type="text" placeholder="Ingrese el nombre" onChange={checkFiltersCompleted} />
+        </div>
+      )}
+  
+  {reportType === "gastos" && (
         <div className="filter-fields">
           <label>Filtrar por fecha:</label>
           <input type="date" placeholder="Fecha desde" onChange={checkFiltersCompleted} />
@@ -272,7 +340,9 @@ function Reports() {
         </div>
       )}
     </div>
-  );
-}
+        
+    );
+  }
+  
 
 export default Reports;
