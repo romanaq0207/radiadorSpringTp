@@ -204,7 +204,7 @@ function Navbar() {
 
             <li className="navbar-item">
               <Link
-                to="reportes"
+                to="/reportes"
                 className="navbar-link"
                 onClick={closeMenu}
               >
@@ -214,6 +214,20 @@ function Navbar() {
 
 
 
+            </> 
+            )}
+        
+        {role === "mecanico" && (
+          <>
+            <li className="navbar-item">
+              <Link
+                to="/busqueda-auto-mecanico"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Visor de Autos
+              </Link>
+            </li>
             </> 
             )}
         
