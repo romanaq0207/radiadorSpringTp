@@ -240,13 +240,56 @@ function Reports() {
     // Función para manejar la generación de reportes según el tipo seleccionado
     const handleGenerarReporte = () => {
       if (reportType === "gastos") {
-        generarReporteGastosPDF();
+          generarReporteGastosPDF();
       } else if (reportType === "vehiculos") {
-        generarReporteVehiculosPDF();
+          generarReporteVehiculosPDF();
+      } else if (reportType === "conductor") {
+          generarReporteConductoresPDF();
       } else {
-        alert("Generación de reportes para " + reportType + " aún no está implementada.");
+          alert("Generación de reportes para " + reportType + " aún no está implementada.");
       }
-    };
+  };
+  
+
+  // Función para generar el reporte PDF de conductores
+const generarReporteConductoresPDF = async () => {
+  try {
+      const response = await axios.get(`${API_BASE_URL}/conductores`);
+      const conductores = response.data;
+
+      const doc = new jsPDF();
+      doc.text("Reporte de Conductores", 14, 20);
+
+      const columns = [
+          { header: "ID", dataKey: "id" },
+          { header: "Nombre", dataKey: "nombre" },
+          { header: "Apellido", dataKey: "apellido" },
+          { header: "DNI", dataKey: "dni" },
+          { header: "Número de Teléfono", dataKey: "numeroTelefono" },
+          { header: "Habilitado", dataKey: "habilitado" },
+      ];
+
+      const rows = conductores.map((conductor) => ({
+          id: conductor.id,
+          nombre: conductor.nombre,
+          apellido: conductor.apellido,
+          dni: conductor.dni,
+          numeroTelefono: conductor.numeroTelefono,
+          habilitado: conductor.habilitado,
+      }));
+
+      doc.autoTable({
+          columns: columns,
+          body: rows,
+          startY: 30,
+      });
+
+      doc.save("reporte_conductores.pdf");
+  } catch (error) {
+      console.error("Error al generar el reporte de conductores:", error);
+  }
+};
+
   
     return (
       <div className="reportes-container">
@@ -320,8 +363,6 @@ function Reports() {
 
         {reportType === "conductor" && (
         <div className="filter-fields">
-          <label>Filtrar por nombre del conductor:</label>
-          <input type="text" placeholder="Ingrese el nombre" onChange={checkFiltersCompleted} />
         </div>
       )}
   
