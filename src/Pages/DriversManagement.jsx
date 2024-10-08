@@ -4,8 +4,6 @@ import './DriversManagement.css';
 import { API_BASE_URL } from '../assets/config';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
-// Configuración de íconos de Leaflet (necesario porque no se importan por defecto en React)
 import L from 'leaflet';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -71,7 +69,6 @@ const DriversManagement = () => {
       return;
     }
 
-    // Si pasa las validaciones, continuar con el submit
     if (isEditing) {
       setConductores(
         conductores.map((conductor) =>
@@ -83,7 +80,6 @@ const DriversManagement = () => {
       setConductores([ ...conductores, { ...formData, id: conductores.length + 1 } ]);
     }
 
-    // Reset del formulario
     setFormData({
       id: '',
       nombre: '',
@@ -108,25 +104,31 @@ const DriversManagement = () => {
     );
   };
 
-  const fetchUbicacion = async (id) => {
+  const fetchUbicacion = async (id = 1) => {
     try {
-      console.log(`Fetching location for id: ${id}`); // Verifica el id
+      console.log(`Fetching location for id: ${id}`); 
       const response = await fetch(`${API_BASE_URL}/ubicacion-conductor`);
       if (!response.ok) {
-        const errorMessage = await response.text(); // Captura el error específico del backend
+        const errorMessage = await response.text();
         throw new Error(`Error al obtener la ubicación: ${errorMessage}`);
       }
       const data = await response.json();
-      console.log('Ubicación recibida:', data); // Verifica la respuesta
-  
-      // Almacena la ubicación del conductor en el estado
+      console.log('Ubicación recibida:', data);
+
       setUbicaciones((prev) => ({ ...prev, [id]: data }));
     } catch (error) {
       console.error('Error al obtener la ubicación:', error);
-      alert('No se pudo obtener la ubicación del conductor. Verifique los logs para más detalles.');
     }
   };
-  
+
+  // Actualizar ubicación cada 10 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      conductores.forEach(conductor => fetchUbicacion(conductor.id));
+    }, 30000); // Cada 10 segundos
+
+    return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
+  }, [conductores]); // Dependencia para que se ejecute cuando cambien los conductores
 
   return (
     <div className="drivers-management-container">
@@ -193,14 +195,12 @@ const DriversManagement = () => {
               Mostrar Ubicación
             </button>
 
-            {/* Mostrar la ubicación si está disponible */}
             {ubicaciones[conductor.id] && (
               <div>
                 <p><strong>Última Ubicación:</strong></p>
                 <p>Latitud: {ubicaciones[conductor.id].latitud}</p>
                 <p>Longitud: {ubicaciones[conductor.id].longitud}</p>
 
-                {/* Renderiza el mapa */}
                 <MapContainer
                   center={[ubicaciones[conductor.id].latitud, ubicaciones[conductor.id].longitud]}
                   zoom={13}
