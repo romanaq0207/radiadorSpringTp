@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json';
 import './DriversManagement.css';
-import { API_BASE_URL } from '../assets/config';  // Asegúrate de que esta ruta sea correcta
+import { API_BASE_URL } from '../assets/config';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Configuración de íconos de Leaflet (necesario porque no se importan por defecto en React)
+import L from 'leaflet';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
@@ -94,21 +108,25 @@ const DriversManagement = () => {
     );
   };
 
-// Función para obtener la última ubicación del conductor
-const fetchUbicacion = async () => { // Eliminamos el parámetro id
-  try {
-    const response = await fetch(`${API_BASE_URL}/ubicacion-conductor`); // No necesitas el id aquí
-    if (!response.ok) {
-      throw new Error('Error al obtener la ubicación');
+  const fetchUbicacion = async (id) => {
+    try {
+      console.log(`Fetching location for id: ${id}`); // Verifica el id
+      const response = await fetch(`${API_BASE_URL}/ubicacion-conductor`);
+      if (!response.ok) {
+        const errorMessage = await response.text(); // Captura el error específico del backend
+        throw new Error(`Error al obtener la ubicación: ${errorMessage}`);
+      }
+      const data = await response.json();
+      console.log('Ubicación recibida:', data); // Verifica la respuesta
+  
+      // Almacena la ubicación del conductor en el estado
+      setUbicaciones((prev) => ({ ...prev, [id]: data }));
+    } catch (error) {
+      console.error('Error al obtener la ubicación:', error);
+      alert('No se pudo obtener la ubicación del conductor. Verifique los logs para más detalles.');
     }
-    const data = await response.json();
-    setUbicaciones((prev) => ({ ...prev, [1]: data })); // Usa siempre el ID 1, si es necesario
-  } catch (error) {
-    console.error('Error:', error);
-    alert('No se pudo obtener la ubicación del conductor');
-  }
-};
-
+  };
+  
 
   return (
     <div className="drivers-management-container">
@@ -181,6 +199,21 @@ const fetchUbicacion = async () => { // Eliminamos el parámetro id
                 <p><strong>Última Ubicación:</strong></p>
                 <p>Latitud: {ubicaciones[conductor.id].latitud}</p>
                 <p>Longitud: {ubicaciones[conductor.id].longitud}</p>
+
+                {/* Renderiza el mapa */}
+                <MapContainer
+                  center={[ubicaciones[conductor.id].latitud, ubicaciones[conductor.id].longitud]}
+                  zoom={13}
+                  style={{ height: '200px', width: '100%' }}
+                >
+                  <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+                  />
+                  <Marker position={[ubicaciones[conductor.id].latitud, ubicaciones[conductor.id].longitud]}>
+                    <Popup>Ubicación actual del conductor</Popup>
+                  </Marker>
+                </MapContainer>
               </div>
             )}
           </div>
