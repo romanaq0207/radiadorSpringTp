@@ -112,6 +112,7 @@ label{
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .reportes-container {
     width: 70%; /* Ajusta al 70% del ancho de la pantalla en tablets */
+    height: 100%;
   }
 
   .title {
@@ -136,6 +137,8 @@ label{
 
   .filter-fields {
     gap: 10px; /* Reducir el espacio entre los filtros */
+    flex-direction: column;
+    display: flex;
   }
 
   .generate-report button {
