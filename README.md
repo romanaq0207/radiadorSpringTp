@@ -19,15 +19,14 @@
 
 ### Credenciales para probar el sistema con todos los usuarios que posee
 
-	TIPO 				USUARIO 		                 CONTRASEÑA
-
-Administrador			administrador@gmail.com             administrador
-Supervisor			supervisor@gmail.com 		        supervisor
-Gerente				gerente@gmail.com 			gerente
-Cliente				cliente@gmail.com			        cliente
-Operador				operador@gmail.com			operador
-Mecánico 			mecanico@gmail.com 		        mecanico
-
+| TIPO | USUARIO | CONTRASEÑA |
+|---|---|---|
+| Administrador | administrador@gmail.com | administrador |
+| Supervisor | supervisor@gmail.com | supervisor |
+| Gerente | gerente@gmail.com | gerente |
+| Operador | operador@gmail.com | operador |
+| Mecanico | mecanico@gmail.com | mecanico |
+| Cliente | cliente@gmail.com | cliente |
 
 ### Frontend
 
