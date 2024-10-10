@@ -10,6 +10,7 @@
 .add-flota-container h3, 
 .add-flota-container p {
     color: #ffffff; /* Asegúrate de que estos estilos solo se apliquen en este componente */
+    font-size: 20px;
 }
 
 .flota-input, 
