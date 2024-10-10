@@ -66,8 +66,11 @@ function AddFlota() {
 
     return (
         <div className="add-flota-container">
+            <div className="input-container">
+
             <h2>Agregar Nueva Flota</h2>
             {error && <div className="error-banner">{error}</div>} {/* Mostrar el mensaje de error si existe */}
+            
             <input
                 type="text"
                 placeholder="Nombre de la Flota"
@@ -75,7 +78,13 @@ function AddFlota() {
                 onChange={(e) => setFlotaName(e.target.value)}
                 className="flota-input"
             />
+            <button className="save-flota-button" onClick={handleSaveFlota}>Guardar Flota</button>
 
+            </div>
+
+            <div className="cuadro-container">
+            <div className="auto-list">
+            <div className="filtrar-auto">
             <h3>Buscar Autos</h3>
             <input
                 type="text"
@@ -84,8 +93,8 @@ function AddFlota() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="flota-search-input"
             />
-
-            <div className="auto-list">
+                </div>
+          
                 <h3>Autos Disponibles</h3>
                 {autosDisponibles
                     .filter(auto =>
@@ -100,6 +109,7 @@ function AddFlota() {
                         </div>
                     ))}
             </div>
+            
 
             <div className="flota-list">
                 <h3>Autos en la Flota</h3>
@@ -114,8 +124,8 @@ function AddFlota() {
                     <p>No hay autos en la flota</p>
                 )}
             </div>
+            </div>
 
-            <button className="save-flota-button" onClick={handleSaveFlota}>Guardar Flota</button>
         </div>
     );
 }

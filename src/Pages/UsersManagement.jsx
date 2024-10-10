@@ -170,7 +170,7 @@ const UsersManagement = () => {
         </form>
       </div>
 
-      <div className="drivers-list">
+      <div className="users-list">
         {usuarios.map((usuario) => (
           <div key={usuario.id} className="user-card">
             <p>

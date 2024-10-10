@@ -28,6 +28,7 @@ body {
   justify-items: space-between;
   min-width: 320px;
   min-height: 100vh;
+  justify-content: center;
 }
 
 h1 {

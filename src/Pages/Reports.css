@@ -1,23 +1,35 @@
 /* Estilos generales */
+
+.Reports.body{
+
+  padding: 10vh;
+}
 .reportes-container {
-  width: 80%; /* Ajuste dinámico al 80% del ancho de la pantalla */
+  width: 100%; /* Ajuste dinámico al 80% del ancho de la pantalla */
   margin: 0 auto; /* Centrado en la página */
   padding: 20px;
 }
 
-.title {
+.reportes-container.title {
   font-size: 24px;
-  text-align: center;
+  text-align: left;
   margin-bottom: 20px;
 }
 
-.filter-section {
+
+.filter-section.select {
   margin-bottom: 20px;
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
 }
 
 .filter-fields {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -44,7 +56,7 @@
 @media only screen and (min-width: 1024px) {
   .reportes-container {
     width: 90%; /* Ajusta al 60% del ancho de la pantalla en escritorio */
-    padding: 200px;
+   
   }
 
   .title {

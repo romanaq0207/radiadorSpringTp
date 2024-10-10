@@ -5,7 +5,7 @@
     box-sizing: border-box; /* Incluye el relleno y borde en el ancho y alto */
 }
 
-body{
+.AddAuto.body{
     background-image:linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.5),

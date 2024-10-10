@@ -132,6 +132,8 @@ const DriversManagement = () => {
 
   return (
     <div className="drivers-management-container">
+
+    <div className="filter-container">
       <h2 className="title">Gestión de Conductores</h2>
 
       <form onSubmit={handleSubmit}>
@@ -171,6 +173,7 @@ const DriversManagement = () => {
           {isEditing ? 'Modificar Conductor' : 'Agregar Conductor'}
         </button>
       </form>
+      </div>
 
       <div className="drivers-list">
         {conductores.filter(conductor => conductor.habilitado).map((conductor) => (

@@ -2,18 +2,61 @@
 .add-flota-container {
     font-family: 'Roboto', sans-serif;
     color: #ffffff; /* Especifica el color para el texto de este componente */
-    background-color: rgba(0, 0, 0, 0.5); /* Si aplicas colores de fondo */
     padding: 100px;
+}
+
+.cuadro-container{
+    margin-top: 3vh;
+    flex-direction: row;
+    display: flex;
+}
+
+.input-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20vh;
+    white-space: nowrap;
+    align-items: baseline;
+    justify-items: center;
+}
+.input-container h2{
+    font-size: 5vh;
+}
+
+.auto-list{
+    width: 82vh;
+    background-color: #a50000;
+    padding: 5vh;
+    border-radius: 4px;
+    gap: 2vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .add-flota-container h2, 
 .add-flota-container h3, 
 .add-flota-container p {
     color: #ffffff; /* Asegúrate de que estos estilos solo se apliquen en este componente */
-    font-size: 20px;
+
 }
 
-.flota-input, 
+.auto-item{
+    background-color: rgb(105, 0, 0); /* Si aplicas colores de fondo */
+    border-radius: 4px;
+    padding: 2vh;
+    
+
+}
+
+.flota-input{
+    width: 40vh;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
 .flota-search-input {
     width: 100%;
     padding: 10px;
@@ -21,6 +64,12 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+}
+
+.flota-list{
+    padding: 5vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Si aplicas colores de fondo */
+    border-radius: 4px;
 }
 
 .add-auto-button, .remove-auto-button, .save-flota-button {
