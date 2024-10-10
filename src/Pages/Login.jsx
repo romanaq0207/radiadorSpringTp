@@ -120,7 +120,6 @@ function Login() {
       <h2>Iniciar sesión</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label>Email:</label>
           <input
             type="email"
             {...register('email', {
@@ -136,7 +135,6 @@ function Login() {
         </div>
 
         <div>
-          <label>Contraseña:</label>
           <input
             type="password"
             {...register('password', {

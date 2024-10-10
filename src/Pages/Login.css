@@ -6,12 +6,11 @@
   justify-content: center;
   height: 100vh;
   padding: 20px;
-  background-color: #f9f9f9;
-}
+  background-color: rgba(0, 0, 0, 0.5);}
 
 .login-container h2 {
   margin-bottom: 20px;
-  color: #333;
+  color: #fffefe;
 }
 
 .login-container form {
@@ -24,7 +23,7 @@
 .login-container label {
   margin-bottom: 8px;
   font-size: 1rem;
-  color: #333;
+  color: #ffffff;
 }
 
 .login-container input {
