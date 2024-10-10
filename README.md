@@ -17,16 +17,28 @@
 ## Repositorio Github:
 [link al repositorio de github](https://github.com/romanaq0207/radiadorSpringTp)
 
+### Credenciales para probar el sistema con todos los usuarios que posee
+
+	TIPO 				USUARIO 		                 CONTRASEÑA
+
+Administrador			administrador@gmail.com             administrador
+Supervisor			supervisor@gmail.com 		        supervisor
+Gerente				gerente@gmail.com 			gerente
+Cliente				cliente@gmail.com			        cliente
+Operador				operador@gmail.com			operador
+Mecánico 			mecanico@gmail.com 		        mecanico
+
+
 ### Frontend
 
-Hemos creado una interfaz web con distintas vistas dependiendo del usuario que inicie sesión, donde podran interactuar con la API del chatbot,
-la cual esta hecha en React.
+Hemos creado una interfaz web con distintas vistas dependiendo del usuario que inicie sesión, donde podrán interactuar con la API del chatbot,
+la cual está hecha en React.
 
 ### Ejecutar el Frontend
 
-Para correr el servidor de la aplicacion web, deben situarse con la consola de comandos dentro de la carpeta
+Para correr el servidor de la aplicación web, deben situarse con la consola de comandos dentro de la carpeta
 app-web y colocar los siguientes comandos:
-> IMPORTANTE: Asumimos que su maquina tiene instalada la ultima version de NODE, en caso de no ser así descargarla
+> IMPORTANTE: Asumimos que su máquina tiene instalada la última versión de NODE, en caso de no ser así descargarla
   e instalarla en su computadora, [click aqui](https://nodejs.org/en/download)
 
 #### Instalar dependencias
@@ -52,5 +64,4 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-# radiadorSpringTp
 # radiadorSpringTp
