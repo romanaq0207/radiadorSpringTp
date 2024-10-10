@@ -158,6 +158,14 @@
         flex-direction: column; /* Cambiamos el layout a columna en móviles */
         gap: 10px; /* Reducimos el gap entre los inputs */
     }
+    .filter-container{
+        flex-direction: column;
+        min-width: 300px;
+        position:initial;
+        top: 70px; /* Distancia desde la parte superior */
+        left: 10vh; /* Distancia desde la derecha */
+       
+      }
 }
 
 /* Estilos responsive para pantallas muy pequeñas */
