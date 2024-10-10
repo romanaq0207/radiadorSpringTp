@@ -81,6 +81,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 90%;
 }
 
 .add-auto-button:hover, .remove-auto-button:hover, .save-flota-button:hover {
@@ -98,3 +99,51 @@
     text-align: center;
     font-size: 18px; /* Aumenta el tamaño de la fuente para que sea más visible */
 }
+
+@media (max-width: 768px) {
+
+    .add-flota-container{
+        padding: 0%;
+        flex-direction: column;
+        display: flex;
+    }
+    .input-container {
+        flex-direction: column;
+        padding: 15px;
+        margin-top: 60px;
+        gap: 10px;
+        align-items: center;
+    }
+    .save-flota-button{
+        width: 50%;
+    }
+    .cuadro-container{
+        flex-direction: column;
+        display: flex;
+    }
+    .auto-list{
+        width: 100%;
+    }
+
+    .flota-list{
+       margin-top: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .drivers-card {
+        padding: 15px;
+        font-size: 0.85rem;
+    }
+
+    .add-button {
+        width: 90%;
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+}
+

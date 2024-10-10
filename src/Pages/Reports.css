@@ -1,13 +1,39 @@
 /* Estilos generales */
 
-.Reports.body{
+.Reports body {
+  margin: 0;
+  display: flex;
+  justify-items: space-between;
+  min-width: 320px;
+  min-height: 100vh;
+  justify-content: flex-start;
+}
 
-  padding: 10vh;
+
+.filter-section{
+  margin-bottom: 5vh;
+  
 }
 .reportes-container {
   width: 100%; /* Ajuste dinámico al 80% del ancho de la pantalla */
   margin: 0 auto; /* Centrado en la página */
-  padding: 20px;
+  padding-top: 20vh;
+  justify-content:left
+}
+
+.reportes-container label{
+  white-space: nowrap;
+}
+
+.filter-fields input,
+.filter-fields select {
+  padding: 10px;
+  margin-bottom: 15px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
 }
 
 .reportes-container.title {
@@ -16,9 +42,12 @@
   margin-bottom: 20px;
 }
 
+label{
+  font-size: x-large;
+}
 
-.filter-section.select {
-  margin-bottom: 20px;
+
+.filter-section select {
   padding: 10px;
   margin-bottom: 15px;
   width: 100%;
@@ -32,6 +61,8 @@
   flex-direction: row;
   gap: 15px;
   margin-bottom: 20px;
+  justify-content: flex-start;
+  align-items: baseline;
 }
 
 .generate-report {
@@ -39,23 +70,27 @@
 }
 
 .generate-report button {
-  padding: 10px 20px;
-  font-size: 18px;
-  background-color: #007bff;
+  padding: 12px 25px;
+  background-color: #990000;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
+
+  transition: background-color 0.3s ease, transform 0.2s;
+  width: 50%;
 }
 
+
 .generate-report button:hover {
-  background-color: #0056b3;
+  background-color: #e63838;
+  transform: translateY(-2px);
 }
 
 /* Ajustes para pantallas más grandes (escritorio) */
 @media only screen and (min-width: 1024px) {
   .reportes-container {
-    width: 90%; /* Ajusta al 60% del ancho de la pantalla en escritorio */
+    width: 100%; /* Ajusta al 60% del ancho de la pantalla en escritorio */
    
   }
 
@@ -69,7 +104,7 @@
   }
 
   .generate-report button {
-    font-size: 55px;
+    font-size: 20px;
   }
 }
 
