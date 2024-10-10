@@ -33,7 +33,7 @@ body {
 }
 
 /* Título */
-h2 {
+.auto-search__title { /* Cambié h2 a .auto-search__title */
     text-align: center;
     margin-bottom: 20px;
     font-size: 2rem;
@@ -48,7 +48,7 @@ h2 {
 }
 
 /* Input de búsqueda */
-.auto-search-input {
+.auto-search__input { /* Cambié .auto-search-input a .auto-search__input */
     width: 100%;
     max-width: 400px;
     text-align: center;
@@ -67,14 +67,15 @@ h2 {
     margin-bottom: 20px;
 }
 
-.add-auto-button, .scan-qr-button {
+.auto-search__add-auto-button, /* Cambié .add-auto-button a .auto-search__add-auto-button */
+.auto-search__scan-qr-button { /* Cambié .scan-qr-button a .auto-search__scan-qr-button */
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-.add-auto-button {
+.auto-search__add-auto-button {
     padding: 12px 25px;
     background-color: #525252;
     color: white;
@@ -86,16 +87,16 @@ h2 {
     transition: background-color 0.3s ease, transform 0.2s;
 }
 
-.add-auto-button:hover {
+.auto-search__add-auto-button:hover {
     background-color: #b30000;
 }
 
-.scan-qr-button {
+.auto-search__scan-qr-button {
     background-color: #b30000;
     color: white;
 }
 
-.scan-qr-button:hover {
+.auto-search__scan-qr-button:hover {
     background-color: #a10000;
 }
 

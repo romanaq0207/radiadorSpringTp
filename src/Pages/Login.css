@@ -1,3 +1,4 @@
+/* Estilos generales (Mobile-first) */
 .login-container {
   display: flex;
   flex-direction: column;
@@ -64,4 +65,27 @@
   color: green;
   font-size: 1rem;
   margin-top: 10px;
+}
+
+/* Estilos para pantallas más grandes (PC) */
+@media (min-width: 768px) {
+  .login-container {
+    padding: 40px;
+  }
+
+  .login-container form {
+    max-width: 500px; 
+  }
+
+  .login-container h2 {
+    font-size: 2rem; 
+  }
+
+  .login-container input {
+    font-size: 1.2rem; 
+  }
+
+  .login-container button {
+    font-size: 1.2rem; 
+  }
 }

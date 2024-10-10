@@ -1,3 +1,5 @@
+/* MechanicAutoSearch.module.css */
+
 /* Reset de estilos generales */
 * {
     margin: 0;
@@ -6,7 +8,7 @@
 }
 
 /* Estilo del fondo */
-body {
+.auto-search-container {
     background-image: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.5),
@@ -18,10 +20,6 @@ body {
     background-position: center;
     font-family: 'Roboto', sans-serif;
     background-attachment: fixed;
-}
-
-/* Contenedor principal para la búsqueda y resultados */
-.auto-search-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +31,7 @@ body {
 }
 
 /* Título */
-h2 {
+.title {
     text-align: center;
     margin-bottom: 20px;
     font-size: 2rem;

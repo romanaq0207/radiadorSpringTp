@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MechanicAutoCard from "./MechanicAutoCard"; // Componente correcto
-import "./MechanicAutoSearch.css"; // Asegúrate de tener el archivo CSS
+import styles from "./MechanicAutoSearch.module.css"; // Cambia a .module.css
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
@@ -53,33 +53,30 @@ function AutoSearch() { // Nombre del componente corregido
   };
 
   return (
-    <div className="auto-search-container">
+    <div className={styles['auto-search-container']}>
       <Navbar />
-      <h2>Búsqueda de Autos</h2>
-      <div className="search-add-container">
+      <h2 className={styles['title']}>Búsqueda de Autos</h2>
+      <div className={styles['search-add-container']}>
         <input
           type="text"
           placeholder="Buscar por patente..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="auto-search-input"
+          className={styles['auto-search-input']}
         />
-        {/* Botones debajo de la barra de búsqueda */}
-        <div className="buttons-search-add-container">
-          <button onClick={handleAddAuto} className="add-auto-button">
+        <div className={styles['buttons-search-add-container']}>
+          <button onClick={handleAddAuto} className={styles['add-auto-button']}>
             Agregar Auto
           </button>
-          <button onClick={handleScanQR} className="scan-qr-button">
+          <button onClick={handleScanQR} className={styles['scan-qr-button']}>
             Escanear QR
           </button>
         </div>
       </div>
 
-      {/* Mostrar mensaje de error si hay problemas al obtener los autos */}
       {error ? <p>{error}</p> : null}
 
-      {/* Mostrar autos filtrados */}
-      <div className="auto-card-list">
+      <div className={styles['auto-card-list']}>
         {filteredAutos.length > 0 ? (
           filteredAutos.map((auto) => (
             <MechanicAutoCard key={auto.id} auto={auto} />

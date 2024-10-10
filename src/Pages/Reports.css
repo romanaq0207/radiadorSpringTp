@@ -1,66 +1,98 @@
-/* Reports.css */
+/* Estilos generales */
 .reportes-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin-top: 20px; /* Reduce el margen superior */
-    padding-top: 60px; /* Añadir espacio para evitar que el contenido se superponga con la navbar */
-    min-width: 80vh;
+  width: 80%; /* Ajuste dinámico al 80% del ancho de la pantalla */
+  margin: 0 auto; /* Centrado en la página */
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+}
+
+.filter-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.generate-report {
+  text-align: center;
+}
+
+.generate-report button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.generate-report button:hover {
+  background-color: #0056b3;
+}
+
+/* Ajustes para pantallas más grandes (escritorio) */
+@media only screen and (min-width: 1024px) {
+  .reportes-container {
+    width: 90%; /* Ajusta al 60% del ancho de la pantalla en escritorio */
+    padding: 200px;
   }
-  
+
   .title {
-    font-size: 32px;
-    margin-bottom: 20px;
-    text-align: center;
-    margin-top: 0; /* Asegura que no haya espacio innecesario arriba del título */
-    position: relative; /* Mantiene la posición relativa para poder ajustar si es necesario */
-    top: 0; /* Coloca el título en la parte superior */
+    font-size: 70px;
   }
-  
-  .filter-section, 
+
   .filter-fields {
-    width: 100%;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
+    flex-direction: row; /* Los filtros se alinearán en fila en pantallas grandes */
+    justify-content: space-between;
   }
-  
-  .filter-section label, 
-  .filter-fields label {
-    margin-bottom: 8px;
-    font-weight: bold;
-  }
-  
-  .filter-section select,
-  .filter-fields select,
-  .filter-fields input[type="text"],
-  .filter-fields input[type="date"] {
-    padding: 10px;
-    margin-bottom: 15px;
-    width: 100%;
-    max-width: 600px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-  
-  .generate-report {
-    margin-top: 20px;
-  }
-  
+
   .generate-report button {
-    padding: 10px 20px;
+    font-size: 55px;
+  }
+}
+
+/* Ajustes para pantallas medianas (tablets) */
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .reportes-container {
+    width: 70%; /* Ajusta al 70% del ancho de la pantalla en tablets */
+  }
+
+  .title {
+    font-size: 88px;
+  }
+
+  .generate-report button {
+    font-size: 18px;
+  }
+}
+
+/* Ajustes para pantallas pequeñas (móviles) */
+@media only screen and (max-width: 767px) {
+  .reportes-container {
+    width: 90%; /* El contenedor ocupa el 90% del ancho de la pantalla */
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .filter-fields {
+    gap: 10px; /* Reducir el espacio entre los filtros */
+  }
+
+  .generate-report button {
     font-size: 16px;
-    background-color: #d10000;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 8px 16px;
   }
-  
-  .generate-report button:hover {
-    background-color: #b10000;
-  }
-  
+}
