@@ -32,24 +32,7 @@ function Navbar() {
             Inicio
           </Link>
         </li>
-        <li className="navbar-item">
-              <Link
-                to="/visor-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Visor de Gastos
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link
-                to="/visor-flota"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Visor de Flotas
-              </Link>
-            </li>
+        
 
         {/* Opciones solo para "administrador" */}
         {role === "administrador" && (
@@ -200,7 +183,24 @@ function Navbar() {
 
         {role === "cliente" && (
           <>
-
+          <li className="navbar-item">
+              <Link
+                to="/visor-gastos"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Visor de Gastos
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
+                to="/visor-flota"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Visor de Flotas
+              </Link>
+            </li>
 
             <li className="navbar-item">
               <Link
