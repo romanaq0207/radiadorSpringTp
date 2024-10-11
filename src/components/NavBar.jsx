@@ -32,7 +32,6 @@ function Navbar() {
             Inicio
           </Link>
         </li>
-        
 
         {/* Opciones solo para "administrador" */}
         {role === "administrador" && (
@@ -120,17 +119,7 @@ function Navbar() {
                 Mis Gasto
               </Link>
             </li>
-            <li className="navbar-item">
-              <Link
-                to="/ver-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gastos
-              </Link>
-            </li>
-
-            </>
+          </>
         )}
 
         {role === "gerente" && (
@@ -164,10 +153,10 @@ function Navbar() {
                 Gastos
               </Link>
             </li>
-            </>
+          </>
         )}
 
-          {role === "supervisor" && (
+        {role === "supervisor" && (
           <>
             <li className="navbar-item">
               <Link
@@ -178,12 +167,12 @@ function Navbar() {
                 Crear Ruta
               </Link>
             </li>
-            </> 
-            )}
+          </>
+        )}
 
         {role === "cliente" && (
           <>
-          <li className="navbar-item">
+            <li className="navbar-item">
               <Link
                 to="/visor-gastos"
                 className="navbar-link"
@@ -203,20 +192,13 @@ function Navbar() {
             </li>
 
             <li className="navbar-item">
-              <Link
-                to="/reportes"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
+              <Link to="/reportes" className="navbar-link" onClick={closeMenu}>
                 Reportes
               </Link>
             </li>
+          </>
+        )}
 
-
-
-            </> 
-            )}
-        
         {role === "mecanico" && (
           <>
             <li className="navbar-item">
@@ -228,9 +210,8 @@ function Navbar() {
                 Visor de Autos
               </Link>
             </li>
-            </> 
-            )}
-        
+          </>
+        )}
       </ul>
     </nav>
   );
