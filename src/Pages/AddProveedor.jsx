@@ -33,7 +33,7 @@ const AddProveedor = ({ onAddProveedor }) => {
     }
 
     if (!formData.cuil || !cuilRegex.test(formData.cuil)) {
-      newErrors.cuil = 'El CUIL debe seguir el formato 12-34567890-.';
+      newErrors.cuil = 'El CUIL debe seguir el formato 12-34567890-1.';
     }
 
     if (!formData.email) {
