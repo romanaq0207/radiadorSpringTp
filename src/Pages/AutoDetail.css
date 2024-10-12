@@ -1,5 +1,7 @@
+/* Estilos para móviles (por defecto) */
 .auto-detail {
-  padding: 60px;
+  padding: 20px;
+  margin: 12px;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   max-width: 100%;
@@ -18,20 +20,22 @@
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  font-size: 14px; /* Tamaño de texto adecuado para móviles */
 }
 
 .auto-detail input {
   padding: 10px;
-  width: calc(100% - 22px);
+  width: calc(100% - 20px);
   margin-bottom: 10px;
 }
 
 .auto-detail button {
-  padding: 10px 20px;
+  padding: 12px;
   background-color: #d10000;
   color: white;
   border: none;
   cursor: pointer;
+  width: 100%; /* Ancho completo en móviles */
 }
 
 .back-link {
@@ -39,6 +43,7 @@
   margin-top: 20px;
   color: #ffffff;
   text-decoration: none;
+  font-size: 16px;
 }
 
 .back-link:hover {
@@ -47,4 +52,28 @@
 
 .titulo-h2 {
   color: black;
+  font-size: 24px; /* Tamaño más pequeño para pantallas pequeñas */
+}
+
+/* Estilos para pantallas más grandes (PC) */
+@media (min-width: 768px) {
+  .auto-detail {
+    padding: 60px;
+    max-width: 80%; /* Ajuste del ancho en pantallas grandes */
+  }
+
+  .maintenance-table th,
+  .maintenance-table td {
+    padding: 10px;
+    font-size: 16px; /* Aumentar tamaño del texto en pantallas grandes */
+  }
+
+  .auto-detail button {
+    width: auto; /* Devolver el ancho automático en pantallas grandes */
+    padding: 10px 20px;
+  }
+
+  .titulo-h2 {
+    font-size: 32px; /* Aumentar el tamaño en pantallas grandes */
+  }
 }

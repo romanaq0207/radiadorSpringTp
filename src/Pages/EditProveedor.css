@@ -1,108 +1,54 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "./AddProveedor.css"; // Reusing the same CSS file
-
-const proveedoresData = [
-  {
-    id: 1,
-    nombre: 'Distribuidora ABC',
-    cuil: '30-12345678-9',
-    email: 'contacto@abcdistribuidora.com',
-    direccion: 'Av. Siempre Viva 123, Buenos Aires',
-    telefono: '011-1234-5678',
-    activo: true
-  },
-  {
-    id: 2,
-    nombre: 'Servicios Logísticos XYZ',
-    cuil: '30-98765432-1',
-    email: 'info@logisticaxyz.com',
-    direccion: 'Calle Falsa 456, Córdoba',
-    telefono: '0351-5678-1234',
-    activo: true
+.edit-proveedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
   }
-];
-
-const EditProveedor = () => {
-  const { id } = useParams();
-  const [proveedor, setProveedor] = useState(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const proveedorEncontrado = proveedoresData.find((p) => p.id === parseInt(id));
-    if (proveedorEncontrado) {
-      setProveedor(proveedorEncontrado);
-    }
-  }, [id]);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Cambios guardados:", proveedor);
-    navigate("/"); // Redirect after saving
-  };
-
-  if (!proveedor) {
-    return <p>Proveedor no encontrado</p>;
+  
+  .edit-proveedor h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
   }
-
-  return (
-    <div className="add-proveedor-container"> {/* Use the same container class */}
-      <h2>Editar Proveedor</h2>
-      <form className="add-proveedor-form" onSubmit={handleSubmit}> {/* Same form class */}
-        <div className="form-group">
-          <label>Nombre:</label>
-          <input
-            type="text"
-            value={proveedor.nombre}
-            onChange={(e) => setProveedor({ ...proveedor, nombre: e.target.value })}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>CUIL:</label>
-          <input
-            type="text"
-            value={proveedor.cuil}
-            onChange={(e) => setProveedor({ ...proveedor, cuil: e.target.value })}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Email:</label>
-          <input
-            type="email"
-            value={proveedor.email}
-            onChange={(e) => setProveedor({ ...proveedor, email: e.target.value })}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Dirección:</label>
-          <input
-            type="text"
-            value={proveedor.direccion}
-            onChange={(e) => setProveedor({ ...proveedor, direccion: e.target.value })}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Teléfono:</label>
-          <input
-            type="tel"
-            value={proveedor.telefono}
-            onChange={(e) => setProveedor({ ...proveedor, telefono: e.target.value })}
-            required
-          />
-        </div>
-
-        <button type="submit" className="submit-button">Guardar Cambios</button> {/* Same button class */}
-      </form>
-    </div>
-  );
-};
-
-export default EditProveedor;
+  
+  .edit-proveedor form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .edit-proveedor form div {
+    margin-bottom: 15px;
+  }
+  
+  .edit-proveedor label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .edit-proveedor input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .edit-proveedor button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-proveedor button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  

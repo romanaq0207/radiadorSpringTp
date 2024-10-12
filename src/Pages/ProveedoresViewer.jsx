@@ -21,6 +21,33 @@ const proveedoresData = [
     direccion: 'Calle Falsa 456, Córdoba',
     telefono: '0351-5678-1234',
     activo: true
+  },
+  {
+    id: 3,
+    nombre: 'Distribuidora ABC',
+    cuil: '30-12345678-9',
+    email: 'contacto@abcdistribuidora.com',
+    direccion: 'Av. Siempre Viva 123, Buenos Aires',
+    telefono: '011-1234-5678',
+    activo: true
+  },
+  {
+    id: 4,
+    nombre: 'Bulonera Atomic',
+    cuil: '30-12322128-9',
+    email: 'contacto@atomicbulon.com',
+    direccion: 'Av. Buena Vista 2991, Tierra del Fuego',
+    telefono: '011-1234-5678',
+    activo: true
+  },
+  {
+    id: 5,
+    nombre: 'Distribuidora ABC',
+    cuil: '30-12345678-9',
+    email: 'contacto@abcdistribuidora.com',
+    direccion: 'Av. Siempre Viva 123, Buenos Aires',
+    telefono: '011-1234-5678',
+    activo: true
   }
 ];
 

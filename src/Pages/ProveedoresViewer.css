@@ -1,65 +1,73 @@
+/* Estilos para móviles (por defecto) */
 .proveedores-viewer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px;
-    font-size: 18px; /* Tamaño de fuente ajustado */
+    padding: 20px;
+    font-size: 16px;
+    color: white;
+    
+}
+
+.proveedores-viewer h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.proveedores-viewer .add-button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: orangered;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
     color: white;
 }
 
 .proveedores-viewer .proveedores-list {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.proveedores-viewer h2 {
-    font-size: 54px;
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
 }
 
 .proveedores-viewer .proveedor-card {
     background-color: rgba(209, 0, 0, 0.8);
-    color: white;
     padding: 15px;
-    margin: 10px;
     border: 2px solid #c20000;
     border-radius: 5px;
-    width: 280px; /* Ajuste de ancho */
-    height: auto; /* Altura automática para que el contenido ajuste */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white;
     font-family: 'Roboto', sans-serif;
-    text-align: left;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    text-align: left;
 }
 
 .proveedores-viewer .proveedor-card h3 {
+    font-size: 18px;
     margin-bottom: 10px;
-    font-size: 20px; /* Ajuste del tamaño de la fuente */
 }
 
 .proveedores-viewer .proveedor-card p {
     margin: 5px 0;
-    font-size: 16px; /* Ajuste del tamaño del texto */
-    word-wrap: break-word; /* Evita que el texto se salga del contenedor */
+    font-size: 14px;
+    word-wrap: break-word;
 }
 
 .proveedores-viewer .action-buttons {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 10px;
-    margin-top: 15px; /* Añadir espacio entre contenido y botones */
+    margin-top: 15px;
 }
 
-.proveedores-viewer .details-button,
 .proveedores-viewer .edit-button,
 .proveedores-viewer .delete-button {
     width: 100%;
-    padding: 8px; /* Reducir el padding */
-    font-size: 14px; /* Reducir el tamaño de los botones */
+    padding: 10px;
+    font-size: 14px;
     color: white;
     background-color: #d60303;
     border: none;
@@ -68,20 +76,48 @@
     transition: background-color 0.3s ease;
 }
 
-.proveedores-viewer .details-button:hover,
 .proveedores-viewer .edit-button:hover,
 .proveedores-viewer .delete-button:hover {
     background-color: #a50202;
 }
 
-.proveedores-viewer .add-button {
-    width: auto;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    background-color: orangered;
-    font-size: 16px;
-}
+/* Estilos para pantallas más grandes (PC) */
+@media (min-width: 768px) {
+    .proveedores-viewer {
+        padding: 80px;
+        font-size: 18px;
+    }
 
-.proveedores-viewer .add-button:hover {
-    background-color: orangered;
+    .proveedores-viewer h2 {
+        font-size: 54px;
+    }
+
+    .proveedores-viewer .add-button {
+        width: auto;
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .proveedores-viewer .proveedores-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        flex-direction: row;        
+    }
+
+    .proveedores-viewer .proveedor-card {
+        width: 280px;
+        height: auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .proveedores-viewer .action-buttons {
+        flex-direction: row;
+    }
+
+    .proveedores-viewer .edit-button,
+    .proveedores-viewer .delete-button {
+        width: 48%;
+    }
 }

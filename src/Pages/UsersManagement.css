@@ -15,15 +15,15 @@
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
- 
+  
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   background-attachment: fixed;
   color: white;
-
   padding: 10vh;
+  
 }
 .users-management-container {
   display: flex;
@@ -31,6 +31,7 @@
   align-items:flex-start;
   padding: 30px;
   gap: 0vh;
+  
 }
 
 .users-management-container form {
@@ -39,7 +40,7 @@
   flex-direction: column;
   width: 100%;
   max-width: 600px;
-  margin-bottom: 30px;
+  margin-left: 8px;
 }
 
 .users-management-container.title {
@@ -49,6 +50,7 @@
   margin-bottom: 25px;
   color: #f5f5f5;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  
 }
 
 
@@ -190,6 +192,7 @@
 @media (max-width: 480px) {
   .users-management-container .title {
       font-size: 1.5rem;
+      margin-left: 8px  ;
   }
 
   .users-management-container .users-card {

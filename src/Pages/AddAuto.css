@@ -23,8 +23,8 @@
 
 .add-auto {
     max-width: 500px; /* Ajusta el ancho máximo del formulario */
-    margin: 0 auto; /* Centra el formulario horizontalmente */
-    padding: 20px;
+    margin: 66px; /* Centra el formulario horizontalmente */
+    padding: 10px;
     border: 1px solid #444444;
     border-radius: 8px;
     background-color: rgba(0, 0, 0, 0.5);

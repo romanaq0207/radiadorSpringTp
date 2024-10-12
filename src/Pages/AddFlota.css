@@ -37,7 +37,8 @@
 .add-flota-container h3, 
 .add-flota-container p {
     color: #ffffff; /* Asegúrate de que estos estilos solo se apliquen en este componente */
-
+    font-size: 49px;
+    margin-top: 20px;
 }
 
 .auto-item{
@@ -133,6 +134,7 @@
 @media (max-width: 480px) {
     .title {
         font-size: 1.5rem;
+        margin-top: 45px;
     }
 
     .drivers-card {

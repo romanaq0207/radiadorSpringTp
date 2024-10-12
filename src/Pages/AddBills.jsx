@@ -58,9 +58,9 @@ function MyBills() {
         value={billsData.fecha}
         onChange={handleInputChange}
       />
-      <button onClick={handleAddBills}>Cargar Gasto</button>
+      <button onClick={handleAddBills}>Cargar gasto</button>
       <button onClick={handleReturnHome} id="cancelar">
-        cancelar
+        Cancelar
       </button>
     </div>
   );
