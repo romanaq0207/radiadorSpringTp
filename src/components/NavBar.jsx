@@ -47,6 +47,15 @@ function Navbar() {
             </li>
             <li className="navbar-item">
               <Link
+                to="/gestion-proveedores"
+                className="navbar-link"
+                onClick={closeMenu}
+              >
+                Gestión de Proveedores
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
                 to="/gestion-mecanicos"
                 className="navbar-link"
                 onClick={closeMenu}
@@ -116,7 +125,7 @@ function Navbar() {
                 className="navbar-link"
                 onClick={closeMenu}
               >
-                Mis Gasto
+                Mis Gastos
               </Link>
             </li>
           </>

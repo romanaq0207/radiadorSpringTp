@@ -18,7 +18,6 @@ import BillsManagement from "../Pages/BillsManagement";
 import UsersManagement from "../Pages/UsersManagement";
 import AuthProvider, { AuthContext } from "../Context/AuthContext";
 import AddFlota from "../Pages/AddFlota";
-//import { AuthProvider, useAuth } from '../Context/AuthContext';
 import BillStates from "../Pages/BillsStates";
 import RoutesVerify from "../Pages/RoutesVerify";
 import RouteViewVerify from "../Pages/RouteViewVerify";
@@ -28,6 +27,9 @@ import AutoAccidentRegister from "../Pages/AutoAccidentRegister";
 import BillsViewer from "../Pages/BillsViewer";
 import FlotaViewer from "../Pages/FlotaViewer";
 import MechanicAutoSearch from "../Pages/MechanicAutoSearch";
+import ProveedoresViewer from "../Pages/ProveedoresViewer";
+import AddProveedor from "../Pages/AddProveedor";
+import EditProveedor from "../Pages/EditProveedor";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -47,37 +49,39 @@ const AuthConsumer = () => {
 
   return (
     <>
-      {login && <Navbar />}
+      {login && <Navbar />} {/* Renderizar Navbar solo si está autenticado */}
       <main>
         <Routes>
           <Route
             path="/"
             element={login ? <Home onLogout={handleLogout} /> : <Login />}
           />
-          <Route path="/gestion-autos" element={<AutoSearch />} />
-          <Route path="/autos/:id" element={<AutoDetail />} />
-          <Route path="/gestion-mecanicos" element={<MechanicManagement />} />
-          <Route path="/agregar-auto" element={<AddAuto />} />
-          <Route path="/escanear-qr" element={<QRScanner />} />
-          <Route path="/agregar-mecanico" element={<AddMechanic />} />
-          <Route path="/gestion-conductor" element={<DriversManagement />} />
-          <Route path="/ver-mi-ruta" element={<MyRoute />} />
-          <Route path="/mis-gastos" element={<MyBills />} />
-          <Route path="/agregar-gastos" element={<AddBills />} />
-          <Route path="/reportes" element={<Reports />} />
-          <Route path="/admin-gastos" element={<BillsManagement />} />
-          <Route path="/admin-usuarios" element={<UsersManagement />} />
-          <Route path="/admin-flotas" element={<AddFlota />} />
-          <Route path="/ver-gastos" element={<BillStates />} />
-          <Route path="/verificar-rutas" element={<RoutesVerify />} />
-          <Route path="/rutas/:id" element={<RouteViewVerify />} />
-          <Route path="/reportes-gerencia" element={<ReportManagement />} />
-          <Route path="/crear-ruta" element={<RouteCreate />} />
-          <Route path="/autos-accidentes/:id" element={<AutoAccidentRegister />} />
-          <Route path="/busqueda-auto-mecanico" element={<MechanicAutoSearch />} />
-          <Route path="/visor-gastos" element={<BillsViewer />} /> 
-          <Route path="/visor-flota" element={<FlotaViewer />} /> 
-
+          <Route path="/gestion-autos" element={login ? <AutoSearch /> : <Login />} />
+          <Route path="/autos/:id" element={login ? <AutoDetail /> : <Login />} />
+          <Route path="/gestion-mecanicos" element={login ? <MechanicManagement /> : <Login />} />
+          <Route path="/agregar-auto" element={login ? <AddAuto /> : <Login />} />
+          <Route path="/escanear-qr" element={login ? <QRScanner /> : <Login />} />
+          <Route path="/agregar-mecanico" element={login ? <AddMechanic /> : <Login />} />
+          <Route path="/gestion-conductor" element={login ? <DriversManagement /> : <Login />} />
+          <Route path="/ver-mi-ruta" element={login ? <MyRoute /> : <Login />} />
+          <Route path="/mis-gastos" element={login ? <MyBills /> : <Login />} />
+          <Route path="/agregar-gastos" element={login ? <AddBills /> : <Login />} />
+          <Route path="/reportes" element={login ? <Reports /> : <Login />} />
+          <Route path="/admin-gastos" element={login ? <BillsManagement /> : <Login />} />
+          <Route path="/admin-usuarios" element={login ? <UsersManagement /> : <Login />} />
+          <Route path="/admin-flotas" element={login ? <AddFlota /> : <Login />} />
+          <Route path="/ver-gastos" element={login ? <BillStates /> : <Login />} />
+          <Route path="/verificar-rutas" element={login ? <RoutesVerify /> : <Login />} />
+          <Route path="/rutas/:id" element={login ? <RouteViewVerify /> : <Login />} />
+          <Route path="/reportes-gerencia" element={login ? <ReportManagement /> : <Login />} />
+          <Route path="/crear-ruta" element={login ? <RouteCreate /> : <Login />} />
+          <Route path="/autos-accidentes/:id" element={login ? <AutoAccidentRegister /> : <Login />} />
+          <Route path="/busqueda-auto-mecanico" element={login ? <MechanicAutoSearch /> : <Login />} />
+          <Route path="/visor-gastos" element={login ? <BillsViewer /> : <Login />} />
+          <Route path="/visor-flota" element={login ? <FlotaViewer /> : <Login />} />
+          <Route path="/gestion-proveedores" element={login ? <ProveedoresViewer /> : <Login />} />
+          <Route path="/agregar-proveedor" element={login ? <AddProveedor /> : <Login />} />
+          <Route path="/edit-proveedor/:id" element={login ? <EditProveedor /> : <Login />} />
         </Routes>
       </main>
     </>
