@@ -1,13 +1,14 @@
 #modal-container {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 40%;
-  height: 90%;
+  width: 50%;
+  height: 80%;
   color: black;
   position: fixed;
   margin: auto; /* Centra el modal horizontal y verticalmente */
+  margin-top: 6.5%;
   inset: 0;
   border-radius: 1%;
   background-color: white;
@@ -15,8 +16,12 @@
 }
 
 #tittle {
+  color: rgb(29, 83, 153);
+  padding-left: 0px;
+  margin-left: 18%;
+  font-size: 45px;
   align-items: center;
-  margin-left: 30%;
+  margin-left: 23%;
 }
 
 #form-producto {
@@ -26,7 +31,7 @@
 .input-producto,
 #modal-select-categoria {
   width: 100%;
-  height: 25%;
+  height: 18%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
@@ -45,4 +50,50 @@
 #btn-close-modal {
   background-color: grey;
   width: 30%;
+}
+
+/*media queries*/
+@media (max-width: 768px) {
+  #modal-container {
+    width: 80%;
+    height: 50%;
+    margin-top: 10%;
+  }
+
+  #tittle {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  #btn-add-producto,
+  #btn-close-modal {
+    width: 80%;
+    margin: 10px auto;
+  }
+
+  .input-producto,
+  #modal-select-categoria {
+    height: 15%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #modal-container {
+    width: 90%;
+    height: 80%;
+    margin-top: 20%;
+  }
+
+  .input-producto,
+  #modal-select-categoria {
+    height: 10%;
+    width: 100%;
+  }
+
+  #btn-add-producto,
+  #btn-close-modal {
+    width: 90%;
+    margin: 10px auto;
+  }
 }

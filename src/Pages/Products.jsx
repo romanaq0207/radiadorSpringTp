@@ -36,7 +36,7 @@ function Products() {
 
   return (
     <div className="productos-container">
-      {/*<Navbar />*/}
+      <Navbar />
       <h2 id="title-productos">Productos</h2>
 
       <div id="opcions-container">
