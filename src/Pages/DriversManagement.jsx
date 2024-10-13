@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import conductoresData from '../data/conductores.json';
-import './DriversManagement.css';
+import './DriversManagement.css'; // Importa el CSS específico para este componente
 import { API_BASE_URL } from '../assets/config';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -17,7 +17,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 const DriversManagement = () => {
   const [conductores, setConductores] = useState([]);
-  const [ubicaciones, setUbicaciones] = useState({}); // Estado para las ubicaciones
+  const [ubicaciones, setUbicaciones] = useState({});
 
   useEffect(() => {
     setConductores(conductoresData.filter((conductor) => conductor.habilitado));
@@ -121,58 +121,56 @@ const DriversManagement = () => {
     }
   };
 
-  // Actualizar ubicación cada 10 segundos
+  // Actualizar ubicación cada 30 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       conductores.forEach(conductor => fetchUbicacion(conductor.id));
-    }, 30000); // Cada 10 segundos
+    }, 30000);
 
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
-  }, [conductores]); // Dependencia para que se ejecute cuando cambien los conductores
+  }, [conductores]);
 
   return (
     <div className="drivers-management-container">
-
-    <div className="filter-container">
-      <h2 className="title">Gestión de Conductores</h2>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="nombre"
-          placeholder="Nombre"
-          value={formData.nombre}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="apellido"
-          placeholder="Apellido"
-          value={formData.apellido}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="dni"
-          placeholder="DNI"
-          value={formData.dni}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="numeroTelefono"
-          placeholder="Número de Teléfono"
-          value={formData.numeroTelefono}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" className="add-button">
-          {isEditing ? 'Modificar Conductor' : 'Agregar Conductor'}
-        </button>
-      </form>
+      <div className="filter-container">
+        <h2 className="title">Gestión de Conductores</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre"
+            value={formData.nombre}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="apellido"
+            placeholder="Apellido"
+            value={formData.apellido}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="dni"
+            placeholder="DNI"
+            value={formData.dni}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="numeroTelefono"
+            placeholder="Número de Teléfono"
+            value={formData.numeroTelefono}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit" className="add-button">
+            {isEditing ? 'Modificar Conductor' : 'Agregar Conductor'}
+          </button>
+        </form>
       </div>
 
       <div className="drivers-list">

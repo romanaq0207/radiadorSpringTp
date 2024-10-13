@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/NavBar";
 import productos from "../data/productos.json";
-import "./Products.css";
+import "./Products.css"; // Importa el CSS específico para este componente
 import Modal from "./ModalAddProduct.jsx";
 
 function Products() {
@@ -36,7 +35,6 @@ function Products() {
 
   return (
     <div className="productos-container">
-      <Navbar />
       <h2 id="title-productos">Productos</h2>
 
       <div id="opcions-container">

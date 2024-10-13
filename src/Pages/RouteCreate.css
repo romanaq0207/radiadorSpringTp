@@ -1,24 +1,59 @@
 .add-route {
-  max-width: 620px;
-  margin: 0 auto;
-  padding: 50px;
+  max-width: 100%; /* Asegura que ocupe el ancho completo en móviles */
+  margin: 20px auto; /* Espaciado en la parte superior e inferior */
+  padding: 20px;
   border: 1px solid #444444;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  
+}
+
+.add-route h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 50px;
 }
 
 .add-route input {
   width: 100%;
-  padding: 10px;
+  padding: 12px; /* Aumentar el tamaño del padding */
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.add-route input:focus {
+  border-color: red; /* Cambiar color al enfocar */
 }
 
 #submit-ruta {
-  margin-top: 2%;
-  border-color: red;
+  margin-top: 10px;
+  border: none;
   color: white;
   background-color: red;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#mapa {
+  width: 100%;
+  height: auto; /* Mantener la relación de aspecto */
+  margin: 20px 0; /* Espaciado en la parte superior e inferior */
+}
+
+/* Estilos para pantallas más grandes */
+@media (min-width: 600px) {
+  .add-route {
+    max-width: 600px; /* Limitar el ancho en pantallas más grandes */
+  }
+
+  .add-route input {
+    padding: 15px; /* Aumentar el padding en pantallas más grandes */
+    font-size: 18px; /* Aumentar el tamaño de la fuente */
+  }
 }

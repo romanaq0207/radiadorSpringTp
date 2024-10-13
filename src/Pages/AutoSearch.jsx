@@ -8,17 +8,16 @@ import { API_BASE_URL } from "../assets/config";
 
 function AutoSearch() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [allAutos, setAllAutos] = useState([]); // Estado para todos los autos
+  const [allAutos, setAllAutos] = useState([]);
   const [filteredAutos, setFilteredAutos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Llamada a la API para obtener los autos
     axios
       .get(`${API_BASE_URL}/autos`)
       .then((response) => {
         setAllAutos(response.data);
-        setFilteredAutos(response.data); // Inicialmente, todos los autos están en la lista filtrada
+        setFilteredAutos(response.data);
       })
       .catch((error) => {
         console.error("Error al obtener los autos:", error);
@@ -51,30 +50,27 @@ function AutoSearch() {
   };
 
   return (
-    <div className="auto-search-container">
+    <div className="auto-search">
       <Navbar />
-      <h2>Búsqueda de Autos</h2>
-      <div className="search-add-container">
+      <h2 className="auto-search__title">Búsqueda de Autos</h2>
+      <div className="auto-search__search-add">
         <input
           type="text"
           placeholder="Buscar por patente..."
           value={searchTerm}
           onChange={handleSearchChange}
-          className="auto-search-input"
+          className="auto-search__input"
         />
-        {/* Botones debajo de la barra de búsqueda */}
-        <div className="buttons-search-add-container">
-          <button onClick={handleAddAuto} className="add-auto-button">
+        <div className="auto-search__buttons">
+          <button onClick={handleAddAuto} className="auto-search__add-auto">
             Agregar Auto
           </button>
-          <button onClick={handleScanQR} className="scan-qr-button">
+          <button onClick={handleScanQR} className="auto-search__scan-qr">
             Escanear QR
           </button>
         </div>
       </div>
-
-      {/* Mostrar autos filtrados */}
-      <div className="auto-card-list">
+      <div className="auto-search__list">
         {filteredAutos.length > 0 ? (
           filteredAutos.map((auto) => <AutoCard key={auto.id} auto={auto} />)
         ) : (

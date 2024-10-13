@@ -17,7 +17,6 @@ body {
     background-size: cover;
     background-position: center;
     font-family: 'Roboto', sans-serif;
-   
     background-attachment: fixed;
 }
 
@@ -72,9 +71,9 @@ body {
 
 /* Lista de mecánicos */
 .mechanic-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid; /* Cambia a grid */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Múltiples columnas */
+    gap: 10px; /* Espacio entre las tarjetas */
 }
 
 /* Estilos de las tarjetas de mecánicos */
@@ -83,11 +82,22 @@ body {
     padding: 15px;
     border: 2px solid #c20000;
     border-radius: 5px;
-    width: 100%;
+    width: 100%; /* Mantén el ancho al 100% para cada tarjeta */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: large;
 }
 
 .mechanic-card p {
     margin: 5px 0;
+}
+
+/* Ajustes para pantallas grandes (escritorio) */
+@media only screen and (min-width: 1024px) {
+    .mechanic-list {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+    }
+
+    .mechanic-card {
+        width: auto; /* Permitir que el ancho se ajuste automáticamente */
+    }
 }

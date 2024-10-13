@@ -100,9 +100,34 @@
 /* Lista de tarjetas de autos */
 .auto-card-list {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row; /* Cambiar a filas */
+    flex-wrap: wrap; /* Permitir que las tarjetas se muevan a la siguiente línea si es necesario */
+    gap: 10px; /* Espacio entre tarjetas */
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
+    justify-content: center; /* Centrar las tarjetas */
+}
+
+/* Estilo para cada tarjeta */
+.auto-card-item {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(33.33% - 10px); /* Ajusta el ancho de las tarjetas */
+    margin-bottom: 10px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .auto-card-item {
+        width: calc(50% - 10px); /* Para pantallas más pequeñas, usar dos tarjetas por fila */
+    }
+}
+
+@media (max-width: 480px) {
+    .auto-card-item {
+        width: 100%; /* Para pantallas muy pequeñas, una tarjeta por fila */
+    }
 }

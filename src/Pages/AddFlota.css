@@ -1,151 +1,156 @@
-/* Encapsular los estilos en una clase específica para este componente */
 .add-flota-container {
-    font-family: 'Roboto', sans-serif;
-    color: #ffffff; /* Especifica el color para el texto de este componente */
-    padding: 100px;
-}
-
-.cuadro-container{
-    margin-top: 3vh;
-    flex-direction: row;
-    display: flex;
-}
-
-.input-container{
-    display: flex;
-    flex-direction: row;
-    gap: 20vh;
-    white-space: nowrap;
-    align-items: baseline;
-    justify-items: center;
-}
-.input-container h2{
-    font-size: 5vh;
-}
-
-.auto-list{
-    width: 82vh;
-    background-color: #a50000;
-    padding: 5vh;
-    border-radius: 4px;
-    gap: 2vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    padding-top: 60px; /* Espacio para evitar superposición con la navbar */
 }
 
-.add-flota-container h2, 
-.add-flota-container h3, 
-.add-flota-container p {
-    color: #ffffff; /* Asegúrate de que estos estilos solo se apliquen en este componente */
-    font-size: 49px;
-    margin-top: 20px;
-}
-
-.auto-item{
-    background-color: rgb(105, 0, 0); /* Si aplicas colores de fondo */
-    border-radius: 4px;
-    padding: 2vh;
-    
-
-}
-
-.flota-input{
-    width: 40vh;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.flota-search-input {
+.input-container {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
+    max-width: 800px; /* Aumentar ancho máximo para pantallas grandes */
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px; /* Tamaño de fuente para el encabezado */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.flota-input {
+    padding: 12px; /* Aumentar padding */
+    width: 100%;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 6px; /* Esquinas más redondeadas */
+    margin-bottom: 15px; /* Espacio debajo del campo de texto */
+    font-size: 16px; /* Tamaño de fuente más grande */
 }
 
-.flota-list{
-    padding: 5vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Si aplicas colores de fondo */
-    border-radius: 4px;
+/* Botón para guardar flota */
+.save-flota-button {
+    padding: 12px 24px; /* Aumentar padding */
+    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none;
+    border-radius: 6px; /* Esquinas más redondeadas */
+    cursor: pointer;
+    font-size: 18px; /* Tamaño de fuente del botón */
+    transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
 }
 
-.add-auto-button, .remove-auto-button, .save-flota-button {
+.save-flota-button:hover {
+    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
+}
+
+/* Banner de error */
+.error-banner {
+    background-color: #ffcccc; /* Color de fondo para el error */
+    color: red; /* Color del texto */
     padding: 10px;
-    font-size: 16px;
-    background-color: #d60303;
-    color: #fff;
+    border-radius: 6px; /* Esquinas más redondeadas */
+    margin-bottom: 15px; /* Espacio debajo del banner de error */
+}
+
+/* Contenedor de autos */
+.cuadro-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px; /* Ancho máximo del contenedor */
+}
+
+/* Lista de autos disponibles */
+.auto-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los autos */
+    margin-bottom: 20px; /* Espacio debajo de la lista de autos */
+}
+
+/* Estilo de cada auto */
+.auto-item {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre texto y botón */
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    padding: 15px; /* Padding en las tarjetas de autos */
+    border: 1px solid #d10000; /* Borde de las tarjetas */
+    border-radius: 10px; /* Esquinas redondeadas */
+    color: white; /* Color de texto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: transform 0.2s; /* Transición suave al pasar el ratón */
+}
+
+.auto-item:hover {
+    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
+}
+
+.add-auto-button {
+    padding: 8px 12px;
+    background-color: rgba(0, 255, 0, 0.8); /* Color de fondo */
+    color: white; /* Color del texto */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 90%;
+    font-size: 14px; /* Tamaño de fuente */
 }
 
-.add-auto-button:hover, .remove-auto-button:hover, .save-flota-button:hover {
-    background-color: #a50000;
+.add-auto-button:hover {
+    background-color: rgba(0, 255, 0, 1); /* Cambio de color al pasar el ratón */
 }
 
-/* Estilos para el banner de error */
-.error-banner {
-    background-color: #ff4d4d; /* Rojo claro */
-    color: white;
-    font-weight: bold;
-    padding: 10px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 18px; /* Aumenta el tamaño de la fuente para que sea más visible */
+/* Lista de autos en la flota */
+.flota-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los autos */
 }
 
-@media (max-width: 768px) {
-
-    .add-flota-container{
-        padding: 0%;
-        flex-direction: column;
-        display: flex;
-    }
-    .input-container {
-        flex-direction: column;
-        padding: 15px;
-        margin-top: 60px;
-        gap: 10px;
-        align-items: center;
-    }
-    .save-flota-button{
-        width: 50%;
-    }
-    .cuadro-container{
-        flex-direction: column;
-        display: flex;
-    }
-    .auto-list{
-        width: 100%;
-    }
-
-    .flota-list{
-       margin-top: 5%;
-    }
+/* Estilo de cada auto en la flota */
+.flota-item {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre texto y botón */
+    align-items: center;
+    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    padding: 15px; /* Padding en las tarjetas de autos */
+    border: 1px solid #d10000; /* Borde de las tarjetas */
+    border-radius: 10px; /* Esquinas redondeadas */
+    color: white; /* Color de texto */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: transform 0.2s; /* Transición suave al pasar el ratón */
 }
 
-@media (max-width: 480px) {
-    .title {
-        font-size: 1.5rem;
-        margin-top: 45px;
-    }
-
-    .drivers-card {
-        padding: 15px;
-        font-size: 0.85rem;
-    }
-
-    .add-button {
-        width: 90%;
-        padding: 8px 15px;
-        font-size: 0.8rem;
-    }
+.flota-item:hover {
+    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
 }
 
+.remove-auto-button {
+    padding: 8px 12px;
+    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+.remove-auto-button:hover {
+    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
+}
+
+/* Ajustes para pantallas grandes */
+@media only screen and (min-width: 768px) {
+    .auto-list,
+    .flota-list {
+        flex-direction: row; /* Cambia a filas en pantallas grandes */
+        flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente línea si es necesario */
+        justify-content: space-between; /* Espacio entre elementos */
+    }
+
+    .auto-item,
+    .flota-item {
+        flex: 1 0 48%; /* Tarjetas ocupan el 48% del ancho */
+        max-width: 48%; /* Ancho máximo para que no se superpongan */
+    }
+}

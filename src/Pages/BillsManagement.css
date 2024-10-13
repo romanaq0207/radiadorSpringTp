@@ -32,10 +32,10 @@
 }
 
 .expenses-list {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center; 
+  display: grid; /* Cambiar a grid para filas */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Columnas responsivas */
+  gap: 15px; /* Espacio entre las tarjetas */
+  align-items: start; /* Alinear tarjetas al inicio */
   width: 100%;
 }
 
@@ -44,8 +44,8 @@
   padding: 20px;
   border: 1px solid #d10000;
   border-radius: 10px;
-  width: 100%;
-  max-width: 500px;
+  width: 100%; /* Mantener el ancho al 100% */
+  max-width: 500px; /* Ancho máximo para la tarjeta */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   color: white;
@@ -109,4 +109,11 @@
 .pay-button:hover:enabled {
   background-color: #7c7a7a;
   transform: translateY(-2px);
+}
+
+/* Ajustes para pantallas grandes (escritorio) */
+@media only screen and (min-width: 1024px) {
+  .expenses-list {
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+  }
 }

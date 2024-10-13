@@ -6,7 +6,7 @@
 }
 
 /* Estilo del fondo */
-.Productos.body {
+.Products .body {
   background-image: linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.5),
@@ -39,7 +39,7 @@
 
 .product-table {
   box-sizing: border-box;
-  width: 100%;
+  width: 100%; /* Ajustado a 100% para evitar exceso de ancho */
 }
 
 .table-productos {
@@ -67,12 +67,12 @@ td {
 #abrir-add-product {
   align-items: end;
   border-radius: 0%;
-  width: auto;
+  width: auto; /* Ajustado a auto para evitar exceso de ancho */
   padding: 20px 10px;
 }
 
 #select-categoria {
-  width: auto;
+  width: auto; /* Ajustado a auto para evitar exceso de ancho */
   padding: 20px 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
