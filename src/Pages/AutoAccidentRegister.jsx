@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import "./AutoAccidentRegister.css";
+import "./AutoAccidentRegister.module.css";
 
 function AutoAccidentRegister() {
   const { id } = useParams();

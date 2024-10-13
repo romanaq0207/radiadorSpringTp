@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import './AutoDetail.css';
+import styles from './AutoDetail.module.css'; // Cambia la importación
 import { API_BASE_URL } from '../assets/config'; 
 
 function AutoDetail() {
-    const { id } = useParams();  // Obtiene el ID del auto de la URL
+    const { id } = useParams();
     const [auto, setAuto] = useState(null);
     const [mantenimientos, setMantenimientos] = useState([]);
     const [newMantenimiento, setNewMantenimiento] = useState({ fecha: '', tipo_de_mantenimiento: '', descripcion: '' });
 
     useEffect(() => {
-        // Obtener los detalles del auto desde el backend
         axios.get(`${API_BASE_URL}/autos/${id}`)
             .then(response => {
                 setAuto(response.data);
@@ -20,7 +19,6 @@ function AutoDetail() {
                 console.error('Error al obtener los detalles del auto:', error);
             });
 
-        // Obtener el historial de mantenimiento desde el backend
         axios.get(`${API_BASE_URL}/autos/${id}/mantenimientos`)
             .then(response => {
                 setMantenimientos(response.data);
@@ -28,7 +26,7 @@ function AutoDetail() {
             .catch(error => {
                 console.error('Error al obtener el historial de mantenimiento:', error);
             });
-    }, [id]);  // Se ejecuta cuando cambia el ID del auto
+    }, [id]);
 
     if (!auto) {
         return <p>Auto no encontrado</p>;
@@ -40,7 +38,6 @@ function AutoDetail() {
             ...newMantenimiento
         };
 
-        // Enviar el nuevo mantenimiento al backend
         axios.post(`${API_BASE_URL}/autos/${id}/mantenimientos`, mantenimientoData)
             .then(response => {
                 setMantenimientos([...mantenimientos, response.data]);
@@ -54,20 +51,18 @@ function AutoDetail() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        // Validar solo letras y espacios en el campo 'tipo_de_mantenimiento'
         if (name === 'tipo_de_mantenimiento') {
-            const regex = /^[A-Za-z\s]*$/; // Solo letras y espacios
+            const regex = /^[A-Za-z\s]*$/;
             if (!regex.test(value)) {
-                return;  // Si no coincide, no actualiza el estado
+                return;
             }
         }
 
-        // Actualizar el estado si la validación pasa
         setNewMantenimiento(prevState => ({ ...prevState, [name]: value }));
     };
 
     return (
-        <div className="auto-detail">
+        <div className={styles.autoDetail}>
             <h2>Detalles del Auto</h2>
             <h3>{auto.marca} {auto.modelo}</h3>
             <p><strong>Año:</strong> {auto.anio}</p>
@@ -76,7 +71,7 @@ function AutoDetail() {
 
             <h3>Historial de Mantenimiento</h3>
             {mantenimientos.length > 0 ? (
-                <table className="maintenance-table">
+                <table className={styles.maintenanceTable}>
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -122,7 +117,7 @@ function AutoDetail() {
             />
             <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
 
-            <Link to="/gestion-autos" className="back-link">Volver</Link>
+            <Link to="/gestion-autos" className={styles.backLink}>Volver</Link>
         </div>
     );
 }

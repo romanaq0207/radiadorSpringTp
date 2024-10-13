@@ -1,44 +1,48 @@
 /* Estilos para móviles (por defecto) */
-.auto-detail {
+.autoDetail {
   padding: 20px;
   margin: 12px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #1a1a1a70; /* Cambia a un color sólido, por ejemplo, #1a1a1a para un gris oscuro */
   max-width: 100%;
-  height: auto;
   color: rgb(255, 255, 255);
 }
 
-.maintenance-table {
+.autoDetail h2{
+  margin: 25px;
+}
+
+.maintenanceTable {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+  
 }
 
-.maintenance-table th,
-.maintenance-table td {
+.maintenanceTable th,
+.maintenanceTable td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-  font-size: 14px; /* Tamaño de texto adecuado para móviles */
+  font-size: 10px; /* Tamaño de texto adecuado para móviles */
 }
 
-.auto-detail input {
+.autoDetail input {
   padding: 10px;
   width: calc(100% - 20px);
   margin-bottom: 10px;
 }
 
-.auto-detail button {
+.autoDetail button {
   padding: 12px;
   background-color: #d10000;
   color: white;
   border: none;
   cursor: pointer;
-  width: 100%; /* Ancho completo en móviles */
+  width: 50%; 
 }
 
-.back-link {
+.backLink {
   display: inline-block;
   margin-top: 20px;
   color: #ffffff;
@@ -46,34 +50,25 @@
   font-size: 16px;
 }
 
-.back-link:hover {
+.backLink:hover {
   color: #d10000;
-}
-
-.titulo-h2 {
-  color: black;
-  font-size: 24px; /* Tamaño más pequeño para pantallas pequeñas */
 }
 
 /* Estilos para pantallas más grandes (PC) */
 @media (min-width: 768px) {
-  .auto-detail {
+  .autoDetail {
     padding: 60px;
     max-width: 80%; /* Ajuste del ancho en pantallas grandes */
   }
 
-  .maintenance-table th,
-  .maintenance-table td {
+  .maintenanceTable th,
+  .maintenanceTable td {
     padding: 10px;
     font-size: 16px; /* Aumentar tamaño del texto en pantallas grandes */
   }
 
-  .auto-detail button {
+  .autoDetail button {
     width: auto; /* Devolver el ancho automático en pantallas grandes */
     padding: 10px 20px;
-  }
-
-  .titulo-h2 {
-    font-size: 32px; /* Aumentar el tamaño en pantallas grandes */
   }
 }
