@@ -6,7 +6,6 @@ import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta 
 import "./BillsStates.css";
 
 function BillsStates() {
-  // const navigate = useNavigate();
   const [gastos, setGastos] = useState([]);
   const [sortBy, setSortBy] = useState("fecha");
   const [sortedExpenses, setSortedExpenses] = useState([]);
@@ -25,14 +24,14 @@ function BillsStates() {
     fetchGastos(); // Ejecutar la función para obtener los gastos
   }, []);
 
-  //ordena los gastos por fecha y monto de forma ascendente
+  // Ordena los gastos por fecha y monto de forma ascendente
   useEffect(() => {
     const sorted = [...gastos].sort((a, b) => {
       if (sortBy === "date") {
         return new Date(a.fecha) - new Date(b.fecha);
-      } else if (sortBy == "amount") {
+      } else if (sortBy === "amount") {
         return a.monto - b.monto;
-      } else return;
+      } else return 0; // Cambiado a 0 para evitar errores
     });
     setSortedExpenses(sorted);
   }, [sortBy, gastos]);
@@ -45,8 +44,8 @@ function BillsStates() {
     <div id="body-gastos">
       <Navbar />
       <div className="bills-states-container">
-        <h1 id="listaGastos">Lista de Gastos</h1>{" "}
-        <ul className="lista" id="lista">
+        <h1 id="listaGastos">Lista de Gastos</h1>
+        <div className="bills-list"> {/* Cambiado ul a div con clase bills-list */}
           {sortedExpenses.map((gasto, index) => (
             <div key={index} className="gasto-item">
               <strong>Descripción:</strong> {gasto.descripcion} <br />
@@ -56,7 +55,7 @@ function BillsStates() {
               <br />
             </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       <div id="selectors">
@@ -79,4 +78,5 @@ function BillsStates() {
     </div>
   );
 }
+
 export default BillsStates;

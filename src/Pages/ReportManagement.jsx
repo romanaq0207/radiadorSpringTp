@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/NavBar";
 import ReportsData from "../data/reportes.json";
-import "./ReportManagement.css";
+import styles from "./ReportManagement.module.css"; // Importa el CSS como módulo
 
 function ReportManagement() {
   const [reportType, setReportType] = useState("");
@@ -38,7 +38,7 @@ function ReportManagement() {
     (report) => report.tipo === "semanal"
   );
 
-  //   filtra por tipo de vehiculo y/o disponibilidad
+  // Filtra por tipo de vehiculo y/o disponibilidad
   const filterReportsVehicle = () => {
     return reportes.filter((report) => {
       return (
@@ -59,10 +59,10 @@ function ReportManagement() {
   const filteredReports = filterReportsVehicle();
 
   return (
-    <div className="reportes-gerencia-container">
+    <div className={styles["reportes-gerencia-container"]}>
       <Navbar />
       <h2>Reportes</h2>
-      <div className="selection">
+      <div className={styles.selection}>
         <select
           id="reportType"
           value={reportType}
@@ -76,9 +76,9 @@ function ReportManagement() {
 
       {/* filtros */}
       {reportType === "gastos" && (
-        <div className="filter-fields">
+        <div className={styles["filter-fields"]}>
           <select
-            id="reportType"
+            id="reportTime"
             value={reportTime}
             onChange={handleReportTimeChange}
           >
@@ -89,14 +89,14 @@ function ReportManagement() {
 
           {reportTime === "mensual" &&
             filteredReportsMensual.map((report) => (
-              <div className="report-card" key={report.id} id="report-card">
+              <div className={styles["report-card"]} key={report.id}>
                 <p>
                   <strong>ID:</strong> {report.id}
                 </p>
                 <p>
                   <strong>Fecha:</strong> {report.fecha}
                 </p>
-                <button className="btn-download">
+                <button className={styles["btn-download"]}>
                   <i
                     onClick={() => alert("Descargando PDF...")}
                     className="material-icons"
@@ -109,7 +109,7 @@ function ReportManagement() {
 
           {reportTime === "semanal" &&
             filteredReportsSemanal.map((report) => (
-              <div className="report-card" key={report.id} id="report-card">
+              <div className={styles["report-card"]} key={report.id}>
                 <p>
                   <strong>ID:</strong> {report.id}
                 </p>
@@ -118,7 +118,7 @@ function ReportManagement() {
                 </p>
                 <button
                   onClick={() => alert("Descargando PDF...")}
-                  className="btn-download"
+                  className={styles["btn-download"]}
                 >
                   <i className="material-icons">file_download</i>
                 </button>
@@ -129,10 +129,10 @@ function ReportManagement() {
 
       {/* filtros para los reportes de vehiculos */}
       {reportType === "vehiculos" && (
-        <div className="filter-fields">
+        <div className={styles["filter-fields"]}>
           <label>Por Tipo de Vehículo:</label>
           <select
-            id="reportType"
+            id="vehicleType"
             value={vehicleType}
             onChange={handleVehicleTypeChange}
           >
@@ -147,7 +147,7 @@ function ReportManagement() {
 
           <label>Por Disponibilidad:</label>
           <select
-            id="reportType"
+            id="availability"
             value={availability}
             onChange={handleAvailabilityChange}
           >
@@ -157,9 +157,9 @@ function ReportManagement() {
           </select>
 
           {vehicleType !== "" && availability !== "" && (
-            <div className="report-list">
+            <div className={styles["report-list"]}>
               {filteredReports.map((report) => (
-                <div className="report-card" key={report.id} id="report-card">
+                <div className={styles["report-card"]} key={report.id}>
                   <p>
                     <strong>ID:</strong> {report.id}
                   </p>
@@ -174,7 +174,7 @@ function ReportManagement() {
                   </p>
                   <button
                     onClick={() => alert("Descargando PDF...")}
-                    className="btn-download"
+                    className={styles["btn-download"]}
                   >
                     <i className="material-icons">file_download</i>
                   </button>
@@ -183,10 +183,10 @@ function ReportManagement() {
             </div>
           )}
 
-          {vehicleType === "Todos" && availability != "" && (
-            <div className="report-list">
+          {vehicleType === "Todos" && availability !== "" && (
+            <div className={styles["report-list"]}>
               {filteredReportsAllVehicleAvailability.map((report) => (
-                <div className="report-card" key={report.id} id="report-card">
+                <div className={styles["report-card"]} key={report.id}>
                   <p>
                     <strong>ID:</strong> {report.id}
                   </p>
@@ -201,7 +201,7 @@ function ReportManagement() {
                   </p>
                   <button
                     onClick={() => alert("Descargando PDF...")}
-                    className="btn-download"
+                    className={styles["btn-download"]}
                   >
                     <i className="material-icons">file_download</i>
                   </button>

@@ -6,12 +6,12 @@ import "./RouteCreate.css";
 function RouteCreate() {
   const navigate = useNavigate();
 
-  //   const [rutaData, setRutaData] = useState({
-  //     desde: "",
-  //     hasta: "",
-  //     conductor: "",
-  //     conductorDni: "",
-  //   });
+  const [rutaData, setRutaData] = useState({
+    desde: "",
+    hasta: "",
+    conductor: "",
+    conductorDni: "",
+  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +21,9 @@ function RouteCreate() {
   const handleAddRoute = (e) => {
     e.preventDefault();
     alert("Ruta Creada!");
+    // Aquí puedes agregar la lógica para enviar los datos a tu API
   };
+
   return (
     <div className="add-route">
       <h2>Crear Nueva Ruta</h2>
@@ -32,7 +34,7 @@ function RouteCreate() {
           pattern="[a-zA-Z0-9\s]+"
           title="Solo se permiten letras, números y espacios."
           placeholder="Punto de partida"
-          //value={rutaData.desde}
+          value={rutaData.desde}
           onChange={handleInputChange}
           required
         />
@@ -42,7 +44,7 @@ function RouteCreate() {
           pattern="[a-zA-Z0-9\s]+"
           title="Solo se permiten letras, números y espacios."
           placeholder="Destino"
-          //value={rutaData.hasta}
+          value={rutaData.hasta}
           onChange={handleInputChange}
           required
         />
@@ -52,7 +54,7 @@ function RouteCreate() {
           pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+"
           title="Solo se permiten letras y espacios."
           placeholder="Conductor Asignado"
-          //value={rutaData.conductor}
+          value={rutaData.conductor}
           onChange={handleInputChange}
           required
         />
@@ -63,12 +65,12 @@ function RouteCreate() {
           title="Solo se permiten números."
           name="conductorDni"
           placeholder="DNI de Conductor Asignado"
-          //value={rutaData.conductorDni}
+          value={rutaData.conductorDni}
           onChange={handleInputChange}
           required
         />
-        <img id="mapa" src={ejemplo} />
-        <input id="submit-ruta" type="submit" value="cargar ruta"></input>
+        <img id="mapa" src={ejemplo} alt="Mapa de ejemplo" />
+        <input id="submit-ruta" type="submit" value="Cargar Ruta" />
       </form>
     </div>
   );
