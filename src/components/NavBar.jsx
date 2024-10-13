@@ -104,6 +104,11 @@ function Navbar() {
                 Administración de Flotas
               </Link>
             </li>
+            <li className="navbar-item">
+              <Link to="/productos" className="navbar-link" onClick={closeMenu}>
+                Productos
+              </Link>
+            </li>
           </>
         )}
 

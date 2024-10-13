@@ -1,0 +1,14 @@
+[
+  {
+    "producto": "Motor VR6",
+    "marca": "Audi",
+    "categoria": "Motores",
+    "cantidad": 10
+  },
+  {
+    "producto": "Parabrisa de Ford Fiesta",
+    "marca": "Ford",
+    "categoria": "Cristales",
+    "cantidad": 6
+  }
+]

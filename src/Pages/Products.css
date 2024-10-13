@@ -1,0 +1,77 @@
+/* Reset de estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Estilo del fondo */
+.Productos.body {
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(10, 9, 9, 0.5)
+    ),
+    url("Images/Mecanicos-certificados-en-nuestras-marcas.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: "Roboto", sans-serif;
+  background-attachment: fixed;
+}
+
+.productos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  padding-left: 290px;
+  padding-right: 290px;
+  margin-top: 80px; /* Espacio para la barra de navegación */
+  margin: 80px auto; /* Centra el contenedor horizontalmente */
+  min-height: calc(100vh - 80px);
+  height: auto;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.product-table {
+  box-sizing: border-box;
+  width: 250%;
+}
+
+.table-productos {
+  margin-top: 1cm;
+  background-color: rgba(66, 61, 61, 0.5);
+  width: 100%;
+  width: 100%;
+}
+
+th,
+td {
+  height: 70px;
+  border-bottom: 1px solid;
+}
+
+#opcions-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 250%;
+  height: 100%;
+}
+
+#abrir-add-product {
+  align-items: end;
+  border-radius: 0%;
+  width: 100%;
+  padding: 20px 10px;
+}
+
+#select-categoria {
+  width: 100%;
+  padding: 20px 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

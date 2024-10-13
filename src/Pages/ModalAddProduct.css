@@ -1,0 +1,48 @@
+#modal-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+  height: 90%;
+  color: black;
+  position: fixed;
+  margin: auto; /* Centra el modal horizontal y verticalmente */
+  inset: 0;
+  border-radius: 1%;
+  background-color: white;
+  backdrop-filter: blur(10px);
+}
+
+#tittle {
+  align-items: center;
+  margin-left: 30%;
+}
+
+#form-producto {
+  height: 100%;
+}
+
+.input-producto,
+#modal-select-categoria {
+  width: 100%;
+  height: 25%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#btn-add-producto {
+  display: inline;
+  padding-left: 20px;
+  margin-left: 18%;
+  width: 30%;
+}
+
+#btn-close-modal {
+  background-color: grey;
+  width: 30%;
+}
