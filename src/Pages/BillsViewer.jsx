@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Asegúrate de tener axios instalado
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
-import "./BillsManagement.css";
+import "./BillsViewer.css";
 
 const BillsViewer = () => {
   const [gastos, setGastos] = useState([]);

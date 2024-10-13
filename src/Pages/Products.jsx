@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../components/NavBar";
 import productos from "../data/productos.json";
-import "./Products.css";
+import "./Products.css"; // Importa el CSS específico para este componente
 import Modal from "./ModalAddProduct.jsx";
 
 function Products() {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
-  const [selectedCategoria, setSelectedCategoria] = useState(
-    "Todos los productos"
-  );
+  const [selectedCategoria, setSelectedCategoria] = useState("Todos los productos");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -20,9 +17,7 @@ function Products() {
     if (selectedCategoria === "Todos los productos") {
       setFilteredRows(rows);
     } else {
-      setFilteredRows(
-        rows.filter((row) => row.categoria === selectedCategoria)
-      );
+      setFilteredRows(rows.filter((row) => row.categoria === selectedCategoria));
     }
   }, [selectedCategoria, rows]);
 
@@ -36,7 +31,6 @@ function Products() {
 
   return (
     <div className="productos-container">
-      {/*<Navbar />*/}
       <h2 id="title-productos">Productos</h2>
 
       <div id="opcions-container">

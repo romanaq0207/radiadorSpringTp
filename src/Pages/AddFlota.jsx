@@ -95,7 +95,6 @@ function AddFlota() {
             />
                 </div>
           
-                <h3>Autos Disponibles</h3>
                 {autosDisponibles
                     .filter(auto =>
                         auto.marca.toLowerCase().includes(searchTerm.toLowerCase()) ||

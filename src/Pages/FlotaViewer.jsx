@@ -17,8 +17,6 @@ function FlotaViewer() {
 
     return (
         <div className="add-flota-container">
-            <h2>Visor de Flotas</h2>
-            
             <h3>Buscar Flota</h3>
             <input
                 type="text"

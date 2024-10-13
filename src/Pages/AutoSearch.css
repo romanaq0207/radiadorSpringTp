@@ -3,109 +3,124 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-
-/* Estilo del fondo */
-.AutoSearch.body {
+  }
+  
+  /* Estilo de fondo exclusivo para AutoSearch */
+  .auto-search {
     background-image: linear-gradient(
         0deg,
         rgba(0, 0, 0, 0.5),
         rgba(0, 0, 0, 0.5)
-    ),
-    url("Images/Mecanicos-certificados-en-nuestras-marcas.jpg");
+      ),
+      url("Images/Mecanicos-certificados-en-nuestras-marcas.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     font-family: 'Roboto', sans-serif;
     background-attachment: fixed;
-}
-
-/* Contenedor principal para la búsqueda y resultados */
-.auto-search-container {
+    min-height: 100vh;
+    color: white;
+    padding: 20px;
+    margin-top: 40px;
+  }
+  
+  /* Título */
+  .auto-search__title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+  
+  /* Contenedor de búsqueda y botones */
+  .auto-search__search-add {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
     width: 100%;
-    margin-top: 80px; /* Espacio para la barra de navegación */
-    min-height: calc(100vh - 80px);
-    color: white;
-}
-
-/* Título */
-.auto-search__title { /* Cambié h2 a .auto-search__title */
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2rem;
-}
-
-/* Contenedor de búsqueda y botones */
-.search-add-container {
-    display: flex;
-    flex-direction: column; /* Coloca la barra de búsqueda y los botones en columna */
-    align-items: center;
+  }
+  
+  /* Input de búsqueda */
+  .auto-search__input {
     width: 100%;
-}
-
-/* Input de búsqueda */
-.auto-search__input { /* Cambié .auto-search-input a .auto-search__input */
-    width: 100%;
-    max-width: 400px;
+    max-width: 300px;
     text-align: center;
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
-}
-
-/* Botones de agregar auto y escanear QR */
-.buttons-search-add-container {
+  }
+  
+  /* Botones de agregar auto y escanear QR */
+  .auto-search__buttons {
     display: flex;
-    flex-direction: row; /* Coloca los botones en fila */
-    gap: 10px; /* Espacio entre los botones */
+    flex-direction: row;
+    gap: 10px;
     margin-bottom: 20px;
-}
-
-.auto-search__add-auto-button, /* Cambié .add-auto-button a .auto-search__add-auto-button */
-.auto-search__scan-qr-button { /* Cambié .scan-qr-button a .auto-search__scan-qr-button */
+  }
+  
+  .auto-search__add-auto,
+  .auto-search__scan-qr {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.auto-search__add-auto-button {
-    padding: 12px 25px;
+  }
+  
+  .auto-search__add-auto {
     background-color: #525252;
     color: white;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
     transition: background-color 0.3s ease, transform 0.2s;
-}
-
-.auto-search__add-auto-button:hover {
+  }
+  
+  .auto-search__add-auto:hover {
     background-color: #b30000;
-}
-
-.auto-search__scan-qr-button {
+  }
+  
+  .auto-search__scan-qr {
     background-color: #b30000;
     color: white;
-}
-
-.auto-search__scan-qr-button:hover {
+  }
+  
+  .auto-search__scan-qr:hover {
     background-color: #a10000;
-}
-
-/* Lista de tarjetas de autos */
-.auto-card-list {
+  }
+  
+  /* Lista de tarjetas de autos para móviles (por defecto en columna) */
+  .auto-search__list {
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-}
+  }
+  
+  /* Media query para pantallas más grandes (PC) */
+  @media (min-width: 768px) {
+    .auto-search__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Distribuir las tarjetas en filas */
+      gap: 20px;
+    }
+  
+    .auto-search__title {
+      font-size: 2rem;
+    }
+  
+    .auto-search__input {
+      max-width: 400px;
+      font-size: 1.1rem;
+    }
+  
+    .auto-search__buttons {
+      gap: 20px;
+    }
+  
+    .auto-search__add-auto,
+    .auto-search__scan-qr {
+      padding: 12px 30px;
+      font-size: 1.1rem;
+    }
+  }
+  
