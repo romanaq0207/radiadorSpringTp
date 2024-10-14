@@ -80,15 +80,19 @@
 }
 
 @media (max-width: 480px) {
+  #tittle {
+    font-size: xx-large;
+  }
+
   #modal-container {
     width: 90%;
-    height: 70%;
+    height: 72%;
     margin-top: 25%;
   }
 
   .input-producto,
   #modal-select-categoria {
-    height: 7%;
+    height: 14%;
     width: 100%;
   }
 
