@@ -75,6 +75,7 @@ function Products() {
               <tr>
                 <th>Producto</th>
                 <th>Marca</th>
+                <th>Modelo</th>
                 <th>Categoria</th>
                 <th>Cantidad</th>
               </tr>
@@ -84,6 +85,7 @@ function Products() {
                 <tr key={index}>
                   <td>{rows.producto}</td>
                   <td>{rows.marca}</td>
+                  <td>{rows.modelo}</td>
                   <td>{rows.categoria}</td>
                   <td>{rows.cantidad}</td>
                 </tr>

@@ -8,6 +8,7 @@ function ModalAddProduct({ onClose }) {
         <h2 id="tittle">Agregar Producto</h2>
         <input className="input-producto" placeholder="Producto"></input>
         <input className="input-producto" placeholder="Marca"></input>
+        <input className="input-producto" placeholder="Modelo"></input>
         <input className="input-producto" placeholder="Categoria"></input>
         <select id="modal-select-categoria">
           <option value="Aire acondicionado"> Aire acondicionado</option>
