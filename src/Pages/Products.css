@@ -114,8 +114,8 @@ td {
 
 @media (max-width: 768px) {
   .productos-container {
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 3%;
+    padding-right: 3%;
     margin-bottom: auto;
   }
 
