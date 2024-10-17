@@ -1,27 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./AddProveedor.css"; // Reusing the same CSS file
-
-const proveedoresData = [
-  {
-    id: 1,
-    nombre: 'Distribuidora ABC',
-    cuil: '30-12345678-9',
-    email: 'contacto@abcdistribuidora.com',
-    direccion: 'Av. Siempre Viva 123, Buenos Aires',
-    telefono: '011-1234-5678',
-    activo: true
-  },
-  {
-    id: 2,
-    nombre: 'Servicios Logísticos XYZ',
-    cuil: '30-98765432-1',
-    email: 'info@logisticaxyz.com',
-    direccion: 'Calle Falsa 456, Córdoba',
-    telefono: '0351-5678-1234',
-    activo: true
-  }
-];
+import axios from "axios";
+import "./AddProveedor.css";
+import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
 
 const EditProveedor = () => {
   const { id } = useParams();
@@ -30,51 +11,56 @@ const EditProveedor = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const proveedorEncontrado = proveedoresData.find((p) => p.id === parseInt(id));
-    if (proveedorEncontrado) {
-      setProveedor(proveedorEncontrado);
-    }
+    const fetchProveedor = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/proveedores/${id}`);
+        if (response.data) {
+          setProveedor(response.data);
+        }
+      } catch (error) {
+        console.error("Error al obtener el proveedor de la API:", error);
+      }
+    };
+    fetchProveedor();
   }, [id]);
 
-  // Validaciones
   const validate = () => {
     const newErrors = {};
-    const nameRegex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
-    const cuilRegex = /^\d{2}-\d{8}-\d{1}$/; // CUIL en formato nn-nnnnnnnn-n
-    const addressRegex = /^[A-Za-z0-9\s,]+$/; // Letras, números, comas y espacios
-    const phoneRegex = /^\d{8}$|^\d{10}$/; // 8 o 10 dígitos para teléfono
-
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    const cuilRegex = /^\d{2}-\d{8}-\d{1}$/;
+    const addressRegex = /^[A-Za-z0-9\s,]+$/;
+    const phoneRegex = /^\d{8}$|^\d{10}$/;
     if (!proveedor.nombre || !nameRegex.test(proveedor.nombre)) {
       newErrors.nombre = 'El nombre solo debe contener letras y espacios.';
     }
-
     if (!proveedor.cuil || !cuilRegex.test(proveedor.cuil)) {
       newErrors.cuil = 'El CUIL debe seguir el formato 12-34567890-1.';
     }
-
     if (!proveedor.email) {
       newErrors.email = 'El correo es obligatorio.';
     } else if (!/\S+@\S+\.\S+/.test(proveedor.email)) {
       newErrors.email = 'El correo no es válido.';
     }
-
     if (!proveedor.direccion || !addressRegex.test(proveedor.direccion)) {
       newErrors.direccion = 'La dirección solo debe contener letras, números y espacios.';
     }
-
     if (!proveedor.telefono || !phoneRegex.test(proveedor.telefono)) {
       newErrors.telefono = 'Ingrese un número de telefono válido para la Rep. Argentina';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (validate()) {
-      console.log("Cambios guardados:", proveedor);
-      navigate("/"); // Redirect after saving
+      try {
+        await axios.put(`${API_BASE_URL}/proveedores/${id}`, proveedor);
+        console.log("Cambios guardados:", proveedor);
+        navigate("/"); // Redirect after saving
+      } catch (error) {
+        console.error("Error al guardar los cambios del proveedor:", error);
+      }
     }
   };
 
@@ -83,9 +69,9 @@ const EditProveedor = () => {
   }
 
   return (
-    <div className="add-proveedor-container"> {/* Use the same container class */}
+    <div className="add-proveedor-container">
       <h2>Editar Proveedor</h2>
-      <form className="add-proveedor-form" onSubmit={handleSubmit}> {/* Same form class */}
+      <form className="add-proveedor-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Nombre:</label>
           <input
@@ -94,9 +80,8 @@ const EditProveedor = () => {
             onChange={(e) => setProveedor({ ...proveedor, nombre: e.target.value })}
             required
           />
-          {errors.nombre && <span className="error">{errors.nombre}</span>} {/* Error message */}
+          {errors.nombre && <span className="error">{errors.nombre}</span>}
         </div>
-
         <div className="form-group">
           <label>CUIL:</label>
           <input
@@ -105,9 +90,8 @@ const EditProveedor = () => {
             onChange={(e) => setProveedor({ ...proveedor, cuil: e.target.value })}
             required
           />
-          {errors.cuil && <span className="error">{errors.cuil}</span>} {/* Error message */}
+          {errors.cuil && <span className="error">{errors.cuil}</span>}
         </div>
-
         <div className="form-group">
           <label>Email:</label>
           <input
@@ -116,9 +100,8 @@ const EditProveedor = () => {
             onChange={(e) => setProveedor({ ...proveedor, email: e.target.value })}
             required
           />
-          {errors.email && <span className="error">{errors.email}</span>} {/* Error message */}
+          {errors.email && <span className="error">{errors.email}</span>}
         </div>
-
         <div className="form-group">
           <label>Dirección:</label>
           <input
@@ -127,9 +110,8 @@ const EditProveedor = () => {
             onChange={(e) => setProveedor({ ...proveedor, direccion: e.target.value })}
             required
           />
-          {errors.direccion && <span className="error">{errors.direccion}</span>} {/* Error message */}
+          {errors.direccion && <span className="error">{errors.direccion}</span>}
         </div>
-
         <div className="form-group">
           <label>Teléfono:</label>
           <input
@@ -138,10 +120,9 @@ const EditProveedor = () => {
             onChange={(e) => setProveedor({ ...proveedor, telefono: e.target.value })}
             required
           />
-          {errors.telefono && <span className="error">{errors.telefono}</span>} {/* Error message */}
+          {errors.telefono && <span className="error">{errors.telefono}</span>}
         </div>
-
-        <button type="submit" className="submit-button">Guardar Cambios</button> {/* Same button class */}
+        <button type="submit" className="submit-button">Guardar Cambios</button>
       </form>
     </div>
   );

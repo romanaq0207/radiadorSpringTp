@@ -1,70 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './ProveedoresViewer.css';
-
-const proveedoresData = [
-  // Datos iniciales de ejemplo
-  {
-    id: 1,
-    nombre: 'Distribuidora ABC',
-    cuil: '30-12345678-9',
-    email: 'contacto@abcdistribuidora.com',
-    direccion: 'Av. Siempre Viva 123, Buenos Aires',
-    telefono: '011-1234-5678',
-    activo: true
-  },
-  {
-    id: 2,
-    nombre: 'Servicios Logísticos XYZ',
-    cuil: '30-98765432-1',
-    email: 'info@logisticaxyz.com',
-    direccion: 'Calle Falsa 456, Córdoba',
-    telefono: '0351-5678-1234',
-    activo: true
-  },
-  {
-    id: 3,
-    nombre: 'Distribuidora ABC',
-    cuil: '30-12345678-9',
-    email: 'contacto@abcdistribuidora.com',
-    direccion: 'Av. Siempre Viva 123, Buenos Aires',
-    telefono: '011-1234-5678',
-    activo: true
-  },
-  {
-    id: 4,
-    nombre: 'Bulonera Atomic',
-    cuil: '30-12322128-9',
-    email: 'contacto@atomicbulon.com',
-    direccion: 'Av. Buena Vista 2991, Tierra del Fuego',
-    telefono: '011-1234-5678',
-    activo: true
-  },
-  {
-    id: 5,
-    nombre: 'Distribuidora ABC',
-    cuil: '30-12345678-9',
-    email: 'contacto@abcdistribuidora.com',
-    direccion: 'Av. Siempre Viva 123, Buenos Aires',
-    telefono: '011-1234-5678',
-    activo: true
-  }
-];
+import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
 
 const ProveedoresViewer = () => {
   const [proveedores, setProveedores] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const proveedoresActivos = proveedoresData.filter((proveedor) => proveedor.activo);
-    setProveedores(proveedoresActivos);
+    const fetchProveedores = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/proveedores`); // Endpoint de la API para obtener los proveedores
+        const proveedoresActivos = response.data.filter((proveedor) => proveedor.activo);
+        setProveedores(proveedoresActivos);
+      } catch (error) {
+        console.error("Error al obtener los proveedores de la API:", error);
+      }
+    };
+    fetchProveedores();
   }, []);
 
   // Función para eliminar un proveedor (cambia su estado activo a false)
-  const handleDelete = (id) => {
-    setProveedores((prevProveedores) =>
-      prevProveedores.filter((proveedor) => proveedor.id !== id)
-    );
+  const handleDelete = async (id) => {
+    try {
+      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`);
+      setProveedores((prevProveedores) =>
+        prevProveedores.filter((proveedor) => proveedor.id_proveedor !== id)
+      );
+    } catch (error) {
+      console.error("Error al cambiar el estado del proveedor:", error);
+    }
   };
 
   // Función para redirigir a la página de edición de proveedores
@@ -83,7 +49,7 @@ const ProveedoresViewer = () => {
           <p>No hay proveedores activos disponibles.</p>
         ) : (
           proveedores.map((proveedor) => (
-            <div key={proveedor.id} className="proveedor-card">
+            <div key={proveedor.id_proveedor} className="proveedor-card">
               <h3>{proveedor.nombre}</h3>
               <p>
                 <strong>CUIL:</strong> {proveedor.cuil}
@@ -100,11 +66,11 @@ const ProveedoresViewer = () => {
               <div className="action-buttons">
                 <button
                   className="edit-button"
-                  onClick={() => handleEdit(proveedor.id)}  // Redirige a la edición con el ID correcto
+                  onClick={() => handleEdit(proveedor.id_proveedor)}
                 >
                   Editar
                 </button>
-                <button className="delete-button" onClick={() => handleDelete(proveedor.id)}>
+                <button className="delete-button" onClick={() => handleDelete(proveedor.id_proveedor)}>
                   Eliminar
                 </button>
               </div>
