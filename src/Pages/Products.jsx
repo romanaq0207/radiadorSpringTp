@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from "react";
-import productos from "../data/productos.json";
-import "./Products.css"; // Importa el CSS específico para este componente
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import "./Products.css";
 import Modal from "./ModalAddProduct.jsx";
+import { API_BASE_URL } from '../assets/config'; 
 
 function Products() {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
-  const [selectedCategoria, setSelectedCategoria] = useState(
-    "Todos los productos"
-  );
+  const [selectedCategoria, setSelectedCategoria] = useState("Todos los productos");
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setRows(productos);
+    const fetchProductos = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/productos`);
+        setRows(response.data);
+      } catch (error) {
+        console.error("Error al obtener los productos de la API:", error);
+      }
+    };
+    fetchProductos();
   }, []);
 
   useEffect(() => {
-    if (selectedCategoria === "Todos los productos") {
-      setFilteredRows(rows);
-    } else {
-      setFilteredRows(
-        rows.filter((row) => row.categoria === selectedCategoria)
-      );
-    }
+    const filterRows = () => {
+      if (selectedCategoria === "Todos los productos") {
+        setFilteredRows(rows.filter(row => row.activo));
+      } else {
+        setFilteredRows(rows.filter(row => row.categoria === selectedCategoria && row.activo));
+      }
+    };
+    filterRows();
   }, [selectedCategoria, rows]);
 
   const handleShowModel = () => {
@@ -33,16 +43,30 @@ function Products() {
     setSelectedCategoria(e.target.value);
   };
 
+  const handleEdit = (id) => {
+    navigate(`/edit-producto/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.put(`${API_BASE_URL}/productos/${id}/inactivo`);
+      // Actualizar el estado local para reflejar los cambios
+      setRows((prevRows) => prevRows.map((row) =>
+        row.id_producto === id ? { ...row, activo: false } : row
+      ));
+    } catch (error) {
+      console.error("Error al cambiar el estado del producto:", error);
+    }
+  };
+
   return (
     <div className="productos-container">
       <h2 id="title-productos">Productos</h2>
-
       <div id="opcions-container">
         <button id="abrir-add-product" onClick={handleShowModel}>
           Agregar producto
         </button>
         {showModal && <Modal onClose={() => setShowModal(false)} />}
-
         <select id="select-categoria" onChange={handleCategoriaChange}>
           <option value="Todos los productos"> Todos los productos</option>
           <option value="Aire acondicionado"> Aire acondicionado</option>
@@ -67,7 +91,6 @@ function Products() {
           <option value="Transmision"> Transmisión</option>
         </select>
       </div>
-
       <div className="product-table">
         {filteredRows.length > 0 ? (
           <table className="table-productos">
@@ -78,16 +101,21 @@ function Products() {
                 <th>Modelo</th>
                 <th>Categoria</th>
                 <th>Cantidad</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {filteredRows.map((rows, index) => (
+              {filteredRows.map((row, index) => (
                 <tr key={index}>
-                  <td>{rows.producto}</td>
-                  <td>{rows.marca}</td>
-                  <td>{rows.modelo}</td>
-                  <td>{rows.categoria}</td>
-                  <td>{rows.cantidad}</td>
+                  <td>{row.nombre}</td>
+                  <td>{row.marca}</td>
+                  <td>{row.modelo}</td>
+                  <td>{row.categoria}</td>
+                  <td>{row.cantidad}</td>
+                  <td>
+                    <button className="button button-modificar" onClick={() => handleEdit(row.id_producto)}>Modificar</button>
+                    <button className="button button-eliminar" onClick={() => handleDelete(row.id_producto)}>Eliminar</button>
+                  </td>
                 </tr>
               ))}
             </tbody>

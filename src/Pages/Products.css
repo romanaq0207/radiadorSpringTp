@@ -49,8 +49,7 @@
   font-size: x-large;
 }
 
-th,
-td {
+th, td {
   height: 80px;
   width: 500px;
   border-bottom: 1px solid;
@@ -84,6 +83,28 @@ td {
   margin-top: 1px;
 }
 
+/* Estilos para los botones */
+.button {
+  padding: 10px 20px;
+  margin: 5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-modificar {
+  background-color: #f44336; /* Color verde */
+  color: white;
+}
+
+.button-eliminar {
+  background-color: #f44336; /* Color rojo */
+  color: white;
+  padding-right: 24.3px;
+  padding-left: 24px;
+}
+
 /* Media Queries */
 @media (max-width: 1200px) {
   .productos-container {
@@ -91,14 +112,12 @@ td {
     padding-right: 150px;
     margin-bottom: auto;
   }
-
   .product-table {
     box-sizing: border-box;
     margin-left: 0%;
     margin-right: 0%;
     width: auto;
   }
-
   .table-productos {
     margin-top: 1cm;
     width: 100%;
@@ -106,7 +125,6 @@ td {
     box-sizing: border-box;
     font-size: medium;
   }
-
   #opcions-container {
     width: 100%;
   }
@@ -118,13 +136,11 @@ td {
     padding-right: 3%;
     margin-bottom: auto;
   }
-
   #abrir-add-product,
   #select-categoria {
     width: 100%;
     margin-bottom: 10px; /* Añadir espacio entre el botón y el select */
   }
-
   #opcions-container {
     flex-direction: column;
     align-items: flex-start;

@@ -31,6 +31,7 @@ import ProveedoresViewer from "../Pages/ProveedoresViewer";
 import AddProveedor from "../Pages/AddProveedor";
 import EditProveedor from "../Pages/EditProveedor";
 import Products from "../Pages/Products";
+import EditProducto from "../Pages/EditProducto";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -155,7 +156,14 @@ const AuthConsumer = () => {
             path="/edit-proveedor/:id"
             element={login ? <EditProveedor /> : <Login />}
           />
-          <Route path="/productos" element={login ? <Products /> : <Login />} />
+          <Route 
+            path="/productos" 
+            element={login ? <Products /> : <Login />} 
+          />
+          <Route 
+            path="/edit-producto/:id" 
+            element={<EditProducto />} 
+          />
         </Routes>
       </main>
     </>
