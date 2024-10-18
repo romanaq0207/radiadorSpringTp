@@ -3,27 +3,27 @@ import axios from 'axios';
 import { API_BASE_URL } from '../assets/config';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import './AddFlota.css';
-import { useNavigate } from 'react-router-dom'; // Asegúrate de que no esté comentado
+import { useNavigate } from 'react-router-dom';
 
 function AddFlota() {
   const [flotaName, setFlotaName] = useState('');
   const [flotas, setFlotas] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Asegúrate de que no esté comentado
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFlotas = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/flotas`);
-            const flotasConAutos = await Promise.all(response.data.map(async (flota) => {
-                const autoResponse = await axios.get(`${API_BASE_URL}/flotas/${flota.id}/autos`);
-                return { ...flota, autos: autoResponse.data };
-            }));
-            setFlotas(flotasConAutos);
-        } catch (error) {
-            console.error('Error al obtener flotas:', error);
-            alert(`Error al obtener flotas: ${error.response?.data?.error || error.message}`);
-        }
+      try {
+        const response = await axios.get(`${API_BASE_URL}/flotas`); // Ensure this endpoint returns active fleets only
+        const flotasConAutos = await Promise.all(response.data.map(async (flota) => {
+          const autoResponse = await axios.get(`${API_BASE_URL}/flotas/${flota.id}/autos`);
+          return { ...flota, autos: autoResponse.data };
+        }));
+        setFlotas(flotasConAutos);
+      } catch (error) {
+        console.error('Error al obtener flotas:', error);
+        alert(`Error al obtener flotas: ${error.response?.data?.error || error.message}`);
+      }
     };
     fetchFlotas();
   }, []);
@@ -49,7 +49,7 @@ function AddFlota() {
   };
 
   const handleEditFlota = (id) => {
-    // Lógica para editar la flota
+    navigate(`/admin-flotas/edit/${id}`);
   };
 
   const handleDeleteFlota = async (id) => {
@@ -70,7 +70,7 @@ function AddFlota() {
           ? { ...flota, autos: flota.autos.filter(auto => auto.id !== autoId) }
           : flota
       ));
-      navigate("/admin-flotas"); // Redirige a la página /admin-flotas
+      navigate("/admin-flotas");
     } catch (error) {
       console.error('Error al eliminar auto:', error);
       alert(`Error al eliminar el auto: ${error.response?.data?.error || error.message}`);
