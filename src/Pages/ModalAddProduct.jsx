@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import axios from 'axios';
+import axios from "axios";
 import "./ModalAddProduct.css";
-import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
+import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
+import Modal from "./ModalExitoAddProduct.jsx";
 
 function ModalAddProduct({ onClose }) {
+  const [showModal, setShowModal] = useState(false);
+
   const [formData, setFormData] = useState({
-    nombre: '',
-    marca: '',
-    modelo: '',
-    categoria: '',
+    nombre: "",
+    marca: "",
+    modelo: "",
+    categoria: "",
     cantidad: 0,
-    activo: true
+    activo: true,
   });
 
   const handleInputChange = (e) => {
@@ -22,7 +25,7 @@ function ModalAddProduct({ onClose }) {
     e.preventDefault();
     try {
       await axios.post(`${API_BASE_URL}/productos`, formData);
-      onClose();
+      setShowModal(true);
     } catch (error) {
       console.error("Error al agregar el producto:", error);
     }
@@ -30,6 +33,7 @@ function ModalAddProduct({ onClose }) {
 
   return (
     <div id="modal-container">
+      {showModal && <Modal onClose={() => setShowModal(false)} />}
       <div id="form-product">
         <h2 id="tittle">Agregar Producto</h2>
         <input
@@ -89,7 +93,9 @@ function ModalAddProduct({ onClose }) {
           value={formData.cantidad}
           onChange={handleInputChange}
         />
-        <button id="btn-add-producto" onClick={handleSubmit}>Agregar</button>
+        <button id="btn-add-producto" onClick={handleSubmit}>
+          Agregar
+        </button>
         <button onClick={onClose} id="btn-close-modal">
           Cerrar
         </button>
