@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Products.css";
 import Modal from "./ModalAddProduct.jsx";
-import { API_BASE_URL } from '../assets/config'; 
+import { API_BASE_URL } from "../assets/config";
 
 function Products() {
   const [rows, setRows] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredRows, setFilteredRows] = useState([]);
-  const [selectedCategoria, setSelectedCategoria] = useState("Todos los productos");
+  const [selectedCategoria, setSelectedCategoria] = useState(
+    "Todos los productos"
+  );
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
@@ -26,14 +29,21 @@ function Products() {
 
   useEffect(() => {
     const filterRows = () => {
-      if (selectedCategoria === "Todos los productos") {
-        setFilteredRows(rows.filter(row => row.activo));
-      } else {
-        setFilteredRows(rows.filter(row => row.categoria === selectedCategoria && row.activo));
+      let filtered = rows.filter((row) => row.activo);
+      if (selectedCategoria !== "Todos los productos") {
+        filtered = filtered.filter(
+          (row) => row.categoria === selectedCategoria
+        );
       }
+      if (searchTerm) {
+        filtered = filtered.filter((row) =>
+          row.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      setFilteredRows(filtered);
     };
     filterRows();
-  }, [selectedCategoria, rows]);
+  }, [selectedCategoria, searchTerm, rows]);
 
   const handleShowModel = () => {
     setShowModal(true);
@@ -41,6 +51,10 @@ function Products() {
 
   const handleCategoriaChange = (e) => {
     setSelectedCategoria(e.target.value);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
   };
 
   const handleEdit = (id) => {
@@ -51,9 +65,11 @@ function Products() {
     try {
       await axios.put(`${API_BASE_URL}/productos/${id}/inactivo`);
       // Actualizar el estado local para reflejar los cambios
-      setRows((prevRows) => prevRows.map((row) =>
-        row.id_producto === id ? { ...row, activo: false } : row
-      ));
+      setRows((prevRows) =>
+        prevRows.map((row) =>
+          row.id_producto === id ? { ...row, activo: false } : row
+        )
+      );
     } catch (error) {
       console.error("Error al cambiar el estado del producto:", error);
     }
@@ -67,6 +83,19 @@ function Products() {
           Agregar producto
         </button>
         {showModal && <Modal onClose={() => setShowModal(false)} />}
+
+        <div className="search-container">
+          <i class="material-icons" id="search-icon">
+            search
+          </i>
+          <input
+            type="text"
+            placeholder="Buscar por producto..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            id="search-producto"
+          />
+        </div>
         <select id="select-categoria" onChange={handleCategoriaChange}>
           <option value="Todos los productos"> Todos los productos</option>
           <option value="Aire acondicionado"> Aire acondicionado</option>
@@ -113,8 +142,18 @@ function Products() {
                   <td>{row.categoria}</td>
                   <td>{row.cantidad}</td>
                   <td>
-                    <button className="button button-modificar" onClick={() => handleEdit(row.id_producto)}>Modificar</button>
-                    <button className="button button-eliminar" onClick={() => handleDelete(row.id_producto)}>Eliminar</button>
+                    <button
+                      className="button button-modificar"
+                      onClick={() => handleEdit(row.id_producto)}
+                    >
+                      Modificar
+                    </button>
+                    <button
+                      className="button button-eliminar"
+                      onClick={() => handleDelete(row.id_producto)}
+                    >
+                      Eliminar
+                    </button>
                   </td>
                 </tr>
               ))}

@@ -49,7 +49,8 @@
   font-size: x-large;
 }
 
-th, td {
+th,
+td {
   height: 80px;
   width: 500px;
   border-bottom: 1px solid;
@@ -67,7 +68,32 @@ th, td {
   align-items: end;
   border-radius: 0%;
   width: auto; /* Ajustado a auto para evitar exceso de ancho */
-  padding: 20px 10px;
+  padding: 20px 20px;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  padding-left: 240px;
+  padding-right: 190px;
+  z-index: 1;
+}
+#search-producto {
+  padding-left: 10px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+#search-icon {
+  position: absolute;
+  left: 250px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: gray;
 }
 
 #select-categoria {
