@@ -1,132 +1,150 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../assets/config';
+import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import './AddFlota.css';
+import { useNavigate } from 'react-router-dom'; // Asegúrate de que no esté comentado
 
 function AddFlota() {
-    const [flotaName, setFlotaName] = useState('');
-    const [autosDisponibles, setAutosDisponibles] = useState([]);
-    const [autosEnFlota, setAutosEnFlota] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [error, setError] = useState('');  // Estado para manejar el mensaje de error
+  const [flotaName, setFlotaName] = useState('');
+  const [flotas, setFlotas] = useState([]);
+  const [error, setError] = useState('');
+  const navigate = useNavigate(); // Asegúrate de que no esté comentado
 
-    useEffect(() => {
-        // Obtener autos disponibles desde el servidor
-        axios.get(`${API_BASE_URL}/autos`)
-            .then(response => {
-                setAutosDisponibles(response.data);
-            })
-            .catch(error => {
-                console.error('Error al obtener autos disponibles:', error);
-            });
-    }, []);
-
-    const handleAddAutoToFlota = (auto) => {
-        if (!autosEnFlota.includes(auto)) {
-            setAutosEnFlota([...autosEnFlota, auto]);
+  useEffect(() => {
+    const fetchFlotas = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/flotas`);
+            const flotasConAutos = await Promise.all(response.data.map(async (flota) => {
+                const autoResponse = await axios.get(`${API_BASE_URL}/flotas/${flota.id}/autos`);
+                return { ...flota, autos: autoResponse.data };
+            }));
+            setFlotas(flotasConAutos);
+        } catch (error) {
+            console.error('Error al obtener flotas:', error);
+            alert(`Error al obtener flotas: ${error.response?.data?.error || error.message}`);
         }
     };
+    fetchFlotas();
+  }, []);
 
-    const handleRemoveAutoFromFlota = (auto) => {
-        setAutosEnFlota(autosEnFlota.filter(item => item.id !== auto.id));
-    };
+  const handleSaveFlota = async () => {
+    if (flotaName === '') {
+      setError('Por favor, ingresa un nombre para la flota.');
+      return;
+    }
+    try {
+      const flotaData = { nombre: flotaName };
+      const response = await axios.post(`${API_BASE_URL}/flotas-crear`, flotaData);
+      alert('Flota guardada con éxito');
+      setFlotaName('');
+      setError('');
+      const autoResponse = await axios.get(`${API_BASE_URL}/flotas/${response.data.id}/autos`);
+      const nuevaFlotaConAutos = { ...response.data, autos: autoResponse.data };
+      setFlotas([...flotas, nuevaFlotaConAutos]);
+    } catch (error) {
+      console.error('Error al guardar flota:', error);
+      alert('Error al guardar la flota');
+    }
+  };
 
-    const handleSaveFlota = () => {
-        // Validar que se ingrese un nombre para la flota
-        if (flotaName === '') {
-            setError('Por favor, ingresa un nombre para la flota.');
-            return;
-        }
+  const handleEditFlota = (id) => {
+    // Lógica para editar la flota
+  };
 
-        // Validar que se haya agregado al menos un auto a la flota
-        if (autosEnFlota.length === 0) {
-            setError('Debes seleccionar al menos un auto para la flota.');
-            return;
-        }
+  const handleDeleteFlota = async (id) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/flotas/${id}`);
+      setFlotas(flotas.filter(flota => flota.id !== id));
+    } catch (error) {
+      console.error('Error al eliminar flota:', error);
+      alert('Error al eliminar la flota');
+    }
+  };
 
-        // Si todo es válido, se procede a guardar la flota
-        const flotaData = {
-            nombre: flotaName,
-            autos: autosEnFlota.map(auto => auto.id)
-        };
+  const handleDeleteAuto = async (flotaId, autoId) => {
+    try {
+      await axios.put(`${API_BASE_URL}/flotas/${flotaId}/autos/${autoId}`);
+      setFlotas(flotas.map(flota =>
+        flota.id === flotaId
+          ? { ...flota, autos: flota.autos.filter(auto => auto.id !== autoId) }
+          : flota
+      ));
+      navigate("/admin-flotas"); // Redirige a la página /admin-flotas
+    } catch (error) {
+      console.error('Error al eliminar auto:', error);
+      alert(`Error al eliminar el auto: ${error.response?.data?.error || error.message}`);
+    }
+  };
 
-        axios.post(`${API_BASE_URL}/flotas`, flotaData)
-            .then(response => {
-                console.log('Flota guardada:', response.data);
-                alert('Flota guardada con éxito');
-                setFlotaName('');
-                setAutosEnFlota([]);
-                setError('');  // Limpiar el error en caso de éxito
-            })
-            .catch(error => {
-                console.error('Error al guardar flota:', error);
-                alert('Error al guardar la flota');
-            });
-    };
-
-    return (
-        <div className="add-flota-container">
-            <div className="input-container">
-
-            <h2>Agregar Nueva Flota</h2>
-            {error && <div className="error-banner">{error}</div>} {/* Mostrar el mensaje de error si existe */}
-            
-            <input
-                type="text"
-                placeholder="Nombre de la Flota"
-                value={flotaName}
-                onChange={(e) => setFlotaName(e.target.value)}
-                className="flota-input"
-            />
-            <button className="save-flota-button" onClick={handleSaveFlota}>Guardar Flota</button>
-
-            </div>
-
-            <div className="cuadro-container">
-            <div className="auto-list">
-            <div className="filtrar-auto">
-            <h3>Buscar Autos</h3>
-            <input
-                type="text"
-                placeholder="Buscar por patente, marca o modelo"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="flota-search-input"
-            />
-                </div>
-          
-                {autosDisponibles
-                    .filter(auto =>
-                        auto.marca.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        auto.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        auto.nro_patente.toLowerCase().includes(searchTerm.toLowerCase()) // Búsqueda por patente
-                    )
-                    .map(auto => (
-                        <div key={auto.id} className="auto-item">
-                            <p>{auto.marca} {auto.modelo} - {auto.nro_patente}</p>
-                            <button className="add-auto-button" onClick={() => handleAddAutoToFlota(auto)}>Agregar</button>
-                        </div>
-                    ))}
-            </div>
-            
-
-            <div className="flota-list">
-                <h3>Autos en la Flota</h3>
-                {autosEnFlota.length > 0 ? (
-                    autosEnFlota.map(auto => (
-                        <div key={auto.id} className="flota-item">
-                            <p>{auto.marca} {auto.modelo} - {auto.nro_patente}</p>
-                            <button className="remove-auto-button" onClick={() => handleRemoveAutoFromFlota(auto)}>Eliminar</button>
-                        </div>
-                    ))
-                ) : (
-                    <p>No hay autos en la flota</p>
-                )}
-            </div>
-            </div>
-
+  return (
+    <div className="add-flota-container">
+      <div className="input-container">
+        <h2>Administración de Flotas</h2>
+        <div className="crear-flota-container">
+          <h3 className="h3">Crear Flota</h3>
+          {error && <div className="error-banner">{error}</div>}
+          <input
+            type="text"
+            placeholder="Nombre de la Flota"
+            value={flotaName}
+            onChange={(e) => setFlotaName(e.target.value)}
+            className="flota-input"
+          />
+          <button className="save-flota-button" onClick={handleSaveFlota}>Guardar Flota</button>
         </div>
-    );
+      </div>
+      <h2 className="flotas-header">Flotas</h2>
+      <div className="flotas-tables">
+        {flotas.map((flota, index) => (
+          <div key={index} className="flota-table-container">
+            <div className="flota-header">
+              <h3>{flota.nombre}</h3>
+              <div className="flota-actions">
+                <button className="edit-flota-button" onClick={() => handleEditFlota(flota.id)}>
+                  <FaEdit />
+                </button>
+                <button className="delete-flota-button" onClick={() => handleDeleteFlota(flota.id)}>
+                  <FaTrash />
+                </button>
+                <button className="add-flota-button">
+                  <FaPlus color="green" />
+                </button>
+              </div>
+            </div>
+            <table className="flota-table">
+              <thead>
+                <tr>
+                  <th>Patente</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>Kilometraje</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {flota.autos?.map(auto => (
+                  <tr key={auto.id}>
+                    <td>{auto.nro_patente}</td>
+                    <td>{auto.marca}</td>
+                    <td>{auto.modelo}</td>
+                    <td>{auto.anio}</td>
+                    <td>{auto.kilometraje}</td>
+                    <td>
+                      <button className="delete-flota-button" onClick={() => handleDeleteAuto(flota.id, auto.id)}>
+                        <FaTrash />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default AddFlota;

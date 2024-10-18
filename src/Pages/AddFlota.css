@@ -1,156 +1,109 @@
 .add-flota-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 20px;
-    padding-top: 60px; /* Espacio para evitar superposición con la navbar */
+    background-color: #faf3dd; /* Verde menta suave */
 }
-
 .input-container {
-    width: 100%;
-    max-width: 800px; /* Aumentar ancho máximo para pantallas grandes */
     margin-bottom: 20px;
 }
-
-h2 {
-    font-size: 28px; /* Tamaño de fuente para el encabezado */
+.crear-flota-container {
     margin-bottom: 20px;
-    text-align: center;
 }
-
-.flota-input {
-    padding: 12px; /* Aumentar padding */
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 6px; /* Esquinas más redondeadas */
-    margin-bottom: 15px; /* Espacio debajo del campo de texto */
-    font-size: 16px; /* Tamaño de fuente más grande */
-}
-
-/* Botón para guardar flota */
-.save-flota-button {
-    padding: 12px 24px; /* Aumentar padding */
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
-    color: white; /* Color del texto */
-    border: none;
-    border-radius: 6px; /* Esquinas más redondeadas */
-    cursor: pointer;
-    font-size: 18px; /* Tamaño de fuente del botón */
-    transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
-}
-
-.save-flota-button:hover {
-    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
-}
-
-/* Banner de error */
 .error-banner {
-    background-color: #ffcccc; /* Color de fondo para el error */
-    color: red; /* Color del texto */
+    color: #FF6F61; /* Rojo pastel */
+}
+.flota-input {
+    margin-right: 10px;
+}
+.save-flota-button {
     padding: 10px;
-    border-radius: 6px; /* Esquinas más redondeadas */
-    margin-bottom: 15px; /* Espacio debajo del banner de error */
+    background-color: #283618; /* Melocotón pastel */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
-
-/* Contenedor de autos */
-.cuadro-container {
+.save-flota-button:hover {
+    background-color: #283618; /* Un tono más oscuro del melocotón */
+}
+.flotas-tables {
+    margin-top: 20px;
+}
+.flota-table-container {
+    margin-bottom: 20px;
+    background-color: #a4ac86;
+    border: 1px solid #606C38;
+    border-radius: 8px;
+    padding: 10px;
+}
+.flota-header {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #becd8f; /* Azul pastel suave */
+    color: FEFAE0;
+    border-radius: 8px 8px 0 0;
+}
+.flota-header h3 {
+    margin: 0;
+}
+.flota-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-left: 5px;
+}
+.edit-flota-button, .delete-flota-button {
+    border: 2px solid black; /* Borde negro */
+    padding: 15px;
+    border-radius: 4px;
+    font-size: 2em;
+}
+.edit-flota-button {
+    color: #3c1642; /* Verde pastel */
+}
+.delete-flota-button {
+    color: #bc4749; /* Rojo pastel */
+}
+.edit-flota-button:focus, .delete-flota-button:focus {
+    outline: none;
+}
+.edit-flota-button:hover, .delete-flota-button:hover {
+    transform: scale(1.2);
+    background-color: transparent; /* Evita cambio de fondo */
+    border-color: black; /* Mantiene el borde negro en hover */
+}
+.edit-flota-button:active, .delete-flota-button:active {
+    transform: scale(1.2);
+    background-color: transparent; /* Evita cambio de fondo cuando está activo */
+    border-color: black; /* Mantiene el borde negro en estado activo */
+}
+.flota-table {
     width: 100%;
-    max-width: 800px; /* Ancho máximo del contenedor */
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+.flota-table th, .flota-table td {
+    border: 1px solid #606C38;
+    padding: 8px;
+    text-align: left;
+    color: black;
+}
+.flota-table th {
+    background-color: #dda15e; /* Fondo claro neutro */
+}
+.flota-table tbody tr:nth-child(even) {
+    background-color: #F9F9F9; /* Gris claro suave */
 }
 
-/* Lista de autos disponibles */
-.auto-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espacio entre los autos */
-    margin-bottom: 20px; /* Espacio debajo de la lista de autos */
+.h3 {
+    margin: 0;
+    color: #606C38; /* Cambia el color aquí */
 }
 
-/* Estilo de cada auto */
-.auto-item {
-    display: flex;
-    justify-content: space-between; /* Espaciado entre texto y botón */
-    align-items: center;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
-    padding: 15px; /* Padding en las tarjetas de autos */
-    border: 1px solid #d10000; /* Borde de las tarjetas */
-    border-radius: 10px; /* Esquinas redondeadas */
-    color: white; /* Color de texto */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    transition: transform 0.2s; /* Transición suave al pasar el ratón */
+.flotas-header {
+    color: #606C38; /* Cambia el color aquí */
 }
 
-.auto-item:hover {
-    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
-}
-
-.add-auto-button {
-    padding: 8px 12px;
-    background-color: rgba(0, 255, 0, 0.8); /* Color de fondo */
-    color: white; /* Color del texto */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px; /* Tamaño de fuente */
-}
-
-.add-auto-button:hover {
-    background-color: rgba(0, 255, 0, 1); /* Cambio de color al pasar el ratón */
-}
-
-/* Lista de autos en la flota */
-.flota-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espacio entre los autos */
-}
-
-/* Estilo de cada auto en la flota */
-.flota-item {
-    display: flex;
-    justify-content: space-between; /* Espaciado entre texto y botón */
-    align-items: center;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
-    padding: 15px; /* Padding en las tarjetas de autos */
-    border: 1px solid #d10000; /* Borde de las tarjetas */
-    border-radius: 10px; /* Esquinas redondeadas */
-    color: white; /* Color de texto */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    transition: transform 0.2s; /* Transición suave al pasar el ratón */
-}
-
-.flota-item:hover {
-    transform: translateY(-2px); /* Efecto de elevación al pasar el ratón */
-}
-
-.remove-auto-button {
-    padding: 8px 12px;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
-    color: white; /* Color del texto */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px; /* Tamaño de fuente */
-}
-
-.remove-auto-button:hover {
-    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
-}
-
-/* Ajustes para pantallas grandes */
-@media only screen and (min-width: 768px) {
-    .auto-list,
-    .flota-list {
-        flex-direction: row; /* Cambia a filas en pantallas grandes */
-        flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente línea si es necesario */
-        justify-content: space-between; /* Espacio entre elementos */
-    }
-
-    .auto-item,
-    .flota-item {
-        flex: 1 0 48%; /* Tarjetas ocupan el 48% del ancho */
-        max-width: 48%; /* Ancho máximo para que no se superpongan */
-    }
-}
