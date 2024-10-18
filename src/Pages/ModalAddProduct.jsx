@@ -89,6 +89,8 @@ function ModalAddProduct({ onClose }) {
           className="input-producto"
           name="cantidad"
           type="number"
+          min="0"
+          step="1"
           placeholder="Cantidad"
           value={formData.cantidad}
           onChange={handleInputChange}

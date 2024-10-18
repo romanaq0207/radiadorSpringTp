@@ -1,6 +1,7 @@
 .modal-exito {
   width: 50%;
   height: 70%;
+  max-width: 1200px;
   background-color: white;
   inset: 0;
   padding: 10px;
@@ -21,6 +22,42 @@
 }
 
 #icon-check {
+  padding-left: 100px;
   color: green;
   font-size: 115px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .modal-exito {
+    width: 80%;
+    height: 50%;
+    margin: 10% auto; /* Centrar el margen horizontalmente */
+  }
+
+  #tittle-prod-exitoso {
+    font-size: large; /* Reducir tamaño de fuente */
+  }
+
+  #icon-check {
+    padding-left: 100px;
+    font-size: 80px; /* Reducir tamaño de icono */
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-exito {
+    width: 95%;
+    height: auto;
+    margin: 20% auto; /* Centrar el margen horizontalmente */
+  }
+
+  #tittle-prod-exitoso {
+    font-size: medium; /* Reducir tamaño de fuente aún más */
+  }
+
+  #icon-check {
+    padding-left: 100px;
+    font-size: 60px; /* Reducir tamaño de icono */
+  }
 }

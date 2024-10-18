@@ -85,7 +85,7 @@ function Products() {
         {showModal && <Modal onClose={() => setShowModal(false)} />}
 
         <div className="search-container">
-          <i class="material-icons" id="search-icon">
+          <i className="material-icons" id="search-icon">
             search
           </i>
           <input

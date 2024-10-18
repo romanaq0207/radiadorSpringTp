@@ -54,52 +54,54 @@
   width: 30%;
 }
 
-/*media queries*/
+/* Media Queries */
 @media (max-width: 768px) {
   #modal-container {
-    width: 80%;
-    height: 50%;
-    margin-top: 10%;
+    width: 80%; /* Ancho del modal incrementado para pantallas más pequeñas */
+    height: 80%; /* Ajustado para mejorar la vista en pantallas más pequeñas */
+    margin-top: 15%; /* Mayor espacio en la parte superior */
   }
 
   #tittle {
-    margin-left: 0;
-    text-align: center;
-  }
-
-  #btn-add-producto,
-  #btn-close-modal {
-    width: 80%;
-    margin: 10px auto;
+    margin-left: 0; /* Centrar título */
+    text-align: center; /* Centrar texto del título */
+    font-size: 35px; /* Reducir tamaño de fuente */
   }
 
   .input-producto,
   #modal-select-categoria {
-    height: 15%;
-    width: 100%;
+    height: auto; /* Ajuste automático de la altura */
+    padding: 10px;
+  }
+
+  #btn-add-producto,
+  #btn-close-modal {
+    width: 80%; /* Incrementar ancho de botones */
+    margin: 10px auto; /* Margen automático para centrar botones */
   }
 }
 
 @media (max-width: 480px) {
-  #tittle {
-    font-size: xx-large;
+  #modal-container {
+    width: 90%; /* Ancho del modal incrementado para pantallas más pequeñas */
+    height: auto; /* Ajuste automático de la altura */
+    margin-top: 20%; /* Mayor espacio en la parte superior */
   }
 
-  #modal-container {
-    width: 90%;
-    height: 72%;
-    margin-top: 25%;
+  #tittle {
+    font-size: large; /* Reducir tamaño de fuente */
   }
 
   .input-producto,
   #modal-select-categoria {
-    height: 14%;
+    height: auto; /* Ajuste automático de la altura */
     width: 100%;
+    padding: 8px;
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    width: 90%;
-    margin: 10px auto;
+    width: 90%; /* Incrementar ancho de botones */
+    margin: 10px auto; /* Margen automático para centrar botones */
   }
 }
