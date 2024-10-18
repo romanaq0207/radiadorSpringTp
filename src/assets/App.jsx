@@ -32,6 +32,7 @@ import AddProveedor from "../Pages/AddProveedor";
 import EditProveedor from "../Pages/EditProveedor";
 import Products from "../Pages/Products";
 import EditProducto from "../Pages/EditProducto";
+import EditFlota from "../Pages/EditFlota";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -107,6 +108,10 @@ const AuthConsumer = () => {
           <Route
             path="/admin-flotas"
             element={login ? <AddFlota /> : <Login />}
+          />
+          <Route
+            path="/admin-flotas/edit/:id"
+            element={login ? <EditFlota /> : <Login />}
           />
           <Route
             path="/ver-gastos"
