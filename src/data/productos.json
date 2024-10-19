@@ -1,13 +1,15 @@
 [
   {
-    "producto": "Motor VR6",
+    "id":1,
+    "nombre": "Motor VR6",
     "marca": "Ford",
     "modelo": "Fiesta",
     "categoria": "Motores",
     "cantidad": 10
   },
   {
-    "producto": "Parabrisa de Ford Fiesta",
+    "id":2,
+    "nombre": "Parabrisa de Ford Fiesta",
     "marca": "Volkswagen",
     "modelo": "Golf",
     "categoria": "Cristales",

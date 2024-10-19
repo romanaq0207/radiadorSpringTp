@@ -33,6 +33,9 @@ import EditProveedor from "../Pages/EditProveedor";
 import Products from "../Pages/Products";
 import EditProducto from "../Pages/EditProducto";
 import EditFlota from "../Pages/EditFlota";
+import OrdenesDeCompra from "../Pages/OrdenesDeCompra";
+import AddOrden from "../Pages/AddOrden";
+
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -168,6 +171,14 @@ const AuthConsumer = () => {
           <Route 
             path="/edit-producto/:id" 
             element={<EditProducto />} 
+          />
+            <Route 
+            path="/orden-de-compra" 
+            element={login ? <OrdenesDeCompra /> : <Login />} 
+          />
+            <Route 
+            path="/add-orden" 
+            element={login ? <AddOrden /> : <Login />} 
           />
         </Routes>
       </main>

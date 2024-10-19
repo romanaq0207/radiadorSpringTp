@@ -87,6 +87,11 @@ function Navbar() {
                 <FontAwesomeIcon icon={faBox} /> {/* Icono de "Productos" */}
               </Link>
             </li>
+            <li className="navbar-item">
+              <Link to="/orden-de-compra" className="navbar-link" title="Ordenes de Compra" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faBox} /> {/* Icono de "Productos" */}
+              </Link>
+            </li>
           </>
         )}
 

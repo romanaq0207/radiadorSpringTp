@@ -1,0 +1,166 @@
+.orders-container {
+    margin-top: 80px;
+    padding-top: 50px; 
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    background-color: #1b1f38;
+    color: #fff;
+    border-radius: 10px;
+}
+
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orders-header h1 {
+    font-size: 30px;
+    color: #4a90e2;
+}
+
+.orders-btn {
+  padding: 5px 10px;
+    margin: 5px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.orders-btn.add-order {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.orders-filter {
+    margin: 20px 0;
+    display: flex;
+    align-items: baseline;
+}
+
+.orders-filter label {
+    margin-right: 10px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.orders-table thead {
+    background-color: #2e3a55;
+}
+
+.orders-table th, .orders-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.orders-table tr {
+    background-color: #2c2c38;
+    border-bottom: 1px solid #3e4e6c;
+}
+
+.orders-table tr:hover {
+    background-color: #3e4e6c;
+}
+
+.orders-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.orders-status.creada {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.orders-status.aprobada {
+    background-color: #0fff4371;
+    color: white;
+  }
+
+
+.orders-status.completada {
+    background-color: #f5a623;
+    color: white;
+}
+
+.orders-status.rechazada {
+    background-color: #f44336;
+    color: white;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.orders-btn.view {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.orders-btn.accept {
+    background-color: #0fff4371;
+    color: white;
+}
+
+.orders-btn.reject {
+    background-color: #d0021b;
+    color: white;
+}
+
+.orders-btn.complete {
+    background-color: #f5a623;
+    color: white;
+}
+
+.orders-btn.inactivate {
+    background-color: #9b9b9b;
+    color: white;
+}
+
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.popup-content {
+    background-color: white;
+    color: #3e4e6c;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.popup-content h3{
+    color: #3e4e6c;
+}
+
+.popup-close-btn {
+    background-color: #ff5e5e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.popup-close-btn:hover {
+    background-color: #ff3d3d;
+}
+
+
