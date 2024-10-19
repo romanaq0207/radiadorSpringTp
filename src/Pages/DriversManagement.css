@@ -74,7 +74,7 @@
 
 .add-button {
     padding: 12px 25px;
-    background-color: #f38dc8;
+    background-color: #e23d9d;
     color: white;
     border: none;
     border-radius: 25px;
@@ -99,9 +99,9 @@
 }
 
 .drivers-card {
-    background-color: rgba(255, 0, 0, 0.8);
+    background-color: #f38dc8be;
     padding: 20px;
-    border: 1px solid #d10000;
+    border: 1px solid f38dc8;
     border-radius: 10px;
     width: 100%;
     max-width: 500px;

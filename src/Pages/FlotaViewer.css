@@ -5,7 +5,8 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    padding-top: 60px; /* Espacio para evitar superposición con la navbar */    
+    margin-top: 65px;  
+    background-color:rgba(0, 0, 0, 0.5);
 }
   
 h2 {
@@ -34,7 +35,7 @@ h3 {
   
 .save-flota-button {
     padding: 10px 20px;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    background-color: #f38dc8; /* Color de fondo */
     color: white; /* Color del texto */
     border: none;
     border-radius: 4px;
@@ -44,7 +45,7 @@ h3 {
 }
   
 .save-flota-button:hover {
-    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
+    background-color: #ed61ff; /* Cambio de color al pasar el ratón */
 }
   
 .error-banner {
@@ -72,9 +73,9 @@ h3 {
     display: flex;
     justify-content: space-between; /* Espaciado entre texto y botón */
     align-items: center;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    background-color: #f38dc8; /* Color de fondo */
     padding: 15px; /* Padding en las tarjetas de autos */
-    border: 1px solid #d10000; /* Borde de las tarjetas */
+    border: 1px solid #f38dc8; /* Borde de las tarjetas */
     border-radius: 10px; /* Esquinas redondeadas */
     margin-bottom: 10px; /* Espacio entre los autos */
     color: white; /* Color de texto */
@@ -103,9 +104,9 @@ h3 {
     display: flex;
     justify-content: space-between; /* Espaciado entre texto y botón */
     align-items: center;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    background-color: #f38dc8; /* Color de fondo */
     padding: 15px; /* Padding en las tarjetas de autos */
-    border: 1px solid #d10000; /* Borde de las tarjetas */
+    border: 1px solid #f38dc8; /* Borde de las tarjetas */
     border-radius: 10px; /* Esquinas redondeadas */
     margin-bottom: 10px; /* Espacio entre los autos */
     color: white; /* Color de texto */
@@ -114,7 +115,7 @@ h3 {
   
 .remove-auto-button {
     padding: 5px 10px;
-    background-color: rgba(255, 0, 0, 0.8); /* Color de fondo */
+    background-color: #f38dc8; /* Color de fondo */
     color: white; /* Color del texto */
     border: none;
     border-radius: 4px;
@@ -123,7 +124,7 @@ h3 {
 }
   
 .remove-auto-button:hover {
-    background-color: rgba(255, 0, 0, 1); /* Cambio de color al pasar el ratón */
+    background-color: #ed61ff; /* Cambio de color al pasar el ratón */
 }
   
 @media only screen and (min-width: 768px) {

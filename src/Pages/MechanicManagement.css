@@ -78,9 +78,9 @@ body {
 
 /* Estilos de las tarjetas de mecánicos */
 .mechanic-card {
-    background-color: #ed61ffbb;
+    background-color: #f38dc8be;
     padding: 15px;
-    border: 2px solid #ed61ffbb;
+    border: 2px solid #f38dc8be;
     border-radius: 5px;
     width: 100%; /* Mantén el ancho al 100% para cada tarjeta */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

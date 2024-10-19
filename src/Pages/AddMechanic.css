@@ -7,6 +7,7 @@
     padding: 20px;
     background-color: #f4f4f460;
     min-height: 100vh;
+    margin-top: 55px;
   }
   
   .add-mecanico h2 {
@@ -34,7 +35,7 @@
     width: 100%;
     max-width: 400px;
     padding: 12px;
-    background-color: #d10000;
+    background-color: #f38dc8;
     color: white;
     font-size: 18px;
     border: none;
@@ -44,14 +45,14 @@
   }
   
   .add-mecanico button:hover {
-    background-color: #a80000;
+    background-color: #ed61ff;
   }
   
   /* Estilos para pantallas más grandes (tablets y PC) */
   @media (min-width: 768px) {
     .add-mecanico {
       padding: 40px;
-      background-color: transparent;
+      margin-top: 65px;
     }
   
     .add-mecanico h2 {

@@ -53,9 +53,6 @@
   
 }
 
-
-
-
 .users-management-container form input,
 .users-management-container form select {
   padding: 10px;
@@ -76,7 +73,7 @@
 
 .users-management-container.add-button {
   padding: 12px 25px;
-  background-color: #990000;
+  background-color: #f38dc8;
   color: white;
   border: none;
   border-radius: 25px;
@@ -99,7 +96,7 @@
 }
 
 .users-management-container.add-button:hover {
-  background-color: #e63838;
+  background-color: #f38dc8;
   transform: translateY(-2px);
 }
 
@@ -119,9 +116,9 @@
 }
 
 .user-card {
-  background-color: rgba(255, 0, 0, 0.8);
+  background-color: #f38dc8af;
   padding: 20px;
-  border: 1px solid #d10000;
+  border: 1px solid #f38dc8af;
   border-radius: 10px;
   width: 100%;
   max-width: 500px;
@@ -142,6 +139,7 @@
 
 .user-card button {
   margin-right: 10px;
+  background-color: #e23d9d;
 }
 
 @media (max-width: 768px) {
