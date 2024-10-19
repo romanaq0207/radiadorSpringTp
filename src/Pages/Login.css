@@ -39,7 +39,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
-  background-color: rgb(209, 190, 162);
+  background-color: rgb(255, 255, 255);
 }
 
 .error-message {
