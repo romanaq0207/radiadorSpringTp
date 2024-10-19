@@ -1,11 +1,17 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWarehouse } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome, faCar, faWrench, faUsers, faRoute, faBox,
+  faCogs, faChartLine, faMoneyBillWave, faUserShield
+} from '@fortawesome/free-solid-svg-icons';
 import "./Navbar.css";
-import { AuthContext } from "../Context/AuthContext"; // Asegúrate de importar tu contexto de autenticación
+import { AuthContext } from "../Context/AuthContext";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { role } = useContext(AuthContext); // Obtén el rol del usuario desde el contexto
+  const { role } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -28,8 +34,8 @@ function Navbar() {
       <ul className={`navbar-list ${isOpen ? "navbar-list-open" : ""}`}>
         {/* Opciones comunes a todos */}
         <li className="navbar-item">
-          <Link to="/" className="navbar-link" onClick={closeMenu}>
-            Inicio
+          <Link to="/" className="navbar-link" title="Inicio" onClick={closeMenu}>
+            <FontAwesomeIcon icon={faHome} /> {/* Icono de "Inicio" */}
           </Link>
         </li>
 
@@ -37,195 +43,54 @@ function Navbar() {
         {role === "administrador" && (
           <>
             <li className="navbar-item">
-              <Link
-                to="/gestion-autos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Búsqueda de Autos
+              <Link to="/gestion-autos" className="navbar-link" title="Búsqueda de Autos" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faCar} /> {/* Icono de "Búsqueda de Autos" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/gestion-proveedores"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gestión de Proveedores
+              <Link to="/gestion-proveedores" className="navbar-link" title="Gestión de Proveedores" onClick={closeMenu}>
+                 <FontAwesomeIcon icon={faWarehouse} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/gestion-mecanicos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gestión de Mecánicos
+              <Link to="/gestion-mecanicos" className="navbar-link" title="Gestión de Mecánicos" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faWrench} /> {/* Icono de "Gestión de Mecánicos" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/gestion-conductor"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gestión de Conductores
+              <Link to="/gestion-conductor" className="navbar-link" title="Gestión de Conductores" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faRoute} /> {/* Icono de "Gestión de Conductores" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/reportes" className="navbar-link" onClick={closeMenu}>
-                Reportes
+              <Link to="/reportes" className="navbar-link" title="Reportes" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faChartLine} /> {/* Icono de "Reportes" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/admin-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Administración de Gastos
+              <Link to="/admin-gastos" className="navbar-link" title="Administración de Gastos" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faMoneyBillWave} /> {/* Icono de "Administración de Gastos" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/admin-usuarios"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Administración de Usuarios
+              <Link to="/admin-usuarios" className="navbar-link" title="Administración de Usuarios" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faUserShield} /> {/* Icono de "Administración de Usuarios" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link
-                to="/admin-flotas"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Administración de Flotas
+              <Link to="/admin-flotas" className="navbar-link" title="Administración de Flotas" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faWarehouse} /> {/* Icono de "Administración de Flotas" */}
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/productos" className="navbar-link" onClick={closeMenu}>
-                Productos
+              <Link to="/productos" className="navbar-link" title="Productos" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faBox} /> {/* Icono de "Productos" */}
               </Link>
             </li>
           </>
         )}
 
-        {/* Opciones solo para "operador" */}
-        {role === "operador" && (
-          <>
-            <li className="navbar-item">
-              <Link
-                to="/ver-mi-ruta"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Mi Ubicacion
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link
-                to="/mis-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Mis Gastos
-              </Link>
-            </li>
-          </>
-        )}
-
-        {role === "gerente" && (
-          <>
-            <li className="navbar-item">
-              <Link
-                to="/verificar-rutas"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Rutas
-              </Link>
-            </li>
-
-            <li className="navbar-item">
-              <Link
-                to="/reportes-gerencia"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Reportes
-              </Link>
-            </li>
-
-            <li className="navbar-item">
-              <Link
-                to="/ver-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Gastos
-              </Link>
-            </li>
-          </>
-        )}
-
-        {role === "supervisor" && (
-          <>
-            <li className="navbar-item">
-              <Link
-                to="/crear-ruta"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Crear Ruta
-              </Link>
-            </li>
-          </>
-        )}
-
-        {role === "cliente" && (
-          <>
-            <li className="navbar-item">
-              <Link
-                to="/visor-gastos"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Visor de Gastos
-              </Link>
-            </li>
-            <li className="navbar-item">
-              <Link
-                to="/visor-flota"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Visor de Flotas
-              </Link>
-            </li>
-
-            <li className="navbar-item">
-              <Link to="/reportes" className="navbar-link" onClick={closeMenu}>
-                Reportes
-              </Link>
-            </li>
-          </>
-        )}
-
-        {role === "mecanico" && (
-          <>
-            <li className="navbar-item">
-              <Link
-                to="/busqueda-auto-mecanico"
-                className="navbar-link"
-                onClick={closeMenu}
-              >
-                Visor de Autos
-              </Link>
-            </li>
-          </>
-        )}
+        {/* Puedes continuar agregando más roles e íconos para cada opción */}
       </ul>
     </nav>
   );
