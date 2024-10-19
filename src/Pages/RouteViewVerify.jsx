@@ -76,7 +76,7 @@ function RuteViewVerify() {
           Rechazar
         </button>
         <h4 onClick={handleReturnRoutes} id="volver-rutas">
-          volver..
+          Volver
         </h4>
       </div>
     </div>

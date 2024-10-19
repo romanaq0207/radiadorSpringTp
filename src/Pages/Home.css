@@ -34,7 +34,7 @@
 button {
   padding: 10px 20px;
   font-size: 1.2rem;
-  background-color: #d10000;
+  background-color: #f38dc8;
   color: white;
   border: none;
   border-radius: 5px;
@@ -43,7 +43,7 @@ button {
 }
 
 button:hover {
-  background-color: #a50000;
+  background-color: #ed61ff;
 }
 
 /* Estilos responsivos */

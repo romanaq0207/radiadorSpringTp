@@ -39,6 +39,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-sizing: border-box;
+  background-color: rgb(209, 190, 162);
 }
 
 .error-message {
@@ -82,11 +83,13 @@
 /* Estilos para pantallas más grandes (PC) */
 @media (min-width: 768px) {
   .login-container {
-    padding: 40px;
+    padding: 1  00px;
+
   }
 
   .login-container form {
-    max-width: 500px;
+    max-width: 800px;
+    width: 800px;
   }
 
   .login-container h2 {

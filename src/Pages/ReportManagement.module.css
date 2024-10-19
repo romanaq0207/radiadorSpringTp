@@ -26,7 +26,7 @@
 .report-card {
   display: flex;
   flex-direction: column; /* Cambia a columna para que se vea mejor en mobile */
-  background-color: #d10000;
+  background-color: #e052a5 ;
   padding: 15px;
   border-radius: 5px;
   margin: 5px 0; /* Espacio entre las tarjetas */
@@ -58,7 +58,7 @@
     max-width: 600px; /* Ancho máximo de las tarjetas */
     margin: 10px auto; /* Centrarlas con margen automático */
     padding: 10px; /* Aumenta el padding */
-    background-color: #d10000; /* Color de fondo */
+    background-color: #e052a5; /* Color de fondo */
     border-radius: 5px; /* Bordes redondeados */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agrega sombra para profundidad */
   }

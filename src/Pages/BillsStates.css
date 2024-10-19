@@ -35,11 +35,11 @@
 
 /* Estilo para cada tarjeta de gasto */
 .gasto-item {
-  border: 1px solid #241b1b;
+  border: 1px solid #f38dc8;
   padding: 10px;
   margin: 10px; /* Espacio entre los items */
   border-radius: 5px;
-  background-color: #8b0505;
+  background-color: #f38dc8;
   color: white; /* Texto blanco para contraste */
   flex: 1 1 calc(30% - 20px); /* Ajusta el tamaño para 3 tarjetas en fila en pantallas grandes */
   box-sizing: border-box; /* Asegura que el padding y el border no afecten el tamaño total */

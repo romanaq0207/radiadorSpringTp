@@ -85,16 +85,16 @@
 }
 
 .add-auto-button:hover {
-    background-color: #b30000;
+    background-color: #969696;
 }
 
 .scan-qr-button {
-    background-color: #b30000;
+    background-color: #f38dc8;
     color: white;
 }
 
 .scan-qr-button:hover {
-    background-color: #a10000;
+    background-color: #ed61ff;
 }
 
 /* Lista de tarjetas de autos */

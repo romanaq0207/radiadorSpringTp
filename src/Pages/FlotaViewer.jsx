@@ -16,7 +16,7 @@ function FlotaViewer() {
     );
 
     return (
-        <div className="add-flota-container">
+        <div className="add-flota-container">   
             <h3>Buscar Flota</h3>
             <input
                 type="text"

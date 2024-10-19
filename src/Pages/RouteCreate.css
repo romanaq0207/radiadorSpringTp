@@ -28,17 +28,25 @@
 }
 
 .add-route input:focus {
-  border-color: red; /* Cambiar color al enfocar */
+  border-color: #f38dc8; /* Cambiar color al enfocar */
 }
 
 #submit-ruta {
-  margin-top: 10px;
+  margin: .5rem;
+  padding: 12px 25px;
+  background-color: #ff82cb;
+  color: #ffffff;
   border: none;
-  color: white;
-  background-color: red;
-  padding: 12px;
-  font-size: 16px;
+  border-radius: 25px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#submit-ruta:hover {
+  background-color: #edb0f5;
+  
 }
 
 #mapa {

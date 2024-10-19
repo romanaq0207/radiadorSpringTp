@@ -31,11 +31,6 @@ import ProveedoresViewer from "../Pages/ProveedoresViewer";
 import AddProveedor from "../Pages/AddProveedor";
 import EditProveedor from "../Pages/EditProveedor";
 import Products from "../Pages/Products";
-import EditProducto from "../Pages/EditProducto";
-import EditFlota from "../Pages/EditFlota";
-import OrdenesDeCompra from "../Pages/OrdenesDeCompra";
-import AddOrden from "../Pages/AddOrden";
-
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -113,10 +108,6 @@ const AuthConsumer = () => {
             element={login ? <AddFlota /> : <Login />}
           />
           <Route
-            path="/admin-flotas/edit/:id"
-            element={login ? <EditFlota /> : <Login />}
-          />
-          <Route
             path="/ver-gastos"
             element={login ? <BillStates /> : <Login />}
           />
@@ -164,22 +155,7 @@ const AuthConsumer = () => {
             path="/edit-proveedor/:id"
             element={login ? <EditProveedor /> : <Login />}
           />
-          <Route 
-            path="/productos" 
-            element={login ? <Products /> : <Login />} 
-          />
-          <Route 
-            path="/edit-producto/:id" 
-            element={<EditProducto />} 
-          />
-            <Route 
-            path="/orden-de-compra" 
-            element={login ? <OrdenesDeCompra /> : <Login />} 
-          />
-            <Route 
-            path="/add-orden" 
-            element={login ? <AddOrden /> : <Login />} 
-          />
+          <Route path="/productos" element={login ? <Products /> : <Login />} />
         </Routes>
       </main>
     </>

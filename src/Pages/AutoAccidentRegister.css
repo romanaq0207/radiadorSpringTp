@@ -17,6 +17,7 @@
   min-height: calc(100vh - 80px); /* Espacio para la barra de navegación */
   margin: 40px;
   font-size: 11px;
+  margin-top: 55px;
 }
 
 /* Títulos */
@@ -64,7 +65,7 @@
 /* Estilo del botón */
 .auto-detail button {
   padding: 10px 15px; /* Reducido */
-  background-color: #d10000;
+  background-color: #f38dc8;
   color: white;
   border: none;
   border-radius: 5px;
@@ -74,7 +75,7 @@
 }
 
 .auto-detail button:hover {
-  background-color: #b30000;
+  background-color: #ed61ff;
 }
 
 /* Estilo del enlace de retroceso */
@@ -89,6 +90,7 @@
 @media (min-width: 768px) {
   .auto-detail {
     padding: 40px;
+    margin-top: 65px;
   }
 
   .auto-detail h2 {
@@ -105,6 +107,7 @@
 
   .auto-detail button {
     font-size: 1.2rem;
+    background-color: #f38dc8;
   }
 
   .maintenance-table th,
