@@ -2,7 +2,7 @@
 .navbar {
   min-height: 10vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Centra el contenido horizontalmente */
   align-items: center;
   background-color: #2566b1a9;
   padding: 10px 20px;
@@ -16,11 +16,12 @@
 /* Lista de navegación */
 .navbar-list {
   display: flex;
-  gap: 20px;
+  gap: 20px; /* Espaciado entre los elementos */
   list-style: none;
   transition: transform 0.3s ease-in-out;
   text-align: center;
-  align-content: baseline;
+  align-items: center; /* Alineación vertical de los elementos */
+  justify-content: center; /* Centra los elementos en la barra */
 }
 
 .navbar-link {
@@ -32,7 +33,7 @@
   text-align: center;
   display: flex; /* Asegura que ícono y texto estén alineados */
   align-items: center; /* Alineación vertical centrada */
-  justify-content: center; /* Centra contenido */
+  justify-content: center; /* Centra el contenido dentro del enlace */
 }
 
 .navbar-link svg {
