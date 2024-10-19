@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #d10000;
+  background-color: #2566b1a9;
   padding: 10px 20px;
   position: fixed;
   top: 0;
@@ -74,6 +74,7 @@
 
   .navbar-list.navbar-list-open {
     display: flex;
+    background-color: #2566b1;
   }
 
   .navbar-item {

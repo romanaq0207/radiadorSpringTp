@@ -1,9 +1,9 @@
 .auto-card {
     
-    background-color: rgba(209, 0, 0, 0.8);
+    background-color: #f38dc8c4;
     padding: 15px;
     margin: 10px 0;
-    border: 2px solid #c20000;
+    border: 2px solid #f38dc8c4;
     border-radius: 5px;
     width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

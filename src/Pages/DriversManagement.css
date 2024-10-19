@@ -74,7 +74,7 @@
 
 .add-button {
     padding: 12px 25px;
-    background-color: #990000;
+    background-color: #f38dc8;
     color: white;
     border: none;
     border-radius: 25px;
@@ -85,7 +85,7 @@
 }
 
 .add-button:hover {
-    background-color: #e63838;
+    background-color: #ed61ff;
     transform: translateY(-2px);
 }
 

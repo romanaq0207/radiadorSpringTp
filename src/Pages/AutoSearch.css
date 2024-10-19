@@ -68,22 +68,22 @@
   }
   
   .auto-search__add-auto {
-    background-color: #525252;
+    background-color: #f38dc8c4;
     color: white;
     transition: background-color 0.3s ease, transform 0.2s;
   }
   
   .auto-search__add-auto:hover {
-    background-color: #b30000;
+    background-color: #ed61ffc9;
   }
   
   .auto-search__scan-qr {
-    background-color: #b30000;
+    background-color: #f38dc8c4;
     color: white;
   }
   
   .auto-search__scan-qr:hover {
-    background-color: #a10000;
+    background-color: #ed61ffb2;
   }
   
   /* Lista de tarjetas de autos para móviles (por defecto en columna) */
@@ -121,6 +121,7 @@
     .auto-search__scan-qr {
       padding: 12px 30px;
       font-size: 1.1rem;
+      background-color: #f38dc8c4;
     }
   }
   
