@@ -22,6 +22,7 @@
   text-align: center;
   align-items: center; /* Alineación vertical de los elementos */
   justify-content: center; /* Centra los elementos en la barra */
+  
 }
 
 .navbar-link {
