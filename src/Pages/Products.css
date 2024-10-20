@@ -75,6 +75,21 @@ td {
   width: 90%;
 }
 
+#abrir-add-product:disabled {
+  cursor: not-allowed;
+  background-color: grey;
+}
+
+.button-modificar:disabled {
+  cursor: not-allowed;
+  background-color: grey;
+}
+
+.button-eliminar:disabled {
+  cursor: not-allowed;
+  background-color: grey;
+}
+
 #abrir-add-product {
   align-items: end;
   border-radius: 0%;

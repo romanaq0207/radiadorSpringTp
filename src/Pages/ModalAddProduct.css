@@ -55,6 +55,32 @@
 }
 
 /* Media Queries */
+@media (max-width: 1200px) {
+  #modal-container {
+    width: 50%; /* Ancho del modal incrementado para pantallas más pequeñas */
+    height: 27%; /* Ajustado para mejorar la vista en pantallas más pequeñas */
+    margin-top: 15%; /* Mayor espacio en la parte superior */
+  }
+
+  #tittle {
+    margin-left: 0; /* Centrar título */
+    text-align: center; /* Centrar texto del título */
+    font-size: 25px; /* Reducir tamaño de fuente */
+  }
+
+  .input-producto,
+  #modal-select-categoria {
+    height: 35px; /* Ajuste automático de la altura */
+    padding: 10px;
+  }
+
+  #btn-add-producto,
+  #btn-close-modal {
+    width: 30%; /* Incrementar ancho de botones */
+    margin: 10px 40px; /* Margen automático para centrar botones */
+  }
+}
+
 @media (max-width: 768px) {
   #modal-container {
     width: 80%; /* Ancho del modal incrementado para pantallas más pequeñas */
@@ -83,9 +109,9 @@
 
 @media (max-width: 480px) {
   #modal-container {
-    width: 90%; /* Ancho del modal incrementado para pantallas más pequeñas */
-    height: auto; /* Ajuste automático de la altura */
-    margin-top: 20%; /* Mayor espacio en la parte superior */
+    width: 80%; /* Ancho del modal incrementado para pantallas más pequeñas */
+    height: 420px; /* Ajuste automático de la altura */
+    margin-top: 25%; /* Mayor espacio en la parte superior */
   }
 
   #tittle {
@@ -101,7 +127,7 @@
 
   #btn-add-producto,
   #btn-close-modal {
-    width: 90%; /* Incrementar ancho de botones */
+    width: 100%; /* Incrementar ancho de botones */
     margin: 10px auto; /* Margen automático para centrar botones */
   }
 }

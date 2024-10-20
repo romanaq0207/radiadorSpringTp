@@ -13,6 +13,7 @@ function Products() {
     "Todos los productos"
   );
   const [showModal, setShowModal] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ function Products() {
 
   const handleShowModel = () => {
     setShowModal(true);
+    setIsDisabled(true);
   };
 
   const handleCategoriaChange = (e) => {
@@ -79,16 +81,28 @@ function Products() {
     <div className="productos-container">
       <h2 id="title-productos">Productos</h2>
       <div id="opcions-container">
-        <button id="abrir-add-product" onClick={handleShowModel}>
+        <button
+          id="abrir-add-product"
+          disabled={isDisabled}
+          onClick={handleShowModel}
+        >
           Agregar producto
         </button>
-        {showModal && <Modal onClose={() => setShowModal(false)} />}
+        {showModal && (
+          <Modal
+            onClose={() => {
+              setIsDisabled(false);
+              setShowModal(false);
+            }}
+          />
+        )}
 
         <div className="search-container">
           <i className="material-icons" id="search-icon">
             search
           </i>
           <input
+            disabled={isDisabled}
             type="text"
             placeholder="Buscar por producto..."
             value={searchTerm}
@@ -96,7 +110,11 @@ function Products() {
             id="search-producto"
           />
         </div>
-        <select id="select-categoria" onChange={handleCategoriaChange}>
+        <select
+          id="select-categoria"
+          disabled={isDisabled}
+          onChange={handleCategoriaChange}
+        >
           <option value="Todos los productos"> Todos los productos</option>
           <option value="Aire acondicionado"> Aire acondicionado</option>
           <option value="Amortiguadores"> Amortiguadores</option>
@@ -144,12 +162,14 @@ function Products() {
                   <td>
                     <button
                       className="button button-modificar"
+                      disabled={isDisabled}
                       onClick={() => handleEdit(row.id_producto)}
                     >
                       Modificar
                     </button>
                     <button
                       className="button button-eliminar"
+                      disabled={isDisabled}
                       onClick={() => handleDelete(row.id_producto)}
                     >
                       Eliminar
