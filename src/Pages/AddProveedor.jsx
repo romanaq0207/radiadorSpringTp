@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './AddProveedor.css';
-import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./AddProveedor.css";
+import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
 const AddProveedor = () => {
   const [formData, setFormData] = useState({
-    nombre: '',
-    cuil: '',
-    email: '',
-    direccion: '',
-    telefono: ''
+    nombre: "",
+    cuil: "",
+    email: "",
+    direccion: "",
+    telefono: "",
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -26,24 +26,26 @@ const AddProveedor = () => {
     const newErrors = {};
     const nameRegex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
     const cuilRegex = /^\d{2}-\d{8}-\d{1}$/; // CUIL en formato nn-nnnnnnnn-n
-    const addressRegex =/^[A-Za-z0-9\s,]+$/; // Letras, números, comas y espacios
+    const addressRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s,]+$/; // Letras, números, comas y espacios
     const phoneRegex = /^\d{8}$|^\d{10}$/; // 8 o 10 dígitos para teléfono
     if (!formData.nombre || !nameRegex.test(formData.nombre)) {
-      newErrors.nombre = 'El nombre solo debe contener letras y espacios.';
+      newErrors.nombre = "El nombre solo debe contener letras y espacios.";
     }
     if (!formData.cuil || !cuilRegex.test(formData.cuil)) {
-      newErrors.cuil = 'El CUIL debe seguir el formato 12-34567890-1.';
+      newErrors.cuil = "El CUIL debe seguir el formato 12-34567890-1.";
     }
     if (!formData.email) {
-      newErrors.email = 'El correo es obligatorio.';
+      newErrors.email = "El correo es obligatorio.";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'El correo no es válido.';
+      newErrors.email = "El correo no es válido.";
     }
     if (!formData.direccion || !addressRegex.test(formData.direccion)) {
-      newErrors.direccion = 'La dirección solo debe contener letras, números y espacios.';
+      newErrors.direccion =
+        "La dirección solo debe contener letras, números y espacios.";
     }
     if (!formData.telefono || !phoneRegex.test(formData.telefono)) {
-      newErrors.telefono = 'Ingrese un número de telefono válido para la Rep. Argentina';
+      newErrors.telefono =
+        "Ingrese un número de telefono válido para la Rep. Argentina";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,10 +56,16 @@ const AddProveedor = () => {
     e.preventDefault();
     if (validate()) {
       try {
-        await axios.post(`${API_BASE_URL}/proveedores`, { ...formData, activo: true });
-        navigate('/'); // Navega de vuelta a la lista de proveedores activos
+        await axios.post(`${API_BASE_URL}/proveedores`, {
+          ...formData,
+          activo: true,
+        });
+        navigate("/"); // Navega de vuelta a la lista de proveedores activos
       } catch (error) {
-        console.error("Error al agregar el proveedor a la base de datos:", error);
+        console.error(
+          "Error al agregar el proveedor a la base de datos:",
+          error
+        );
       }
     }
   };
@@ -108,7 +116,9 @@ const AddProveedor = () => {
             onChange={handleInputChange}
             required
           />
-          {errors.direccion && <span className="error">{errors.direccion}</span>}
+          {errors.direccion && (
+            <span className="error">{errors.direccion}</span>
+          )}
         </div>
         <div className="form-group">
           <label>Teléfono:</label>
@@ -121,7 +131,9 @@ const AddProveedor = () => {
           />
           {errors.telefono && <span className="error">{errors.telefono}</span>}
         </div>
-        <button type="submit" className="submit-button">Agregar Proveedor</button>
+        <button type="submit" className="submit-button">
+          Agregar Proveedor
+        </button>
       </form>
     </div>
   );
