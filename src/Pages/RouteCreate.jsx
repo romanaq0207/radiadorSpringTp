@@ -31,7 +31,7 @@ function RouteCreate() {
         <input
           type="text"
           name="desde"
-          pattern="[a-zA-Z0-9\s]+"
+          pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,!?;:-]+"
           title="Solo se permiten letras, números y espacios."
           placeholder="Punto de partida"
           value={rutaData.desde}
@@ -41,7 +41,7 @@ function RouteCreate() {
         <input
           type="text"
           name="hasta"
-          pattern="[a-zA-Z0-9\s]+"
+          pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,!?;:-]+"
           title="Solo se permiten letras, números y espacios."
           placeholder="Destino"
           value={rutaData.hasta}
