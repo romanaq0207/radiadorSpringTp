@@ -222,7 +222,8 @@
         border-bottom: 1px solid #ddd;
         background-color:  #3e4e6c;
         white-space: nowrap;
-        height: 40px;
+        height: 47px;
+       
        
         
     }
@@ -231,14 +232,15 @@
     }
 
     .orders-btn.orders-btn.view{
-        width: 30%;
+        width: 33%;
         padding: 7px;
     }
     .orders-btn.accept{
         width: 25%;
     }
     .orders-btn.reject{
-        width: 25%;
+        width: 27%;
+        padding: 7px;
     }
     .orders-btn.complete{
         width: 28%;
@@ -246,6 +248,7 @@
     }
     .orders-btn.inactivate{
         width: 25%;
+        padding: 7px;
     }
 
     .orders-table td:last-child {
@@ -283,6 +286,7 @@
     .orders-table td {
         font-size: 18px;
         padding: 5px;
+        height: 40px;
     }
 
     .popup-close-btn {
