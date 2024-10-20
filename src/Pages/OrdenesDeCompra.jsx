@@ -62,7 +62,7 @@ const OrdenesDeCompra = () => {
                 return (
                     <>
                         <button className="orders-btn view" onClick={() => handleViewDetails(order)}>Ver detalles</button>
-                        <button className="orders-btn complete" onClick={() => updateOrderStatus(order.id, 'Completada')}>Completar orden</button>
+                        <button className="orders-btn complete" onClick={() => updateOrderStatus(order.id, 'Completada')}>Completar</button>
                         <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id, 'Inactiva')}>Inactivar</button>
                     </>
                 );
@@ -109,11 +109,11 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
-                            <td>{order.proveedor}</td>
-                            <td>{order.fecha}</td>
-                            <td><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
-                            <td>${order.total}</td>
-                            <td>{renderActions(order.estado, order)}</td>
+                            <td data-label= "Proveedor">{order.proveedor}</td>
+                            <td data-label= "Fecha">{order.fecha}</td>
+                            <td data-label= "Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
+                            <td data-label= "Total">${order.total}</td>
+                            <td data-label= "Acciones">{renderActions(order.estado, order)}</td>
                         </tr>
                     ))}
                 </tbody>

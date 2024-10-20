@@ -8,7 +8,14 @@
     color: #fff;
     border-radius: 10px;
 }
-
+.orders-container select{
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 .orders-header {
     display: flex;
     justify-content: space-between;
@@ -164,3 +171,115 @@
 }
 
 
+@media screen and (max-width: 768px) {
+    .orders-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .orders-header h1 {
+        font-size: 20px;
+    }
+
+    .orders-btn {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .orders-filter {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .orders-table {
+        width: 100%;
+    }
+
+    /* Convert table to a stacked layout */
+    .orders-table thead {
+        display: none;
+    }
+
+    .orders-table tr {
+        display: block;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .orders-table td {
+        display: block;
+        text-align: center;
+        font-size: 20px;
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+        background-color:  #3e4e6c;
+        white-space: nowrap;
+        height: 40px;
+       
+        
+    }
+    .orders-table td::before{
+        font-size: 0%;
+    }
+
+    .orders-btn.orders-btn.view{
+        width: 30%;
+        padding: 7px;
+    }
+    .orders-btn.accept{
+        width: 25%;
+    }
+    .orders-btn.reject{
+        width: 25%;
+    }
+    .orders-btn.complete{
+        width: 28%;
+        padding: 7px;
+    }
+    .orders-btn.inactivate{
+        width: 25%;
+    }
+
+    .orders-table td:last-child {
+        border-bottom: none;
+    }
+
+    .orders-table td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+    }
+
+    /* Popup styles */
+    .popup-content {
+        width: 100%;
+        max-width: 90%;
+    }
+
+    .popup-close-btn {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .orders-header h1 {
+        font-size: 25px;
+    }
+
+    .orders-btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .orders-table td {
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .popup-close-btn {
+        font-size: 14px;
+    }
+}
