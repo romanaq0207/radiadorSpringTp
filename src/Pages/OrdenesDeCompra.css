@@ -153,8 +153,13 @@
     text-align: center;
 }
 
-.popup-content h3{
+.popup-content h3, .popup-content h2{
     color: #3e4e6c;
+}
+
+.popup-content h2{
+    margin: 10px;
+    font-size: 40px;
 }
 
 .popup-close-btn {
