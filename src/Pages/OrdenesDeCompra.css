@@ -19,7 +19,7 @@
 .orders-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 }
 
 .orders-header h1 {
@@ -39,6 +39,7 @@
 .orders-btn.add-order {
     background-color: #4a90e2;
     color: white;
+    height: 40px;
 }
 
 .orders-filter {
