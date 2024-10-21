@@ -6,6 +6,7 @@ import Modal from "./ModalExitoAddProduct.jsx";
 
 function ModalAddProduct({ onClose }) {
   const [showModal, setShowModal] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -26,42 +27,69 @@ function ModalAddProduct({ onClose }) {
     try {
       await axios.post(`${API_BASE_URL}/productos`, formData);
       setShowModal(true);
+      setIsDisabled(true);
     } catch (error) {
       console.error("Error al agregar el producto:", error);
     }
   };
 
+  // const handleShowModel = () => {
+  //   setShowModal(true);
+  //   setIsDisabled(true);
+  // };
+
   return (
     <div id="modal-container">
-      {showModal && <Modal onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <Modal
+          onClose={() => {
+            setIsDisabled(false);
+            setShowModal(false);
+          }}
+        />
+      )}
       <div id="form-product">
         <h2 id="tittle">Agregar Producto</h2>
         <input
           className="input-producto"
           name="nombre"
+          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,\-&!/%#]+$"
+          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Producto"
           value={formData.nombre}
+          disabled={isDisabled}
           onChange={handleInputChange}
+          required
         />
         <input
           className="input-producto"
           name="marca"
+          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,\-&!/%#]+$"
+          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Marca"
           value={formData.marca}
+          disabled={isDisabled}
           onChange={handleInputChange}
+          required
         />
         <input
           className="input-producto"
           name="modelo"
+          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,-]+$"
+          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Modelo"
           value={formData.modelo}
+          disabled={isDisabled}
           onChange={handleInputChange}
+          required
         />
         <select
           id="modal-select-categoria"
           name="categoria"
           value={formData.categoria}
+          disabled={isDisabled}
           onChange={handleInputChange}
+          required
         >
           <option value="">Selecciona una categoría</option>
           <option value="Aire acondicionado">Aire acondicionado</option>
@@ -93,12 +121,18 @@ function ModalAddProduct({ onClose }) {
           step="1"
           placeholder="Cantidad"
           value={formData.cantidad}
+          disabled={isDisabled}
           onChange={handleInputChange}
+          required
         />
-        <button id="btn-add-producto" onClick={handleSubmit}>
+        <button
+          id="btn-add-producto"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           Agregar
         </button>
-        <button onClick={onClose} id="btn-close-modal">
+        <button disabled={isDisabled} onClick={onClose} id="btn-close-modal">
           Cerrar
         </button>
       </div>

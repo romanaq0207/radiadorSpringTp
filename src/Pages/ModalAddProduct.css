@@ -42,6 +42,14 @@
   box-sizing: border-box;
 }
 
+#btn-add-producto:disabled {
+  background-color: grey;
+}
+
+#btn-close-modal {
+  background-color: grey;
+}
+
 #btn-add-producto {
   display: inline;
   padding-left: 20px;

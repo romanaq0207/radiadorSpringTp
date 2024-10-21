@@ -6,7 +6,7 @@ function ModalAddProduct({ onClose }) {
     <div className="modal-exito">
       <h2 id="tittle-prod-exitoso">El producto se agregó exitosamente</h2>
       <div>
-        <i class="material-icons" id="icon-check">
+        <i className="material-icons" id="icon-check">
           check_circle
         </i>
       </div>

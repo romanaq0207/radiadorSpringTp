@@ -14,6 +14,7 @@
   border-radius: 5%;
   border-style: solid;
   border-color: green;
+  z-index: inherit;
 }
 
 #tittle-prod-exitoso {
@@ -22,7 +23,6 @@
 }
 
 #icon-check {
-  padding-left: 100px;
   color: green;
   font-size: 115px;
 }
@@ -31,33 +31,32 @@
 @media (max-width: 768px) {
   .modal-exito {
     width: 80%;
-    height: 50%;
+    height: 250px;
     margin: 10% auto; /* Centrar el margen horizontalmente */
   }
 
   #tittle-prod-exitoso {
-    font-size: large; /* Reducir tamaño de fuente */
+    font-size: x-large; /* Reducir tamaño de fuente */
   }
 
   #icon-check {
-    padding-left: 100px;
-    font-size: 80px; /* Reducir tamaño de icono */
+    font-size: 100px; /* Reducir tamaño de icono */
   }
 }
 
 @media (max-width: 480px) {
   .modal-exito {
     width: 95%;
-    height: auto;
+    height: 50%;
     margin: 20% auto; /* Centrar el margen horizontalmente */
   }
 
   #tittle-prod-exitoso {
-    font-size: medium; /* Reducir tamaño de fuente aún más */
+    font-size: large; /* Reducir tamaño de fuente aún más */
   }
 
   #icon-check {
-    padding-left: 100px;
+    padding-left: 15px;
     font-size: 60px; /* Reducir tamaño de icono */
   }
 }
