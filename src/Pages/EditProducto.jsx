@@ -80,6 +80,7 @@ const EditProducto = () => {
         <div className="form-group">
           <label>Nombre:</label>
           <input
+            className="input-item"
             type="text"
             value={producto.nombre}
             onChange={(e) =>
@@ -92,6 +93,7 @@ const EditProducto = () => {
         <div className="form-group">
           <label>Marca:</label>
           <input
+            className="input-item"
             type="text"
             value={producto.marca}
             onChange={(e) =>
@@ -104,6 +106,7 @@ const EditProducto = () => {
         <div className="form-group">
           <label>Modelo:</label>
           <input
+            className="input-item"
             type="text"
             value={producto.modelo}
             onChange={(e) =>
@@ -116,6 +119,7 @@ const EditProducto = () => {
         <div className="form-group">
           <label>Categoría:</label>
           <input
+            className="input-item"
             type="text"
             value={producto.categoria}
             onChange={(e) =>
@@ -130,6 +134,7 @@ const EditProducto = () => {
         <div className="form-group">
           <label>Cantidad:</label>
           <input
+            className="input-item"
             type="text"
             value={producto.cantidad}
             onChange={(e) =>
@@ -142,10 +147,10 @@ const EditProducto = () => {
         <button type="submit" className="submit-button">
           Guardar Cambios
         </button>
-        <p id="back-text" onClick={handleBack}>
-          volver...
-        </p>
       </form>
+      <p id="back-text" onClick={handleBack}>
+        volver...
+      </p>
     </div>
   );
 };
