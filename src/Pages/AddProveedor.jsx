@@ -69,6 +69,9 @@ const AddProveedor = () => {
       }
     }
   };
+  const handleBack = () => {
+    navigate("/gestion-proveedores");
+  };
 
   return (
     <div className="add-proveedor-container">
@@ -86,7 +89,7 @@ const AddProveedor = () => {
           {errors.nombre && <span className="error">{errors.nombre}</span>}
         </div>
         <div className="form-group">
-          <label>CUIL:</label>
+          <label>CUIT:</label>
           <input
             type="text"
             name="cuil"
@@ -135,6 +138,9 @@ const AddProveedor = () => {
           Agregar Proveedor
         </button>
       </form>
+      <p id="back-text" onClick={handleBack}>
+        volver...
+      </p>
     </div>
   );
 };
