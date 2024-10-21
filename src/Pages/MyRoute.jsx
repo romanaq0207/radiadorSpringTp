@@ -187,7 +187,7 @@ function MyRoute() {
           // Crear el temporizador que envía la ubicación cada 10 segundos
           intervalId = setInterval(() => {
             enviarUbicacion(newLat, newLon);
-          }, 30000); // 10 segundos
+          }, 160000); // 10 segundos
 
         },
         (error) => {

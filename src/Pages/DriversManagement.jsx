@@ -125,7 +125,7 @@ const DriversManagement = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       conductores.forEach(conductor => fetchUbicacion(conductor.id));
-    }, 30000);
+    }, 160000);
 
     return () => clearInterval(interval); // Limpiar el intervalo al desmontar el componente
   }, [conductores]);
