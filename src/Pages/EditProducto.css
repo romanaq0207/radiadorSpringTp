@@ -1,0 +1,42 @@
+/* Reset de estilos generales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.edit-producto-container {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: "Roboto", sans-serif;
+  background-attachment: fixed;
+
+  background-color: #f4f4f4;
+  width: 100%;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 70px 30px;
+  margin-bottom: 0px;
+  min-height: 100vh;
+  margin-top: 20%;
+  border-radius: 1cm;
+}
+
+.edit-producto-container h2 {
+  margin-top: 0px;
+  color: black;
+}
+
+.form-item {
+  color: red;
+}
+
+.form-group label {
+  color: black;
+}
+
+#back-text {
+  margin: 0px;
+  color: blue;
+}
