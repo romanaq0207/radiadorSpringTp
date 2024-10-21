@@ -28,10 +28,26 @@
 }
 
 /* Media Queries */
+@media (max-width: 1200px) {
+  .modal-exito {
+    width: 300px;
+    height: 280px;
+    margin: 10% auto; /* Centrar el margen horizontalmente */
+  }
+
+  #tittle-prod-exitoso {
+    font-size: x-large; /* Reducir tamaño de fuente */
+  }
+
+  #icon-check {
+    font-size: 100px; /* Reducir tamaño de icono */
+  }
+}
+
 @media (max-width: 768px) {
   .modal-exito {
-    width: 80%;
-    height: 250px;
+    width: 400px;
+    height: 280px;
     margin: 10% auto; /* Centrar el margen horizontalmente */
   }
 
@@ -46,8 +62,8 @@
 
 @media (max-width: 480px) {
   .modal-exito {
-    width: 95%;
-    height: 50%;
+    width: 250px;
+    height: 215px;
     margin: 20% auto; /* Centrar el margen horizontalmente */
   }
 

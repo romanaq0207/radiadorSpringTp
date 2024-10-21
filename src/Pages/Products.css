@@ -10,7 +10,7 @@
   background-image: linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.5),
-      rgba(10, 9, 9, 0.5)
+      rgba(0, 0, 0, 0.5)
     ),
     url("Images/Mecanicos-certificados-en-nuestras-marcas.jpg");
   background-repeat: no-repeat;
@@ -29,7 +29,6 @@
   min-height: 106vh;
   height: auto;
   color: white;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* .productos-container {
@@ -47,21 +46,23 @@
 } */
 
 .product-table {
-  box-sizing: border-box;
+  overflow-x: auto;
   width: 100%;
 }
 
 .table-productos {
+  border-collapse: collapse;
   background-color: rgba(0, 0, 0, 0.5);
   margin-top: 0.5cm;
   width: 100%;
   font-size: large;
 }
 
-th,
-td {
+.table-productos th,
+.table-productos td {
   height: 100%;
-  padding: 5px;
+  padding: 8px;
+  text-align: left;
   width: auto;
   font-size: larger;
   border-bottom: 1px solid;
@@ -163,16 +164,34 @@ td {
     padding-left: 20px;
     padding-right: 20px;
   }
+
+  .product-table {
+    width: 100%;
+  }
+
+  .table-productos {
+    width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
   .productos-container {
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  th,
-  td {
+  .product-table {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .table-productos {
+    width: 100%;
+  }
+
+  .table-productos th,
+  .table-productos td {
     width: 100%;
   }
 
@@ -184,7 +203,7 @@ td {
 
 @media (max-width: 480px) {
   .productos-container {
-    margin-top: 22%;
+    margin-top: 60px;
     padding-top: 10px;
     margin-left: 15px;
   }
@@ -194,6 +213,11 @@ td {
     align-items: center;
   }
 
+  .product-table {
+    max-width: 290px;
+    width: 100%;
+  }
+
   .table-productos {
     padding: 1px;
     font-size: smaller;
@@ -201,7 +225,7 @@ td {
 
   th,
   td {
-    height: 1px;
+    width: 100%;
     font-size: smaller;
   }
 
