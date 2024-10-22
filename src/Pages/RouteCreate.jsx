@@ -7,8 +7,8 @@ import "./RouteCreate.css";
 
 function RouteCreate() {
   const navigate = useNavigate();
-
-  const mapRef = useRef(null); // Referencia para el mapa
+  const mapRef = useRef(null);
+  const routingControlRef = useRef(null); // Control de routing
   const [rutaData, setRutaData] = useState({
     desde: "",
     hasta: "",
@@ -16,6 +16,8 @@ function RouteCreate() {
     conductorDni: "",
   });
 
+  const [desdeCoords, setDesdeCoords] = useState(null);
+  const [hastaCoords, setHastaCoords] = useState(null);
   const [suggestionsDesde, setSuggestionsDesde] = useState([]);
   const [suggestionsHasta, setSuggestionsHasta] = useState([]);
 
@@ -23,7 +25,6 @@ function RouteCreate() {
     const { name, value } = e.target;
     setRutaData({ ...rutaData, [name]: value });
 
-    // Llamar a autocompletar si se está escribiendo en los campos de "desde" o "hasta"
     if (name === "desde") {
       handleAutocomplete(value, setSuggestionsDesde);
     } else if (name === "hasta") {
@@ -33,37 +34,36 @@ function RouteCreate() {
 
   const handleAddRoute = async (e) => {
     e.preventDefault();
-    const { desde, hasta } = rutaData;
-
-    // Valida que ambas direcciones sean correctas
-    const desdeCoords = await geocodeAddress(desde);
-    const hastaCoords = await geocodeAddress(hasta);
-
     if (!desdeCoords || !hastaCoords) {
-      alert("Una o ambas direcciones no son válidas.");
-      return;  // Detiene el proceso si no son válidas
+      alert("Una o ambas ubicaciones no han sido seleccionadas.");
+      return;
     }
-
-    // Si las direcciones son válidas, continúa con la creación de la ruta
+    // Geocodificar y crear ruta
     geocodeAndCreateRoute(desdeCoords, hastaCoords);
   };
 
   useEffect(() => {
-    // Solo inicializar el mapa si aún no existe
     if (!mapRef.current) {
-      mapRef.current = L.map("map").setView([51.505, -0.09], 13);
+      mapRef.current = L.map("map", {
+        center: [51.505, -0.09],
+        zoom: 13,
+        zoomControl: true,
+        dragging: true,
+      });
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(mapRef.current);
     }
-  }, []); // Este effect solo se ejecutará una vez cuando el componente se monte
+  }, []);
 
-  // Geocodificar direcciones y crear la ruta
   const geocodeAndCreateRoute = async (desdeCoords, hastaCoords) => {
     if (mapRef.current) {
-      // Crear la ruta usando Leaflet Routing Machine
-      L.Routing.control({
+      if (routingControlRef.current) {
+        mapRef.current.removeControl(routingControlRef.current); // Eliminar la ruta anterior
+      }
+
+      routingControlRef.current = L.Routing.control({
         waypoints: [
           L.latLng(desdeCoords.lat, desdeCoords.lon),
           L.latLng(hastaCoords.lat, hastaCoords.lon),
@@ -71,7 +71,7 @@ function RouteCreate() {
         routeWhileDragging: true,
       }).addTo(mapRef.current);
 
-      // Añadir marcadores para las ubicaciones
+      // Añadir marcadores
       L.marker([desdeCoords.lat, desdeCoords.lon]).addTo(mapRef.current);
       L.marker([hastaCoords.lat, hastaCoords.lon]).addTo(mapRef.current);
 
@@ -81,34 +81,28 @@ function RouteCreate() {
     }
   };
 
-  // Función para geocodificar direcciones utilizando Nominatim
-  const geocodeAddress = async (address) => {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(address)}&countrycodes=AR&limit=1`;
+  const handleAutocomplete = async (query, setSuggestions) => {
+    if (query.length > 3) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}&countrycodes=AR&limit=5`;
 
-    const response = await fetch(url);
-    const data = await response.json();
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-    if (data && data.length > 0) {
-      const { lat, lon } = data[0];
-      return { lat, lon };
-    } else {
-      return null;
+        if (data && data.length > 0) {
+          setSuggestions(data);
+        }
+      } catch (error) {
+        console.error("Error fetching autocomplete suggestions:", error);
+      }
     }
   };
 
-  // Función para autocompletar direcciones
-  const handleAutocomplete = async (query, setSuggestions) => {
-    if (query.length > 3) { // Empieza a buscar después de 3 caracteres
-      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}&countrycodes=AR&limit=5`;
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data && data.length > 0) {
-        const suggestions = data.map(item => item.display_name);
-        setSuggestions(suggestions);  // Actualiza las sugerencias
-      }
-    }
+  const handleSuggestionClick = (suggestion, setCoords, setSuggestions, field) => {
+    const { lat, lon, display_name } = suggestion;
+    setCoords({ lat, lon });
+    setRutaData((prev) => ({ ...prev, [field]: display_name }));
+    setSuggestions([]);
   };
 
   return (
@@ -123,12 +117,16 @@ function RouteCreate() {
           onChange={handleInputChange}
           required
         />
-        {/* Muestra las sugerencias de autocompletado */}
         {suggestionsDesde.length > 0 && (
           <ul className="suggestions">
             {suggestionsDesde.map((suggestion, index) => (
-              <li key={index} onClick={() => setRutaData({ ...rutaData, desde: suggestion })}>
-                {suggestion}
+              <li
+                key={index}
+                onClick={() =>
+                  handleSuggestionClick(suggestion, setDesdeCoords, setSuggestionsDesde, "desde")
+                }
+              >
+                {suggestion.display_name}
               </li>
             ))}
           </ul>
@@ -142,12 +140,16 @@ function RouteCreate() {
           onChange={handleInputChange}
           required
         />
-        {/* Muestra las sugerencias de autocompletado */}
         {suggestionsHasta.length > 0 && (
           <ul className="suggestions">
             {suggestionsHasta.map((suggestion, index) => (
-              <li key={index} onClick={() => setRutaData({ ...rutaData, hasta: suggestion })}>
-                {suggestion}
+              <li
+                key={index}
+                onClick={() =>
+                  handleSuggestionClick(suggestion, setHastaCoords, setSuggestionsHasta, "hasta")
+                }
+              >
+                {suggestion.display_name}
               </li>
             ))}
           </ul>
@@ -172,10 +174,10 @@ function RouteCreate() {
           onChange={handleInputChange}
           required
         />
-        
+
         <input id="submit-ruta" type="submit" value="Cargar Ruta" />
       </form>
-      
+
       <div id="map" style={{ height: "400px", width: "100%", marginTop: "20px" }}></div>
     </div>
   );
