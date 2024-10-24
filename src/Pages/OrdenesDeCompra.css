@@ -129,7 +129,7 @@
 }
 
 
-.popup-overlay {
+.popup-overlay-details, .popup-overlay-confirm {
     position: fixed;
     top: 0;
     left: 0;
@@ -143,6 +143,12 @@
     
 }
 
+.popup-overlay-details table{
+    width: 100%; 
+    border-spacing: 15px; 
+}
+
+
 .popup-content {
     background-color: white;
     color: #3e4e6c;
@@ -152,50 +158,61 @@
     max-width: 500px;
     width: 100%;
     text-align: center;
-
+    max-height: 90vh; 
+    overflow: auto;
     
 }
 
-.popup-overlay h3{
+button.orders-btn.confirm {
+    background-color: #2e3a55;
+    height: 37px;
+
+}
+
+.popup-overlay-confirm h3{
     margin: 10px;
     font-size: 20px;
 }
 
-.popup-overlay h2{
-    font-size: 25px;
+.popup-overlay-confirm h2{
+    font-size: 30px;
+    margin-top: 15px;
 }
 
-.popup-overlay ul{
+.popup-overlay-confirm ul{
     gap: 10px;
     flex-direction: column;
     display: flex;
 }
  
-.popup-overlay label{
+.popup-overlay-confirm label{
     color: #2e3a55;
 }
-.popup-overlay li{
+.popup-overlay-confirm li{
     background-color: #f850b2b9;;
     gap: 5px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 5px;
+    padding: 10px;
 
 }
 
-.popup-overlay select{
-    width: 15%;
+.popup-overlay-confirm select{
+    width: 20%;
+
 }
 
 .popup-content h3, .popup-content h2{
     color: #3e4e6c;
 }
 
-.popup-content h2{
+.popup-overlay-details h2{
     margin: 10px;
     font-size: 40px;
 }
+
 
 .popup-close-btn {
     background-color: #ff5e5e;

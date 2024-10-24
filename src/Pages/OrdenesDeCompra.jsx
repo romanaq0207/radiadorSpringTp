@@ -222,7 +222,7 @@ const OrdenesDeCompra = () => {
 
             {/* Popup para ver detalles */}
 {showDetailsPopup && selectedOrder && (
-    <div className="popup-overlay">
+    <div className="popup-overlay-details">
         <div className="popup-content">
             <h2>Detalles de la orden</h2>
             <p><strong>Proveedor:</strong> {selectedOrder.id_proveedor}</p>
@@ -254,7 +254,7 @@ const OrdenesDeCompra = () => {
 
             {/* Popup para confirmar recepción */}
             {showReceptionPopup && selectedOrder && (
-                <div className="popup-overlay">
+                <div className="popup-overlay-confirm">
                     <div className="popup-content">
                         <h2>Confirmar Recepción de Productos</h2>
                         <h3>Productos de la Orden</h3>
