@@ -60,7 +60,6 @@ const AddOrden = () => {
             </div>
             
             <div className="form-group">
-                <label>Proveedor:</label>
                 <select value={selectedProveedor} onChange={handleProveedorChange}>
                     <option value="">Seleccionar proveedor</option>
                     {proveedores.map((proveedor, index) => (
