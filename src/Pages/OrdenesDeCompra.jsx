@@ -8,10 +8,10 @@ const OrdenesDeCompra = () => {
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [filter, setFilter] = useState('Todos');
-    const [showDetailsPopup, setShowDetailsPopup] = useState(false);  // Estado para popup de detalles
-    const [showReceptionPopup, setShowReceptionPopup] = useState(false); // Estado para popup de recepción
+    const [showDetailsPopup, setShowDetailsPopup] = useState(false);
+    const [showReceptionPopup, setShowReceptionPopup] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const [productReception, setProductReception] = useState([]); // Estado para controlar la recepción de productos
+    const [productReception, setProductReception] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,19 +38,55 @@ const OrdenesDeCompra = () => {
         }
     };
 
-    // Mostrar popup de detalles
-    const handleViewDetails = (order) => {
-        setSelectedOrder(order);
-        setShowDetailsPopup(true);
+    const fetchReceptionDetails = async (orderId) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/ordenes_de_compra/${orderId}/recepcion_productos`);
+            return response.data; // Devuelve los datos de recepción
+        } catch (error) {
+            console.error('Error al obtener detalles de recepción de productos:', error);
+            alert('Error al obtener detalles de recepción de productos.');
+            return [];
+        }
     };
 
-    // Cerrar popup de detalles
+    const handleViewDetails = async (order) => {
+        console.log('Ver detalles de la orden:', order); // Verifica que se esté llamando correctamente
+        setSelectedOrder(order);
+        
+        // Si la orden está completada, obtener detalles de recepción
+        if (order.estado === 'completada') {
+            const receptionDetails = await fetchReceptionDetails(order.id_orden_de_compra);
+            const receptionMap = {};
+    
+            // Asegúrate de que receptionDetails.productos es un array plano
+            receptionDetails.productos.forEach(productoArray => {
+                productoArray.forEach(producto => {
+                    receptionMap[producto.id_producto] = producto.cantidad_recibida; // Mapear cantidad recibida por ID de producto
+                });
+            });
+    
+            setProductReception(order.productos.map(producto => ({
+                ...producto,
+                cantidadRecibida: receptionMap[producto.id_producto] || 0, // Usar cantidad recibida o 0 si no hay recepción
+            })));
+        } else {
+            setProductReception(order.productos.map(producto => ({
+                ...producto,
+                recibido: false,
+                cantidadRecibida: producto.cantidad,
+            })));
+        }
+        
+        setShowDetailsPopup(true);
+    };
+    
+    
+
     const closeDetailsPopup = () => {
         setShowDetailsPopup(false);
         setSelectedOrder(null);
     };
 
-    // Mostrar popup de recepción
     const handleCompleteOrder = (order) => {
         setSelectedOrder(order);
         setProductReception(order.productos.map(producto => ({
@@ -58,10 +94,9 @@ const OrdenesDeCompra = () => {
             recibido: false,
             cantidadRecibida: producto.cantidad,
         })));
-        setShowReceptionPopup(true); // Muestra el popup con los productos para confirmar recepción
+        setShowReceptionPopup(true);
     };
 
-    // Cerrar popup de recepción
     const closeReceptionPopup = () => {
         setShowReceptionPopup(false);
         setSelectedOrder(null);
@@ -71,7 +106,10 @@ const OrdenesDeCompra = () => {
         try {
             if (newStatus === 'aceptada') {
                 await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/aceptar`);
+            } else if (newStatus === 'inactiva') {
+                await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/inactivar`);
             }
+
             const updatedOrders = orders.map(order => {
                 if (order.id_orden_de_compra === orderId) {
                     return { ...order, estado: newStatus };
@@ -85,7 +123,6 @@ const OrdenesDeCompra = () => {
             alert('Error al actualizar el estado de la orden de compra.');
         }
     };
-    
 
     const handleReceptionChange = (index, field, value) => {
         const updatedReception = [...productReception];
@@ -93,10 +130,27 @@ const OrdenesDeCompra = () => {
         setProductReception(updatedReception);
     };
 
-    const handleConfirmReception = () => {
-        // Aquí podrías guardar la información de la recepción de productos si es necesario
-        updateOrderStatus(selectedOrder.id_orden_de_compra, 'Completada');
-        closeReceptionPopup();
+    const handleConfirmReception = async () => {
+        try {
+            const productosRecibidos = productReception.map(producto => ({
+                id_producto: producto.id_producto,
+                cantidadRecibida: producto.recibido ? producto.cantidad : producto.cantidadRecibida
+            }));
+
+            console.log('Productos recibidos:', productosRecibidos);
+
+            await axios.post(`${API_BASE_URL}/ordenes_de_compra/${selectedOrder.id_orden_de_compra}/confirmar_recepcion`, {
+                productos: productosRecibidos
+            });
+
+            updateOrderStatus(selectedOrder.id_orden_de_compra, 'completada');
+
+            closeReceptionPopup();
+            alert('Recepción de productos confirmada.');
+        } catch (error) {
+            console.error('Error al confirmar la recepción de productos:', error);
+            alert('Error al confirmar la recepción de productos.');
+        }
     };
 
     const renderActions = (estado, order) => {
@@ -157,7 +211,7 @@ const OrdenesDeCompra = () => {
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
                             <td data-label="Proveedor">{order.id_proveedor}</td>
-                            <td data-label="Fecha">{order.fecha_creacion}</td>
+                            <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
                             <td data-label="Total">${order.total}</td>
                             <td data-label="Acciones">{renderActions(order.estado, order)}</td>
@@ -165,58 +219,80 @@ const OrdenesDeCompra = () => {
                     ))}
                 </tbody>
             </table>
+
             {/* Popup para ver detalles */}
-            {showDetailsPopup && selectedOrder && (
-                <div className="popup-overlay">
-                    <div className="popup-content">
-                        <h2>Detalles de la orden</h2>
-                        <p><strong>Proveedor:</strong> {selectedOrder.id_proveedor}</p>
-                        <p><strong>Fecha:</strong> {selectedOrder.fecha_creacion}</p>
-                        <p><strong>Total:</strong> ${selectedOrder.total}</p>
-                        <h3>Productos</h3>
-                        <ul>
-                            {selectedOrder.productos && selectedOrder.productos.map((producto, index) => (
-                                <li key={index}>{producto.nombre} - Cantidad: {producto.cantidad}</li>
-                            ))}
-                        </ul>
-                        <button className="popup-close-btn" onClick={closeDetailsPopup}>Cerrar</button>
-                    </div>
-                </div>
-            )}
-            {/* Popup para confirmar recepción de productos */}
+{showDetailsPopup && selectedOrder && (
+    <div className="popup-overlay">
+        <div className="popup-content">
+            <h2>Detalles de la orden</h2>
+            <p><strong>Proveedor:</strong> {selectedOrder.id_proveedor}</p>
+            <p><strong>Fecha:</strong> {new Date(selectedOrder.fecha_creacion).toLocaleDateString()}</p>
+            <h3>Productos</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad Solicitada</th>
+                        <th>Cantidad Recibida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {productReception.map((producto, index) => (
+                        <tr key={index}>
+                            <td>{producto.nombre}</td>
+                            <td>{producto.cantidad}</td>
+                            <td>{producto.cantidadRecibida}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <button className="popup-btn" onClick={closeDetailsPopup}>Cerrar</button>
+        </div>
+    </div>
+)}
+
+
+            {/* Popup para confirmar recepción */}
             {showReceptionPopup && selectedOrder && (
                 <div className="popup-overlay">
                     <div className="popup-content">
-                        <h2>Confirmar recepción de productos</h2>
-                        <p><strong>Proveedor:</strong> {selectedOrder.id_proveedor}</p>
-                        <p><strong>Fecha:</strong> {selectedOrder.fecha_creacion}</p>
-                        <h3>Productos recibidos</h3>
-                        <ul>
-                            {productReception.map((producto, index) => (
-                                <li key={index}>
-                                    <span>{producto.nombre} - Cantidad: {producto.cantidad}</span>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            checked={producto.recibido}
-                                            onChange={(e) => handleReceptionChange(index, 'recibido', e.target.checked)}
-                                        /> Recibido completo
-                                    </label>
-                                    {!producto.recibido && (
-                                        <select
-                                            value={producto.cantidadRecibida}
-                                            onChange={(e) => handleReceptionChange(index, 'cantidadRecibida', parseInt(e.target.value))}
-                                        >
-                                            {Array.from({ length: producto.cantidad + 1 }, (_, i) => (
-                                                <option key={i} value={i}>{i}</option>
-                                            ))}
-                                        </select>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
-                        <button className="orders-btn confirm" onClick={handleConfirmReception}>Confirmar recepción</button>
-                        <button className="popup-close-btn" onClick={closeReceptionPopup}>Cerrar</button>
+                        <h2>Confirmar Recepción de Productos</h2>
+                        <h3>Productos de la Orden</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad Solicitada</th>
+                                    <th>Cantidad Recibida</th>
+                                    <th>Recibido</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {productReception.map((producto, index) => (
+                                    <tr key={index}>
+                                        <td>{producto.nombre}</td>
+                                        <td>{producto.cantidad}</td>
+                                        <td>
+                                            <input 
+                                                type="number" 
+                                                value={producto.cantidadRecibida} 
+                                                onChange={(e) => handleReceptionChange(index, 'cantidadRecibida', e.target.value)} 
+                                                min="0" 
+                                            />
+                                        </td>
+                                        <td>
+                                            <input 
+                                                type="checkbox" 
+                                                checked={producto.recibido} 
+                                                onChange={(e) => handleReceptionChange(index, 'recibido', e.target.checked)} 
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                        <button className="popup-btn confirm" onClick={handleConfirmReception}>Confirmar Recepción</button>
+                        <button className="popup-btn" onClick={closeReceptionPopup}>Cerrar</button>
                     </div>
                 </div>
             )}
