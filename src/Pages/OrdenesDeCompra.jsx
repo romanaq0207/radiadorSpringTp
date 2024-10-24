@@ -7,7 +7,8 @@ const OrdenesDeCompra = () => {
     const [orders, setOrders] = useState([]); 
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [filter, setFilter] = useState('Todos');
-    const [showPopup, setShowPopup] = useState(false); 
+    const [showDetailsPopup, setShowDetailsPopup] = useState(false);  // Estado para popup de detalles
+    const [showReceptionPopup, setShowReceptionPopup] = useState(false); // Estado para popup de recepción
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [productReception, setProductReception] = useState([]); // Estado para controlar la recepción de productos
     const navigate = useNavigate();
@@ -27,14 +28,33 @@ const OrdenesDeCompra = () => {
         }
     };
 
+    // Mostrar popup de detalles
     const handleViewDetails = (order) => {
         setSelectedOrder(order); 
-        setShowPopup(true); 
+        setShowDetailsPopup(true); 
     };
 
-    const closePopup = () => {
-        setShowPopup(false); 
+    // Cerrar popup de detalles
+    const closeDetailsPopup = () => {
+        setShowDetailsPopup(false); 
         setSelectedOrder(null); 
+    };
+
+    // Mostrar popup de recepción
+    const handleCompleteOrder = (order) => {
+        setSelectedOrder(order);
+        setProductReception(order.productos.map(producto => ({
+            ...producto,
+            recibido: false,
+            cantidadRecibida: producto.cantidad,
+        })));
+        setShowReceptionPopup(true); // Muestra el popup con los productos para confirmar recepción
+    };
+
+    // Cerrar popup de recepción
+    const closeReceptionPopup = () => {
+        setShowReceptionPopup(false);
+        setSelectedOrder(null);
     };
 
     const updateOrderStatus = (orderId, newStatus) => {
@@ -48,16 +68,6 @@ const OrdenesDeCompra = () => {
         setFilteredOrders(updatedOrders.filter(order => order.estado === filter || filter === 'Todos'));
     };
 
-    const handleCompleteOrder = (order) => {
-        setSelectedOrder(order);
-        setProductReception(order.productos.map(producto => ({
-            ...producto,
-            recibido: false,
-            cantidadRecibida: producto.cantidad,
-        })));
-        setShowPopup(true); // Muestra el popup con los productos para confirmar recepción
-    };
-
     const handleReceptionChange = (index, field, value) => {
         const updatedReception = [...productReception];
         updatedReception[index][field] = value;
@@ -67,7 +77,7 @@ const OrdenesDeCompra = () => {
     const handleConfirmReception = () => {
         // Aquí podrías guardar la información de la recepción de productos si es necesario
         updateOrderStatus(selectedOrder.id, 'Completada');
-        closePopup();
+        closeReceptionPopup();
     };
 
     const renderActions = (estado, order) => {
@@ -138,7 +148,29 @@ const OrdenesDeCompra = () => {
                 </tbody>
             </table>
 
-            {showPopup && selectedOrder && (
+            {/* Popup para ver detalles */}
+            {showDetailsPopup && selectedOrder && (
+                <div className="popup-overlay">
+                    <div className="popup-content">
+                        <h2>Detalles de la orden</h2>
+                        <p><strong>Proveedor:</strong> {selectedOrder.proveedor}</p>
+                        <p><strong>Fecha:</strong> {selectedOrder.fecha}</p>
+                        <p><strong>Total:</strong> ${selectedOrder.total}</p>
+
+                        <h3>Productos</h3>
+                        <ul>
+                            {selectedOrder.productos && selectedOrder.productos.map((producto, index) => (
+                                <li key={index}>{producto.nombre} - Cantidad: {producto.cantidad}</li>
+                            ))}
+                        </ul>
+
+                        <button className="popup-close-btn" onClick={closeDetailsPopup}>Cerrar</button>
+                    </div>
+                </div>
+            )}
+
+            {/* Popup para confirmar recepción de productos */}
+            {showReceptionPopup && selectedOrder && (
                 <div className="popup-overlay">
                     <div className="popup-content">
                         <h2>Confirmar recepción de productos</h2>
@@ -172,7 +204,7 @@ const OrdenesDeCompra = () => {
                         </ul>
 
                         <button className="orders-btn confirm" onClick={handleConfirmReception}>Confirmar recepción</button>
-                        <button className="popup-close-btn" onClick={closePopup}>Cerrar</button>
+                        <button className="popup-close-btn" onClick={closeReceptionPopup}>Cerrar</button>
                     </div>
                 </div>
             )}
