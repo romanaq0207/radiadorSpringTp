@@ -69,6 +69,7 @@ function RouteCreate() {
           L.latLng(hastaCoords.lat, hastaCoords.lon),
         ],
         routeWhileDragging: true,
+        show: false, // Oculta el panel de instrucciones de ruta
       }).addTo(mapRef.current);
 
       // Añadir marcadores

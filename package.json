@@ -24,6 +24,7 @@
     "jspdf-autotable": "^3.8.4",
     "jsqr": "^1.4.0",
     "leaflet": "^1.9.4",
+    "leaflet-control-geocoder": "^2.4.0",
     "leaflet-routing-machine": "^3.2.12",
     "mapbox-gl": "^3.7.0",
     "mysql2": "^3.11.3",
