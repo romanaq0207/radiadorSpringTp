@@ -140,6 +140,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000; 
+    
 }
 
 .popup-content {
@@ -151,6 +152,19 @@
     max-width: 500px;
     width: 100%;
     text-align: center;
+
+    
+}
+ 
+.popup-overlay label{
+    color: #2e3a55;
+}
+.popup-overlay li{
+    gap: 10px
+}
+
+.popup-overlay select{
+    width: 15%;
 }
 
 .popup-content h3, .popup-content h2{

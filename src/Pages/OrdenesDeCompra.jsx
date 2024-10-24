@@ -8,7 +8,8 @@ const OrdenesDeCompra = () => {
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [filter, setFilter] = useState('Todos');
     const [showPopup, setShowPopup] = useState(false); 
-    const [selectedOrder, setSelectedOrder] = useState(null); 
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const [productReception, setProductReception] = useState([]); // Estado para controlar la recepción de productos
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,7 +37,6 @@ const OrdenesDeCompra = () => {
         setSelectedOrder(null); 
     };
 
-
     const updateOrderStatus = (orderId, newStatus) => {
         const updatedOrders = orders.map(order => {
             if (order.id === orderId) { 
@@ -46,6 +46,28 @@ const OrdenesDeCompra = () => {
         });
         setOrders(updatedOrders);
         setFilteredOrders(updatedOrders.filter(order => order.estado === filter || filter === 'Todos'));
+    };
+
+    const handleCompleteOrder = (order) => {
+        setSelectedOrder(order);
+        setProductReception(order.productos.map(producto => ({
+            ...producto,
+            recibido: false,
+            cantidadRecibida: producto.cantidad,
+        })));
+        setShowPopup(true); // Muestra el popup con los productos para confirmar recepción
+    };
+
+    const handleReceptionChange = (index, field, value) => {
+        const updatedReception = [...productReception];
+        updatedReception[index][field] = value;
+        setProductReception(updatedReception);
+    };
+
+    const handleConfirmReception = () => {
+        // Aquí podrías guardar la información de la recepción de productos si es necesario
+        updateOrderStatus(selectedOrder.id, 'Completada');
+        closePopup();
     };
 
     const renderActions = (estado, order) => {
@@ -62,7 +84,7 @@ const OrdenesDeCompra = () => {
                 return (
                     <>
                         <button className="orders-btn view" onClick={() => handleViewDetails(order)}>Ver detalles</button>
-                        <button className="orders-btn complete" onClick={() => updateOrderStatus(order.id, 'Completada')}>Completar</button>
+                        <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}>Completar</button>
                         <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id, 'Inactiva')}>Inactivar</button>
                     </>
                 );
@@ -74,15 +96,12 @@ const OrdenesDeCompra = () => {
                 return null;
         }
     };
-    const handleAddOrderClick = () => {
-        navigate('/add-orden'); // Redirigimos a la página AddOrden
-    };
 
     return (
         <div className="orders-container">
             <div className="orders-header">
                 <h1>Órdenes de compra</h1>
-                <button className="orders-btn add-order" onClick={handleAddOrderClick}>Agregar Orden de Compra</button>
+                <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>Agregar Orden de Compra</button>
             </div>
 
             <div className="orders-filter">
@@ -109,33 +128,50 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
-                            <td data-label= "Proveedor">{order.proveedor}</td>
-                            <td data-label= "Fecha">{order.fecha}</td>
-                            <td data-label= "Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
-                            <td data-label= "Total">${order.total}</td>
-                            <td data-label= "Acciones">{renderActions(order.estado, order)}</td>
+                            <td data-label="Proveedor">{order.proveedor}</td>
+                            <td data-label="Fecha">{order.fecha}</td>
+                            <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
+                            <td data-label="Total">${order.total}</td>
+                            <td data-label="Acciones">{renderActions(order.estado, order)}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-      
             {showPopup && selectedOrder && (
                 <div className="popup-overlay">
                     <div className="popup-content">
-                        <h2>Detalles de la orden</h2>
+                        <h2>Confirmar recepción de productos</h2>
                         <p><strong>Proveedor:</strong> {selectedOrder.proveedor}</p>
                         <p><strong>Fecha:</strong> {selectedOrder.fecha}</p>
-                        <p><strong>Total:</strong> ${selectedOrder.total}</p>
 
-                  
-                        <h3>Productos</h3>
+                        <h3>Productos recibidos</h3>
                         <ul>
-                            {selectedOrder.productos && selectedOrder.productos.map((producto, index) => (
-                                <li key={index}>{producto.nombre} - Cantidad: {producto.cantidad}</li>
+                            {productReception.map((producto, index) => (
+                                <li key={index}>
+                                    <span>{producto.nombre} - Cantidad: {producto.cantidad}</span>
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            checked={producto.recibido}
+                                            onChange={(e) => handleReceptionChange(index, 'recibido', e.target.checked)}
+                                        /> Recibido completo
+                                    </label>
+                                    {!producto.recibido && (
+                                        <select
+                                            value={producto.cantidadRecibida}
+                                            onChange={(e) => handleReceptionChange(index, 'cantidadRecibida', parseInt(e.target.value))}
+                                        >
+                                            {Array.from({ length: producto.cantidad + 1 }, (_, i) => (
+                                                <option key={i} value={i}>{i}</option>
+                                            ))}
+                                        </select>
+                                    )}
+                                </li>
                             ))}
                         </ul>
 
+                        <button className="orders-btn confirm" onClick={handleConfirmReception}>Confirmar recepción</button>
                         <button className="popup-close-btn" onClick={closePopup}>Cerrar</button>
                     </div>
                 </div>
