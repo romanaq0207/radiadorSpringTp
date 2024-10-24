@@ -91,3 +91,37 @@
 .suggestions li:hover {
   background-color: #f0f0f0;
 }
+/* RouteCreate.css */
+.add-route {
+  padding: 20px;
+}
+
+/* Ocultar completamente el panel de instrucciones */
+.leaflet-routing-container {
+  display: none !important;
+}
+
+/* Estilos existentes... */
+.suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+#map {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
