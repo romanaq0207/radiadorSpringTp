@@ -48,6 +48,7 @@ const EditProducto = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (validate()) {
+      console.log(producto);
       try {
         await axios.put(`${API_BASE_URL}/productos/${id}`, {
           nombre: producto.nombre,
@@ -118,7 +119,7 @@ const EditProducto = () => {
         </div>
         <div className="form-group">
           <label>Categoría:</label>
-          <input
+          {/* <input
             className="input-item"
             type="text"
             value={producto.categoria}
@@ -126,7 +127,37 @@ const EditProducto = () => {
               setProducto({ ...producto, categoria: e.target.value })
             }
             required
-          />
+          /> */}
+          <select
+            className="input-item"
+            value={producto.categoria}
+            onChange={(e) =>
+              setProducto({ ...producto, categoria: e.target.value })
+            }
+            required
+          >
+            <option value="">Selecciona una categoría</option>
+            <option value="10">Aire acondicionado</option>
+            <option value="Amortiguadores">Amortiguadores</option>
+            <option value="Baterias">Baterías</option>
+            <option value="Correas">Correas</option>
+            <option value="Cristales">Cristales</option>
+            <option value="Direccion">Dirección</option>
+            <option value="Escape">Escape</option>
+            <option value="Espejos">Espejos</option>
+            <option value="Filtros">Filtros</option>
+            <option value="Frenos">Frenos</option>
+            <option value="Lubricantes">Lubricantes</option>
+            <option value="Luces">Luces</option>
+            <option value="Motores">Motores</option>
+            <option value="Neumaticos">Neumáticos</option>
+            <option value="Paragolpes">Paragolpes</option>
+            <option value="Radiadores">Radiadores</option>
+            <option value="Sistemas electricos">Sistemas eléctricos</option>
+            <option value="Sensores">Sensores</option>
+            <option value="Suspencion">Suspensión</option>
+            <option value="Transmision">Transmisión</option>
+          </select>
           {errors.categoria && (
             <span className="error">{errors.categoria}</span>
           )}
@@ -135,7 +166,10 @@ const EditProducto = () => {
           <label>Cantidad:</label>
           <input
             className="input-item"
-            type="text"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Cantidad"
             value={producto.cantidad}
             onChange={(e) =>
               setProducto({ ...producto, cantidad: e.target.value })

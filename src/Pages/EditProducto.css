@@ -41,6 +41,13 @@
   width: 500px;
 }
 
+.form-group select {
+  margin-bottom: 0px;
+  padding: 10px;
+  margin-left: 0px;
+  width: 500px;
+}
+
 .form-group label {
   color: black;
 }
@@ -61,6 +68,11 @@
     margin-left: 0px;
     width: 200px;
   }
+  .form-group select {
+    padding: 10px;
+    margin-left: 0px;
+    width: 200px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -69,6 +81,11 @@
     margin-top: 60px;
   }
   .form-group input {
+    padding: 10px;
+    width: 100%;
+  }
+  .form-group select {
+    margin-left: 10px;
     padding: 10px;
     width: 100%;
   }
