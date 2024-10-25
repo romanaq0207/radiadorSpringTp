@@ -3,13 +3,15 @@ import Swal from 'sweetalert2';
 import proveedoresData from '../data/proveedores.json'; // Archivo JSON de proveedores
 import productosData from '../data/productos.json'; // Archivo JSON de productos
 import './AddOrden.css'; // Archivo CSS para los estilos
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+
 
 const AddOrden = () => {
     const [proveedores, setProveedores] = useState([]);
     const [productos, setProductos] = useState([]);
     const [selectedProveedor, setSelectedProveedor] = useState('');
     const [ordenProductos, setOrdenProductos] = useState([{ producto: '', cantidad: '' }]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setProveedores(proveedoresData); // Cargamos los proveedores desde el JSON
@@ -37,11 +39,16 @@ const AddOrden = () => {
     };
 
     const handleAgregarOrden = () => {
-      
-        Swal.fire('Orden agregada', 'La nueva orden de compra ha sido agregada exitosamente', 'success').then(() => {
-            navigate('/orden-de-compra');
+        Swal.fire({
+            title: 'Orden agregada',
+            text: 'La nueva orden de compra ha sido agregada exitosamente',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            navigate('/orden-de-compra'); // Redirige a "/orden-de-compra" después de confirmar
         });
-    }
+    };
+
     return (
         <div className="agregar-orden-container">
             <div className="agregar-orden-header">
@@ -52,10 +59,7 @@ const AddOrden = () => {
             </button>
             </div>
             
-
-            {/* Select para el proveedor */}
             <div className="form-group">
-                <label>Proveedor:</label>
                 <select value={selectedProveedor} onChange={handleProveedorChange}>
                     <option value="">Seleccionar proveedor</option>
                     {proveedores.map((proveedor, index) => (
@@ -65,9 +69,6 @@ const AddOrden = () => {
                 </div>
 
             
-            
-
-            {/* Grilla de productos */}
             <h2>Productos</h2>
             <table className="productos-table">
                 <thead>
