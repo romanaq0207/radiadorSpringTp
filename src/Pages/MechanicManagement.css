@@ -71,9 +71,9 @@ body {
 
 /* Lista de mecánicos */
 .mechanic-list {
-    display: grid; /* Cambia a grid */
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Múltiples columnas */
-    gap: 10px; /* Espacio entre las tarjetas */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 10px;
 }
 
 /* Estilos de las tarjetas de mecánicos */
@@ -82,7 +82,7 @@ body {
     padding: 15px;
     border: 2px solid #f38dc8be;
     border-radius: 5px;
-    width: 100%; /* Mantén el ancho al 100% para cada tarjeta */
+    width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-size: large;
 }
@@ -91,13 +91,50 @@ body {
     margin: 5px 0;
 }
 
+/* Contenedor de los botones Editar y Eliminar */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Botón Editar */
+.edit-button {
+    padding: 8px 15px;
+    background-color: #e946a5;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #f375aa;
+}
+
+/* Botón Eliminar */
+.delete-button {
+    padding: 8px 15px;
+    background-color: #e946a5;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #f375aa;
+}
+
 /* Ajustes para pantallas grandes (escritorio) */
 @media only screen and (min-width: 1024px) {
     .mechanic-list {
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas en pantallas grandes */
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .mechanic-card {
-        width: auto; /* Permitir que el ancho se ajuste automáticamente */
+        width: auto;
     }
 }

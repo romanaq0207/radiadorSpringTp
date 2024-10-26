@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f4f4f460;
+    background-color: #f4f4f400;
     min-height: 100vh;
     margin-top: 55px;
   }
@@ -13,7 +13,7 @@
   .add-mecanico h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
+    color: blanchedalmond;
   }
   
   .add-mecanico input {
@@ -57,7 +57,7 @@
   
     .add-mecanico h2 {
       font-size: 42px;
-      color: wheat;
+      color: blanchedalmond;
       
     }
   

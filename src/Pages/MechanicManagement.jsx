@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './MechanicManagement.css';
 import Navbar from '../components/NavBar';
-import axios from 'axios';  // Importamos axios para las peticiones
-import { API_BASE_URL } from '../assets/config';  // Importar el URL base de la API
+import axios from 'axios';
+import { API_BASE_URL } from '../assets/config';
 import { useNavigate } from 'react-router-dom';
 
 function MechanicManagement() {
@@ -10,15 +10,10 @@ function MechanicManagement() {
     const [filteredMecanicos, setFilteredMecanicos] = useState([]);
     const navigate = useNavigate();
 
-    // Cargar datos de mecánicos desde la API
     useEffect(() => {
         axios.get(`${API_BASE_URL}/mecanicos`)
-            .then(response => {
-                setFilteredMecanicos(response.data); // Cargar los datos de la API
-            })
-            .catch(error => {
-                console.error('Error al obtener los mecánicos:', error);
-            });
+            .then(response => setFilteredMecanicos(response.data))
+            .catch(error => console.error('Error al obtener los mecánicos:', error));
     }, []);
 
     const handleSearchChange = (event) => {
@@ -36,7 +31,11 @@ function MechanicManagement() {
     };
 
     const handleAddMechanic = () => {
-        navigate('/agregar-mecanico'); 
+        navigate('/agregar-mecanico');
+    };
+
+    const handleEditMechanic = (id) => {
+        navigate(`/edit-mechanic/${id}`);  
     };
 
     return (
@@ -59,12 +58,17 @@ function MechanicManagement() {
             <div className="mechanic-list">
                 {filteredMecanicos.length > 0 ? (
                     filteredMecanicos.map(mecanico => (
-                        <div
-                            key={mecanico.id}
-                            className="mechanic-card"
-                        >
+                        <div key={mecanico.id} className="mechanic-card">
                             <p><strong>Nombre:</strong> {mecanico.nombre} {mecanico.apellido}</p>
+                            <p><strong>Teléfono:</strong> {mecanico.telefono}</p>
+                            <p><strong>Correo Electrónico:</strong> {mecanico.correo_electronico}</p>
                             <p><strong>Especialidad:</strong> {mecanico.especialidad}</p>
+                            <button onClick={() => handleEditMechanic(mecanico.id)} className="edit-button">
+                                Editar
+                            </button>
+                            <button className="delete-button">
+                                Eliminar
+                            </button>
                         </div>
                     ))
                 ) : (
