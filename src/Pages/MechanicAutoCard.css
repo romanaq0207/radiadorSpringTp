@@ -5,11 +5,10 @@
     margin: 10px 0;
     border: 2px solid #f38dc8c4;
     border-radius: 5px;
-    width: 100%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: 'Roboto', sans-serif;
     font-size: large;
-
+    width: 320px;
 }
 
 .detail-link {

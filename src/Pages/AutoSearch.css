@@ -93,14 +93,14 @@
     gap: 10px;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
+    
   }
   
   /* Media query para pantallas más grandes (PC) */
   @media (min-width: 768px) {
     .auto-search__list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Distribuir las tarjetas en filas */
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Distribuir las tarjetas en filas */
       gap: 20px;
     }
   
