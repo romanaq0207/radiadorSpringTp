@@ -137,10 +137,10 @@ const AddProveedor = () => {
         <button type="submit" className="submit-button">
           Agregar Proveedor
         </button>
+        <button onClick={handleBack} className="btn-cancelar">
+          Cancelar
+        </button>
       </form>
-      <p id="back-text" onClick={handleBack}>
-        volver...
-      </p>
     </div>
   );
 };

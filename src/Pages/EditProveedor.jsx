@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./AddProveedor.css";
-import { API_BASE_URL } from '../assets/config'; // Asegúrate de que esta ruta sea correcta
+import "./editProveedor.css";
+import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
 const EditProveedor = () => {
   const { id } = useParams();
@@ -31,21 +31,23 @@ const EditProveedor = () => {
     const addressRegex = /^[A-Za-z0-9\s,]+$/;
     const phoneRegex = /^\d{8}$|^\d{10}$/;
     if (!proveedor.nombre || !nameRegex.test(proveedor.nombre)) {
-      newErrors.nombre = 'El nombre solo debe contener letras y espacios.';
+      newErrors.nombre = "El nombre solo debe contener letras y espacios.";
     }
     if (!proveedor.cuil || !cuilRegex.test(proveedor.cuil)) {
-      newErrors.cuil = 'El CUIL debe seguir el formato 12-34567890-1.';
+      newErrors.cuil = "El CUIL debe seguir el formato 12-34567890-1.";
     }
     if (!proveedor.email) {
-      newErrors.email = 'El correo es obligatorio.';
+      newErrors.email = "El correo es obligatorio.";
     } else if (!/\S+@\S+\.\S+/.test(proveedor.email)) {
-      newErrors.email = 'El correo no es válido.';
+      newErrors.email = "El correo no es válido.";
     }
     if (!proveedor.direccion || !addressRegex.test(proveedor.direccion)) {
-      newErrors.direccion = 'La dirección solo debe contener letras, números y espacios.';
+      newErrors.direccion =
+        "La dirección solo debe contener letras, números y espacios.";
     }
     if (!proveedor.telefono || !phoneRegex.test(proveedor.telefono)) {
-      newErrors.telefono = 'Ingrese un número de telefono válido para la Rep. Argentina';
+      newErrors.telefono =
+        "Ingrese un número de telefono válido para la Rep. Argentina";
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -68,6 +70,10 @@ const EditProveedor = () => {
     return <p>Proveedor no encontrado</p>;
   }
 
+  const handleBack = () => {
+    navigate("/gestion-proveedores");
+  };
+
   return (
     <div className="add-proveedor-container">
       <h2>Editar Proveedor</h2>
@@ -77,7 +83,9 @@ const EditProveedor = () => {
           <input
             type="text"
             value={proveedor.nombre}
-            onChange={(e) => setProveedor({ ...proveedor, nombre: e.target.value })}
+            onChange={(e) =>
+              setProveedor({ ...proveedor, nombre: e.target.value })
+            }
             required
           />
           {errors.nombre && <span className="error">{errors.nombre}</span>}
@@ -87,7 +95,9 @@ const EditProveedor = () => {
           <input
             type="text"
             value={proveedor.cuil}
-            onChange={(e) => setProveedor({ ...proveedor, cuil: e.target.value })}
+            onChange={(e) =>
+              setProveedor({ ...proveedor, cuil: e.target.value })
+            }
             required
           />
           {errors.cuil && <span className="error">{errors.cuil}</span>}
@@ -97,7 +107,9 @@ const EditProveedor = () => {
           <input
             type="email"
             value={proveedor.email}
-            onChange={(e) => setProveedor({ ...proveedor, email: e.target.value })}
+            onChange={(e) =>
+              setProveedor({ ...proveedor, email: e.target.value })
+            }
             required
           />
           {errors.email && <span className="error">{errors.email}</span>}
@@ -107,22 +119,33 @@ const EditProveedor = () => {
           <input
             type="text"
             value={proveedor.direccion}
-            onChange={(e) => setProveedor({ ...proveedor, direccion: e.target.value })}
+            onChange={(e) =>
+              setProveedor({ ...proveedor, direccion: e.target.value })
+            }
             required
           />
-          {errors.direccion && <span className="error">{errors.direccion}</span>}
+          {errors.direccion && (
+            <span className="error">{errors.direccion}</span>
+          )}
         </div>
         <div className="form-group">
           <label>Teléfono:</label>
           <input
             type="tel"
             value={proveedor.telefono}
-            onChange={(e) => setProveedor({ ...proveedor, telefono: e.target.value })}
+            onChange={(e) =>
+              setProveedor({ ...proveedor, telefono: e.target.value })
+            }
             required
           />
           {errors.telefono && <span className="error">{errors.telefono}</span>}
         </div>
-        <button type="submit" className="submit-button">Guardar Cambios</button>
+        <button type="submit" className="submit-button">
+          Guardar Cambios
+        </button>
+        <button onClick={handleBack} id="btn-cancelar">
+          Cancelar
+        </button>
       </form>
     </div>
   );

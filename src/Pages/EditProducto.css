@@ -52,13 +52,13 @@
   color: black;
 }
 
-#back-text {
-  display: inline;
-  color: blue;
+.btn-cancelar-edit-prod {
+  width: 100%;
+  border-radius: 0.1cm;
+  background-color: grey;
 }
-#back-text:hover {
-  align-items: flex-start;
-  cursor: pointer;
+.btn-cancelar-edit-prod:hover {
+  background-color: darkgray;
 }
 
 /* Media Queries */

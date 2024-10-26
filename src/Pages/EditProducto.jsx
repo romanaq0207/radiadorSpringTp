@@ -182,9 +182,9 @@ const EditProducto = () => {
           Guardar Cambios
         </button>
       </form>
-      <p id="back-text" onClick={handleBack}>
-        volver...
-      </p>
+      <button className="btn-cancelar-edit-prod" onClick={handleBack}>
+        Cancelar
+      </button>
     </div>
   );
 };

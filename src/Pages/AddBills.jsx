@@ -18,7 +18,7 @@ function MyBills() {
   };
 
   const handleAddBills = () => {
-    const billData = { ...billsData, estado: 'pendiente' }; // Agregar estado por defecto
+    const billData = { ...billsData, estado: "pendiente" }; // Agregar estado por defecto
     axios
       .post(`${API_BASE_URL}/bills`, billData)
       .then((response) => {
@@ -28,8 +28,7 @@ function MyBills() {
       .catch((error) => {
         console.error("Error al agregar el gasto:", error);
       });
-};
-
+  };
 
   const handleReturnHome = () => {
     navigate("/mis-gastos");
@@ -59,7 +58,7 @@ function MyBills() {
         onChange={handleInputChange}
       />
       <button onClick={handleAddBills}>Cargar gasto</button>
-      <button onClick={handleReturnHome} id="cancelar">
+      <button onClick={handleReturnHome} className="cancelar">
         Cancelar
       </button>
     </div>

@@ -1,54 +1,67 @@
 .edit-proveedor {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  .edit-proveedor h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .edit-proveedor form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-  }
-  
-  .edit-proveedor form div {
-    margin-bottom: 15px;
-  }
-  
-  .edit-proveedor label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  .edit-proveedor input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .edit-proveedor button {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .edit-proveedor button:hover {
-    background-color: #0056b3;
-  }
-  
-  .error {
-    color: red;
-    font-size: 14px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Roboto", sans-serif;
+}
+
+.edit-proveedor h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.edit-proveedor form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.edit-proveedor form div {
+  margin-bottom: 15px;
+}
+
+.edit-proveedor label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.edit-proveedor input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  padding: 10px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #b30000;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+#btn-cancelar {
+  padding: 10px;
+  background-color: grey;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#btn-cancelar:hover {
+  background-color: darkgrey;
+}

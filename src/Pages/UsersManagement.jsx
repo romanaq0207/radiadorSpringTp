@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import usuariosData from '../data/usuarios.json'; 
-import './UsersManagement.css'; 
+import React, { useState, useEffect } from "react";
+import usuariosData from "../data/usuarios.json";
+import "./UsersManagement.css";
 
 const UsersManagement = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -10,39 +10,43 @@ const UsersManagement = () => {
   }, []);
 
   const [formData, setFormData] = useState({
-    id: '',
-    nombre: '',
-    apellido: '',
-    dni: '',
-    mail: '',
-    rol: '',
+    id: "",
+    nombre: "",
+    apellido: "",
+    dni: "",
+    mail: "",
+    rol: "",
     habilitado: true,
   });
-  
+
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Validar que el nombre solo contenga letras y espacios
     if (!/^[a-zA-Z\s]+$/.test(formData.nombre)) {
-      newErrors.nombre = 'El nombre solo puede contener letras y espacios.';
+      newErrors.nombre = "El nombre solo puede contener letras y espacios.";
     }
-    
+
     // Validar que el apellido solo contenga letras y espacios
     if (!/^[a-zA-Z\s]+$/.test(formData.apellido)) {
-      newErrors.apellido = 'El apellido solo puede contener letras y espacios.';
+      newErrors.apellido = "El apellido solo puede contener letras y espacios.";
     }
 
     // Validar que el DNI solo contenga números
     if (!/^\d+$/.test(formData.dni)) {
-      newErrors.dni = 'El DNI solo puede contener números.';
+      newErrors.dni = "El DNI solo puede contener números.";
     }
 
     // Validar que el email tenga un formato válido
-    if (!/^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/.test(formData.mail)) {
-      newErrors.mail = 'El formato del correo no es válido.';
+    if (
+      !/^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/.test(
+        formData.mail
+      )
+    ) {
+      newErrors.mail = "El formato del correo no es válido.";
     }
 
     setErrors(newErrors);
@@ -70,20 +74,17 @@ const UsersManagement = () => {
         );
         setIsEditing(false);
       } else {
-        setUsuarios([
-          ...usuarios,
-          { ...formData, id: usuarios.length + 1 },
-        ]);
+        setUsuarios([...usuarios, { ...formData, id: usuarios.length + 1 }]);
       }
 
       // Resetear el formulario después de enviar
       setFormData({
-        id: '',
-        nombre: '',
-        apellido: '',
-        dni: '',
-        mail: '',
-        rol: '',
+        id: "",
+        nombre: "",
+        apellido: "",
+        dni: "",
+        mail: "",
+        rol: "",
         habilitado: true,
       });
     }
@@ -103,9 +104,21 @@ const UsersManagement = () => {
     );
   };
 
+  const handleCancel = () => {
+    setFormData({
+      id: "",
+      nombre: "",
+      apellido: "",
+      dni: "",
+      mail: "",
+      rol: "",
+      habilitado: true,
+    });
+    setIsEditing(false);
+  };
+
   return (
     <div className="users-management-container">
-      
       <div className="filter-container">
         <h2 className="title">Gestión de Usuarios</h2>
         <form onSubmit={handleSubmit}>
@@ -127,7 +140,9 @@ const UsersManagement = () => {
             onChange={handleChange}
             required
           />
-          {errors.apellido && <p className="error-message">{errors.apellido}</p>}
+          {errors.apellido && (
+            <p className="error-message">{errors.apellido}</p>
+          )}
 
           <input
             type="text"
@@ -163,9 +178,16 @@ const UsersManagement = () => {
             <option value="cliente">Cliente</option>
             <option value="gerencia">Gerencia</option>
           </select>
-          
+
           <button type="submit" className="add-button">
-            {isEditing ? 'Modificar Usuario' : 'Agregar Usuario'}
+            {isEditing ? "Modificar Usuario" : "Agregar Usuario"}
+          </button>
+          <button
+            onClick={handleCancel}
+            disabled={!isEditing}
+            className="btn-cancelar-usuarios"
+          >
+            Cancelar
           </button>
         </form>
       </div>
@@ -186,10 +208,16 @@ const UsersManagement = () => {
               <strong>Rol:</strong> {usuario.rol}
             </p>
 
-            <button onClick={() => handleEdit(usuario.id)} className="add-button">
+            <button
+              onClick={() => handleEdit(usuario.id)}
+              className="add-button"
+            >
               Editar
             </button>
-            <button onClick={() => handleDelete(usuario.id)} className="edit-button">
+            <button
+              onClick={() => handleDelete(usuario.id)}
+              className="edit-button"
+            >
               Eliminar
             </button>
           </div>
