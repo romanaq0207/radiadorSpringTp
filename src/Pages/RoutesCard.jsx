@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import "./RoutesCard.css";
 
 const RutesCard = ({ ruta }) => {
@@ -29,7 +31,7 @@ const RutesCard = ({ ruta }) => {
         <strong>Número de ruta:</strong> {ruta.id}
       </p>
       <button onClick={handleVerify} className="details-button">
-        Verificar
+      <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
     </div>
   );

@@ -83,6 +83,8 @@ import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../Services/authServices';
 import { AuthContext } from '../Context/AuthContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { firestore } from '../firebase/credenciales'; // Importa Firestore
 import './Login.css';
 
@@ -150,7 +152,7 @@ function Login() {
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : 'Iniciar sesión'}
+          {loading ? 'Cargando...' : <FontAwesomeIcon icon={faRightFromBracket} />}
         </button>
 
         {alertMessage && <p className="alert-message">{alertMessage}</p>}

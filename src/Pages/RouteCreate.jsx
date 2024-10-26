@@ -176,7 +176,7 @@ function RouteCreate() {
           required
         />
 
-        <input id="submit-ruta" type="submit" value="Cargar Ruta" />
+        <input id="submit-ruta" type="submit" value="+" />
       </form>
 
       <div id="map" style={{ height: "400px", width: "100%", marginTop: "20px" }}></div>

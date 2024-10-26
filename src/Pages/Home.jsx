@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket} from '@fortawesome/free-solid-svg-icons';
 import './Home.css';
 
 const Home = ({ onLogout }) => {
@@ -9,7 +11,7 @@ const Home = ({ onLogout }) => {
       <p>Gestiona tu taller desde tu dispositivo!</p>
       </div>
       <div>
-      <button onClick={onLogout}>Cerrar sesión</button>
+      <button onClick={onLogout}><FontAwesomeIcon icon={faRightToBracket} /></button>
     </div>
     </div>
   );

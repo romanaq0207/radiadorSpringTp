@@ -3,6 +3,8 @@ import "./RouteViewVerify.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
 import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
 
@@ -63,7 +65,7 @@ function RuteViewVerify() {
           }
           onClick={handleMarkAsAccepted}
         >
-          Aceptar
+          <FontAwesomeIcon icon={faCheck} />
         </button>
         <button
           className="button-estado"
@@ -73,7 +75,7 @@ function RuteViewVerify() {
           }
           onClick={handleMarkAsRejected}
         >
-          Rechazar
+          <FontAwesomeIcon icon={faXmark} />
         </button>
         <h4 onClick={handleReturnRoutes} id="volver-rutas">
           Volver
