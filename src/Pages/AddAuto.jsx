@@ -76,7 +76,7 @@ function EditCar() {
 
     return (
         <div className="edit-car">
-            <h2>Editar Auto</h2>
+            <h2>Agregar Auto</h2>
             <input
                 type="text"
                 name="marca"
@@ -119,7 +119,7 @@ function EditCar() {
                 value={autoData.nro_flota}
                 onChange={handleInputChange}
             />
-            <button onClick={handleUpdateAuto}>Actualizar Auto</button>
+            <button onClick={handleUpdateAuto}>Confirmar</button>
 
             {qrCodeValue && (
                 <div>
