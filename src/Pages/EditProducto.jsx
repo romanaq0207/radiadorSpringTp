@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFloppyDisk, faBan} from '@fortawesome/free-solid-svg-icons';
 import "./EditProducto.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
@@ -179,11 +181,11 @@ const EditProducto = () => {
           {errors.cantidad && <span className="error">{errors.cantidad}</span>}
         </div>
         <button type="submit" className="submit-button">
-          Guardar Cambios
+          <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#ffffff",}} />
         </button>
       </form>
       <button className="btn-cancelar-edit-prod" onClick={handleBack}>
-        Cancelar
+      <FontAwesomeIcon icon={faBan} style={{color: "#ffffff",}} />
       </button>
     </div>
   );

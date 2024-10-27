@@ -14,7 +14,8 @@
 .edit-proveedor form {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
 }
 
 .edit-proveedor form div {
@@ -35,16 +36,18 @@
 
 .submit-button {
   padding: 10px;
-  background-color: #ff0000;
+  background-color: #ff5dff;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
 }
 
 .submit-button:hover {
-  background-color: #b30000;
+  background-color: #fd96fd;
 }
 
 .error {
@@ -54,14 +57,45 @@
 
 #btn-cancelar {
   padding: 10px;
-  background-color: grey;
+  background-color: #5c505c;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 16px;
+  width: 100%;
+  font-size: 35px;
+  max-width: 300px;
 }
 
 #btn-cancelar:hover {
   background-color: darkgrey;
+}
+
+/* Media query for larger screens */
+@media (min-width: 768px) {
+  .edit-proveedor h2 {
+    font-size: 28px;
+  }
+
+  #btn-cancelar,
+  .submit-button {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .edit-proveedor {
+    padding: 40px;
+  }
+
+  .edit-proveedor h2 {
+    font-size: 32px;
+  }
+
+  #btn-cancelar,
+  .submit-button {
+    max-width: 500px;
+  }
 }

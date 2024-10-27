@@ -6,6 +6,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrash,faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 let DefaultIcon = L.icon({
@@ -183,7 +185,7 @@ const DriversManagement = () => {
             required
           />
           <button type="submit" className="add-button">
-            {isEditing ? "Modificar Conductor" : "Agregar Conductor"}
+            {isEditing ? "Modificar Conductor" : "+"}
           </button>
           <button
             onClick={handleCancel}
@@ -214,19 +216,19 @@ const DriversManagement = () => {
                 onClick={() => handleEdit(conductor.id)}
                 className="add-button"
               >
-                Editar
+                <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
               </button>
               <button
                 onClick={() => handleDelete(conductor.id)}
                 className="add-button"
               >
-                Eliminar
+                <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
               </button>
               <button
                 onClick={() => fetchUbicacion(conductor.id)}
                 className="add-button"
               >
-                Mostrar Ubicación
+                <FontAwesomeIcon icon={faLocationDot} style={{color: "#ffffff",}} />
               </button>
 
               {ubicaciones[conductor.id] && (

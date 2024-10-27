@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faBan, faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import "./EditMechanic.css";
 import { API_BASE_URL } from "../assets/config";
 
@@ -116,10 +118,10 @@ function EditMechanic() {
         onChange={handleInputChange}
       />
       <button onClick={handleSave} className="btn-submit-edit-mec">
-        Guardar Cambios
+      <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#ffffff",}} />
       </button>
       <button onClick={handleBack} className="btn-cancelar-edit-mec">
-        Cancelar
+      <FontAwesomeIcon icon={faBan} style={{color: "#ffffff",}} />
       </button>
     </div>
   );

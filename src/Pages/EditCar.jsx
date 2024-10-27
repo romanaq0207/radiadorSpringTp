@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import { toPng } from 'html-to-image';
 import './EditCar.css';
 import { API_BASE_URL } from '../assets/config';
@@ -119,7 +121,7 @@ function EditCar() {
                 value={autoData.nro_flota}
                 onChange={handleInputChange}
             />
-            <button onClick={handleUpdateAuto}>Actualizar Auto</button>
+            <button onClick={handleUpdateAuto}><FontAwesomeIcon icon={faFloppyDisk} style={{color: "#ffffff",}} /></button>
 
             {qrCodeValue && (
                 <div>

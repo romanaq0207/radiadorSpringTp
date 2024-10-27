@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash,faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 import "./ProveedoresViewer.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
@@ -47,7 +49,7 @@ const ProveedoresViewer = () => {
         className="add-button"
         onClick={() => navigate("/agregar-proveedor")}
       >
-        Agregar Proveedor
+        +
       </button>
       <div className="proveedores-list">
         {proveedores.length === 0 ? (
@@ -73,13 +75,13 @@ const ProveedoresViewer = () => {
                   className="edit-button"
                   onClick={() => handleEdit(proveedor.id_proveedor)}
                 >
-                  Editar
+                  <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                 </button>
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(proveedor.id_proveedor)}
                 >
-                  Eliminar
+                  <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                 </button>
               </div>
             </div>

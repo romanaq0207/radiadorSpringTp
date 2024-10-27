@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../assets/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import './AddFlota.css';
 import { useNavigate } from 'react-router-dom';
@@ -91,7 +93,7 @@ function AddFlota() {
             onChange={(e) => setFlotaName(e.target.value)}
             className="flota-input"
           />
-          <button className="save-flota-button" onClick={handleSaveFlota}>Guardar Flota</button>
+          <button className="save-flota-button" onClick={handleSaveFlota}><FontAwesomeIcon icon={faFloppyDisk} style={{color: "#ffffff",}} /></button>
         </div>
       </div>
       <h2 className="flotas-header">Flotas</h2>

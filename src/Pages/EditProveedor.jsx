@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFloppyDisk,faBan} from '@fortawesome/free-solid-svg-icons';
 import "./editProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
@@ -141,10 +143,9 @@ const EditProveedor = () => {
           {errors.telefono && <span className="error">{errors.telefono}</span>}
         </div>
         <button type="submit" className="submit-button">
-          Guardar Cambios
-        </button>
+        <FontAwesomeIcon icon={faFloppyDisk} style={{color: "#ffffff",}} />        </button>
         <button onClick={handleBack} id="btn-cancelar">
-          Cancelar
+        <FontAwesomeIcon icon={faBan} style={{color: "#ffffff",}} />
         </button>
       </form>
     </div>

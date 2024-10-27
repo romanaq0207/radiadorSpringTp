@@ -64,7 +64,7 @@
 
   .add-bills-container button,
   #cancelar {
-    font-size: 18px; /* Botones más grandes en pantallas grandes */
+    font-size: 38px; /* Botones más grandes en pantallas grandes */
     padding: 15px; /* Mayor padding para los botones */
   }
 }

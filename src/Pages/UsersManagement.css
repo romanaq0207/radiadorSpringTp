@@ -137,6 +137,10 @@
 .user-card button {
   margin-right: 10px;
   background-color: #e23d9d;
+  font-size: 14px;
+  height: 50px;
+  width: 100px;
+  border-radius: 15%;
 }
 
 .btn-cancelar-usuarios {
@@ -179,6 +183,8 @@
     max-width: 100%;
   }
 
+
+
   .users-management-container .users-card p {
     font-size: 0.85rem;
   }
@@ -211,4 +217,5 @@
     padding: 8px 15px;
     font-size: 0.8rem;
   }
+
 }

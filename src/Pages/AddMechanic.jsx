@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faBan} from '@fortawesome/free-solid-svg-icons';
 import "./AddMechanic.css";
 import { API_BASE_URL } from "../assets/config"; // Configuración del URL de la API
 
@@ -107,11 +109,9 @@ function AddMechanic() {
         onChange={handleInputChange}
       />
       <button onClick={handleAddMechanic} className="btn-agregar">
-        Agregar Mecánico
-      </button>
+      <FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} />      </button>
       <button onClick={handleBack} className="btn-cancelar-add-mec">
-        Cancelar
-      </button>
+      <FontAwesomeIcon icon={faBan} style={{color: "#ffffff",}} />      </button>
     </div>
   );
 }

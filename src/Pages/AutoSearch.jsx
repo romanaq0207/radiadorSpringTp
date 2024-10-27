@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import AutoCard from "./AutoCard";
 import "./AutoSearch.css";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faCirclePlus,faQrcode} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
@@ -63,10 +65,10 @@ function AutoSearch() {
         />
         <div className="auto-search__buttons">
           <button onClick={handleAddAuto} className="auto-search__add-auto">
-            Agregar Auto
+          <FontAwesomeIcon icon={faCirclePlus} style={{color: "#ffffff",}} />
           </button>
           <button onClick={handleScanQR} className="auto-search__scan-qr">
-            Escanear QR
+          <FontAwesomeIcon icon={faQrcode} style={{color: "#ffffff",}} />
           </button>
         </div>
       </div>

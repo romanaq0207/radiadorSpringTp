@@ -79,7 +79,7 @@
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 24px;
   font-weight: 600;
   transition: background-color 0.3s ease, transform 0.2s;
 }
@@ -108,6 +108,7 @@
   align-items: center;
   width: 100%;
   padding-top: 70px;
+  margin-left: 20px;
 }
 
 .drivers-card {

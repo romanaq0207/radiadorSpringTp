@@ -115,6 +115,7 @@
   
     .auto-search__buttons {
       gap: 20px;
+      
     }
   
     .auto-search__add-auto,
@@ -122,6 +123,7 @@
       padding: 12px 30px;
       font-size: 1.1rem;
       background-color: #f38dc8c4;
+      font-size: 40px;
     }
   }
   

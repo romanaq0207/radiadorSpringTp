@@ -3,6 +3,8 @@ import MechanicAutoCard from "./MechanicAutoCard"; // Componente correcto
 import styles from "./MechanicAutoSearch.module.css"; // Cambia a .module.css
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faQrcode} from '@fortawesome/free-solid-svg-icons';
 import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
 
@@ -66,10 +68,10 @@ function AutoSearch() { // Nombre del componente corregido
         />
         <div className={styles['buttons-search-add-container']}>
           <button onClick={handleAddAuto} className={styles['add-auto-button']}>
-            Agregar Auto
+            +
           </button>
           <button onClick={handleScanQR} className={styles['scan-qr-button']}>
-            Escanear QR
+          <FontAwesomeIcon icon={faQrcode} style={{color: "#e0e0e0",}} />
           </button>
         </div>
       </div>

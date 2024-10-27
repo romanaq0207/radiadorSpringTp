@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './MechanicManagement.css';
 import Navbar from '../components/NavBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare,faTrash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_BASE_URL } from '../assets/config';
 import { useNavigate } from 'react-router-dom';
@@ -51,7 +53,7 @@ function MechanicManagement() {
                     className="mechanic-search-input"
                 />
                 <button onClick={handleAddMechanic} className="add-button">
-                    Agregar Mecánico
+                    +
                 </button>
             </div>
             
@@ -64,10 +66,10 @@ function MechanicManagement() {
                             <p><strong>Correo Electrónico:</strong> {mecanico.correo_electronico}</p>
                             <p><strong>Especialidad:</strong> {mecanico.especialidad}</p>
                             <button onClick={() => handleEditMechanic(mecanico.id)} className="edit-button">
-                                Editar
+                            <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                             </button>
                             <button className="delete-button">
-                                Eliminar
+                            <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                             </button>
                         </div>
                     ))

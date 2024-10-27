@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import jsQR from 'jsqr';
 import { useNavigate } from 'react-router-dom';
+import './QRScanner.css'; // Asegúrate de importar el archivo CSS
 
 const QRScanner = () => {
   const [error, setError] = useState(null);
@@ -36,20 +37,15 @@ const QRScanner = () => {
       context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
       const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-
       const code = jsQR(imageData.data, imageData.width, imageData.height);
+
       if (code) {
         console.log('QR Code detectado:', code.data);
-
-        // Extraer solo la parte final del código QR para usar como ID
         const id = code.data.split('/').pop(); 
-        
-        // Redirigir a la página de detalles del auto
         navigate(`/autos/${id}`);
         cerrarCamara();
       }
     }
-
     requestAnimationFrame(scan);
   };
 
@@ -66,18 +62,15 @@ const QRScanner = () => {
 
   useEffect(() => {
     encenderCamara();
-
-    return () => {
-      cerrarCamara();
-    };
+    return () => cerrarCamara();
   }, []);
 
   return (
-    <div>
+    <div className="qr-scanner-container">
       {error && <p>{error}</p>}
-      <video ref={videoRef} hidden autoPlay />
+      <video ref={videoRef} className="qr-video" autoPlay />
       <canvas ref={canvasRef} style={{ display: 'none' }} />
-      <button onClick={cerrarCamara}>Cerrar Cámara</button>
+      <button className="qr-close-button" onClick={cerrarCamara}>Cerrar Cámara</button>
     </div>
   );
 };

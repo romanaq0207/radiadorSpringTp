@@ -50,6 +50,8 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import axios from 'axios';  // Asegúrate de haber instalado axios
 import { API_BASE_URL } from '../assets/config';  // Asegúrate de que esta ruta sea correcta
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus} from '@fortawesome/free-solid-svg-icons';
 import "./MyBills.css";
 
 function MyBills() {
@@ -78,7 +80,7 @@ function MyBills() {
       <Navbar />
       <h1 id="listaGastos">Lista de Gastos</h1>{" "}
       <button onClick={handleAddController} className="add-button">
-        Agregar gasto
+      <FontAwesomeIcon icon={faPlus} />
       </button>
       <ul className="lista" id="lista">
         {gastos.map((gasto, index) => (

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
 import axios from "axios";
 import "./Products.css";
 import Modal from "./ModalAddProduct.jsx";
@@ -86,7 +88,7 @@ function Products() {
           disabled={isDisabled}
           onClick={handleShowModel}
         >
-          Agregar producto
+          Agregar productos
         </button>
         {showModal && (
           <Modal
@@ -165,14 +167,14 @@ function Products() {
                       disabled={isDisabled}
                       onClick={() => handleEdit(row.id_producto)}
                     >
-                      Modificar
+                      <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                     </button>
                     <button
                       className="button button-eliminar"
                       disabled={isDisabled}
                       onClick={() => handleDelete(row.id_producto)}
                     >
-                      Eliminar
+                      <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                     </button>
                   </td>
                 </tr>

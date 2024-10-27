@@ -20,7 +20,7 @@
     padding: 12px;
     margin-bottom: 20px;
     background-color: #f38dc8d2;
-    font-size: 16px;
+    font-size: 26px;
     border: none;
     border-radius: 5px;
     color: white;
@@ -95,7 +95,8 @@
     .proveedores-viewer .add-button {
         width: auto;
         padding: 10px 20px;
-        font-size: 16px;
+        font-size: 46px;
+        border-radius: 35%;
     }
 
     .proveedores-viewer .proveedores-list {

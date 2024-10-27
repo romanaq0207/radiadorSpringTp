@@ -52,9 +52,9 @@
 .submit-button {
   width: 100%;
   padding: 12px;
-  font-size: 18px;
+  font-size: 38px;
   color: white;
-  background-color: #fa1313;
+  background-color: #ff5dff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -62,13 +62,13 @@
 }
 
 .submit-button:hover {
-  background-color: #882121;
+  background-color: #fd96fd;
 }
 
 .btn-cancelar {
   width: 100%;
   padding: 12px;
-  font-size: 18px;
+  font-size: 30px;
   color: white;
   background-color: grey;
   border: none;

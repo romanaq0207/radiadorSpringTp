@@ -180,7 +180,7 @@ const UsersManagement = () => {
           </select>
 
           <button type="submit" className="add-button">
-            {isEditing ? "Modificar Usuario" : "Agregar Usuario"}
+            {isEditing ? "Guardar" : "+"}
           </button>
           <button
             onClick={handleCancel}

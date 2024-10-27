@@ -68,7 +68,9 @@
 
   .my-bills-container button {
     max-width: 400px; /* Ampliar el tamaño del botón en pantallas grandes */
-    font-size: 18px;
+    font-size: 45px;
+    width: 80px;
+    border-radius: 100%;
     background-color: #f38dc8;
   }
 

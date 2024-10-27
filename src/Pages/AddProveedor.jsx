@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBan} from '@fortawesome/free-solid-svg-icons';
 import "./AddProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 
@@ -135,10 +137,10 @@ const AddProveedor = () => {
           {errors.telefono && <span className="error">{errors.telefono}</span>}
         </div>
         <button type="submit" className="submit-button">
-          Agregar Proveedor
+          +
         </button>
         <button onClick={handleBack} className="btn-cancelar">
-          Cancelar
+        <FontAwesomeIcon icon={faBan} style={{color: "#ffffff",}} /> 
         </button>
       </form>
     </div>
