@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import proveedoresData from '../data/proveedores.json'; // Archivo JSON de proveedores
 import productosData from '../data/productos.json'; // Archivo JSON de productos
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck} from '@fortawesome/free-solid-svg-icons';
 import './AddOrden.css'; // Archivo CSS para los estilos
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 
@@ -55,7 +57,7 @@ const AddOrden = () => {
             <h1>Agregar Nueva Orden de Compra</h1>
 
             <button className="add-order-btn" onClick={handleAgregarOrden}>
-                Agregar Orden de Compra
+            <FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} />
             </button>
             </div>
             

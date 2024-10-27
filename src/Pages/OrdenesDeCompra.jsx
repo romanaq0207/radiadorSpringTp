@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './OrdenesDeCompra.css';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from '../assets/config';
 
 const OrdenesDeCompra = () => {
@@ -158,7 +160,7 @@ const OrdenesDeCompra = () => {
             case 'creada':
                 return (
                     <>
-                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}>Ver detalles</button>
+                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
                         <button className="orders-btn accept" onClick={async () => await updateOrderStatus(order.id_orden_de_compra, 'aceptada')}>Aceptar</button>
                         <button className="orders-btn reject" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'rechazada')}>Rechazar</button>
                     </>
@@ -166,7 +168,7 @@ const OrdenesDeCompra = () => {
             case 'aceptada':
                 return (
                     <>
-                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}>Ver detalles</button>
+                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
                         <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}>Completar</button>
                         <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}>Inactivar</button>
                     </>
@@ -174,7 +176,7 @@ const OrdenesDeCompra = () => {
             case 'completada':
             case 'rechazada':
             case 'inactiva':
-                return <button className="orders-btn view" onClick={() => handleViewDetails(order)}>Ver detalles</button>;
+                return <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>;
             default:
                 return null;
         }
@@ -184,7 +186,7 @@ const OrdenesDeCompra = () => {
         <div className="orders-container">
             <div className="orders-header">
                 <h1>Órdenes de compra</h1>
-                <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>Agregar Orden de Compra</button>
+                <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>+</button>
             </div>
             <div className="orders-filter">
                 <label>Filtrar por estado:</label>
@@ -246,7 +248,7 @@ const OrdenesDeCompra = () => {
                     ))}
                 </tbody>
             </table>
-            <button className="popup-btn" onClick={closeDetailsPopup}>Cerrar</button>
+            <button className="popup-btn" onClick={closeDetailsPopup}>X</button>
         </div>
     </div>
 )}
