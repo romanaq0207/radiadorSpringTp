@@ -1,3 +1,4 @@
+/* Estilos del contenedor del modal */
 #modal-container {
   padding: 10px;
   display: flex;
@@ -10,38 +11,38 @@
   margin: auto; /* Centra el modal horizontal y verticalmente */
   margin-top: 7.5%;
   inset: 0;
-  border-radius: 1%;
+  border-radius: 8px; /* Cambiado a un valor más visible */
   background-color: white;
   backdrop-filter: blur(10px);
   z-index: 10000;
 }
 
+/* Estilo del título */
 #tittle {
   color: rgb(29, 83, 153);
-  padding-left: 0px;
-  margin-left: 18%;
   font-size: 45px;
-  align-items: center;
-  margin-left: 0%;
-  margin-bottom: 0%;
+  text-align: center; /* Centra el título */
+  margin-bottom: 20px; /* Espacio debajo del título */
 }
 
+/* Estilo del formulario */
 #form-producto {
-  height: 100%;
+  width: 100%; /* Asegura que el formulario use todo el ancho */
+  height: auto; /* Ajuste automático para mejorar la vista */
 }
 
+/* Estilo de los inputs y select */
 .input-producto,
 #modal-select-categoria {
   width: 100%;
-  height: 10%;
   padding: 10px 20px;
   margin: 8px 0;
-  display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-sizing: border-box;
 }
 
+/* Estilo de los botones */
 #btn-add-producto:disabled {
   background-color: grey;
 }
@@ -50,78 +51,73 @@
   background-color: grey;
 }
 
-#btn-add-producto {
+#btn-add-producto,
+#btn-close-modal {
   display: inline;
-  padding-left: 20px;
-  margin-left: 18%;
-  width: 30%;
+  padding: 10px; /* Mejorar padding */
+  margin: 10px auto; /* Centrar los botones */
+  width: 30%; /* Ancho uniforme */
 }
 
-#btn-close-modal {
-  background-color: grey;
-  width: 30%;
+/* Estilo para el mensaje de error */
+.error-message {
+  color: red; /* Cambiado a rojo para destacar errores */
+  font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+  text-align: center; /* Centra el mensaje de error */
+  margin: 10px 0; /* Espacio alrededor del mensaje de error */
+  background-color: white;
+  height: 20px;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif ;
 }
 
 /* Media Queries */
 @media (max-width: 1200px) {
   #modal-container {
-    width: 50%; /* Ancho del modal incrementado para pantallas más pequeñas */
-    height: 420px; /* Ajustado para mejorar la vista en pantallas más pequeñas */
+    width: 80%; /* Aumenta el ancho del modal */
+    height: auto; /* Ajuste automático de la altura */
     margin-top: 10%; /* Mayor espacio en la parte superior */
   }
 
   #tittle {
-    margin-left: 0; /* Centrar título */
-    text-align: center; /* Centrar texto del título */
-    font-size: 25px; /* Reducir tamaño de fuente */
+    font-size: 30px; /* Tamaño de fuente reducido */
   }
 
   .input-producto,
   #modal-select-categoria {
-    height: 35px; /* Ajuste automático de la altura */
-    padding: 10px;
+    height: 40px; /* Ajuste automático de la altura */
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    display: block;
-    width: 80%; /* Incrementar ancho de botones */
-    margin: 10px 40px; /* Margen automático para centrar botones */
+    width: 80%; /* Botones más anchos */
+    margin: 10px auto; /* Centrar botones */
   }
 }
 
 @media (max-width: 768px) {
   #modal-container {
-    width: 80%; /* Ancho del modal incrementado para pantallas más pequeñas */
-    height: 410px; /* Ajustado para mejorar la vista en pantallas más pequeñas */
-    margin-top: 13%; /* Mayor espacio en la parte superior */
+    width: 90%; /* Aumentar el ancho del modal */
   }
 
   #tittle {
-    margin-left: 0; /* Centrar título */
-    text-align: center; /* Centrar texto del título */
-    font-size: 25px; /* Reducir tamaño de fuente */
+    font-size: 25px; /* Tamaño de fuente reducido */
   }
 
   .input-producto,
   #modal-select-categoria {
-    height: 8%; /* Ajuste automático de la altura */
-    padding: 10px;
+    height: auto; /* Ajuste automático de la altura */
+    padding: 8px; /* Espaciado más pequeño */
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    display: block;
-    width: 80%; /* Incrementar ancho de botones */
-    margin: 10px auto; /* Margen automático para centrar botones */
+    width: 90%; /* Ancho de los botones */
   }
 }
 
 @media (max-width: 480px) {
   #modal-container {
-    width: 80%; /* Ancho del modal incrementado para pantallas más pequeñas */
-    height: 410px; /* Ajuste automático de la altura */
-    margin-top: 18%; /* Mayor espacio en la parte superior */
+    height: auto; /* Ajustar la altura */
   }
 
   #tittle {
@@ -130,16 +126,11 @@
 
   .input-producto,
   #modal-select-categoria {
-    display: inline;
-    height: auto; /* Ajuste automático de la altura */
-    width: 100%;
-    padding: 8px;
+    padding: 8px; /* Espaciado más pequeño */
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    display: block;
-    width: 90%; /* Incrementar ancho de botones */
-    margin: 10px auto; /* Margen automático para centrar botones */
+    width: 90%; /* Ancho de los botones */
   }
 }

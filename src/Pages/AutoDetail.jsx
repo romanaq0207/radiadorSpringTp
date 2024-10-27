@@ -13,6 +13,7 @@ function AutoDetail() {
     tipo_de_mantenimiento: "",
     descripcion: "",
   });
+  const [error, setError] = useState("");
 
   useEffect(() => {
     axios
@@ -39,6 +40,13 @@ function AutoDetail() {
   }
 
   const handleAddMantenimiento = () => {
+    const { fecha, tipo_de_mantenimiento, descripcion } = newMantenimiento;
+
+    if (!fecha || !tipo_de_mantenimiento || !descripcion) {
+      setError("Por favor, completa todos los campos.");
+      return;
+    }
+
     const mantenimientoData = {
       auto_id: auto.id,
       ...newMantenimiento,
@@ -53,6 +61,7 @@ function AutoDetail() {
           tipo_de_mantenimiento: "",
           descripcion: "",
         });
+        setError("");
       })
       .catch((error) => {
         console.error("Error al agregar mantenimiento:", error);
@@ -113,6 +122,7 @@ function AutoDetail() {
       )}
 
       <h3>Agregar Mantenimiento</h3>
+      {error && <p className={styles.error}>{error}</p>}
       <input
         type="date"
         name="fecha"

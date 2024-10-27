@@ -9,7 +9,7 @@ import Modal from "./ModalExitoAddProduct.jsx";
 function ModalAddProduct({ onClose }) {
   const [showModal, setShowModal] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState(""); // Solo un mensaje de error
   const [formData, setFormData] = useState({
     nombre: "",
     marca: "",
@@ -45,19 +45,31 @@ function ModalAddProduct({ onClose }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" }); // Limpia el error al escribir
+    if (!value.trim()) {
+      setError(`El campo ${name} es obligatorio.`); // Muestra error si el campo está vacío
+    } else {
+      setError(""); // Limpia el error al escribir
+    }
   };
 
   const validateForm = () => {
-    const newErrors = {};
-    if (!formData.nombre.trim()) newErrors.nombre = "El nombre es requerido";
-    if (!formData.marca.trim()) newErrors.marca = "La marca es requerida";
-    if (!formData.modelo.trim()) newErrors.modelo = "El modelo es requerido";
-    if (!formData.categoria) newErrors.categoria = "La categoría es requerida";
-    if (formData.cantidad <= 0) newErrors.cantidad = "La cantidad debe ser mayor que 0";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    if (!formData.nombre.trim()) {
+      return setError("El nombre del producto es obligatorio.");
+    }
+    if (!formData.marca.trim()) {
+      return setError("La marca es obligatoria.");
+    }
+    if (!formData.modelo.trim()) {
+      return setError("El modelo es obligatorio.");
+    }
+    if (!formData.categoria || formData.categoria === "Selecciona una categoría") {
+      return setError("La categoría es obligatoria.");
+    }
+    if (formData.cantidad <= 0) {
+      return setError("La cantidad debe ser mayor que 0.");
+    }
+    setError(""); // Limpia el error si todo es válido
+    return true; // Formulario válido
   };
 
   const handleSubmit = async (e) => {
@@ -91,42 +103,33 @@ function ModalAddProduct({ onClose }) {
         <input
           className="input-producto"
           name="nombre"
-          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,\-&!/%#]+$"
-          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Producto"
           value={formData.nombre}
           disabled={isDisabled}
           onChange={handleInputChange}
           required
         />
-        {errors.nombre && <span className="error-message">{errors.nombre}</span>}
-
+        
         <input
           className="input-producto"
           name="marca"
-          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,\-&!/%#]+$"
-          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Marca"
           value={formData.marca}
           disabled={isDisabled}
           onChange={handleInputChange}
           required
         />
-        {errors.marca && <span className="error-message">{errors.marca}</span>}
-
+        
         <input
           className="input-producto"
           name="modelo"
-          pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s.,-]+$"
-          title="Solo se permiten letras, números y caracteres especiales."
           placeholder="Modelo"
           value={formData.modelo}
           disabled={isDisabled}
           onChange={handleInputChange}
           required
         />
-        {errors.modelo && <span className="error-message">{errors.modelo}</span>}
-
+        
         <select
           id="modal-select-categoria"
           name="categoria"
@@ -140,7 +143,6 @@ function ModalAddProduct({ onClose }) {
             <option key={categoria} value={categoria}>{categoria}</option>
           ))}
         </select>
-        {errors.categoria && <span className="error-message">{errors.categoria}</span>}
 
         <input
           className="input-producto"
@@ -154,7 +156,8 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-        {errors.cantidad && <span className="error-message">{errors.cantidad}</span>}
+
+        {error && <span className="error-message">{error}</span>} {/* Solo un mensaje de error */}
 
         <button id="btn-add-producto" disabled={isDisabled} onClick={handleSubmit}>
           +

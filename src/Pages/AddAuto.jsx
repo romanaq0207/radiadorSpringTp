@@ -1,42 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
-import QRCode from 'react-qr-code';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck} from '@fortawesome/free-solid-svg-icons';
-import { toPng } from 'html-to-image';
-import './EditCar.css';
-import { API_BASE_URL } from '../assets/config';
+import { useNavigate } from 'react-router-dom';
+import QRCode from 'react-qr-code';  // Biblioteca para generar QR
+import { toPng } from 'html-to-image'; // Para convertir a imagen y descargar
+import './AddAuto.css';
+import { API_BASE_URL } from '../assets/config'; 
 
-function EditCar() {
-    const { id } = useParams();  // Obtén el ID del auto desde los parámetros de la URL
+function AddAuto() {
     const [autoData, setAutoData] = useState({
         marca: '',
         modelo: '',
         anio: '',
         kilometraje: '',
         nro_patente: '',
-        nro_flota: '',
+        nro_flota: '', 
     });
     const [qrCodeValue, setQrCodeValue] = useState('');
-    const qrRef = useRef(null);
+    const qrRef = useRef(null); // Usado para referenciar el QRCode
     const navigate = useNavigate();
-
-    useEffect(() => {
-        axios.get(`${API_BASE_URL}/autos/${id}`)
-            .then(response => setAutoData(response.data))
-            .catch(error => console.error('Error al obtener los datos del auto:', error));
-    }, [id]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setAutoData({ ...autoData, [name]: value });
     };
 
-    const handleUpdateAuto = () => {
-        const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-        const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
-        const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
+    const handleAddAuto = () => {
+        // Validaciones
+        const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Solo letras y espacios
+        const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/; // Letras, números y espacios
+        const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/; // ABC123 o AB123CD
 
         if (!marcaRegex.test(autoData.marca)) {
             alert('La marca solo puede contener letras y espacios.');
@@ -53,14 +45,20 @@ function EditCar() {
             return;
         }
 
-        axios.put(`${API_BASE_URL}/autos/${id}`, autoData)
-            .then(() => {
-                const qrUrl = `${API_BASE_URL}/autos/${id}`;
-                setQrCodeValue(qrUrl);
-                alert('Auto actualizado con éxito.');
-                navigate('/autos');
-            })
-            .catch(error => console.error('Error al actualizar el auto:', error));
+        // Enviar los datos del auto al servidor
+        axios.post(`${API_BASE_URL}/autos`, {
+            ...autoData,
+            codigo_qr: ''  // El backend no necesita este campo, se generará en el frontend
+        })
+        .then(response => {
+            console.log('Auto agregado:', response.data);
+            const autoId = response.data.id; // Obtén el ID del nuevo auto
+            const qrUrl = `${API_BASE_URL}/autos/${autoId}`; // Genera la URL del QR
+            setQrCodeValue(qrUrl); // Asigna la URL como valor del QR
+        })
+        .catch(error => {
+            console.error('Error al agregar auto:', error);
+        });
     };
 
     const handleDownloadQR = () => {
@@ -71,14 +69,17 @@ function EditCar() {
                     link.href = dataUrl;
                     link.download = `${autoData.nro_patente}-qr-code.png`;
                     link.click();
-                })
-                .catch((error) => console.error('Error al generar la imagen QR:', error));
+                }
+            )
+                .catch((error) => {
+                    console.error('Error al generar la imagen QR:', error);
+                });
         }
     };
 
     return (
-        <div className="edit-car">
-            <h2>Agregar Auto</h2>
+        <div className="add-auto">
+            <h2>Agregar Nuevo Auto</h2>
             <input
                 type="text"
                 name="marca"
@@ -114,6 +115,7 @@ function EditCar() {
                 value={autoData.nro_patente}
                 onChange={handleInputChange}
             />
+            {/* Campo para el número de flota */}
             <input
                 type="text"
                 name="nro_flota"
@@ -121,12 +123,18 @@ function EditCar() {
                 value={autoData.nro_flota}
                 onChange={handleInputChange}
             />
-            <button onClick={handleUpdateAuto}><FontAwesomeIcon icon={faCheck} style={{color: "#ffffff",}} /></button>
+            <button onClick={handleAddAuto}>Agregar Auto</button>
 
+            {/* Generar el código QR basado en la URL del auto */}
             {qrCodeValue && (
                 <div>
                     <div ref={qrRef}>
-                        <QRCode value={qrCodeValue} size={256} bgColor="white" fgColor="black" level="H" />
+                        <QRCode value={qrCodeValue} 
+                           size={256} // Ajusta el tamaño del QR
+                           bgColor="white" // Fondo blanco alrededor del QR
+                           fgColor="black" // Color del QR
+                           level="H" // Nivel de corrección de errores
+                           />
                     </div>
                     <button onClick={handleDownloadQR}>Descargar QR como imagen</button>
                 </div>
@@ -135,4 +143,4 @@ function EditCar() {
     );
 }
 
-export default EditCar;
+export default AddAuto;

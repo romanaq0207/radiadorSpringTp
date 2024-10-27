@@ -37,22 +37,30 @@ function EditCar() {
         const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
         const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
-
+    
+        // Verificar que ningún campo esté vacío
+        for (const [key, value] of Object.entries(autoData)) {
+            if (value.trim() === '') {
+                alert(`${key.charAt(0).toUpperCase() + key.slice(1)} no puede estar vacío.`);
+                return;
+            }
+        }
+    
         if (!marcaRegex.test(autoData.marca)) {
             alert('La marca solo puede contener letras y espacios.');
             return;
         }
-
+    
         if (!modeloRegex.test(autoData.modelo)) {
             alert('El modelo solo puede contener letras, números y espacios.');
             return;
         }
-
+    
         if (!patenteRegex.test(autoData.nro_patente)) {
             alert('El número de patente debe seguir el formato ABC123 o AB123CD.');
             return;
         }
-
+    
         axios.put(`${API_BASE_URL}/autos/${id}`, autoData)
             .then(() => {
                 const qrUrl = `${API_BASE_URL}/autos/${id}`;
