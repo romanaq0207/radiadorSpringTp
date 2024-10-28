@@ -45,10 +45,14 @@ function ModalAddProduct({ onClose }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    if (!value.trim()) {
-      setError(`El campo ${name} es obligatorio.`); // Muestra error si el campo está vacío
+
+    // Validación de campo modelo solo con letras y tildes
+    if (name === "modelo" && !/^[a-zA-ZÀ-ÿ\s]+$/.test(value)) {
+      setError("El modelo solo puede contener letras.");
+    } else if (!value.trim()) {
+      setError(`El campo ${name} es obligatorio.`);
     } else {
-      setError(""); // Limpia el error al escribir
+      setError("");
     }
   };
 
@@ -62,14 +66,17 @@ function ModalAddProduct({ onClose }) {
     if (!formData.modelo.trim()) {
       return setError("El modelo es obligatorio.");
     }
+    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo)) {
+      return setError("El modelo solo puede contener letras.");
+    }
     if (!formData.categoria || formData.categoria === "Selecciona una categoría") {
       return setError("La categoría es obligatoria.");
     }
     if (formData.cantidad <= 0) {
       return setError("La cantidad debe ser mayor que 0.");
     }
-    setError(""); // Limpia el error si todo es válido
-    return true; // Formulario válido
+    setError("");
+    return true;
   };
 
   const handleSubmit = async (e) => {
@@ -100,6 +107,7 @@ function ModalAddProduct({ onClose }) {
       )}
       <div id="form-product">
         <h2 id="tittle">Agregar Producto</h2>
+        
         <input
           className="input-producto"
           name="nombre"
