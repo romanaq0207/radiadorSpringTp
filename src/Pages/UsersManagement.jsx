@@ -3,6 +3,11 @@ import usuariosData from "../data/usuarios.json";
 import "./UsersManagement.css";
 
 const UsersManagement = () => {
+  const [numero, setNumero] = useState("");
+  const [searchTermRol, setSearchTermRol] = useState("");
+  const [searchTermMail, setSearchTermMail] = useState("");
+  const [searchTermDNI, setSearchTermDNI] = useState("");
+  const [FilteredUsers, setFilteredUsers] = useState("");
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
     // Cargar los datos del archivo JSON
@@ -72,21 +77,21 @@ const UsersManagement = () => {
             usuario.id === formData.id ? formData : usuario
           )
         );
-        setIsEditing(false); 
+        setIsEditing(false);
         Swal.fire({
           title: "¡Éxito!",
           text: "La información del usuario ha sido actualizada correctamente.",
           icon: "success",
-          confirmButtonText: "Aceptar"
-        })
+          confirmButtonText: "Aceptar",
+        });
       } else {
-        setUsuarios([...usuarios, { ...formData, id: usuarios.length + 1 }]); 
+        setUsuarios([...usuarios, { ...formData, id: usuarios.length + 1 }]);
         setIsEditing(false);
         Swal.fire({
           title: "¡Éxito!",
           text: "El usuario ha sido cargado correctamente.",
           icon: "success",
-          confirmButtonText: "Aceptar"
+          confirmButtonText: "Aceptar",
         });
       }
 
@@ -116,19 +121,22 @@ const UsersManagement = () => {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar"
+      cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-         setUsuarios(
-      usuarios.map((usuario) =>
-        usuario.id === id ? { ...usuario, habilitado: false } : usuario
-    )
-  );
-  Swal.fire("¡Eliminado!", "El usuario ha sido deshabilitado.", "success");
-}
-});
-};
-
+        setUsuarios(
+          usuarios.map((usuario) =>
+            usuario.id === id ? { ...usuario, habilitado: false } : usuario
+          )
+        );
+        Swal.fire(
+          "¡Eliminado!",
+          "El usuario ha sido deshabilitado.",
+          "success"
+        );
+      }
+    });
+  };
 
   const handleCancel = () => {
     setFormData({
@@ -142,6 +150,51 @@ const UsersManagement = () => {
     });
     setIsEditing(false);
   };
+
+  const filterUsuariosMail = (term) => {
+    if (term === "") {
+      setFilteredUsers(usuarios);
+    } else {
+      const filtered = usuarios.filter((usuario) =>
+        usuario.mail.toLowerCase().includes(term.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    }
+  };
+
+  const handleSearchChange = (event) => {
+    const term = event.target.value;
+    setSearchTermMail(term);
+    filterUsuariosMail(term);
+  };
+
+  const handleRestrictDNI = (event) => {
+    // restricciones para ingresar otra cosa que no sea numeros en tiempo real
+    const term = event.target.value;
+    if (/^[1-9]\d{0,8}$/.test(term) || term === "") {
+      setNumero(term);
+      setErrors("");
+    } else {
+      setErrors("Debe contener exactamente 9 cifras y ser un número positivo");
+    }
+    setSearchTermDNI(term);
+    filterUsuariosDNI(term);
+  };
+  const filterUsuariosDNI = (term) => {
+    if (term === "") {
+      setFilteredUsers(usuarios);
+    } else {
+      const filtered = usuarios.filter((usuario) => usuario.dni.includes(term));
+      setFilteredUsers(filtered);
+    }
+  };
+
+  useEffect(() => {
+    let filtered = usuarios.filter(
+      (usuario) => searchTermRol === "" || usuario.rol === searchTermRol
+    );
+    setFilteredUsers(filtered);
+  }, [searchTermRol, usuarios]);
 
   return (
     <div className="users-management-container">
@@ -203,6 +256,7 @@ const UsersManagement = () => {
             <option value="administrador">Administrador</option>
             <option value="cliente">Cliente</option>
             <option value="gerencia">Gerencia</option>
+            <option value="mecanico">Mecánico</option>
           </select>
 
           <button type="submit" className="add-button">
@@ -219,35 +273,67 @@ const UsersManagement = () => {
       </div>
 
       <div className="users-list">
-        {usuarios.map((usuario) => (
-          <div key={usuario.id} className="user-card">
-            <p>
-              <strong>Nombre:</strong> {usuario.nombre} {usuario.apellido}
-            </p>
-            <p>
-              <strong>DNI:</strong> {usuario.dni}
-            </p>
-            <p>
-              <strong>Mail:</strong> {usuario.mail}
-            </p>
-            <p>
-              <strong>Rol:</strong> {usuario.rol}
-            </p>
+        {FilteredUsers.length > 0 ? (
+          FilteredUsers.map((usuario) => (
+            <div key={usuario.id} className="user-card">
+              <p>
+                <strong>Nombre:</strong> {usuario.nombre} {usuario.apellido}
+              </p>
+              <p>
+                <strong>DNI:</strong> {usuario.dni}
+              </p>
+              <p>
+                <strong>Mail:</strong> {usuario.mail}
+              </p>
+              <p>
+                <strong>Rol:</strong> {usuario.rol}
+              </p>
 
-            <button
-              onClick={() => handleEdit(usuario.id)}
-              className="add-button"
-            >
-              Editar
-            </button>
-            <button
-              onClick={() => handleDelete(usuario.id)}
-              className="edit-button"
-            >
-              Eliminar
-            </button>
-          </div>
-        ))}
+              <button
+                onClick={() => handleEdit(usuario.id)}
+                className="add-button"
+              >
+                Editar
+              </button>
+              <button
+                onClick={() => handleDelete(usuario.id)}
+                className="edit-button"
+              >
+                Eliminar
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron usuarios</p>
+        )}
+      </div>
+      <div className="filtros-usuarios">
+        <label>Buscar por:</label>
+        <input
+          type="text"
+          placeholder="Mail"
+          className="search-user"
+          value={searchTermMail}
+          onChange={handleSearchChange}
+        ></input>
+        <input
+          type="text"
+          placeholder="DNI"
+          value={numero}
+          onChange={handleRestrictDNI}
+        ></input>
+        <label>Rol:</label>
+        <select
+          value={searchTermRol}
+          onChange={(e) => setSearchTermRol(e.target.value)}
+        >
+          <option value="">--</option>
+          <option value="Operador">Operador</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Cliente">Cliente</option>
+          <option value="Gerencia">Gerencia</option>
+          <option value="Mecánico">Mecánico</option>
+        </select>
       </div>
     </div>
   );

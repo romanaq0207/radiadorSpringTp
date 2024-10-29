@@ -155,6 +155,16 @@
   cursor: default;
 }
 
+.filtros-usuarios {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 62%;
+  margin-left: 19px;
+  padding-top: 70px;
+}
+
 @media (max-width: 768px) {
   .users-management-container {
     flex-direction: column;
@@ -182,8 +192,6 @@
     font-size: 0.9rem;
     max-width: 100%;
   }
-
-
 
   .users-management-container .users-card p {
     font-size: 0.85rem;
@@ -217,5 +225,4 @@
     padding: 8px 15px;
     font-size: 0.8rem;
   }
-
 }
