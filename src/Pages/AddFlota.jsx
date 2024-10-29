@@ -6,6 +6,7 @@ import { faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import { FaEdit, FaTrash, FaPlus } from 'react-icons/fa';
 import './AddFlota.css';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'; 
 
 function AddFlota() {
   const [flotaName, setFlotaName] = useState('');
@@ -38,7 +39,12 @@ function AddFlota() {
     try {
       const flotaData = { nombre: flotaName };
       const response = await axios.post(`${API_BASE_URL}/flotas-crear`, flotaData);
-      alert('Flota guardada con éxito');
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "La flota se ha creado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar"
+      });
       setFlotaName('');
       setError('');
       const autoResponse = await axios.get(`${API_BASE_URL}/flotas/${response.data.id}/autos`);
@@ -46,7 +52,12 @@ function AddFlota() {
       setFlotas([...flotas, nuevaFlotaConAutos]);
     } catch (error) {
       console.error('Error al guardar flota:', error);
-      alert('Error al guardar la flota');
+      Swal.fire({
+        title: "¡Error!",
+        text: "No pudimos crear la flota correctamente. Por favor, intenta de nuevo mas tarde.",
+        icon: "error",
+        confirmButtonText: "Aceptar"
+      });
     }
   };
 
@@ -55,12 +66,36 @@ function AddFlota() {
   };
 
   const handleDeleteFlota = async (id) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/flotas/${id}`);
-      setFlotas(flotas.filter(flota => flota.id !== id));
-    } catch (error) {
-      console.error('Error al eliminar flota:', error);
-      alert('Error al eliminar la flota');
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (result.isConfirmed) {
+      try {
+        await axios.delete(`${API_BASE_URL}/flotas/${id}`);
+        setFlotas(flotas.filter(flota => flota.id !== id));
+        Swal.fire({
+          title: 'Eliminado',
+          text: 'La flota ha sido eliminada correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      } catch (error) {
+        console.error('Error al eliminar flota:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al eliminar la flota.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     }
   };
 

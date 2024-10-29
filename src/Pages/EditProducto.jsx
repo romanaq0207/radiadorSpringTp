@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk, faBan} from '@fortawesome/free-solid-svg-icons';
 import "./EditProducto.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
+import Swal from "sweetalert2";
 
 const EditProducto = () => {
   const { id } = useParams();
@@ -61,9 +62,21 @@ const EditProducto = () => {
           activo: producto.activo, // Asegúrate de enviar el campo 'activo' también
         });
         console.log("Cambios guardados:", producto);
+        Swal.fire({
+            title: '¡Éxito!',
+            text: 'Los datos del producto han sido actualizados correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        });
         navigate("/productos"); // Redirect after saving
       } catch (error) {
         console.error("Error al guardar los cambios del producto:", error);
+        Swal.fire({
+          title: '¡Error!',
+          text: 'No pudimos actualizar los datos de este producto. Por favor, intenta de nuevo mas tarde.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+      });
       }
     }
   };

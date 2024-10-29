@@ -6,6 +6,7 @@ import axios from "axios";
 import "./Products.css";
 import Modal from "./ModalAddProduct.jsx";
 import { API_BASE_URL } from "../assets/config";
+import Swal from "sweetalert2";
 
 function Products() {
   const [rows, setRows] = useState([]);
@@ -66,16 +67,56 @@ function Products() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.put(`${API_BASE_URL}/productos/${id}/inactivo`);
-      // Actualizar el estado local para reflejar los cambios
-      setRows((prevRows) =>
-        prevRows.map((row) =>
-          row.id_producto === id ? { ...row, activo: false } : row
-        )
-      );
-    } catch (error) {
-      console.error("Error al cambiar el estado del producto:", error);
+    // Primer alerta de confirmación
+    const confirmDelete = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "Esta acción no se puede revertir",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (confirmDelete.isConfirmed) {
+      // Segunda alerta sobre el impacto en las órdenes de compra
+      const confirmImpact = await Swal.fire({
+        title: 'Advertencia',
+        text: "Al eliminar este producto, las ordenes de compran que incluyan este producto quedarán sin efecto. ¿Deseas continuar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'Cancelar'
+      });
+  
+      if (confirmImpact.isConfirmed) {
+        try {
+          await axios.put(`${API_BASE_URL}/productos/${id}/inactivo`);
+          // Actualizar el estado local para reflejar los cambios
+          setRows((prevRows) =>
+            prevRows.map((row) =>
+              row.id_producto === id ? { ...row, activo: false } : row
+            )
+          );
+          Swal.fire({
+            title: 'Eliminado',
+            text: 'El producto ha sido eliminado exitosamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          });
+        } catch (error) {
+          console.error("Error al cambiar el estado del producto:", error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Hubo un problema al eliminar el producto.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+          });
+        }
+      }
     }
   };
 

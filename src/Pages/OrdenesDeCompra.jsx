@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from '../assets/config';
+import Swal from 'sweetalert2';
 
 const OrdenesDeCompra = () => {
     const [orders, setOrders] = useState([]);
@@ -105,25 +106,42 @@ const OrdenesDeCompra = () => {
     };
 
     const updateOrderStatus = async (orderId, newStatus) => {
-        try {
-            if (newStatus === 'aceptada') {
-                await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/aceptar`);
-            } else if (newStatus === 'inactiva') {
-                await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/inactivar`);
-            }
-
-            const updatedOrders = orders.map(order => {
-                if (order.id_orden_de_compra === orderId) {
-                    return { ...order, estado: newStatus };
+        const statusMessages = {
+            aceptada: 'Aceptar',
+            inactiva: 'Inactivar',
+            rechazada: 'Rechazar'
+        };
+    
+        Swal.fire({
+            title: `¿Estás seguro de que quieres ${statusMessages[newStatus]} esta orden?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    if (newStatus === 'aceptada') {
+                        await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/aceptar`);
+                    } else if (newStatus === 'inactiva') {
+                        await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/inactivar`);
+                    } else if (newStatus === 'rechazada') {
+                        await axios.put(`${API_BASE_URL}/ordenes_de_compra/${orderId}/rechazar`);
+                    }
+    
+                    const updatedOrders = orders.map(order => 
+                        order.id_orden_de_compra === orderId ? { ...order, estado: newStatus } : order
+                    );
+                    setOrders(updatedOrders);
+                    setFilteredOrders(updatedOrders.filter(order => order.estado === filter || filter === 'Todos'));
+    
+                    Swal.fire('Estado actualizado', 'La orden ha sido actualizada con éxito.', 'success');
+                } catch (error) {
+                    console.error('Error al actualizar el estado de la orden de compra:', error);
+                    Swal.fire('Error', 'Hubo un problema al actualizar la orden.', 'error');
                 }
-                return order;
-            });
-            setOrders(updatedOrders);
-            setFilteredOrders(updatedOrders.filter(order => order.estado === filter || filter === 'Todos'));
-        } catch (error) {
-            console.error('Error al actualizar el estado de la orden de compra:', error);
-            alert('Error al actualizar el estado de la orden de compra.');
-        }
+            }
+        });
     };
 
     const handleReceptionChange = (index, field, value) => {

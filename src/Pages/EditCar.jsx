@@ -7,6 +7,7 @@ import { faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import { toPng } from 'html-to-image';
 import './EditCar.css';
 import { API_BASE_URL } from '../assets/config';
+import Swal from 'sweetalert2';
 
 function EditCar() {
     const { id } = useParams();  // Obtén el ID del auto desde los parámetros de la URL
@@ -62,14 +63,24 @@ function EditCar() {
         }
     
         axios.put(`${API_BASE_URL}/autos/${id}`, autoData)
-            .then(() => {
-                const qrUrl = `${API_BASE_URL}/autos/${id}`;
-                setQrCodeValue(qrUrl);
-                alert('Auto actualizado con éxito.');
-                navigate('/autos');
-            })
-            .catch(error => console.error('Error al actualizar el auto:', error));
-    };
+        .then(() => {
+            const qrUrl = `${API_BASE_URL}/autos/${id}`;
+            setQrCodeValue(qrUrl);
+
+            Swal.fire({
+                title: '¡Actualización exitosa!',
+                text: 'La información del auto se ha actualizado correctamente.',
+                icon: 'success',
+                confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+                customClass: {
+                    confirmButton: 'swal-confirm-button'  
+                }
+            }).then(() => {
+                navigate('/gestion-autos');
+            });
+        })
+        .catch(error => console.error('Error al actualizar el auto:', error));
+};
 
     const handleDownloadQR = () => {
         if (qrRef.current) {

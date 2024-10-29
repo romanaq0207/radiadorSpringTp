@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash,faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 import "./ProveedoresViewer.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
+import Swal from 'sweetalert2'; 
 
 const ProveedoresViewer = () => {
   const [proveedores, setProveedores] = useState([]);
@@ -25,17 +26,86 @@ const ProveedoresViewer = () => {
     fetchProveedores();
   }, []);
 
-  // Función para eliminar un proveedor (cambia su estado activo a false)
   const handleDelete = async (id) => {
     try {
-      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`);
+      const confirmResult = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Eliminar este proveedor es una acción crítica.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (!confirmResult.isConfirmed) return;
+
+ 
+      const ordersWarning = await Swal.fire({
+        title: 'Advertencia',
+        text: "Eliminar este proveedor inactivará las órdenes de compra asociadas a él. ¿Deseas continuar?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'Cancelar'
+      });
+
+      if (!ordersWarning.isConfirmed) return;
+
+   
+      const motivoResult = await Swal.fire({
+        title: 'Motivo de baja',
+        input: 'radio',
+        inputOptions: {
+          'Motivo 1': 'Incumplimiento en entregas',
+          'Motivo 2': 'Precios no competitivos',
+          'Motivo 3': 'Problemas de calidad',
+          'Otro': 'Otro motivo'
+        },
+        inputValidator: (value) => {
+          if (!value) {
+            return 'Debes seleccionar un motivo para continuar';
+          }
+        },
+        
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+      });
+
+      if (!motivoResult.isConfirmed) return;
+
+      let motivoSeleccionado = motivoResult.value;
+
+
+      if (motivoSeleccionado === 'Otro') {
+        const customReason = await Swal.fire({
+          title: 'Especifica el motivo',
+          input: 'text',
+          inputPlaceholder: 'Ingresa el motivo de baja',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          inputValidator: (value) => {
+            if (!value) {
+              return 'Debes ingresar un motivo para continuar';
+            }
+          }
+        });
+
+        if (!customReason.isConfirmed) return;
+        motivoSeleccionado = customReason.value;
+      }
+
+      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`, { motivo: motivoSeleccionado });
       setProveedores((prevProveedores) =>
         prevProveedores.filter((proveedor) => proveedor.id_proveedor !== id)
       );
+
+      Swal.fire('Proveedor eliminado', 'El proveedor ha sido dado de baja exitosamente.', 'success');
+      
     } catch (error) {
       console.error("Error al cambiar el estado del proveedor:", error);
     }
   };
+
 
   // Función para redirigir a la página de edición de proveedores
   const handleEdit = (id) => {

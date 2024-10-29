@@ -5,6 +5,7 @@ import QRCode from 'react-qr-code';  // Biblioteca para generar QR
 import { toPng } from 'html-to-image'; // Para convertir a imagen y descargar
 import './AddAuto.css';
 import { API_BASE_URL } from '../assets/config'; 
+import Swal from 'sweetalert2';
 
 function AddAuto() {
     const [autoData, setAutoData] = useState({
@@ -55,7 +56,15 @@ function AddAuto() {
             const autoId = response.data.id; // Obtén el ID del nuevo auto
             const qrUrl = `${API_BASE_URL}/autos/${autoId}`; // Genera la URL del QR
             setQrCodeValue(qrUrl); // Asigna la URL como valor del QR
-        })
+            Swal.fire({
+                title: '¡Carga exitosa!',
+                text: 'La información del auto se ha cargado correctamente.',
+                icon: 'success',
+                confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+                customClass: {
+                    confirmButton: 'swal-confirm-button' 
+                }
+        })})
         .catch(error => {
             console.error('Error al agregar auto:', error);
         });

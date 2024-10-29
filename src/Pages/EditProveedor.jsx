@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFloppyDisk,faBan} from '@fortawesome/free-solid-svg-icons';
 import "./editProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
+import Swal from 'sweetalert2'; 
 
 const EditProveedor = () => {
   const { id } = useParams();
@@ -61,7 +62,15 @@ const EditProveedor = () => {
       try {
         await axios.put(`${API_BASE_URL}/proveedores/${id}`, proveedor);
         console.log("Cambios guardados:", proveedor);
-        navigate("/"); // Redirect after saving
+        Swal.fire({
+          title: '¡Actualización exitosa!',
+          text: 'La información del proveedor se ha actualizado correctamente.',
+          icon: 'success',
+          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+          customClass: {
+              confirmButton: 'swal-confirm-button'  // Clase personalizada, si deseas estilizar el botón
+          }})
+        navigate("/gestion-proveedores"); // Redirect after saving
       } catch (error) {
         console.error("Error al guardar los cambios del proveedor:", error);
       }

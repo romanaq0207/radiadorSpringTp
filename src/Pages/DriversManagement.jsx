@@ -9,6 +9,7 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash,faLocationDot} from '@fortawesome/free-solid-svg-icons';
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import Swal from 'sweetalert2'; 
 
 let DefaultIcon = L.icon({
   iconUrl: markerIcon,
@@ -78,11 +79,24 @@ const DriversManagement = () => {
         )
       );
       setIsEditing(false);
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "La información del conductor ha sido actualizada correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar"
+      });
     } else {
       setConductores([
         ...conductores,
         { ...formData, id: conductores.length + 1 },
-      ]);
+      ])
+      setIsEditing(false);
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "El conductor ha sido cargado correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar"
+      });
     }
 
     setFormData({
@@ -102,11 +116,23 @@ const DriversManagement = () => {
   };
 
   const handleDelete = (id) => {
-    setConductores(
-      conductores.map((conductor) =>
-        conductor.id === id ? { ...conductor, habilitado: false } : conductor
-      )
-    );
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción deshabilitará al conductor.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setConductores(
+          conductores.map((conductor) =>
+            conductor.id === id ? { ...conductor, habilitado: false } : conductor
+          )
+        );
+        Swal.fire("¡Eliminado!", "El conductor ha sido deshabilitado.", "success");
+      }
+    });
   };
 
   const fetchUbicacion = async (id = 1) => {

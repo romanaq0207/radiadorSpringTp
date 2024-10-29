@@ -6,6 +6,7 @@ import { faPenToSquare,faTrash} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { API_BASE_URL } from '../assets/config';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function MechanicManagement() {
     const [searchTerm, setSearchTerm] = useState('');
@@ -40,6 +41,29 @@ function MechanicManagement() {
         navigate(`/edit-mechanic/${id}`);  
     };
 
+    const handleDeleteMechanic = (id) => {
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "Esta acción no se puede deshacer.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, dar de baja',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+           //dar de baja mecanico (supongo que poner un flag en false)
+    
+            Swal.fire(
+              '¡Hecho!',
+              'El mecanico ha sido dado de baja.',
+              'success'
+            );
+          }
+        });
+      };
+
     return (
         <div className="mechanic-management-container">
             <Navbar />
@@ -68,7 +92,7 @@ function MechanicManagement() {
                             <button onClick={() => handleEditMechanic(mecanico.id)} className="edit-button">
                             <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
                             </button>
-                            <button className="delete-button">
+                            <button onClick={() => handleDeleteMechanic(mecanico.id)} className="delete-button">
                             <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
                             </button>
                         </div>

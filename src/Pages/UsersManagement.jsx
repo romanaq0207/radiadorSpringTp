@@ -72,9 +72,22 @@ const UsersManagement = () => {
             usuario.id === formData.id ? formData : usuario
           )
         );
-        setIsEditing(false);
+        setIsEditing(false); 
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "La información del usuario ha sido actualizada correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        })
       } else {
-        setUsuarios([...usuarios, { ...formData, id: usuarios.length + 1 }]);
+        setUsuarios([...usuarios, { ...formData, id: usuarios.length + 1 }]); 
+        setIsEditing(false);
+        Swal.fire({
+          title: "¡Éxito!",
+          text: "El usuario ha sido cargado correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
       }
 
       // Resetear el formulario después de enviar
@@ -97,12 +110,25 @@ const UsersManagement = () => {
   };
 
   const handleDelete = (id) => {
-    setUsuarios(
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción deshabilitará al usuario.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+         setUsuarios(
       usuarios.map((usuario) =>
         usuario.id === id ? { ...usuario, habilitado: false } : usuario
-      )
-    );
-  };
+    )
+  );
+  Swal.fire("¡Eliminado!", "El usuario ha sido deshabilitado.", "success");
+}
+});
+};
+
 
   const handleCancel = () => {
     setFormData({

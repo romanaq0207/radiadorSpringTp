@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faBan, faFloppyDisk} from '@fortawesome/free-solid-svg-icons';
 import "./EditMechanic.css";
 import { API_BASE_URL } from "../assets/config";
+import Swal from 'sweetalert2'; 
 
 function EditMechanic() {
   const { id } = useParams();
@@ -68,10 +69,29 @@ function EditMechanic() {
       .put(`${API_BASE_URL}/mecanicos/${id}`, mecanicoData)
       .then((response) => {
         console.log("Mecánico actualizado:", response.data);
-        navigate("/"); // Redirige a la página principal después de actualizar
+        Swal.fire({
+          title: '¡Actualización exitosa!',
+          text: 'La información del mecanico se ha actualizado correctamente.',
+          icon: 'success',
+          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+          customClass: {
+              confirmButton: 'swal-confirm-button'  
+          }}).then(() => {
+            navigate('/gestion-mecanicos');
+        });
       })
       .catch((error) =>
-        console.error("Error al actualizar el mecánico:", error)
+        console.error("Error al actualizar el mecánico:", error),
+      Swal.fire({
+        title: '¡Error!',
+        text: 'No pudimos actualizar la informacion correctamente. Por favor, intentalo de nuevo mas tarde.',
+        icon: 'error',
+        confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+        customClass: {
+            confirmButton: 'swal-confirm-button'}
+        }).then(() => {
+          navigate('/gestion-mecanicos');
+      })
       );
   };
 

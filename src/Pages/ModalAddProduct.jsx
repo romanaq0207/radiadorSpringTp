@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBan } from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from "../assets/config";
 import Modal from "./ModalExitoAddProduct.jsx";
+import { Navigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function ModalAddProduct({ onClose }) {
   const [showModal, setShowModal] = useState(false);
@@ -88,7 +90,13 @@ function ModalAddProduct({ onClose }) {
         categoria: categoriaMap[formData.categoria],
       };
       await axios.post(`${API_BASE_URL}/productos`, formDataWithCategoryID);
-      setShowModal(true);
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Se agrego el nuevo producto correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+      navigate('/producto');
       setIsDisabled(true);
     } catch (error) {
       console.error("Error al agregar el producto:", error);
