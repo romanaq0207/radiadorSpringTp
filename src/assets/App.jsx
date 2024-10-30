@@ -36,7 +36,9 @@ import AddOrden from "../Pages/AddOrden";
 import EditProducto from "../Pages/EditProducto";
 import EditMechanic from "../Pages/EditMechanic";
 import EditCar from "../Pages/EditCar";
-import HelpRequest from "../Pages/HelpRequest"
+import ViewFormsOperador from "../Pages/ViewFormsOperador"
+import HelpRequest from "../Pages/HelpRequest";
+
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -162,8 +164,12 @@ const AuthConsumer = () => {
             element={login ? <OrdenesDeCompra /> : <Login />}
           />
           <Route
-            path="/pedir-socorro"
+            path="/pedir-acarreo"
             element={login ? <HelpRequest /> : <Login />}
+          />
+          <Route
+            path="/verificar-formularios"
+            element={login ? <ViewFormsOperador /> : <Login />}
           />
           <Route
             path="/edit-proveedor/:id"

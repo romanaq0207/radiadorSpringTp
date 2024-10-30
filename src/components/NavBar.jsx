@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faHome, faCar, faWrench, faUsers, faRoute, faBox, faCarOn,
+  faHome, faCar, faWrench, faUsers, faRoute, faBox, faCarOn, faSheetPlastic, 
   faChartLine, faMoneyBillWave, faUserShield, faWarehouse, faDolly, faClipboard, faRoad, faFire
 } from '@fortawesome/free-solid-svg-icons';
 import "./Navbar.css";
@@ -108,10 +108,16 @@ function Navbar() {
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/pedir-socorro" className="navbar-link" title="Pedir Socorro" onClick={closeMenu}>
-                <FontAwesomeIcon icon={faFire} style={{color: "#ffffff",}} />
+              <Link to="/pedir-acarreo" className="navbar-link" title="Pedir Acarreo" onClick={closeMenu}>
+              <FontAwesomeIcon icon={faWrench} style={{color: "#ffffff",}} />
               </Link>
             </li>
+            <li className="navbar-item">
+              <Link to="/verificar-formularios" className="navbar-link" title="Ver Formularios" onClick={closeMenu}>
+               <FontAwesomeIcon icon={faSheetPlastic} style={{color: "#ffffff",}} />
+              </Link>
+            </li>
+
           </>
         )}
 
