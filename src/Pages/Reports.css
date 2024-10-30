@@ -15,7 +15,7 @@ body {
 
 .title {
   font-size: 32px; /* Tamaño de fuente para móviles */
-  margin: 20px 0;
+  margin-top: 60px;
   color: blanchedalmond; /* Color del texto */
   text-align: center; /* Centrar el título */
 }

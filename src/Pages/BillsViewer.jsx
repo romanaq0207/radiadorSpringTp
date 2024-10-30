@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // Asegúrate de tener axios instalado
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
-import "./BillsViewer.css";
+import styles from "./BillsViewer.module.css"; // Importar el módulo CSS
 
 const BillsViewer = () => {
   const [gastos, setGastos] = useState([]);
@@ -12,10 +12,9 @@ const BillsViewer = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cargar los datos de la API
     const fetchGastos = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/bills`); // Cambia esto a tu endpoint
+        const response = await axios.get(`${API_BASE_URL}/bills`);
         setGastos(response.data);
         setFilteredGastos(response.data);
       } catch (error) {
@@ -26,7 +25,6 @@ const BillsViewer = () => {
     fetchGastos();
   }, []);
 
-  // Filtrar gastos por descripción y estado
   useEffect(() => {
     let filtered = gastos.filter(
       (gasto) =>
@@ -40,11 +38,8 @@ const BillsViewer = () => {
 
   const handleMarkAsPaid = async (id) => {
     try {
-      // Primero, verifica si el gasto existe
       const response = await axios.get(`${API_BASE_URL}/bills/${id}`);
       console.log("Gasto encontrado:", response.data);
-
-      // Si existe, actualiza el estado
       await axios.patch(`${API_BASE_URL}/bills/${id}`, { estado: "pagado" });
       setGastos(
         gastos.map((gasto) =>
@@ -57,11 +52,11 @@ const BillsViewer = () => {
   };
 
   return (
-    <div className="expenses-viewer-container">
-      <h2 className="title">Visor de Gastos</h2>
+    <div className={styles.expensesViewerContainer}>
+      <h2 className={styles.title}>Visor de Gastos</h2>
 
       {/* Filtros */}
-      <div className="filters">
+      <div className={styles.filters}>
         <input
           type="text"
           placeholder="Filtrar por descripción"
@@ -76,12 +71,12 @@ const BillsViewer = () => {
           <option value="pendiente">Pendiente</option>
           <option value="pagado">Pagado</option>
         </select>
-        </div>
+      </div>
 
       {/* Lista de gastos */}
-      <div className="expenses-list">
+      <div className={styles.expensesList}>
         {filteredGastos.map((gasto) => (
-          <div key={gasto.id} className="expense-card">
+          <div key={gasto.id} className={styles.expenseCard}>
             <p>
               <strong>Descripción:</strong> {gasto.descripcion}
             </p>
@@ -94,7 +89,6 @@ const BillsViewer = () => {
             <p>
               <strong>Empleado:</strong> {gasto.nombre}
             </p>
-   
           </div>
         ))}
       </div>
