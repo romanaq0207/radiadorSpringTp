@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./Products.css";
 import Modal from "./ModalAddProduct.jsx";
@@ -19,15 +19,16 @@ function Products() {
   const [isDisabled, setIsDisabled] = useState(false);
   const navigate = useNavigate();
 
+  const fetchProductos = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/productos`);
+      setRows(response.data);
+    } catch (error) {
+      console.error("Error al obtener los productos de la API:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/productos`);
-        setRows(response.data);
-      } catch (error) {
-        console.error("Error al obtener los productos de la API:", error);
-      }
-    };
     fetchProductos();
   }, []);
 
@@ -69,29 +70,29 @@ function Products() {
   const handleDelete = async (id) => {
     // Primer alerta de confirmación
     const confirmDelete = await Swal.fire({
-      title: '¿Estás seguro?',
+      title: "¿Estás seguro?",
       text: "Esta acción no se puede revertir",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
     });
-  
+
     if (confirmDelete.isConfirmed) {
       // Segunda alerta sobre el impacto en las órdenes de compra
       const confirmImpact = await Swal.fire({
-        title: 'Advertencia',
+        title: "Advertencia",
         text: "Al eliminar este producto, las ordenes de compran que incluyan este producto quedarán sin efecto. ¿Deseas continuar?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, continuar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (confirmImpact.isConfirmed) {
         try {
           await axios.put(`${API_BASE_URL}/productos/${id}/inactivo`);
@@ -102,18 +103,18 @@ function Products() {
             )
           );
           Swal.fire({
-            title: 'Eliminado',
-            text: 'El producto ha sido eliminado exitosamente.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
+            title: "Eliminado",
+            text: "El producto ha sido eliminado exitosamente.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
           });
         } catch (error) {
           console.error("Error al cambiar el estado del producto:", error);
           Swal.fire({
-            title: 'Error',
-            text: 'Hubo un problema al eliminar el producto.',
-            icon: 'error',
-            confirmButtonText: 'Aceptar'
+            title: "Error",
+            text: "Hubo un problema al eliminar el producto.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
           });
         }
       }
@@ -136,6 +137,7 @@ function Products() {
             onClose={() => {
               setIsDisabled(false);
               setShowModal(false);
+              fetchProductos();
             }}
           />
         )}
@@ -208,14 +210,20 @@ function Products() {
                       disabled={isDisabled}
                       onClick={() => handleEdit(row.id_producto)}
                     >
-                      <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
+                      <FontAwesomeIcon
+                        icon={faPenToSquare}
+                        style={{ color: "#ffffff" }}
+                      />
                     </button>
                     <button
                       className="button button-eliminar"
                       disabled={isDisabled}
                       onClick={() => handleDelete(row.id_producto)}
                     >
-                      <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        style={{ color: "#ffffff" }}
+                      />
                     </button>
                   </td>
                 </tr>

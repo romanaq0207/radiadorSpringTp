@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./ModalAddProduct.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { API_BASE_URL } from "../assets/config";
 import Modal from "./ModalExitoAddProduct.jsx";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function ModalAddProduct({ onClose }) {
   const [showModal, setShowModal] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState(""); // Solo un mensaje de error
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nombre: "",
     marca: "",
@@ -23,25 +24,25 @@ function ModalAddProduct({ onClose }) {
 
   const categoriaMap = {
     "Aire acondicionado": 41,
-    "Amortiguadores": 44,
-    "Baterias": 48,
-    "Correas": 46,
-    "Cristales": 52,
-    "Direccion": 50,
-    "Escape": 47,
-    "Espejos": 54,
-    "Filtros": 60,
-    "Frenos": 45,
-    "Lubricantes": 49,
-    "Luces": 55,
-    "Motores": 56,
-    "Neumaticos": 58,
-    "Paragolpes": 53,
-    "Radiadores": 57,
+    Amortiguadores: 44,
+    Baterias: 48,
+    Correas: 46,
+    Cristales: 52,
+    Direccion: 50,
+    Escape: 47,
+    Espejos: 54,
+    Filtros: 60,
+    Frenos: 45,
+    Lubricantes: 49,
+    Luces: 55,
+    Motores: 56,
+    Neumaticos: 58,
+    Paragolpes: 53,
+    Radiadores: 57,
     "Sistemas electricos": 42,
-    "Sensores": 43,
-    "Suspencion": 51,
-    "Transmision": 59,
+    Sensores: 43,
+    Suspencion: 51,
+    Transmision: 59,
   };
 
   const handleInputChange = (e) => {
@@ -71,7 +72,10 @@ function ModalAddProduct({ onClose }) {
     if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo)) {
       return setError("El modelo solo puede contener letras.");
     }
-    if (!formData.categoria || formData.categoria === "Selecciona una categoría") {
+    if (
+      !formData.categoria ||
+      formData.categoria === "Selecciona una categoría"
+    ) {
       return setError("La categoría es obligatoria.");
     }
     if (formData.cantidad <= 0) {
@@ -91,13 +95,15 @@ function ModalAddProduct({ onClose }) {
       };
       await axios.post(`${API_BASE_URL}/productos`, formDataWithCategoryID);
       Swal.fire({
-        title: '¡Éxito!',
-        text: 'Se agrego el nuevo producto correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-    });
-      navigate('/producto');
-      setIsDisabled(true);
+        title: "¡Éxito!",
+        text: "Se agrego el nuevo producto correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          container: "my-swal",
+        },
+      });
+      navigate("/productos");
     } catch (error) {
       console.error("Error al agregar el producto:", error);
     }
@@ -115,7 +121,6 @@ function ModalAddProduct({ onClose }) {
       )}
       <div id="form-product">
         <h2 id="tittle">Agregar Producto</h2>
-        
         <input
           className="input-producto"
           name="nombre"
@@ -125,7 +130,6 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-        
         <input
           className="input-producto"
           name="marca"
@@ -135,7 +139,6 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-        
         <input
           className="input-producto"
           name="modelo"
@@ -145,7 +148,6 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-        
         <select
           id="modal-select-categoria"
           name="categoria"
@@ -156,10 +158,11 @@ function ModalAddProduct({ onClose }) {
         >
           <option value="">Selecciona una categoría</option>
           {Object.keys(categoriaMap).map((categoria) => (
-            <option key={categoria} value={categoria}>{categoria}</option>
+            <option key={categoria} value={categoria}>
+              {categoria}
+            </option>
           ))}
         </select>
-
         <input
           className="input-producto"
           name="cantidad"
@@ -172,10 +175,13 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-
-        {error && <span className="error-message">{error}</span>} {/* Solo un mensaje de error */}
-
-        <button id="btn-add-producto" disabled={isDisabled} onClick={handleSubmit}>
+        {error && <span className="error-message">{error}</span>}{" "}
+        {/* Solo un mensaje de error */}
+        <button
+          id="btn-add-producto"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           +
         </button>
         <button disabled={isDisabled} onClick={onClose} id="btn-close-modal">
