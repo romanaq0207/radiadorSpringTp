@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHome, faCar, faWrench, faUsers, faRoute, faBox, faCarOn,
-  faChartLine, faMoneyBillWave, faUserShield, faWarehouse, faDolly, faClipboard, faRoad
+  faChartLine, faMoneyBillWave, faUserShield, faWarehouse, faDolly, faClipboard, faRoad, faFire
 } from '@fortawesome/free-solid-svg-icons';
 import "./Navbar.css";
 import { AuthContext } from "../Context/AuthContext";
@@ -105,6 +105,11 @@ function Navbar() {
             <li className="navbar-item">
               <Link to="/mis-gastos" className="navbar-link" title="Mis Gastos" onClick={closeMenu}>
                 <FontAwesomeIcon icon={faMoneyBillWave} />
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link to="/pedir-socorro" className="navbar-link" title="Pedir Socorro" onClick={closeMenu}>
+                <FontAwesomeIcon icon={faFire} style={{color: "#ffffff",}} />
               </Link>
             </li>
           </>
