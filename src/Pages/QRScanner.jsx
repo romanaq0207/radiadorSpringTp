@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import jsQR from 'jsqr';
 import { useNavigate } from 'react-router-dom';
-import './QRScanner.css'; // Asegúrate de importar el archivo CSS
+import './QRScanner.css'; 
+import { AuthContext } from "../Context/AuthContext";
 
 const QRScanner = () => {
   const [error, setError] = useState(null);
@@ -9,6 +10,7 @@ const QRScanner = () => {
   const canvasRef = useRef(null);
   const [stream, setStream] = useState(null);
   const navigate = useNavigate();
+  const { role } = useContext(AuthContext);
 
   const encenderCamara = async () => {
     try {
@@ -18,7 +20,6 @@ const QRScanner = () => {
         videoRef.current.hidden = false;
       }
       setStream(mediaStream);
-
       requestAnimationFrame(scan);
     } catch (err) {
       setError('Error al acceder a la cámara');
@@ -41,8 +42,15 @@ const QRScanner = () => {
 
       if (code) {
         console.log('QR Code detectado:', code.data);
-        const id = code.data.split('/').pop(); 
-        navigate(`/autos/${id}`);
+        const id = code.data.split('/').pop();
+
+        // Redirige según el rol
+        if (role === 'administrador') {
+          navigate(`/autos-admin/${id}`);
+        } else if (role === 'mecanico') {
+          navigate(`/autos/${id}`);
+        }
+        
         cerrarCamara();
       }
     }
