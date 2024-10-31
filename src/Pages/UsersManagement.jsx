@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import usuariosData from "../data/usuarios.json";
 import "./UsersManagement.css";
 
@@ -8,6 +9,7 @@ const UsersManagement = () => {
   const [searchTermMail, setSearchTermMail] = useState("");
   const [searchTermDNI, setSearchTermDNI] = useState("");
   const [FilteredUsers, setFilteredUsers] = useState("");
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [usuarios, setUsuarios] = useState([]);
   useEffect(() => {
     // Cargar los datos del archivo JSON
@@ -112,6 +114,9 @@ const UsersManagement = () => {
     const usuario = usuarios.find((usuario) => usuario.id === id);
     setFormData(usuario);
     setIsEditing(true);
+    if (isMobile) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const handleDelete = (id) => {
@@ -307,6 +312,7 @@ const UsersManagement = () => {
           <p>No se encontraron usuarios</p>
         )}
       </div>
+
       <div className="filtros-usuarios">
         <label>Buscar por:</label>
         <input
