@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import './HelpRequest.css';
 
 const HelpRequest = () => {
   const [showDescriptionField, setShowDescriptionField] = useState(false);
   const [description, setDescription] = useState('');
-  const [showTokenField, setShowTokenField] = useState(false);
   const [photo, setPhoto] = useState(null);
-  const [helpMessage, setHelpMessage] = useState('');
+  const [patente, setPatente] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
 
   const handleHelpRequest = () => {
+    if (!patenteRegex.test(patente)) {
+      setError('La patente debe ser en formato ABC123 o AB123CD');
+      return;
+    }
+    setError('');
     Swal.fire({
       title: '¿Estás seguro?',
       text: "¿Deseas pedir servicio de acarreo?",
@@ -34,13 +43,13 @@ const HelpRequest = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, enviar foto',
-      cancelButtonText: 'No, continuar con TOKEN'
+      cancelButtonText: 'No, continuar sin foto'
     }).then((result) => {
       if (result.isConfirmed) {
+        setShowDescriptionField(false); // Oculta el campo de descripción
         document.getElementById('photoInput').click(); // Simula el clic en el input de archivo
       } else {
-        setShowDescriptionField(false); // Oculta el campo de descripción
-        setShowTokenField(true); // Muestra el campo de TOKEN
+        navigate('/'); // Redirige al home
       }
     });
   };
@@ -51,7 +60,6 @@ const HelpRequest = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPhoto(reader.result); // Guarda la imagen
-        setShowDescriptionField(false); // Oculta el campo de descripción al seleccionar la foto
       };
       reader.readAsDataURL(file); // Convierte el archivo a una URL de imagen
     }
@@ -61,29 +69,28 @@ const HelpRequest = () => {
     console.log('Foto enviada:', photo);
     setPhoto(null); // Limpiar la foto después de enviar
     Swal.fire('Enviado', 'Tu foto ha sido enviada con éxito', 'success');
-
-    setShowDescriptionField(false); // Oculta el campo de descripción
-    setShowTokenField(true); // Muestra el campo de TOKEN
-  };
-
-  const handleSendMessage = () => {
-    console.log('Descripción enviada:', description);
-    setDescription(''); // Limpia el campo después de enviar
-    Swal.fire('Enviado', 'Tu descripción ha sido enviada con éxito', 'success');
-
-    setShowDescriptionField(false); // Oculta el campo de descripción
-    setShowTokenField(true); // Muestra el campo de TOKEN
+    navigate('/'); // Redirige al home
   };
 
   return (
     <div className='help-request-container'>
-      {/* Solo mostrar el botón de ayuda si ni el campo de descripción, ni el de TOKEN, ni la foto están visibles */}
-      {!showDescriptionField && !showTokenField && !photo && (
-        <button className='help-button' onClick={handleHelpRequest}>
-          Pedir por servicio de acarreo
-        </button>
+      {!showDescriptionField && !photo && (
+        <div className="text-field-container">
+          <label htmlFor="patente">Ingrese la patente del vehículo:</label>
+          <input
+            type="text"
+            id="patente"
+            className="help-text-field"
+            value={patente}
+            onChange={(e) => setPatente(e.target.value)}
+          />
+          {error && <p className="error-message">{error}</p>}
+          <button className='help-button' onClick={handleHelpRequest}>
+            Pedir por servicio de acarreo
+          </button>
+        </div>
       )}
-      {showDescriptionField && (
+      {showDescriptionField && !photo && (
         <div className='text-field-container'>
           <label htmlFor="description">Descripción del problema:</label>
           <textarea
@@ -103,21 +110,6 @@ const HelpRequest = () => {
           <img src={photo} alt="Selected" style={{ width: '100%', maxHeight: '300px' }} />
           <button className='send-button' onClick={handleSendPhoto}>
             Enviar foto
-          </button>
-        </div>
-      )}
-      {showTokenField && (
-        <div className='text-field-container'>
-          <label htmlFor="helpMessage">Ingrese el TOKEN:</label>
-          <input
-            type="text"
-            id="helpMessage"
-            className="help-text-field"
-            value={helpMessage}
-            onChange={(e) => setHelpMessage(e.target.value)}
-          />
-          <button className='send-button' onClick={handleSendMessage}>
-            Enviar
           </button>
         </div>
       )}

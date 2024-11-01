@@ -83,7 +83,7 @@ function AutoDetail() {
 
   return (
     <div className={styles.autoDetail}>
-      <h2>Detalles del Auto apapapapa</h2>
+      <h2>Detalles del Auto</h2>
       <h3>
         {auto.marca} {auto.modelo}
       </h3>
