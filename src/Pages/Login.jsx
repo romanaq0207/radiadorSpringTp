@@ -79,19 +79,21 @@ function Login() {
 
 export default Login;
 */
-import React, { useState, useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import { login } from '../Services/authServices';
-import { AuthContext } from '../Context/AuthContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
-import { firestore } from '../firebase/credenciales'; // Importa Firestore
-import './Login.css';
+import React, { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { login } from "../Services/authServices";
+import { AuthContext } from "../Context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { firestore } from "../firebase/credenciales"; // Importa Firestore
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
   const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState("");
   const { handleLogin } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -107,14 +109,18 @@ function Login() {
       //const userDoc = await firestore.collection('users').doc(user.uid).get(); // Obtener documento de Firestore
       //const userData = userDoc.data(); // Datos del usuario
 
-    //  console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
+      //  console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
 
-      setAlertMessage('Bienvenido');
+      setAlertMessage("Bienvenido");
       setLoading(false);
     } catch (error) {
-      setAlertMessage('Error al iniciar sesión: ' + error.message);
+      setAlertMessage("Error al iniciar sesión: " + error.message);
       setLoading(false);
     }
+  };
+
+  const handleRestorePass = () => {
+    navigate("/recuperar-contraseña");
   };
 
   return (
@@ -124,36 +130,48 @@ function Login() {
         <div>
           <input
             type="email"
-            {...register('email', {
-              required: 'El email es obligatorio',
+            {...register("email", {
+              required: "El email es obligatorio",
               pattern: {
-                value: /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                message: 'Ingrese un email válido',
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: "Ingrese un email válido",
               },
             })}
             placeholder="Ingrese su email"
           />
-          {errors.email && <span className="error-message">{errors.email.message}</span>}
+          {errors.email && (
+            <span className="error-message">{errors.email.message}</span>
+          )}
         </div>
 
         <div>
           <input
             type="password"
-            {...register('password', {
-              required: 'La contraseña es obligatoria',
+            {...register("password", {
+              required: "La contraseña es obligatoria",
               minLength: {
                 value: 6,
-                message: 'Debe tener al menos 6 caracteres',
+                message: "Debe tener al menos 6 caracteres",
               },
             })}
             placeholder="Ingrese su contraseña"
           />
-          {errors.password && <span className="error-message">{errors.password.message}</span>}
+          {errors.password && (
+            <span className="error-message">{errors.password.message}</span>
+          )}
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : <FontAwesomeIcon icon={faRightFromBracket} />}
+          {loading ? (
+            "Cargando..."
+          ) : (
+            <FontAwesomeIcon icon={faRightFromBracket} />
+          )}
         </button>
+        <p onClick={handleRestorePass} className="olvide-contraseña">
+          Olvide mi contraseña
+        </p>
 
         {alertMessage && <p className="alert-message">{alertMessage}</p>}
       </form>

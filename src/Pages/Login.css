@@ -80,11 +80,18 @@
   min-height: 20px; /* Espacio reservado para el mensaje de alerta */
 }
 
+.olvide-contraseña {
+  text-align: center;
+  color: rgb(0, 204, 255);
+}
+.olvide-contraseña:hover {
+  cursor: pointer;
+}
+
 /* Estilos para pantallas más grandes (PC) */
 @media (min-width: 768px) {
   .login-container {
-    padding: 1  00px;
-
+    padding: 1 00px;
   }
 
   .login-container form {

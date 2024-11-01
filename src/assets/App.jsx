@@ -36,9 +36,9 @@ import AddOrden from "../Pages/AddOrden";
 import EditProducto from "../Pages/EditProducto";
 import EditMechanic from "../Pages/EditMechanic";
 import EditCar from "../Pages/EditCar";
-import ViewFormsOperador from "../Pages/ViewFormsOperador"
+import ViewFormsOperador from "../Pages/ViewFormsOperador";
 import HelpRequest from "../Pages/HelpRequest";
-
+import RestorePassword from "../Pages/SecretAnswerLogin";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -159,7 +159,7 @@ const AuthConsumer = () => {
             path="/agregar-proveedor"
             element={login ? <AddProveedor /> : <Login />}
           />
-            <Route
+          <Route
             path="/orden-de-compra"
             element={login ? <OrdenesDeCompra /> : <Login />}
           />
@@ -184,15 +184,13 @@ const AuthConsumer = () => {
             element={login ? <EditCar /> : <Login />}
           />
           <Route path="/productos" element={login ? <Products /> : <Login />} />
+          <Route path="/add-orden" element={login ? <AddOrden /> : <Login />} />
           <Route
-            path="/add-orden" 
-            element={login ? <AddOrden /> : <Login />} 
-            />
-            <Route
             path="/edit-producto/:id"
             element={login ? <EditProducto /> : <Login />}
           />
           <Route path="/add-orden" element={login ? <AddOrden /> : <Login />} />
+          <Route path="/recuperar-contraseña" element={<RestorePassword />} />
         </Routes>
       </main>
     </>
