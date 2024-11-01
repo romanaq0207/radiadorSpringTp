@@ -38,7 +38,8 @@ import EditMechanic from "../Pages/EditMechanic";
 import EditCar from "../Pages/EditCar";
 import ViewFormsOperador from "../Pages/ViewFormsOperador";
 import HelpRequest from "../Pages/HelpRequest";
-import AutoDetailForAdmin from "../Pages/AutoDetailForAdmin"import RestorePassword from "../Pages/SecretAnswerLogin";
+import AutoDetailForAdmin from "../Pages/AutoDetailForAdmin";
+import RestorePassword from "../Pages/SecretAnswerLogin";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
