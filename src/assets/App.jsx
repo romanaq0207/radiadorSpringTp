@@ -38,7 +38,7 @@ import EditMechanic from "../Pages/EditMechanic";
 import EditCar from "../Pages/EditCar";
 import ViewFormsOperador from "../Pages/ViewFormsOperador";
 import HelpRequest from "../Pages/HelpRequest";
-import RestorePassword from "../Pages/SecretAnswerLogin";
+import AutoDetailForAdmin from "../Pages/AutoDetailForAdmin"import RestorePassword from "../Pages/SecretAnswerLogin";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -72,6 +72,10 @@ const AuthConsumer = () => {
           <Route
             path="/autos/:id"
             element={login ? <AutoDetail /> : <Login />}
+          />
+          <Route
+            path="/autos-admin/:id"
+            element={login ? <AutoDetailForAdmin /> : <Login />}
           />
           <Route
             path="/gestion-mecanicos"

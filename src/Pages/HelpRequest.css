@@ -16,7 +16,7 @@
     }
 }
 
-.help-button {
+.help-button, .send-button {
     padding: 15px 30px;
     font-size: 1.2rem;
     color: #fff;
@@ -27,7 +27,7 @@
     transition: background-color 0.3s;
 }
 
-.help-button:hover {
+.help-button:hover, .send-button:hover {
     background-color: #a53761;
 }
 
@@ -48,23 +48,14 @@
     margin-bottom: 10px;
 }
 
-.send-button {
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #ff006a; /* Diferente color para el botón de enviar */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+textarea.help-text-field {
+    resize: none;
+    height: 100px;
 }
 
-.send-button:hover {
-    background-color: #a53761; /* Hover en tono más oscuro */
-}
-
-/* Estilo para el textarea */
-textarea {
-    resize: none; /* Evitar redimensionamiento */
-    height: 100px; /* Altura fija para el área de texto */
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    margin-bottom: 170px;
 }

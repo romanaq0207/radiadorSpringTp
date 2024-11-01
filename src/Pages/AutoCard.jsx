@@ -49,7 +49,6 @@ const AutoCard = ({ auto }) => {
       <p><strong>Kilometraje:</strong> {auto.kilometraje} km</p>
       <p><strong>Patente:</strong> {auto.nro_patente}</p>
       <div className="auto-card__buttons">
-        <button onClick={handleViewDetails} className="details-button"><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
         <button onClick={handleEditCar} className="edit-button"><FontAwesomeIcon icon={faPenToSquare} /></button>
         <button onClick={handleDeleteCar} className="delete-button"><FontAwesomeIcon icon={faTrash} /></button>
       </div>
