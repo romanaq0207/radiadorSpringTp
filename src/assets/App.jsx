@@ -40,6 +40,7 @@ import ViewFormsOperador from "../Pages/ViewFormsOperador";
 import HelpRequest from "../Pages/HelpRequest";
 import AutoDetailForAdmin from "../Pages/AutoDetailForAdmin";
 import RestorePassword from "../Pages/SecretAnswerLogin";
+import Perfil from "../Pages/Perfil";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -195,6 +196,7 @@ const AuthConsumer = () => {
             element={login ? <EditProducto /> : <Login />}
           />
           <Route path="/add-orden" element={login ? <AddOrden /> : <Login />} />
+          <Route path="/mi-perfil" element={login ? <Perfil /> : <Login />} />
           <Route path="/recuperar-contraseña" element={<RestorePassword />} />
         </Routes>
       </main>

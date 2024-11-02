@@ -1,10 +1,25 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faHome, faCar, faWrench, faUsers, faRoute, faBox, faCarOn, faSheetPlastic, 
-  faChartLine, faMoneyBillWave, faUserShield, faWarehouse, faDolly, faClipboard, faRoad, faFire
-} from '@fortawesome/free-solid-svg-icons';
+  faHome,
+  faCar,
+  faWrench,
+  faUsers,
+  faUser,
+  faRoute,
+  faBox,
+  faCarOn,
+  faSheetPlastic,
+  faChartLine,
+  faMoneyBillWave,
+  faUserShield,
+  faWarehouse,
+  faDolly,
+  faClipboard,
+  faRoad,
+  faFire,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 import { AuthContext } from "../Context/AuthContext";
 
@@ -33,8 +48,23 @@ function Navbar() {
       <ul className={`navbar-list ${isOpen ? "navbar-list-open" : ""}`}>
         {/* Opciones comunes a todos */}
         <li className="navbar-item">
-          <Link to="/" className="navbar-link" title="Inicio" onClick={closeMenu}>
+          <Link
+            to="/"
+            className="navbar-link"
+            title="Inicio"
+            onClick={closeMenu}
+          >
             <FontAwesomeIcon icon={faHome} />
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/mi-perfil"
+            className="navbar-link"
+            title="Perfil"
+            onClick={closeMenu}
+          >
+            <FontAwesomeIcon icon={faUser} />
           </Link>
         </li>
 
@@ -42,52 +72,102 @@ function Navbar() {
         {role === "administrador" && (
           <>
             <li className="navbar-item">
-              <Link to="/gestion-autos" className="navbar-link" title="Búsqueda de Autos" onClick={closeMenu}>
+              <Link
+                to="/gestion-autos"
+                className="navbar-link"
+                title="Búsqueda de Autos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faCar} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/gestion-proveedores" className="navbar-link" title="Gestión de Proveedores" onClick={closeMenu}>
+              <Link
+                to="/gestion-proveedores"
+                className="navbar-link"
+                title="Gestión de Proveedores"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faDolly} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/gestion-mecanicos" className="navbar-link" title="Gestión de Mecánicos" onClick={closeMenu}>
+              <Link
+                to="/gestion-mecanicos"
+                className="navbar-link"
+                title="Gestión de Mecánicos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faWrench} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/gestion-conductor" className="navbar-link" title="Gestión de Conductores" onClick={closeMenu}>
+              <Link
+                to="/gestion-conductor"
+                className="navbar-link"
+                title="Gestión de Conductores"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faRoute} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/reportes" className="navbar-link" title="Reportes" onClick={closeMenu}>
+              <Link
+                to="/reportes"
+                className="navbar-link"
+                title="Reportes"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faChartLine} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/admin-gastos" className="navbar-link" title="Administración de Gastos" onClick={closeMenu}>
+              <Link
+                to="/admin-gastos"
+                className="navbar-link"
+                title="Administración de Gastos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faMoneyBillWave} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/admin-usuarios" className="navbar-link" title="Administración de Usuarios" onClick={closeMenu}>
+              <Link
+                to="/admin-usuarios"
+                className="navbar-link"
+                title="Administración de Usuarios"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faUserShield} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/admin-flotas" className="navbar-link" title="Administración de Flotas" onClick={closeMenu}>
+              <Link
+                to="/admin-flotas"
+                className="navbar-link"
+                title="Administración de Flotas"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faWarehouse} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/productos" className="navbar-link" title="Productos" onClick={closeMenu}>
+              <Link
+                to="/productos"
+                className="navbar-link"
+                title="Productos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faBox} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/orden-de-compra" className="navbar-link" title="Órdenes de Compra" onClick={closeMenu}>
+              <Link
+                to="/orden-de-compra"
+                className="navbar-link"
+                title="Órdenes de Compra"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faClipboard} />
               </Link>
             </li>
@@ -98,26 +178,48 @@ function Navbar() {
         {role === "operador" && (
           <>
             <li className="navbar-item">
-              <Link to="/ver-mi-ruta" className="navbar-link" title="Visualizar Ruta" onClick={closeMenu}>
+              <Link
+                to="/ver-mi-ruta"
+                className="navbar-link"
+                title="Visualizar Ruta"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faRoad} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/mis-gastos" className="navbar-link" title="Mis Gastos" onClick={closeMenu}>
+              <Link
+                to="/mis-gastos"
+                className="navbar-link"
+                title="Mis Gastos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faMoneyBillWave} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/pedir-acarreo" className="navbar-link" title="Pedir Acarreo" onClick={closeMenu}>
-              <FontAwesomeIcon icon={faWrench} style={{color: "#ffffff",}} />
+              <Link
+                to="/pedir-acarreo"
+                className="navbar-link"
+                title="Pedir Acarreo"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon icon={faWrench} style={{ color: "#ffffff" }} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/verificar-formularios" className="navbar-link" title="Ver Formularios" onClick={closeMenu}>
-               <FontAwesomeIcon icon={faSheetPlastic} style={{color: "#ffffff",}} />
+              <Link
+                to="/verificar-formularios"
+                className="navbar-link"
+                title="Ver Formularios"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon
+                  icon={faSheetPlastic}
+                  style={{ color: "#ffffff" }}
+                />
               </Link>
             </li>
-
           </>
         )}
 
@@ -125,18 +227,33 @@ function Navbar() {
         {role === "gerente" && (
           <>
             <li className="navbar-item">
-              <Link to="/verificar-rutas" className="navbar-link" title="Verificación de Rutas" onClick={closeMenu}>
-               <FontAwesomeIcon icon={faRoad} />
+              <Link
+                to="/verificar-rutas"
+                className="navbar-link"
+                title="Verificación de Rutas"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon icon={faRoad} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/reportes-gerencia" className="navbar-link" title="Reportes" onClick={closeMenu}>
+              <Link
+                to="/reportes-gerencia"
+                className="navbar-link"
+                title="Reportes"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faChartLine} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/ver-gastos" className="navbar-link" title="Visualizador de Gastos" onClick={closeMenu}>
-               <FontAwesomeIcon icon={faMoneyBillWave} />
+              <Link
+                to="/ver-gastos"
+                className="navbar-link"
+                title="Visualizador de Gastos"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon icon={faMoneyBillWave} />
               </Link>
             </li>
           </>
@@ -146,7 +263,12 @@ function Navbar() {
         {role === "supervisor" && (
           <>
             <li className="navbar-item">
-              <Link to="/crear-ruta" className="navbar-link" title="Crear Ruta" onClick={closeMenu}>
+              <Link
+                to="/crear-ruta"
+                className="navbar-link"
+                title="Crear Ruta"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faRoad} />
               </Link>
             </li>
@@ -157,8 +279,13 @@ function Navbar() {
         {role === "mecanico" && (
           <>
             <li className="navbar-item">
-              <Link to="/busqueda-auto-mecanico" className="navbar-link" title="Vehiculos de Operadores" onClick={closeMenu}>
-               <FontAwesomeIcon icon={faCarOn} />
+              <Link
+                to="/busqueda-auto-mecanico"
+                className="navbar-link"
+                title="Vehiculos de Operadores"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon icon={faCarOn} />
               </Link>
             </li>
           </>
@@ -168,17 +295,32 @@ function Navbar() {
         {role === "cliente" && (
           <>
             <li className="navbar-item">
-              <Link to="/visor-gastos" className="navbar-link" title="Visor de Gastos" onClick={closeMenu}>
+              <Link
+                to="/visor-gastos"
+                className="navbar-link"
+                title="Visor de Gastos"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faMoneyBillWave} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/visor-flota" className="navbar-link" title="Visor de Flotas" onClick={closeMenu}>
+              <Link
+                to="/visor-flota"
+                className="navbar-link"
+                title="Visor de Flotas"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faWarehouse} />
               </Link>
             </li>
             <li className="navbar-item">
-              <Link to="/reportes" className="navbar-link" title="Reportes" onClick={closeMenu}>
+              <Link
+                to="/reportes"
+                className="navbar-link"
+                title="Reportes"
+                onClick={closeMenu}
+              >
                 <FontAwesomeIcon icon={faChartLine} />
               </Link>
             </li>
