@@ -18,6 +18,8 @@ import BillsManagement from "../Pages/BillsManagement";
 import UsersManagement from "../Pages/UsersManagement";
 import AuthProvider, { AuthContext } from "../Context/AuthContext";
 import AddFlota from "../Pages/AddFlota";
+import EditFlota from "../Pages/EditFlota";
+import AddAutoFlota from "../Pages/AddAutoFlota";
 import BillStates from "../Pages/BillsStates";
 import RoutesVerify from "../Pages/RoutesVerify";
 import RouteViewVerify from "../Pages/RouteViewVerify";
@@ -122,6 +124,14 @@ const AuthConsumer = () => {
           <Route
             path="/admin-flotas"
             element={login ? <AddFlota /> : <Login />}
+          />
+          <Route
+            path="/admin-flotas/edit/:id"
+            element={login ? <EditFlota /> : <Login />}
+          />
+          <Route
+            path="/admin-flotas/:flotaId/add-auto"
+            element={login ? <AddAutoFlota /> : <Login />}
           />
           <Route
             path="/ver-gastos"

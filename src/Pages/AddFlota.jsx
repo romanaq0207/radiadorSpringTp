@@ -114,6 +114,9 @@ function AddFlota() {
     }
   };
 
+  const handleAddAuto = (flotaId) => { 
+    navigate(`/admin-flotas/${flotaId}/add-auto`);
+  };
   return (
     <div className="add-flota-container">
       <div className="input-container">
@@ -144,7 +147,7 @@ function AddFlota() {
                 <button className="delete-flota-button" onClick={() => handleDeleteFlota(flota.id)}>
                   <FaTrash />
                 </button>
-                <button className="add-flota-button">
+                <button className="add-flota-button" onClick={() => handleAddAuto(flota.id)}> 
                   <FaPlus color="green" />
                 </button>
               </div>
