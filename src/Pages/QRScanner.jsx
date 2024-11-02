@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import jsQR from 'jsqr';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './QRScanner.css'; 
 import { AuthContext } from "../Context/AuthContext";
 
@@ -44,13 +45,42 @@ const QRScanner = () => {
         console.log('QR Code detectado:', code.data);
         const id = code.data.split('/').pop();
 
-        // Redirige según el rol
+        // Mostrar el diálogo específico para cada rol
         if (role === 'administrador') {
-          navigate(`/autos-admin/${id}`);
+          Swal.fire({
+            title: '¿Qué desea hacer?',
+            text: 'Seleccione una opción:',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Ver Historial de Mantenimiento',
+            cancelButtonText: 'Ver Historial de Accidentes',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(`/autos-admin/${id}`);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              navigate(`/autos-accidentes-admin/${id}`);
+            }
+          });
         } else if (role === 'mecanico') {
-          navigate(`/autos/${id}`);
+          Swal.fire({
+            title: '¿Qué historial desea ver?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Historial de Mantenimiento',
+            cancelButtonText: 'Historial de Accidentes',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate(`/autos/${id}`);
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+              navigate(`/autos-accidentes/${id}`);
+            }
+          });
         }
-        
+
         cerrarCamara();
       }
     }
