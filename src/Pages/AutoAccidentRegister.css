@@ -86,6 +86,23 @@
   font-size: 1rem; /* Mantener tamaño legible */
 }
 
+/* Estilo del botón "Abrir formulario" */
+.open-form-button {
+  margin: 15px 0; /* Espaciado del botón */
+  padding: 10px 15px; /* Espaciado */
+  background-color: #ff3fe5; /* Color del fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados */
+  text-decoration: none; /* Sin subrayado */
+  cursor: pointer; /* Cambia el cursor */
+  font-size: 1rem; /* Tamaño del texto */
+}
+
+.open-form-button:hover {
+  background-color: #ff4df6; /* Color al pasar el mouse */
+}
+
 /* Estilos para pantallas más grandes (PC) */
 @media (min-width: 768px) {
   .auto-detail {

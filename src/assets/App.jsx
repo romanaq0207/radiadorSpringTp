@@ -40,6 +40,9 @@ import ViewFormsOperador from "../Pages/ViewFormsOperador";
 import HelpRequest from "../Pages/HelpRequest";
 import AutoDetailForAdmin from "../Pages/AutoDetailForAdmin";
 import RestorePassword from "../Pages/SecretAnswerLogin";
+import MechanicAidRequest from "../Pages/MechanicAidRequest";
+import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
+import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 
 const App = () => {
@@ -152,6 +155,18 @@ const AuthConsumer = () => {
           <Route
             path="/visor-gastos"
             element={login ? <BillsViewer /> : <Login />}
+          />
+          <Route
+            path="/pedidos-ayuda"
+            element={login ? <MechanicAidRequest /> : <Login />}
+          />
+          <Route
+            path="/autos-accidentes-admin/:id"
+            element={login ? <AutoAccidentsForAdmin /> : <Login />}
+          />
+          <Route
+            path="/forms-accidente"
+            element={login ? <FormularioAccidenteMechanic /> : <Login />}
           />
           <Route
             path="/visor-flota"

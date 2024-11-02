@@ -5,12 +5,13 @@ import {
   faHome,
   faCar,
   faWrench,
-  faUsers,
   faUser,
+  faUsers,
   faRoute,
   faBox,
   faCarOn,
   faSheetPlastic,
+  faBell,
   faChartLine,
   faMoneyBillWave,
   faUserShield,
@@ -286,6 +287,16 @@ function Navbar() {
                 onClick={closeMenu}
               >
                 <FontAwesomeIcon icon={faCarOn} />
+              </Link>
+            </li>
+            <li className="navbar-item">
+              <Link
+                to="/pedidos-ayuda"
+                className="navbar-link"
+                title="Pedidos de Acarreo"
+                onClick={closeMenu}
+              >
+                <FontAwesomeIcon icon={faBell} />
               </Link>
             </li>
           </>

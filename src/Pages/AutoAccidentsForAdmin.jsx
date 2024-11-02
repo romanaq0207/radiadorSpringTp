@@ -22,6 +22,7 @@ function AutoAccidentRegister() {
   });
 
   useEffect(() => {
+    // Datos ficticios de accidentes
     const datosAccidentes = [
       {
         fecha: "2023-01-15",
@@ -47,6 +48,7 @@ function AutoAccidentRegister() {
       ...nuevoAccidente,
     };
 
+    // Agregar el nuevo accidente a la lista
     setAccidentes([...accidentes, accidenteData]);
     setNuevoAccidente({
       fecha: "",
@@ -106,12 +108,8 @@ function AutoAccidentRegister() {
         <p>No se encontraron registros de accidentes.</p>
       )}
 
-      {/* Botón "Abrir formulario" */}
-      <Link to="/forms-accidente" className="open-form-button">
-        Abrir formulario
-      </Link>
-
-      <Link to="/busqueda-auto-mecanico" className="back-link">
+     
+      <Link to="/gestion-autos" className="back-link">
         Volver
       </Link>
     </div>

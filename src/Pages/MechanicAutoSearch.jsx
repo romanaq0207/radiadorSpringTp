@@ -46,10 +46,6 @@ function AutoSearch() { // Nombre del componente corregido
     }
   };
 
-  const handleAddAuto = () => {
-    navigate("/agregar-auto");
-  };
-
   const handleScanQR = () => {
     navigate("/escanear-qr");
   };
@@ -67,9 +63,6 @@ function AutoSearch() { // Nombre del componente corregido
           className={styles['auto-search-input']}
         />
         <div className={styles['buttons-search-add-container']}>
-          <button onClick={handleAddAuto} className={styles['add-auto-button']}>
-            +
-          </button>
           <button onClick={handleScanQR} className={styles['scan-qr-button']}>
           <FontAwesomeIcon icon={faQrcode} style={{color: "#e0e0e0",}} />
           </button>

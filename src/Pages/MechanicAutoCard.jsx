@@ -5,8 +5,12 @@ import "./MechanicAutoCard.css";
 const MechanicAutoCard = ({ auto }) => {
   const navigate = useNavigate();
 
-  const handleViewDetails = () => {
-    navigate(`/autos-accidentes/${auto.id}`); // Navega a la página de detalles del auto
+  const handleAccidents = () => {
+    navigate(`/autos-accidentes/${auto.id}`); 
+  };
+
+  const handleMaintenance = () => {
+    navigate(`/autos/${auto.id}`); // Navega a la página de detalles del auto
   };
 
   return (
@@ -15,7 +19,8 @@ const MechanicAutoCard = ({ auto }) => {
       <p><strong>Año:</strong> {auto.anio}</p>
       <p><strong>Kilometraje:</strong> {auto.kilometraje} km</p>
       <p><strong>Patente:</strong> {auto.nro_patente}</p>
-      <button onClick={handleViewDetails} className="details-button">Administrar accidentes</button>
+      <button onClick={handleAccidents} className="details-button">Administrar accidentes</button>
+      <button onClick={handleMaintenance} className="details-button">Agregar mantenimiento</button>
     </div>
   );
 };
