@@ -45,6 +45,7 @@ import RestorePassword from "../Pages/SecretAnswerLogin";
 import MechanicAidRequest from "../Pages/MechanicAidRequest";
 import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
+import Perfil from "../Pages/Perfil";
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -220,6 +221,7 @@ const AuthConsumer = () => {
             element={login ? <EditProducto /> : <Login />}
           />
           <Route path="/add-orden" element={login ? <AddOrden /> : <Login />} />
+          <Route path="/mi-perfil" element={login ? <Perfil /> : <Login />} />
           <Route path="/recuperar-contraseña" element={<RestorePassword />} />
         </Routes>
       </main>

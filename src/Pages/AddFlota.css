@@ -22,8 +22,13 @@
 }
 
 .save-flota-button {
+<<<<<<< HEAD
     padding: 8px;
     background-color: #283618; /* Melocotón pastel */
+=======
+    padding: 10px;
+    background-color: #f52ceb; /* Melocotón pastel */
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
     color: white;
     border: none;
     border-radius: 4px;
@@ -33,13 +38,26 @@
 }
 
 .save-flota-button:hover {
+<<<<<<< HEAD
     background-color: #283618;
+=======
+    background-color: #f30acc; /* Un tono más oscuro del melocotón */
+}
+.flotas-tables {
+    margin-top: 20px;
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
 }
 
 .flota-table-container {
+<<<<<<< HEAD
     margin-bottom: 10px;
     background-color: #a4ac86;
     border: 1px solid #606C38;
+=======
+    margin-bottom: 20px;
+    background-color: #12627a;
+    border: 1px solid #e017a4;
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
     border-radius: 8px;
     padding: 10px;
 }
@@ -124,8 +142,13 @@
     align-items: flex-start;
     margin-bottom: 10px;
     padding: 10px;
+<<<<<<< HEAD
     background-color: #becd8f;
     color: #FEFAE0;
+=======
+    background-color: #12627a; 
+    color: FEFAE0;
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
     border-radius: 8px 8px 0 0;
 }
 
@@ -154,21 +177,31 @@
 }
 
 .flota-table th, .flota-table td {
+<<<<<<< HEAD
     border: 1px solid #606C38;
     padding: 6px;
+=======
+    border: 1px solid #6c385f;
+    padding: 8px;
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
     text-align: left;
     color: black;
     font-size: 0.9em;
 }
 
 .flota-table th {
+<<<<<<< HEAD
     background-color: #dda15e;
+=======
+    background-color: #f9a8fc; /* Fondo claro neutro */
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
 }
 
 .flota-table tbody tr:nth-child(even) {
     background-color: #F9F9F9;
 }
 
+<<<<<<< HEAD
 /* Media Queries para pantallas medianas y grandes (Tablets y Escritorio) */
 @media (min-width: 768px) {
     .add-flota-container {
@@ -200,6 +233,16 @@
         max-width: 800px;
         margin: 0 auto;
     }
+=======
+.h3 {
+    margin: 0;
+    color: blanchedalmond; /* Cambia el color aquí */
+}
+
+.flotas-header {
+    color: blanchedalmond; /* Cambia el color aquí */
+}
+>>>>>>> 4a67be66d344bd4f97958e7f2e18de4c082bcafa
 
     .flota-table-container {
         padding: 15px;
