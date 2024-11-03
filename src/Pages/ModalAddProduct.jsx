@@ -45,6 +45,13 @@ function ModalAddProduct({ onClose }) {
     Transmision: 59,
   };
 
+  const handleCantChange = (e) => {
+    const { value } = e.target;
+    if (value >= 0 || value === "") {
+      setFormData({ ...formData, cantidad: value });
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -166,13 +173,11 @@ function ModalAddProduct({ onClose }) {
         <input
           className="input-producto"
           name="cantidad"
-          type="number"
-          min="0"
-          step="1"
+          type="text"
           placeholder="Cantidad"
           value={formData.cantidad}
           disabled={isDisabled}
-          onChange={handleInputChange}
+          onChange={handleCantChange}
           required
         />
         {error && <span className="error-message">{error}</span>}{" "}
