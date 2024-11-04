@@ -7,6 +7,7 @@ import { API_BASE_URL } from '../assets/config';
 
 const MechanicAidRequest = () => {
   const [aidRequests, setAidRequests] = useState([]);
+  const [tokenInputs, setTokenInputs] = useState({});
   const mapRefs = useRef({});
 
   const fetchAidRequests = async () => {
@@ -40,10 +41,50 @@ const MechanicAidRequest = () => {
             request.id_peticion === id ? { ...request, estado: 'aceptado' } : request
           )
         );
-
         Swal.fire('¡Aceptado!', 'La solicitud ha sido aceptada.', 'success');
       }
     });
+  };
+
+  const handleTokenChange = (id, value) => {
+    setTokenInputs((prevTokens) => ({
+      ...prevTokens,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmitToken = async (id) => {
+    const token = tokenInputs[id];
+    if (!token) {
+      Swal.fire('Error', 'Por favor, ingrese el token.', 'error');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/solicitudes/resolver`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setAidRequests((prevRequests) =>
+          prevRequests.map((request) =>
+            request.id_peticion === id ? { ...request, estado: 'resuelto' } : request
+          )
+        );
+        Swal.fire('¡Resuelto!', result.message, 'success');
+      } else {
+        Swal.fire('Error', result.error, 'error');
+      }
+    } catch (error) {
+      console.error('Error al resolver la solicitud:', error);
+      Swal.fire('Error', 'Hubo un problema al resolver la solicitud.', 'error');
+    }
   };
 
   return (
@@ -69,7 +110,6 @@ const MechanicAidRequest = () => {
                 style={{ height: '200px', width: '100%' }}
                 ref={(el) => {
                   if (el && !mapRefs.current[request.id_peticion]) {
-                    // Crea el mapa solo si aún no existe para esta solicitud
                     mapRefs.current[request.id_peticion] = L.map(el).setView(
                       [request.latitud, request.longitud],
                       15
@@ -82,12 +122,25 @@ const MechanicAidRequest = () => {
                 }}
               ></div>
             </div>
+            {request.estado === 'aceptado' && (
+              <div className="token-input-container">
+                <input
+                  type="text"
+                  placeholder="Ingrese el token"
+                  value={tokenInputs[request.id_peticion] || ''}
+                  onChange={(e) => handleTokenChange(request.id_peticion, e.target.value)}
+                />
+                <button onClick={() => handleSubmitToken(request.id_peticion)}>
+                  Verificar Token
+                </button>
+              </div>
+            )}
             <button
               className="accept-button"
               onClick={() => handleAcceptRequest(request.id_peticion)}
-              disabled={request.estado === 'aceptado'}
+              disabled={request.estado === 'aceptado' || request.estado === 'resuelto'}
             >
-              {request.estado === 'aceptado' ? 'Aceptado' : 'Aceptar'}
+              {request.estado === 'resuelto' ? 'Resuelto' : request.estado === 'aceptado' ? 'Token requerido' : 'Aceptar'}
             </button>
           </div>
         ))}
