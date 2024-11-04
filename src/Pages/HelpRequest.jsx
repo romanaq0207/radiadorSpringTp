@@ -9,8 +9,7 @@ const HelpRequest = () => {
   const [photo, setPhoto] = useState(null);
   const [patente, setPatente] = useState('');
   const [error, setError] = useState('');
-  const [token, setToken] = useState(''); // Estado para el token
-  const [showTokenField, setShowTokenField] = useState(false); // Controla la visualización del campo de token
+  const [showTokenField, setShowTokenField] = useState(false); // Controla la visualización del texto de token
   const navigate = useNavigate();
 
   const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
@@ -51,9 +50,8 @@ const HelpRequest = () => {
         setShowDescriptionField(false); // Oculta el campo de descripción
         document.getElementById('photoInput').click(); // Simula el clic en el input de archivo
       } else {
-        // Si elige no enviar foto, mostrar solo el campo del token
-        setShowDescriptionField(false); // Asegúrate de ocultar el campo de descripción
-        setShowTokenField(true); // Muestra el campo del token
+        setShowDescriptionField(false); // Oculta el campo de descripción
+        setShowTokenField(true); // Muestra el texto del token
       }
     });
   };
@@ -73,27 +71,7 @@ const HelpRequest = () => {
     console.log('Foto enviada:', photo);
     setPhoto(null); // Limpiar la foto después de enviar
     Swal.fire('Enviado', 'Tu foto ha sido enviada con éxito', 'success');
-    setShowTokenField(true); // Muestra el campo del token después de enviar la foto
-  };
-
-  const handleSendToken = () => {
-    Swal.fire({
-      title: '¿Estás seguro de enviar el token?',
-      text: `Token: ${token}`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, enviar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Aquí puedes agregar la lógica para manejar el envío del token
-        console.log('Token enviado:', token);
-        resetHelpRequest(); // Resetea el formulario después de enviar el token
-        navigate('/'); // Redirige al home
-      }
-    });
+    setShowTokenField(true); // Muestra el texto del token después de enviar la foto
   };
 
   const resetHelpRequest = () => {
@@ -102,13 +80,11 @@ const HelpRequest = () => {
     setDescription('');
     setPhoto(null);
     setError('');
-    setToken(''); // Resetea el token
-    setShowTokenField(false); // Oculta el campo de token
+    setShowTokenField(false); // Oculta el texto del token
   };
 
   return (
     <div className='help-request-container'>
-      {/* Mostrar solo el campo de patente si el token no está visible */}
       {!showTokenField && !showDescriptionField && !photo && (
         <div className="text-field-container">
           <label htmlFor="patente">Ingrese la patente del vehículo:</label>
@@ -126,7 +102,6 @@ const HelpRequest = () => {
         </div>
       )}
 
-      {/* Mostrar solo el campo de descripción si es necesario */}
       {showDescriptionField && !photo && (
         <div className='text-field-container'>
           <label htmlFor="description">Descripción del problema:</label>
@@ -142,7 +117,6 @@ const HelpRequest = () => {
         </div>
       )}
 
-      {/* Mostrar la vista previa de la foto y el botón de envío */}
       {photo && (
         <div className='photo-preview'>
           <h3>Foto seleccionada:</h3>
@@ -153,19 +127,12 @@ const HelpRequest = () => {
         </div>
       )}
 
-      {/* Mostrar el campo para ingresar el token solo al final del proceso */}
       {showTokenField && (
         <div className='text-field-container'>
-          <label htmlFor="token">Ingresar Token:</label>
-          <input
-            type="text"
-            id="token"
-            className="help-text-field"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-          <button className='send-button' onClick={handleSendToken}>
-            Enviar
+          <label htmlFor="token">Token:</label>
+          <p className="token-text">111111</p>
+          <button className='send-button' onClick={() => navigate('/')}>
+            Volver al inicio
           </button>
         </div>
       )}

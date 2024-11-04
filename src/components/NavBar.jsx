@@ -273,6 +273,17 @@ function Navbar() {
                 <FontAwesomeIcon icon={faRoad} />
               </Link>
             </li>
+            <li className="navbar-item">
+              <Link
+                to="/formularios-supervisor"
+                className="navbar-link"
+                title="Formularios"
+                onClick={closeMenu}
+              >
+                  <FontAwesomeIcon icon={faSheetPlastic} style={{ color: "#ffffff" }}
+                />
+              </Link>
+            </li>
           </>
         )}
 
