@@ -1,53 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Swal from 'sweetalert2';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import './MechanicAidRequest.css';
+import { API_BASE_URL } from '../assets/config';
 
 const MechanicAidRequest = () => {
-  // Ejemplo de solicitudes de ayuda con estado inicial
-  const [aidRequests, setAidRequests] = useState([
-    {
-      id: 1,
-      mechanic: 'Juan Pérez',
-      date: '2024-11-01',
-      time: '14:30',
-      location: 'Av. Siempre Viva 742',
-      description: 'Problema en el sistema de frenos.',
-      photo: '',
-      status: 'pendiente',
-    },
-    {
-      id: 2,
-      mechanic: 'Ana García',
-      date: '2024-11-01',
-      time: '10:00',
-      location: 'Calle Falsa 123',
-      description: 'Fallo en el motor.',
-      photo: 'https://picsum.photos/200/300',
-      status: 'pendiente',
-    },
-    {
-        id: 3,
-        mechanic: 'Juan Pérez',
-        date: '2024-11-01',
-        time: '14:30',
-        location: 'Av. Siempre Viva 742',
-        description: 'Problema en el sistema de frenos.',
-        photo: '',
-        status: 'aceptado',
-      },
-      {
-        id: 4,
-        mechanic: 'Juan Pérez',
-        date: '2024-11-01',
-        time: '14:30',
-        location: 'Av. Siempre Viva 742',
-        description: 'Problema en el sistema de frenos.',
-        photo: '',
-        status: 'pendiente',
-      },
-  ]);
+  const [aidRequests, setAidRequests] = useState([]);
+  const mapRefs = useRef({});
 
-  // Función para manejar la aceptación de la solicitud
+  const fetchAidRequests = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/solicitudes/pendientes`);
+      const data = await response.json();
+      setAidRequests(data);
+    } catch (error) {
+      console.error('Error al obtener solicitudes pendientes:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAidRequests();
+  }, []);
+
   const handleAcceptRequest = (id) => {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -60,10 +35,9 @@ const MechanicAidRequest = () => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Actualiza el estado de la solicitud a "aceptado"
         setAidRequests((prevRequests) =>
           prevRequests.map((request) =>
-            request.id === id ? { ...request, status: 'aceptado' } : request
+            request.id_peticion === id ? { ...request, estado: 'aceptado' } : request
           )
         );
 
@@ -74,27 +48,46 @@ const MechanicAidRequest = () => {
 
   return (
     <div className="mechanic-aid-request-container">
-      <h1>Solicitudes de ayuda</h1>
+      <h1>Solicitudes de Ayuda</h1>
       <div className="aid-requests-list">
         {aidRequests.map((request) => (
-          <div className="aid-request-card" key={request.id}>
+          <div className="aid-request-card" key={request.id_peticion}>
             <div className="card-info">
-              <h2>Mecánico: {request.mechanic}</h2>
-              <p><strong>Fecha y hora:</strong> {request.date} - {request.time}</p>
-              <p><strong>Ubicación:</strong> {request.location}</p>
-              <p><strong>Descripción:</strong> {request.description}</p>
+              <h2>Conductor: {request.id_conductor}</h2>
+              <p><strong>Patente:</strong> {request.patente_auto}</p>
+              <p><strong>Fecha y hora de solicitud:</strong> {new Date(request.fecha_solicitud).toLocaleString()}</p>
+              <p><strong>Descripción:</strong> {request.descripcion}</p>
             </div>
-            {request.photo && (
+            {request.foto && (
               <div className="card-photo">
-                <img src={request.photo} alt="Foto del problema" />
+                <img src={`data:image/jpeg;base64,${request.foto}`} alt="Foto del problema" />
               </div>
             )}
+            <div className="map-container">
+              <div
+                id={`map-${request.id_peticion}`}
+                style={{ height: '200px', width: '100%' }}
+                ref={(el) => {
+                  if (el && !mapRefs.current[request.id_peticion]) {
+                    // Crea el mapa solo si aún no existe para esta solicitud
+                    mapRefs.current[request.id_peticion] = L.map(el).setView(
+                      [request.latitud, request.longitud],
+                      15
+                    );
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                      attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(mapRefs.current[request.id_peticion]);
+                    L.marker([request.latitud, request.longitud]).addTo(mapRefs.current[request.id_peticion]);
+                  }
+                }}
+              ></div>
+            </div>
             <button
               className="accept-button"
-              onClick={() => handleAcceptRequest(request.id)}
-              disabled={request.status === 'aceptado'}
+              onClick={() => handleAcceptRequest(request.id_peticion)}
+              disabled={request.estado === 'aceptado'}
             >
-              {request.status === 'aceptado' ? 'Aceptado' : 'Aceptar'}
+              {request.estado === 'aceptado' ? 'Aceptado' : 'Aceptar'}
             </button>
           </div>
         ))}
