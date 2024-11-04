@@ -59,7 +59,7 @@ function AddMechanic() {
       .post(`${API_BASE_URL}/mecanicos`, mecanicoData)
       .then((response) => {
         console.log("Mecánico agregado:", response.data);
-        navigate("/"); // Redirigir a la página principal después de agregar
+        navigate("/gestion-mecanicos"); // Redirigir a la página principal después de agregar
       })
       .catch((error) => {
         console.error("Error al agregar mecánico:", error);
