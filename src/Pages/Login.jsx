@@ -113,6 +113,7 @@ function Login() {
 
       setAlertMessage("Bienvenido");
       setLoading(false);
+      navigate('/'); 
     } catch (error) {
       setAlertMessage("Error al iniciar sesión: " + error.message);
       setLoading(false);

@@ -4,12 +4,10 @@ import "./ModalAddProduct.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { API_BASE_URL } from "../assets/config";
-import Modal from "./ModalExitoAddProduct.jsx";
 import { Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function ModalAddProduct({ onClose }) {
-  const [showModal, setShowModal] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState(""); // Solo un mensaje de error
   const navigate = useNavigate();
@@ -21,6 +19,16 @@ function ModalAddProduct({ onClose }) {
     cantidad: 0,
     activo: true,
   });
+  const marcas = [
+    "Ford",
+    "Mercedez Benz",
+    "Volkswagen",
+    "Peugeot",
+    "Renault",
+    "Suzuki",
+    "Toyota",
+    "Fiat",
+  ];
 
   const categoriaMap = {
     "Aire acondicionado": 41,
@@ -109,23 +117,22 @@ function ModalAddProduct({ onClose }) {
         customClass: {
           container: "my-swal",
         },
+      }).then(() => {
+        onClose();
       });
-      navigate("/productos");
     } catch (error) {
       console.error("Error al agregar el producto:", error);
+      Swal.fire({
+        title: "¡Error!",
+        text: "No se pudo agregar el producto al sistema.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
   return (
     <div id="modal-container">
-      {showModal && (
-        <Modal
-          onClose={() => {
-            setIsDisabled(false);
-            setShowModal(false);
-          }}
-        />
-      )}
       <div id="form-product">
         <h2 id="tittle">Agregar Producto</h2>
         <input
@@ -137,15 +144,24 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
-        <input
-          className="input-producto"
+        <select
           name="marca"
-          placeholder="Marca"
-          value={formData.marca}
-          disabled={isDisabled}
+          className="input-producto"
+          defaultValue=""
           onChange={handleInputChange}
-          required
-        />
+        >
+          {" "}
+          <option value="" disabled>
+            {" "}
+            Seleccione la marca del producto{" "}
+          </option>{" "}
+          {marcas.map((marca) => (
+            <option key={marca} value={marca}>
+              {" "}
+              {marca}{" "}
+            </option>
+          ))}{" "}
+        </select>
         <input
           className="input-producto"
           name="modelo"

@@ -5,6 +5,7 @@ import { faCircleXmark,faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from "../assets/config";
 import "./AddBills.css";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function MyBills() {
   const navigate = useNavigate();
@@ -25,10 +26,27 @@ function MyBills() {
       .post(`${API_BASE_URL}/bills`, billData)
       .then((response) => {
         console.log("Gasto agregado:", response.data);
-        navigate("/"); // Redirige a la página principal
+        Swal.fire({
+          title: '¡Carga exitosa!',
+          text: 'El gasto se ha cargado correctamente.',
+          icon: 'success',
+          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+          customClass: {
+              confirmButton: 'swal-confirm-button'
+          }
+      });
+        navigate("/mis-gastos"); 
       })
       .catch((error) => {
         console.error("Error al agregar el gasto:", error);
+        Swal.fire({
+          title: '¡Error!',
+          text: 'No se pudo agregar el gasto al sistema.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+      }).then(() => {
+          navigate('/mis-gastos');
+      });
       });
   };
 

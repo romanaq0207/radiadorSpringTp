@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 import styles from './ViewFormsSupervisor.module.css';
 
 // Datos de ejemplo (conductor es el mismo en cada registro)
@@ -44,15 +45,47 @@ const ViewFormsSupervisor = () => {
   );
 
   const handleConfirm = (index) => {
-    const newFormStates = [...formStates];
-    newFormStates[index].aprobado = true; // Marcar como aprobado
-    setFormStates(newFormStates);
+    Swal.fire({
+      title: '¿Estás seguro de querer confirmar el formulario?',
+      text: "Se descontarán del stock los productos utilizados.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newFormStates = [...formStates];
+        newFormStates[index].aprobado = true; // Marcar como aprobado
+        setFormStates(newFormStates);
+        Swal.fire(
+          'Confirmado',
+          'El formulario ha sido confirmado y se descontarán los productos del stock.',
+          'success'
+        );
+      }
+    });
   };
 
   const handleDeny = (index) => {
-    const newFormStates = [...formStates];
-    newFormStates[index].aprobado = false; // Marcar como denegado
-    setFormStates(newFormStates);
+    Swal.fire({
+      title: '¿Estás seguro de querer rechazar el formulario?',
+      text: "Los elementos utilizados en el formulario no se descontarán del stock.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, rechazar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newFormStates = [...formStates];
+        newFormStates[index].aprobado = false; // Marcar como denegado
+        setFormStates(newFormStates);
+        Swal.fire(
+          'Rechazado',
+          'El formulario ha sido rechazado y los productos no se descontarán del stock.',
+          'success'
+        );
+      }
+    });
   };
 
   return (

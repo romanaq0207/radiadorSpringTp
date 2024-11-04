@@ -16,6 +16,10 @@ const OrdenesDeCompra = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [productReception, setProductReception] = useState([]);
     const navigate = useNavigate();
+    const [filterState, setFilterState] = useState('Todos');
+    const [filterProveedor, setFilterProveedor] = useState('');
+    const [filterOrderNumber, setFilterOrderNumber] = useState('');
+    const [filterDate, setFilterDate] = useState('');
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -31,14 +35,37 @@ const OrdenesDeCompra = () => {
         fetchOrders();
     }, []);
 
-    const handleFilterChange = (e) => {
-        const status = e.target.value;
-        setFilter(status);
-        if (status === 'Todos') {
-            setFilteredOrders(orders);
-        } else {
-            setFilteredOrders(orders.filter(order => order.estado === status));
-        }
+    const handleFilterChange = () => {
+        const filtered = orders.filter(order => {
+            return (
+                (filterState === 'Todos' || order.estado === filterState) &&
+                (filterProveedor === '' || order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase())) &&
+                (filterOrderNumber === '' || order.numero_orden.includes(filterOrderNumber)) &&
+                (filterDate === '' || new Date(order.fecha_creacion).toLocaleDateString() === filterDate)
+            );
+        });
+        setFilteredOrders(filtered);
+    };
+
+    // Handlers para cada filtro individual
+    const handleStateFilterChange = (e) => {
+        setFilterState(e.target.value);
+        handleFilterChange();
+    };
+
+    const handleProveedorFilterChange = (e) => {
+        setFilterProveedor(e.target.value);
+        handleFilterChange();
+    };
+
+    const handleOrderNumberFilterChange = (e) => {
+        setFilterOrderNumber(e.target.value);
+        handleFilterChange();
+    };
+
+    const handleDateFilterChange = (e) => {
+        setFilterDate(e.target.value);
+        handleFilterChange();
     };
 
     const fetchReceptionDetails = async (orderId) => {
@@ -207,15 +234,36 @@ const OrdenesDeCompra = () => {
                 <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>+</button>
             </div>
             <div className="orders-filter">
-                <label>Filtrar por estado:</label>
                 <select value={filter} onChange={handleFilterChange}>
-                    <option value="Todos">Todos</option>
+                    <option value="Todos">Filtra por Estado</option>
                     <option value="creada">Creada</option>
                     <option value="aceptada">Aceptada</option>
                     <option value="completada">Completada</option>
                     <option value="rechazada">Rechazada</option>
                     <option value="inactiva">Inactiva</option>
                 </select>
+        
+                <input 
+                    type="text" 
+                    value={filterProveedor} 
+                    onChange={handleProveedorFilterChange} 
+                    placeholder="Buscar por proveedor" 
+                />
+
+            
+                <input 
+                    type="text" 
+                    value={filterOrderNumber} 
+                    onChange={handleOrderNumberFilterChange} 
+                    placeholder="Buscar por número de orden" 
+                />
+
+               
+                <input 
+                    type="date" 
+                    value={filterDate} 
+                    onChange={handleDateFilterChange} 
+                />
             </div>
             <table className="orders-table">
                 <thead>
