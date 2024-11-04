@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet/dist/leaflet.css";
 import "./RouteCreate.css";
+import Swal from 'sweetalert2';
 
 function RouteCreate() {
   const navigate = useNavigate();
@@ -76,9 +77,18 @@ function RouteCreate() {
       L.marker([desdeCoords.lat, desdeCoords.lon]).addTo(mapRef.current);
       L.marker([hastaCoords.lat, hastaCoords.lon]).addTo(mapRef.current);
 
-      alert("Ruta creada con éxito");
+      Swal.fire({
+        title: '¡Ruta creada!',
+        text: 'La ruta fue crada con exito.',
+        icon: 'success',
+        confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+        customClass: {
+            confirmButton: 'swal-confirm-button'
+        }
+    });
     } else {
       alert("Hubo un problema al generar el mapa.");
+
     }
   };
 

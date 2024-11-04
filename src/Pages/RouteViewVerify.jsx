@@ -4,9 +4,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
+import Swal from "sweetalert2";
 
 function RuteViewVerify() {
   const navigate = useNavigate();
@@ -29,17 +30,51 @@ function RuteViewVerify() {
   }, [id]);
 
   const handleMarkAsAccepted = () => {
-    setRouteDetail((prevState) => ({
-      ...prevState,
-      estado: "Aprobado",
-    }));
+    Swal.fire({
+      title: "¿Estás seguro de que quieres aprobar la ruta?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí, aprobar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setRouteDetail((prevState) => ({
+          ...prevState,
+          estado: "Aprobado",
+        }));
+        
+        Swal.fire({
+          title: "¡Ruta aprobada!",
+          text: "La ruta ha sido aprobada exitosamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
+      }
+    });
   };
 
   const handleMarkAsRejected = () => {
-    setRouteDetail((prevState) => ({
-      ...prevState,
-      estado: "Rechazado",
-    }));
+    Swal.fire({
+      title: "¿Estás seguro de que quieres rechazar la ruta?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, rechazar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setRouteDetail((prevState) => ({
+          ...prevState,
+          estado: "Rechazado",
+        }));
+        
+        Swal.fire({
+          title: "Ruta rechazada",
+          text: "La ruta ha sido rechazada correctamente.",
+          icon: "error",
+          confirmButtonText: "Aceptar"
+        });
+      }
+    });
   };
 
   const handleReturnRoutes = () => {

@@ -112,8 +112,16 @@ function ModalAddProduct({ onClose }) {
       });
       navigate("/productos");
     } catch (error) {
-      console.error("Error al agregar el producto:", error);
-    }
+      console.error("Error al agregar el producto:", error); 
+      Swal.fire({
+        title: '¡Error!',
+        text: 'No se pudo agregar el producto al sistema.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    })
+        navigate("/productos");
+    };
+    
   };
 
   return (

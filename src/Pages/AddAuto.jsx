@@ -87,6 +87,14 @@ function AddAuto() {
       })
       .catch((error) => {
         console.error("Error al agregar auto:", error);
+        Swal.fire({
+          title: '¡Error!',
+          text: 'No se pudo agregar el auto al sistema.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+      }).then(() => {
+          navigate('/gestion-autos');
+      });
       });
   };
 

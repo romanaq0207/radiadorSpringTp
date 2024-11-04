@@ -91,6 +91,14 @@ function EditCar() {
         });
       })
       .catch((error) => console.error("Error al actualizar el auto:", error));
+      Swal.fire({
+        title: '¡Error!',
+        text: 'No se pudo modificar los datos del auto en el sistema.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    }).then(() => {
+        navigate('/gestion-autos');
+    });
   };
 
   const handleDownloadQR = () => {

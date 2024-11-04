@@ -77,6 +77,7 @@ const EditProducto = () => {
           icon: 'error',
           confirmButtonText: 'Aceptar'
       });
+      navigate("/productos"); 
       }
     }
   };

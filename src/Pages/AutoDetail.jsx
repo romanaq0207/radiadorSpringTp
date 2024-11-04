@@ -77,8 +77,27 @@ function AutoDetail() {
           productos: [],
         });
         setError("");
+        Swal.fire({
+          title: '¡Carga exitosa!',
+          text: 'La información del mantenimiento del auto se ha actualizado correctamente.',
+          icon: 'success',
+          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+          customClass: {
+              confirmButton: 'swal-confirm-button'
+          }
+      }).then(() => {
+          navigate('/busqueda-auto-mecanico');
+      });
       })
-      .catch((error) => console.error("Error al agregar mantenimiento:", error));
+      .catch((error) => console.error("Error al agregar mantenimiento:", error)); 
+      Swal.fire({
+        title: '¡Error!',
+        text: 'No se pudo agregar al mantenimiento al sistema.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    }).then(() => {
+        navigate('/busqueda-auto-mecanico');
+    });
   };
 
   const handleInputChange = (e) => {
@@ -210,7 +229,7 @@ function AutoDetail() {
 
       <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
 
-      <Link to="/gestion-autos" className={styles.backLink}>Volver</Link>
+      <Link to="//busqueda-auto-mecanico" className={styles.backLink}>Volver</Link>
     </div>
   );
 }

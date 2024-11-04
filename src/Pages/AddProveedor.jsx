@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBan} from '@fortawesome/free-solid-svg-icons';
 import "./AddProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
+import Swal from 'sweetalert2';
 
 const AddProveedor = () => {
   const [formData, setFormData] = useState({
@@ -62,12 +63,20 @@ const AddProveedor = () => {
           ...formData,
           activo: true,
         });
-        navigate("/"); // Navega de vuelta a la lista de proveedores activos
+        navigate("/gestion-proveedores"); // Navega de vuelta a la lista de proveedores activos
       } catch (error) {
         console.error(
           "Error al agregar el proveedor a la base de datos:",
           error
         );
+        Swal.fire({
+          title: '¡Error!',
+          text: 'No se pudo agregar el proveedor al sistema.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+      }).then(() => {
+          navigate('/gestion-proveedores');
+      });
       }
     }
   };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './ViewFormsOperador.module.css';
+import Swal from 'sweetalert2';
 
 // Datos de ejemplo (conductor es el mismo en cada registro)
 const formData = [
@@ -44,15 +45,49 @@ const ViewFormsOperador = () => {
   );
 
   const handleConfirm = (index) => {
-    const newFormStates = [...formStates];
-    newFormStates[index].aprobado = true; // Marcar como aprobado
-    setFormStates(newFormStates);
+    Swal.fire({
+      title: "¿Estás seguro de que quieres confirmar?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí, confirmar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newFormStates = [...formStates];
+        newFormStates[index].aprobado = true; // Marcar como aprobado
+        setFormStates(newFormStates);
+        
+        Swal.fire({
+          title: "Formulario confirmado",
+          text: "El formulario ha sido confirmado exitosamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
+      }
+    });
   };
 
   const handleDeny = (index) => {
-    const newFormStates = [...formStates];
-    newFormStates[index].aprobado = false; // Marcar como denegado
-    setFormStates(newFormStates);
+    Swal.fire({
+      title: "¿Estás seguro de que quieres denegar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, denegar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newFormStates = [...formStates];
+        newFormStates[index].aprobado = false; // Marcar como denegado
+        setFormStates(newFormStates);
+        
+        Swal.fire({
+          title: "Formulario denegado",
+          text: "El formulario ha sido denegado.",
+          icon: "error",
+          confirmButtonText: "Aceptar"
+        });
+      }
+    });
   };
 
   return (
