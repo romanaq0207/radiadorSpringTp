@@ -43,6 +43,9 @@ function SecretPassword() {
       <br />
       <label className="secret-answer-label">Pregunta de seguridad:</label>
       <select className="sa-select" disabled={isDisabled}>
+        <option selected disabled>
+          Elija su pregunta de seguridad
+        </option>
         <option>
           ¿Cuál es el apellido de su profesor favorito del instituto?
         </option>
