@@ -88,13 +88,13 @@ function AddAuto() {
       .catch((error) => {
         console.error("Error al agregar auto:", error);
         Swal.fire({
-          title: '¡Error!',
-          text: 'No se pudo agregar el auto al sistema.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-      }).then(() => {
-          navigate('/gestion-autos');
-      });
+          title: "¡Error!",
+          text: "No se pudo agregar el auto al sistema.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        }).then(() => {
+          navigate("/gestion-autos");
+        });
       });
   };
 
@@ -124,7 +124,7 @@ function AddAuto() {
         {" "}
         <option value="" disabled>
           {" "}
-          Selecciona la marca del vehículo{" "}
+          Seleccione la marca del vehículo{" "}
         </option>{" "}
         {marcas.map((marca) => (
           <option key={marca} value={marca}>
