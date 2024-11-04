@@ -46,6 +46,8 @@ import MechanicAidRequest from "../Pages/MechanicAidRequest";
 import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
+import ViewFormsSupervisor from "../Pages/VIewFormsSupervisor";
+
 
 const App = () => {
   // Mueve el useContext adentro del AuthProvider
@@ -161,6 +163,10 @@ const AuthConsumer = () => {
           <Route
             path="/busqueda-auto-mecanico"
             element={login ? <MechanicAutoSearch /> : <Login />}
+          />
+          <Route
+            path="/formularios-supervisor"
+            element={login ? <ViewFormsSupervisor /> : <Login />}
           />
           <Route
             path="/visor-gastos"
