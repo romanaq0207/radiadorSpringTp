@@ -91,13 +91,13 @@ function EditCar() {
         });
       })
       .catch((error) => console.error("Error al actualizar el auto:", error));
-      Swal.fire({
-        title: '¡Error!',
-        text: 'No se pudo modificar los datos del auto en el sistema.',
-        icon: 'error',
-        confirmButtonText: 'Aceptar'
+    Swal.fire({
+      title: "¡Error!",
+      text: "No se pudo modificar los datos del auto en el sistema.",
+      icon: "error",
+      confirmButtonText: "Aceptar",
     }).then(() => {
-        navigate('/gestion-autos');
+      navigate("/gestion-autos");
     });
   };
 
@@ -128,6 +128,7 @@ function EditCar() {
         value={autoData.marca}
         onChange={handleInputChange}
         required
+        className="input-edit-car"
       >
         {" "}
         <option value="" disabled>
@@ -147,12 +148,14 @@ function EditCar() {
         placeholder="Modelo"
         value={autoData.modelo}
         onChange={handleInputChange}
+        className="input-edit-car"
         required
       />
       <select
         name="anio"
         value={autoData.anio}
         onChange={handleInputChange}
+        className="input-edit-car"
         required
       >
         {" "}
@@ -173,6 +176,7 @@ function EditCar() {
         placeholder="Kilometraje"
         value={autoData.kilometraje}
         onChange={handleKilometerChange}
+        className="input-edit-car"
         required
       />
       <input
@@ -181,12 +185,13 @@ function EditCar() {
         placeholder="Número de Patente"
         value={autoData.nro_patente}
         onChange={handleInputChange}
+        className="input-edit-car"
         required
       />
-      <button onClick={handleUpdateAuto}>
+      <button onClick={handleUpdateAuto} className="btn-edit-auto">
         <FontAwesomeIcon icon={faFloppyDisk} style={{ color: "#ffffff" }} />
       </button>
-      <button onClick={handleVolver} className="btn-back-add-auto">
+      <button onClick={handleVolver} className="btn-back-edit-auto">
         Volver
       </button>
 
