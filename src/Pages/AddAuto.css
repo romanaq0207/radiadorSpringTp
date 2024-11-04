@@ -49,7 +49,7 @@
   margin-bottom: 15px;
 }
 
-.add-auto button {
+.btn-add-auto {
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -59,6 +59,15 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.btn-back-add-auto {
+  width: 100%;
+  background-color: grey;
+  transition: background-color 0.3s ease;
+}
+.btn-back-add-auto:hover {
+  background-color: rgb(63, 63, 63);
 }
 
 .scan-qr-button {
@@ -73,7 +82,7 @@
   transition: background-color 0.3s ease;
 }
 
-.add-auto button:hover {
+.btn-add-auto:hover {
   background-color: #ed61ff;
 }
 

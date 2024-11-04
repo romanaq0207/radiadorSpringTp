@@ -21,7 +21,6 @@ function AddAuto() {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const years = Array.from(new Array(35), (val, index) => currentYear - index);
-  const [flotas, setFlotas] = useState([]);
   const marcas = [
     "Ford",
     "Mercedez Benz",
@@ -32,31 +31,6 @@ function AddAuto() {
     "Toyota",
     "Fiat",
   ];
-
-  useEffect(() => {
-    const fetchFlotas = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/flotas`); // Ensure this endpoint returns active fleets only
-        const flotasConAutos = await Promise.all(
-          response.data.map(async (flota) => {
-            const autoResponse = await axios.get(
-              `${API_BASE_URL}/flotas/${flota.id}/autos`
-            );
-            return { ...flota, autos: autoResponse.data };
-          })
-        );
-        setFlotas(flotasConAutos);
-      } catch (error) {
-        console.error("Error al obtener flotas:", error);
-        alert(
-          `Error al obtener flotas: ${
-            error.response?.data?.error || error.message
-          }`
-        );
-      }
-    };
-    fetchFlotas();
-  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -114,6 +88,10 @@ function AddAuto() {
       .catch((error) => {
         console.error("Error al agregar auto:", error);
       });
+  };
+
+  const handleVolver = () => {
+    navigate("../gestion-autos");
   };
 
   const handleDownloadQR = () => {
@@ -181,19 +159,12 @@ function AddAuto() {
         value={autoData.nro_patente}
         onChange={handleInputChange}
       />
-      <select name="flota" defaultValue="" onChange={handleInputChange}>
-        {" "}
-        <option value="" disabled>
-          {" "}
-          Seleccione el número de flota{" "}
-        </option>{" "}
-        {flotas.map((flota) => (
-          <option key={flota.id} value={flota.id}>
-            {flota.nombre}
-          </option>
-        ))}{" "}
-      </select>
-      <button onClick={handleAddAuto}>Agregar Auto</button>
+      <button onClick={handleAddAuto} className="btn-add-auto">
+        Agregar Auto
+      </button>
+      <button onClick={handleVolver} className="btn-back-add-auto">
+        Volver
+      </button>
 
       {/* Generar el código QR basado en la URL del auto */}
       {qrCodeValue && (
