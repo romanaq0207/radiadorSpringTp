@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import './HelpRequest.css';
@@ -13,11 +13,20 @@ const HelpRequest = () => {
   const [error, setError] = useState('');
   const [token, setToken] = useState('');
   const [showToken, setShowToken] = useState(false);
-  const [latitud, setLatitud] = useState(null); // Estado para latitud
-  const [longitud, setLongitud] = useState(null); // Estado para longitud
+  const [latitud, setLatitud] = useState(null);
+  const [longitud, setLongitud] = useState(null);
   const navigate = useNavigate();
 
   const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
+
+  useEffect(() => {
+    // Al cargar el componente, recuperar el token "pendiente" del almacenamiento local
+    const storedToken = localStorage.getItem("pendingToken");
+    if (storedToken) {
+      setToken(storedToken);
+      setShowToken(true);
+    }
+  }, []);
 
   const generateToken = () => {
     const newToken = Math.floor(100000 + Math.random() * 900000).toString();
@@ -31,7 +40,6 @@ const HelpRequest = () => {
     }
     setError('');
 
-    // Obtener la geolocalización
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -90,7 +98,7 @@ const HelpRequest = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setPhoto(reader.result); // Guarda la imagen en base64
+        setPhoto(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -104,26 +112,28 @@ const HelpRequest = () => {
   };
 
   const sendHelpRequest = async () => {
-    console.log(`${API_BASE_URL}/solicitudes`);
-  
     const requestData = {
-      id_conductor: 1, // Asegúrate de que este id es correcto
-      id_mecanico: 1, // Asegúrate de que este id es correcto
+      id_conductor: 1,
+      id_mecanico: 1,
       patente_auto: patente,
       token: token,
-      descripcion: description || "", // Si está vacío, envía cadena vacía
-      foto: photo || "", // Si no hay foto, envía cadena vacía
-      latitud: latitud, // Verifica que tengas valores válidos
-      longitud: longitud, // Verifica que tengas valores válidos
+      descripcion: description || "",
+      foto: photo || "",
+      latitud: latitud,
+      longitud: longitud,
       estado: 'pendiente',
-      fecha_solicitud: new Date().toISOString().split("T")[0], // Prueba enviando solo la fecha
+      fecha_solicitud: new Date().toISOString().split("T")[0],
     };
-  
+
     try {
       const response = await axios.post(`${API_BASE_URL}/solicitudes`, requestData);
       console.log('Datos enviados a la base de datos:', response.data);
-      if (response.data.token) {
-        setToken(response.data.token);
+      console.log('Token enviado:', token);
+      console.log('Respuesta del servidor:', response.data);
+
+      // Almacenar el token "pendiente" en el localStorage
+      if (token) {
+        localStorage.setItem("pendingToken", token);
         setShowToken(true);
       } else {
         Swal.fire('Error', 'No se pudo generar el token', 'error');
@@ -133,7 +143,6 @@ const HelpRequest = () => {
       Swal.fire('Error', 'No se pudo enviar la solicitud. Revisa la consola para más detalles.', 'error');
     }
   };
-  
 
   const resetHelpRequest = () => {
     setShowDescriptionField(false);
@@ -143,8 +152,11 @@ const HelpRequest = () => {
     setError('');
     setToken('');
     setShowToken(false);
-    setLatitud(null); // Reiniciar latitud
-    setLongitud(null); // Reiniciar longitud
+    setLatitud(null);
+    setLongitud(null);
+
+    // Eliminar el token del localStorage al finalizar
+    localStorage.removeItem("pendingToken");
   };
 
   return (
