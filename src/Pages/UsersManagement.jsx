@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import usuariosData from "../data/usuarios.json";
+import usuariosData from "../data/Usuarios.json";
 import "./UsersManagement.css";
 
 const UsersManagement = () => {

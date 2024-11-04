@@ -46,7 +46,7 @@ import MechanicAidRequest from "../Pages/MechanicAidRequest";
 import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
-import ViewFormsSupervisor from "../Pages/VIewFormsSupervisor";
+import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
 
 
 const App = () => {
