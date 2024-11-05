@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // Asegúrate de importar SweetAlert2
 import { useMediaQuery } from "react-responsive";
-import usuariosData from "../data/Usuarios.json";
+import usuariosData from "../data/usuarios.json";
 import "./UsersManagement.css";
 
 const UsersManagement = () => {
