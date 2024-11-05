@@ -103,7 +103,6 @@ function ModalAddProduct({ onClose }) {
     }
 
     try {
-<<<<<<< HEAD
         const formDataWithCategoryID = {
             ...formData,
             categoria: categoriaMap[formData.categoria],
@@ -120,21 +119,6 @@ function ModalAddProduct({ onClose }) {
         }).then(() => {
             onClose();
         });
-=======
-      const formDataWithCategoryID = {
-        ...formData,
-        categoria: categoriaMap[formData.categoria],
-      };
-      await axios.post(`${API_BASE_URL}/productos`, formDataWithCategoryID);
-      Swal.fire({
-        title: "¡Éxito!",
-        text: "Se agregó el nuevo producto correctamente.",
-        icon: "success",
-        confirmButtonText: "Aceptar",
-      }).then(() => {
-        onClose();
-      });
->>>>>>> 6a9f94f19ead16bd0bb7eb92914bd9f8381fe198
     } catch (error) {
         console.error("Error al agregar el producto:", error);
         Swal.fire({

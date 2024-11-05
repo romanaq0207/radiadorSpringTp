@@ -38,7 +38,6 @@ const OrdenesDeCompra = () => {
     }, []);
 
     useEffect(() => {
-<<<<<<< HEAD
         const fetchProviders = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/proveedores/activos`);
@@ -56,31 +55,34 @@ const OrdenesDeCompra = () => {
     }, []);    
 
     const handleFilterChange = () => {
+        // Verifica si todos los filtros están en su valor inicial
+        const isFilterEmpty = 
+            filterState === 'Todos' &&
+            filterProveedor === '' &&
+            filterOrderNumber === '' &&
+            filterDate === '';
+
+        // Si todos los filtros están vacíos, restaura todos los pedidos
+        if (isFilterEmpty) {
+            setFilteredOrders(orders);
+            return;
+        }
+
+        // Filtra los pedidos según los valores de los filtros
         const filtered = orders.filter(order => {
+            const orderDate = new Date(order.fecha_creacion);
+            const formattedOrderDate = orderDate.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
+        
             return (
                 (filterState === 'Todos' || order.estado === filterState) &&
-                (filterProveedor === '' || order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase())) &&
-                (filterOrderNumber === '' || order.numero_orden.includes(filterOrderNumber)) &&
-                (filterDate === '' || new Date(order.fecha_creacion).toLocaleDateString() === filterDate)
+                (filterProveedor === '' || (order.id_proveedor && order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase()))) &&
+                (filterOrderNumber === '' || (order.id_orden_de_compra && String(order.id_orden_de_compra).includes(filterOrderNumber))) &&
+                (filterDate === '' || formattedOrderDate === filterDate)
             );
         });
+
         setFilteredOrders(filtered);
     };
-=======
-        const handleFilterChange = () => {
-            // Verifica si todos los filtros están en su valor inicial
-            const isFilterEmpty = 
-                filterState === 'Todos' &&
-                filterProveedor === '' &&
-                filterOrderNumber === '' &&
-                filterDate === '';
-
-            // Si todos los filtros están vacíos, restaura todos los pedidos
-            if (isFilterEmpty) {
-                setFilteredOrders(orders);
-                return;
-            }
-
             // Filtra los pedidos según los valores de los filtros
             const filtered = orders.filter(order => {
                 const orderDate = new Date(order.fecha_creacion);
@@ -98,12 +100,7 @@ const OrdenesDeCompra = () => {
         };
 
         handleFilterChange();
-    }, [filterState, filterProveedor, filterOrderNumber, filterDate, orders]);
-
-
-    
-    
->>>>>>> 6a9f94f19ead16bd0bb7eb92914bd9f8381fe198
+    [filterState, filterProveedor, filterOrderNumber, filterDate, orders];
 
     // Handlers para cada filtro individual
     const handleStateFilterChange = (e) => setFilterState(e.target.value);
@@ -323,12 +320,9 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
-<<<<<<< HEAD
                             <td data-label="Proveedor">{providers[order.id_proveedor] || order.id_proveedor}</td>
-=======
                             <td data-label="Numero de Orden">{order.id_orden_de_compra}</td>
                             <td data-label="Proveedor">{order.id_proveedor}</td>
->>>>>>> 6a9f94f19ead16bd0bb7eb92914bd9f8381fe198
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
                             <td data-label="Total">${order.total}</td>
@@ -416,6 +410,4 @@ const OrdenesDeCompra = () => {
             )}
         </div>
     );
-};
-
 export default OrdenesDeCompra;
