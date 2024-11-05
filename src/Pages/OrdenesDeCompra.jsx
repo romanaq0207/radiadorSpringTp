@@ -20,6 +20,8 @@ const OrdenesDeCompra = () => {
     const [filterProveedor, setFilterProveedor] = useState('');
     const [filterOrderNumber, setFilterOrderNumber] = useState('');
     const [filterDate, setFilterDate] = useState('');
+    const [providers, setProviders] = useState({});
+
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -34,6 +36,23 @@ const OrdenesDeCompra = () => {
         };
         fetchOrders();
     }, []);
+
+    useEffect(() => {
+        const fetchProviders = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/proveedores/activos`);
+                const providersMap = response.data.reduce((map, provider) => {
+                    map[provider.id_proveedor] = provider.nombre;
+                    return map;
+                }, {});
+                setProviders(providersMap);
+            } catch (error) {
+                console.error('Error al obtener proveedores:', error);
+                alert('Error al obtener proveedores.');
+            }
+        };
+        fetchProviders();
+    }, []);    
 
     const handleFilterChange = () => {
         const filtered = orders.filter(order => {
@@ -278,7 +297,7 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
-                            <td data-label="Proveedor">{order.id_proveedor}</td>
+                            <td data-label="Proveedor">{providers[order.id_proveedor] || order.id_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
                             <td data-label="Total">${order.total}</td>

@@ -104,32 +104,32 @@ function ModalAddProduct({ onClose }) {
     e.preventDefault();
     if (!validateForm()) return; // Si hay errores, no continuar
     try {
-      const formDataWithCategoryID = {
-        ...formData,
-        categoria: categoriaMap[formData.categoria],
-      };
-      await axios.post(`${API_BASE_URL}/productos`, formDataWithCategoryID);
-      Swal.fire({
-        title: "¡Éxito!",
-        text: "Se agrego el nuevo producto correctamente.",
-        icon: "success",
-        confirmButtonText: "Aceptar",
-        customClass: {
-          container: "my-swal",
-        },
-      }).then(() => {
-        onClose();
-      });
+        const formDataWithCategoryID = {
+            ...formData,
+            categoria: categoriaMap[formData.categoria],
+        };
+        await axios.post(`${API_BASE_URL}/productos/agregar-producto`, formDataWithCategoryID);
+        Swal.fire({
+            title: "¡Éxito!",
+            text: "Se agrego el nuevo producto correctamente.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            customClass: {
+                container: "my-swal",
+            },
+        }).then(() => {
+            onClose();
+        });
     } catch (error) {
-      console.error("Error al agregar el producto:", error);
-      Swal.fire({
-        title: "¡Error!",
-        text: "No se pudo agregar el producto al sistema.",
-        icon: "error",
-        confirmButtonText: "Aceptar",
-      });
+        console.error("Error al agregar el producto:", error);
+        Swal.fire({
+            title: "¡Error!",
+            text: "No se pudo agregar el producto al sistema.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+        });
     }
-  };
+};
 
   return (
     <div id="modal-container">
