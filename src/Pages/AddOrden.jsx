@@ -1,31 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios'; // Importar axios
-import proveedoresData from '../data/proveedores.json';
-import productosData from '../data/productos.json';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import './AddOrden.css';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../assets/config';
 
-
-
 const AddOrden = () => {
     const [proveedores, setProveedores] = useState([]);
     const [productos, setProductos] = useState([]);
     const [selectedProveedor, setSelectedProveedor] = useState('');
     const [ordenProductos, setOrdenProductos] = useState([{ producto: '', cantidad: '' }]);
-    const [errors, setErrors] = useState([]); // Estado para almacenar mensajes de error
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
 
+    // Cargar proveedores activos
     useEffect(() => {
-        setProveedores(proveedoresData);
-        setProductos(productosData);
+        axios.get(`${API_BASE_URL}/proveedores/activos`)
+            .then((response) => setProveedores(response.data))
+            .catch((error) => {
+                console.error('Error al obtener proveedores activos:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudo obtener la lista de proveedores activos.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
     }, []);
 
+    // Manejar cambio de proveedor
     const handleProveedorChange = (e) => {
-        setSelectedProveedor(e.target.value);
+        const proveedorId = e.target.value;
+        setSelectedProveedor(proveedorId);
+
+        // Cargar productos específicos del proveedor seleccionado
+        if (proveedorId) {
+            axios.get(`${API_BASE_URL}/productos/productos-por-proveedor/${proveedorId}`)
+                .then((response) => setProductos(response.data))
+                .catch((error) => {
+                    console.error('Error al obtener productos del proveedor:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No se pudo obtener la lista de productos para el proveedor seleccionado.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        } else {
+            setProductos([]); // Limpiar productos si no hay proveedor seleccionado
+        }
     };
 
     const handleProductoChange = (index, e) => {
@@ -126,8 +151,8 @@ const AddOrden = () => {
             <div className="form-group">
                 <select value={selectedProveedor} onChange={handleProveedorChange}>
                     <option value="">Seleccionar proveedor</option>
-                    {proveedores.map((proveedor, index) => (
-                        <option key={index} value={proveedor.id}>{proveedor.nombre}</option>
+                    {proveedores.map((proveedor) => (
+                        <option key={proveedor.id} value={proveedor.id}>{proveedor.nombre}</option>
                     ))}
                 </select>
             </div>
@@ -149,8 +174,8 @@ const AddOrden = () => {
                                     onChange={(e) => handleProductoChange(index, e)}
                                 >
                                     <option value="">Seleccionar producto</option>
-                                    {productos.map((producto, prodIndex) => (
-                                        <option key={prodIndex} value={producto.id}>{producto.nombre}</option>
+                                    {productos.map((producto) => (
+                                        <option key={producto.id} value={producto.id}>{producto.nombre}</option>
                                     ))}
                                 </select>
                                 {errors[index] && !item.producto && (
@@ -181,10 +206,7 @@ const AddOrden = () => {
                 </tbody>
             </table>
 
-            {/* Botón para agregar una fila de producto */}
-            <button className="add-product-btn" onClick={agregarFilaProducto}>
-                +
-            </button>
+            <button className="add-product-btn" onClick={agregarFilaProducto}>+</button>
         </div>
     );
 };
