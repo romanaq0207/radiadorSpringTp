@@ -106,10 +106,7 @@ function AutoAccidentRegister() {
         <p>No se encontraron registros de accidentes.</p>
       )}
 
-      {/* Botón "Abrir formulario" */}
-      <Link to="/forms-accidente" className="open-form-button">
-        Abrir formulario
-      </Link>
+     
 
       <Link to="/busqueda-auto-mecanico" className="back-link">
         Volver

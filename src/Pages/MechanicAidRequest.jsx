@@ -78,6 +78,7 @@ const MechanicAidRequest = () => {
           )
         );
         Swal.fire('¡Resuelto!', result.message, 'success');
+        navigate("/forms-accidente");
       } else {
         Swal.fire('Error', result.error, 'error');
       }
