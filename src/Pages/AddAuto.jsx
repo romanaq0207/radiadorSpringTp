@@ -45,58 +45,81 @@ function AddAuto() {
 
   const handleAddAuto = () => {
     // Validaciones
-    const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/; // Solo letras y espacios
-    const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/; // Letras, números y espacios
-    const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/; // ABC123 o AB123CD
-
+    const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
+    const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
+  
     if (!marcaRegex.test(autoData.marca)) {
       alert("La marca solo puede contener letras y espacios.");
       return;
     }
-
     if (!modeloRegex.test(autoData.modelo)) {
       alert("El modelo solo puede contener letras, números y espacios.");
       return;
     }
-
     if (!patenteRegex.test(autoData.nro_patente)) {
       alert("El número de patente debe seguir el formato ABC123 o AB123CD.");
       return;
     }
-
-    // Enviar los datos del auto al servidor
+  
+    // Verificar si el auto ya existe
     axios
-      .post(`${API_BASE_URL}/autos`, {
-        ...autoData,
-        codigo_qr: "", // El backend no necesita este campo, se generará en el frontend
-      })
+      .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
       .then((response) => {
-        console.log("Auto agregado:", response.data);
-        const autoId = response.data.id; // Obtén el ID del nuevo auto
-        const qrUrl = `${API_BASE_URL}/autos/${autoId}`; // Genera la URL del QR
-        setQrCodeValue(qrUrl); // Asigna la URL como valor del QR
-        Swal.fire({
-          title: "¡Carga exitosa!",
-          text: "La información del auto se ha cargado correctamente.",
-          icon: "success",
-          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
-          customClass: {
-            confirmButton: "swal-confirm-button",
-          },
-        });
+        if (response.data && response.data.length > 0) {
+          // Si la patente ya existe, mostrar alerta
+          Swal.fire({
+            title: "Error",
+            text: "Ya existe un vehículo con esta patente en el sistema.",
+            icon: "warning",
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+          // Si la patente no existe, proceder a agregar el auto
+          axios
+            .post(`${API_BASE_URL}/autos`, {
+              ...autoData,
+              codigo_qr: "", 
+            })
+            .then((response) => {
+              console.log("Auto agregado:", response.data);
+              const autoId = response.data.id;
+              const qrUrl = `${API_BASE_URL}/autos/${autoId}`;
+              setQrCodeValue(qrUrl);
+              Swal.fire({
+                title: "¡Carga exitosa!",
+                text: "La información del auto se ha cargado correctamente.",
+                icon: "success",
+                confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+                customClass: {
+                  confirmButton: "swal-confirm-button",
+                },
+              });
+            })
+            .catch((error) => {
+              console.error("Error al agregar auto:", error);
+              Swal.fire({
+                title: "¡Error!",
+                text: "No se pudo agregar el auto al sistema.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+              }).then(() => {
+                navigate("/gestion-autos");
+              });
+            });
+        }
       })
       .catch((error) => {
-        console.error("Error al agregar auto:", error);
+        console.error("Error al verificar existencia del auto:", error);
         Swal.fire({
           title: "¡Error!",
-          text: "No se pudo agregar el auto al sistema.",
+          text: "Hubo un problema al verificar la patente.",
           icon: "error",
           confirmButtonText: "Aceptar",
-        }).then(() => {
-          navigate("/gestion-autos");
         });
       });
   };
+  
 
   const handleVolver = () => {
     navigate("../gestion-autos");

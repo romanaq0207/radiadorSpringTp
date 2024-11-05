@@ -17,13 +17,14 @@ const EditProveedor = () => {
     const fetchProveedor = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/proveedores/${id}`);
+        console.log('URL de la solicitud GET:', `${API_BASE_URL}/proveedores/${id}`);
         if (response.data) {
           setProveedor(response.data);
         }
       } catch (error) {
         console.error("Error al obtener el proveedor de la API:", error);
       }
-    };
+    };          
     fetchProveedor();
   }, [id]);
 
@@ -60,23 +61,23 @@ const EditProveedor = () => {
     event.preventDefault();
     if (validate()) {
       try {
-        await axios.put(`${API_BASE_URL}/proveedores/${id}`, proveedor);
+        const url = `${API_BASE_URL}/proveedores/modificar-proveedor/${id}`;
+        console.log('URL de la solicitud PUT:', url);
+        await axios.put(url, proveedor);
         console.log("Cambios guardados:", proveedor);
         Swal.fire({
           title: '¡Actualización exitosa!',
           text: 'La información del proveedor se ha actualizado correctamente.',
           icon: 'success',
-          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
-          customClass: {
-              confirmButton: 'swal-confirm-button'  // Clase personalizada, si deseas estilizar el botón
-          }})
+          confirmButtonText: 'Aceptar'
+        });
         navigate("/gestion-proveedores"); // Redirect after saving
       } catch (error) {
         console.error("Error al guardar los cambios del proveedor:", error);
       }
     }
-  };
-
+  };  
+  
   if (!proveedor) {
     return <p>Proveedor no encontrado</p>;
   }
