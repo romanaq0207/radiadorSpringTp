@@ -4,11 +4,14 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './MechanicAidRequest.css';
 import { API_BASE_URL } from '../assets/config';
+import { useNavigate } from "react-router-dom";
+
 
 const MechanicAidRequest = () => {
   const [aidRequests, setAidRequests] = useState([]);
   const [tokenInputs, setTokenInputs] = useState({});
   const mapRefs = useRef({});
+  const navigate = useNavigate();
 
   const fetchAidRequests = async () => {
     try {
@@ -78,7 +81,8 @@ const MechanicAidRequest = () => {
           )
         );
         Swal.fire('¡Resuelto!', result.message, 'success');
-        navigate("/forms-accidente");
+        navigate("/recuperar-contraseña")
+       
       } else {
         Swal.fire('Error', result.error, 'error');
       }
