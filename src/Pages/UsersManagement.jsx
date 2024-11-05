@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2"; // Asegúrate de importar SweetAlert2
 import { useMediaQuery } from "react-responsive";
 import usuariosData from "../data/Usuarios.json";
 import "./UsersManagement.css";
@@ -11,6 +12,7 @@ const UsersManagement = () => {
   const [FilteredUsers, setFilteredUsers] = useState("");
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [usuarios, setUsuarios] = useState([]);
+  
   useEffect(() => {
     // Cargar los datos del archivo JSON
     setUsuarios(usuariosData.filter((usuario) => usuario.habilitado));
@@ -73,6 +75,21 @@ const UsersManagement = () => {
     e.preventDefault();
 
     if (validateForm()) {
+      // Verificar si el DNI ya existe en otro usuario
+      const dniExists = usuarios.some(
+        (usuario) => usuario.dni === formData.dni && usuario.id !== formData.id
+      );
+
+      if (dniExists) {
+        Swal.fire({
+          title: "Error",
+          text: "Ya existe un usuario con este DNI.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+        return; // Detener el proceso si el DNI ya existe
+      }
+
       if (isEditing) {
         setUsuarios(
           usuarios.map((usuario) =>
@@ -109,6 +126,7 @@ const UsersManagement = () => {
       });
     }
   };
+
 
   const handleEdit = (id) => {
     const usuario = usuarios.find((usuario) => usuario.id === id);

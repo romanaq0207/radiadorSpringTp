@@ -58,49 +58,76 @@ function EditCar() {
     e.preventDefault();
     const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
     const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
-
+  
     if (!modeloRegex.test(autoData.modelo)) {
       alert("El modelo solo puede contener letras, números y espacios.");
       return;
     }
-
+  
     if (!patenteRegex.test(autoData.nro_patente)) {
       alert("El número de patente debe seguir el formato ABC123 o AB123CD.");
       return;
     }
-
-    console.log("Updating Auto Data:", autoData);
-    console.log("Endpoint URL:", `${API_BASE_URL}/autos/${id}`);
-
+  
+    // Verificar si ya existe otro auto con la misma patente
     axios
-      .put(`${API_BASE_URL}/autos/${id}`, autoData)
-      .then(() => {
-        const qrUrl = `${API_BASE_URL}/autos/${id}`;
-        setQrCodeValue(qrUrl);
-
-        Swal.fire({
-          title: "¡Actualización exitosa!",
-          text: "La información del auto se ha actualizado correctamente.",
-          icon: "success",
-          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
-          customClass: {
-            confirmButton: "swal-confirm-button",
-          },
-        }).then(() => {
-          navigate("/gestion-autos");
-        });
+      .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
+      .then((response) => {
+        const existingAuto = response.data.find((auto) => auto.id !== id);
+  
+        // Solo mostrar la alerta si hay otro auto con esa patente y no es el auto actual
+        if (existingAuto && existingAuto.id !== id) {
+          Swal.fire({
+            title: "Error",
+            text: "Ya existe otro vehículo con esta patente en el sistema.",
+            icon: "warning",
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+          // Si la patente es única, proceder a actualizar el auto
+          axios
+            .put(`${API_BASE_URL}/autos/${id}`, autoData)
+            .then(() => {
+              const qrUrl = `${API_BASE_URL}/autos/${id}`;
+              setQrCodeValue(qrUrl);
+  
+              Swal.fire({
+                title: "¡Actualización exitosa!",
+                text: "La información del auto se ha actualizado correctamente.",
+                icon: "success",
+                confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+                customClass: {
+                  confirmButton: "swal-confirm-button",
+                },
+              }).then(() => {
+                navigate("/gestion-autos");
+              });
+            })
+            .catch((error) => {
+              console.error("Error al actualizar el auto:", error);
+              Swal.fire({
+                title: "¡Error!",
+                text: "No se pudo modificar los datos del auto en el sistema.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+              }).then(() => {
+                navigate("/gestion-autos");
+              });
+            });
+        }
       })
-      .catch((error) => console.error("Error al actualizar el auto:", error));
-    Swal.fire({
-      title: "¡Error!",
-      text: "No se pudo modificar los datos del auto en el sistema.",
-      icon: "error",
-      confirmButtonText: "Aceptar",
-    }).then(() => {
-      navigate("/gestion-autos");
-    });
+      .catch((error) => {
+        console.error("Error al verificar existencia del auto:", error);
+        Swal.fire({
+          title: "¡Error!",
+          text: "Hubo un problema al verificar la patente.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      });
   };
-
+  
+  
   const handleDownloadQR = () => {
     if (qrRef.current) {
       toPng(qrRef.current)

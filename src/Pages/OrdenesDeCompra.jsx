@@ -7,10 +7,10 @@ import { faCircleInfo} from '@fortawesome/free-solid-svg-icons';
 import { API_BASE_URL } from '../assets/config';
 import Swal from 'sweetalert2';
 
+
 const OrdenesDeCompra = () => {
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
-    const [filter, setFilter] = useState('Todos');
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [showReceptionPopup, setShowReceptionPopup] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -35,38 +35,50 @@ const OrdenesDeCompra = () => {
         fetchOrders();
     }, []);
 
-    const handleFilterChange = () => {
-        const filtered = orders.filter(order => {
-            return (
-                (filterState === 'Todos' || order.estado === filterState) &&
-                (filterProveedor === '' || order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase())) &&
-                (filterOrderNumber === '' || order.numero_orden.includes(filterOrderNumber)) &&
-                (filterDate === '' || new Date(order.fecha_creacion).toLocaleDateString() === filterDate)
-            );
-        });
-        setFilteredOrders(filtered);
-    };
+    useEffect(() => {
+        const handleFilterChange = () => {
+            // Verifica si todos los filtros están en su valor inicial
+            const isFilterEmpty = 
+                filterState === 'Todos' &&
+                filterProveedor === '' &&
+                filterOrderNumber === '' &&
+                filterDate === '';
+
+            // Si todos los filtros están vacíos, restaura todos los pedidos
+            if (isFilterEmpty) {
+                setFilteredOrders(orders);
+                return;
+            }
+
+            // Filtra los pedidos según los valores de los filtros
+            const filtered = orders.filter(order => {
+                const orderDate = new Date(order.fecha_creacion);
+                const formattedOrderDate = orderDate.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
+            
+                return (
+                    (filterState === 'Todos' || order.estado === filterState) &&
+                    (filterProveedor === '' || (order.id_proveedor && order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase()))) &&
+                    (filterOrderNumber === '' || (order.id_orden_de_compra && String(order.id_orden_de_compra).includes(filterOrderNumber))) &&
+                    (filterDate === '' || formattedOrderDate === filterDate)
+                );
+            });
+
+            setFilteredOrders(filtered);
+        };
+
+        handleFilterChange();
+    }, [filterState, filterProveedor, filterOrderNumber, filterDate, orders]);
+
+
+    
+    
 
     // Handlers para cada filtro individual
-    const handleStateFilterChange = (e) => {
-        setFilterState(e.target.value);
-        handleFilterChange();
-    };
-
-    const handleProveedorFilterChange = (e) => {
-        setFilterProveedor(e.target.value);
-        handleFilterChange();
-    };
-
-    const handleOrderNumberFilterChange = (e) => {
-        setFilterOrderNumber(e.target.value);
-        handleFilterChange();
-    };
-
-    const handleDateFilterChange = (e) => {
-        setFilterDate(e.target.value);
-        handleFilterChange();
-    };
+    const handleStateFilterChange = (e) => setFilterState(e.target.value);
+    const handleProveedorFilterChange = (e) => setFilterProveedor(e.target.value);
+    const handleOrderNumberFilterChange = (e) => setFilterOrderNumber(e.target.value);
+    const handleDateFilterChange = (e) => setFilterDate(e.target.value);
+    
 
     const fetchReceptionDetails = async (orderId) => {
         try {
@@ -234,7 +246,7 @@ const OrdenesDeCompra = () => {
                 <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>+</button>
             </div>
             <div className="orders-filter">
-                <select value={filter} onChange={handleFilterChange}>
+                 <select value={filterState} onChange={handleStateFilterChange}>
                     <option value="Todos">Filtra por Estado</option>
                     <option value="creada">Creada</option>
                     <option value="aceptada">Aceptada</option>
@@ -268,6 +280,7 @@ const OrdenesDeCompra = () => {
             <table className="orders-table">
                 <thead>
                     <tr>
+                        <th>Numero de Orden</th>
                         <th>Proveedor</th>
                         <th>Fecha</th>
                         <th>Estado</th>
@@ -278,6 +291,7 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
+                            <td data-label="Numero de Orden">{order.id_orden_de_compra}</td>
                             <td data-label="Proveedor">{order.id_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
