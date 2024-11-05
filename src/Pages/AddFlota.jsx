@@ -36,6 +36,21 @@ function AddFlota() {
       setError('Por favor, ingresa un nombre para la flota.');
       return;
     }
+  
+    // Verificar si ya existe una flota con el mismo nombre
+    const flotaExiste = flotas.some((flota) => flota.nombre.toLowerCase() === flotaName.toLowerCase());
+  
+    if (flotaExiste) {
+      Swal.fire({
+        title: "Nombre en uso",
+        text: "Ya existe una flota con este nombre. Por favor, elige otro nombre.",
+        icon: "warning",
+        confirmButtonText: "Aceptar"
+      });
+      return;
+    }
+  
+    // Si el nombre es único, proceder con la creación
     try {
       const flotaData = { nombre: flotaName };
       const response = await axios.post(`${API_BASE_URL}/flotas-crear`, flotaData);
@@ -54,7 +69,7 @@ function AddFlota() {
       console.error('Error al guardar flota:', error);
       Swal.fire({
         title: "¡Error!",
-        text: "No pudimos crear la flota correctamente. Por favor, intenta de nuevo mas tarde.",
+        text: "No pudimos crear la flota correctamente. Por favor, intenta de nuevo más tarde.",
         icon: "error",
         confirmButtonText: "Aceptar"
       });

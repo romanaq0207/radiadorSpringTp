@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ModalAddProduct.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan } from "@fortawesome/free-solid-svg-icons";
 import { API_BASE_URL } from "../assets/config";
-import { Navigate, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function ModalAddProduct({ onClose }) {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [error, setError] = useState(""); // Solo un mensaje de error
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [products, setProducts] = useState([]); // Estado para almacenar productos existentes
   const [formData, setFormData] = useState({
     nombre: "",
     marca: "",
@@ -19,15 +18,22 @@ function ModalAddProduct({ onClose }) {
     cantidad: 0,
     activo: true,
   });
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/productos`);
+        setProducts(response.data); // Guardar los productos existentes
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const marcas = [
-    "Ford",
-    "Mercedez Benz",
-    "Volkswagen",
-    "Peugeot",
-    "Renault",
-    "Suzuki",
-    "Toyota",
-    "Fiat",
+    "Ford", "Mercedez Benz", "Volkswagen", "Peugeot",
+    "Renault", "Suzuki", "Toyota", "Fiat"
   ];
 
   const categoriaMap = {
@@ -53,18 +59,10 @@ function ModalAddProduct({ onClose }) {
     Transmision: 59,
   };
 
-  const handleCantChange = (e) => {
-    const { value } = e.target;
-    if (value >= 0 || value === "") {
-      setFormData({ ...formData, cantidad: value });
-    }
-  };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Validación de campo modelo solo con letras y tildes
     if (name === "modelo" && !/^[a-zA-ZÀ-ÿ\s]+$/.test(value)) {
       setError("El modelo solo puede contener letras.");
     } else if (!value.trim()) {
@@ -75,35 +73,37 @@ function ModalAddProduct({ onClose }) {
   };
 
   const validateForm = () => {
-    if (!formData.nombre.trim()) {
-      return setError("El nombre del producto es obligatorio.");
-    }
-    if (!formData.marca.trim()) {
-      return setError("La marca es obligatoria.");
-    }
-    if (!formData.modelo.trim()) {
-      return setError("El modelo es obligatorio.");
-    }
-    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo)) {
-      return setError("El modelo solo puede contener letras.");
-    }
-    if (
-      !formData.categoria ||
-      formData.categoria === "Selecciona una categoría"
-    ) {
-      return setError("La categoría es obligatoria.");
-    }
-    if (formData.cantidad <= 0) {
-      return setError("La cantidad debe ser mayor que 0.");
-    }
+    if (!formData.nombre.trim()) return setError("El nombre del producto es obligatorio.");
+    if (!formData.marca.trim()) return setError("La marca es obligatoria.");
+    if (!formData.modelo.trim()) return setError("El modelo es obligatorio.");
+    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo)) return setError("El modelo solo puede contener letras.");
+    if (!formData.categoria || formData.categoria === "Selecciona una categoría") return setError("La categoría es obligatoria.");
+    if (formData.cantidad <= 0) return setError("La cantidad debe ser mayor que 0.");
     setError("");
     return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Si hay errores, no continuar
+    if (!validateForm()) return;
+
+    // Verificación si ya existe un producto con la misma marca y modelo
+    const exists = products.some(
+      (product) => product.marca === formData.marca && product.modelo === formData.modelo
+    );
+
+    if (exists) {
+      Swal.fire({
+        title: "Producto duplicado",
+        text: "Ya existe un producto con la misma marca y modelo.",
+        icon: "warning",
+        confirmButtonText: "Aceptar"
+      });
+      return;
+    }
+
     try {
+<<<<<<< HEAD
         const formDataWithCategoryID = {
             ...formData,
             categoria: categoriaMap[formData.categoria],
@@ -120,6 +120,21 @@ function ModalAddProduct({ onClose }) {
         }).then(() => {
             onClose();
         });
+=======
+      const formDataWithCategoryID = {
+        ...formData,
+        categoria: categoriaMap[formData.categoria],
+      };
+      await axios.post(`${API_BASE_URL}/productos`, formDataWithCategoryID);
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "Se agregó el nuevo producto correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+      }).then(() => {
+        onClose();
+      });
+>>>>>>> 6a9f94f19ead16bd0bb7eb92914bd9f8381fe198
     } catch (error) {
         console.error("Error al agregar el producto:", error);
         Swal.fire({
@@ -150,17 +165,10 @@ function ModalAddProduct({ onClose }) {
           defaultValue=""
           onChange={handleInputChange}
         >
-          {" "}
-          <option value="" disabled>
-            {" "}
-            Seleccione la marca del producto{" "}
-          </option>{" "}
+          <option value="" disabled>Seleccione la marca del producto</option>
           {marcas.map((marca) => (
-            <option key={marca} value={marca}>
-              {" "}
-              {marca}{" "}
-            </option>
-          ))}{" "}
+            <option key={marca} value={marca}>{marca}</option>
+          ))}
         </select>
         <input
           className="input-producto"
@@ -193,16 +201,11 @@ function ModalAddProduct({ onClose }) {
           placeholder="Cantidad"
           value={formData.cantidad}
           disabled={isDisabled}
-          onChange={handleCantChange}
+          onChange={(e) => setFormData({ ...formData, cantidad: e.target.value })}
           required
         />
-        {error && <span className="error-message">{error}</span>}{" "}
-        {/* Solo un mensaje de error */}
-        <button
-          id="btn-add-producto"
-          disabled={isDisabled}
-          onClick={handleSubmit}
-        >
+        {error && <span className="error-message">{error}</span>}
+        <button id="btn-add-producto" disabled={isDisabled} onClick={handleSubmit}>
           +
         </button>
         <button disabled={isDisabled} onClick={onClose} id="btn-close-modal">

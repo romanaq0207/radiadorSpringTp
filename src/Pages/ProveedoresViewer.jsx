@@ -33,10 +33,9 @@ const ProveedoresViewer = () => {
         confirmButtonText: 'Sí, continuar',
         cancelButtonText: 'Cancelar'
       });
-
+  
       if (!confirmResult.isConfirmed) return;
-
- 
+  
       const ordersWarning = await Swal.fire({
         title: 'Advertencia',
         text: "Eliminar este proveedor inactivará las órdenes de compra asociadas a él. ¿Deseas continuar?",
@@ -45,10 +44,9 @@ const ProveedoresViewer = () => {
         confirmButtonText: 'Sí, continuar',
         cancelButtonText: 'Cancelar'
       });
-
+  
       if (!ordersWarning.isConfirmed) return;
-
-   
+  
       const motivoResult = await Swal.fire({
         title: 'Motivo de baja',
         input: 'radio',
@@ -63,16 +61,14 @@ const ProveedoresViewer = () => {
             return 'Debes seleccionar un motivo para continuar';
           }
         },
-        
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
       });
-
+  
       if (!motivoResult.isConfirmed) return;
-
+  
       let motivoSeleccionado = motivoResult.value;
-
-
+  
       if (motivoSeleccionado === 'Otro') {
         const customReason = await Swal.fire({
           title: 'Especifica el motivo',
@@ -86,16 +82,17 @@ const ProveedoresViewer = () => {
             }
           }
         });
-
+  
         if (!customReason.isConfirmed) return;
         motivoSeleccionado = customReason.value;
       }
-
-      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`, { motivo: motivoSeleccionado });
+  
+      // Cambiamos el nombre del campo a 'razon_baja' en el cuerpo de la solicitud
+      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`, { razon_baja: motivoSeleccionado });
       setProveedores((prevProveedores) =>
         prevProveedores.filter((proveedor) => proveedor.id_proveedor !== id)
       );
-
+  
       Swal.fire('Proveedor eliminado', 'El proveedor ha sido dado de baja exitosamente.', 'success');
       
     } catch (error) {
