@@ -229,7 +229,7 @@ function AutoDetail() {
 
       <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
 
-      <Link to="//busqueda-auto-mecanico" className={styles.backLink}>Volver</Link>
+      <Link to="/busqueda-auto-mecanico" className={styles.backLink}>Volver</Link>
     </div>
   );
 }
