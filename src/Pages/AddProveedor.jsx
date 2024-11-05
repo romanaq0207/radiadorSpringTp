@@ -59,27 +59,64 @@ const AddProveedor = () => {
     e.preventDefault();
     if (validate()) {
       try {
+        // Verificar si ya existe un proveedor con el mismo CUIT
+        const response = await axios.get(`${API_BASE_URL}/proveedores/cuit/${formData.cuil}`);
+        const proveedorExistente = response.data;
+  
+        if (proveedorExistente) {
+          if (proveedorExistente.activo === 1) {
+            // Si el proveedor existe y está activo
+            await Swal.fire({
+              title: 'Proveedor existente',
+              text: 'El proveedor con este CUIT ya existe y está activo.',
+              icon: 'info',
+              confirmButtonText: 'Aceptar'
+            });
+            return;
+          } else {
+            // Si el proveedor existe y está inactivo
+            const confirmResult = await Swal.fire({
+              title: 'Proveedor inactivo',
+              text: `El proveedor con este CUIT fue dado de baja por el siguiente motivo: "${proveedorExistente.razon_baja}". ¿Desea volver a agregar este proveedor?`,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Sí, agregar',
+              cancelButtonText: 'Cancelar'
+            });
+  
+            if (!confirmResult.isConfirmed) {
+              return;
+            }
+          }
+        }
+  
+        // Agregar el nuevo proveedor o reactivar el proveedor inactivo
         await axios.post(`${API_BASE_URL}/proveedores`, {
           ...formData,
           activo: true,
         });
-        navigate("/gestion-proveedores"); // Navega de vuelta a la lista de proveedores activos
+  
+        Swal.fire({
+          title: 'Proveedor agregado',
+          text: 'El proveedor ha sido agregado exitosamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        }).then(() => {
+          navigate("/gestion-proveedores");
+        });
+  
       } catch (error) {
-        console.error(
-          "Error al agregar el proveedor a la base de datos:",
-          error
-        );
+        console.error("Error al agregar el proveedor a la base de datos:", error);
         Swal.fire({
           title: '¡Error!',
           text: 'No se pudo agregar el proveedor al sistema.',
           icon: 'error',
           confirmButtonText: 'Aceptar'
-      }).then(() => {
-          navigate('/gestion-proveedores');
-      });
+        });
       }
     }
   };
+  
   const handleBack = () => {
     navigate("/gestion-proveedores");
   };

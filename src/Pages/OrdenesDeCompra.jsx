@@ -10,7 +10,6 @@ import Swal from 'sweetalert2';
 const OrdenesDeCompra = () => {
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
-    const [filter, setFilter] = useState('Todos');
     const [showDetailsPopup, setShowDetailsPopup] = useState(false);
     const [showReceptionPopup, setShowReceptionPopup] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -35,38 +34,24 @@ const OrdenesDeCompra = () => {
         fetchOrders();
     }, []);
 
-    const handleFilterChange = () => {
+    useEffect(() => {
+        // Filtra las órdenes según los valores actuales de los filtros
         const filtered = orders.filter(order => {
-            return (
-                (filterState === 'Todos' || order.estado === filterState) &&
-                (filterProveedor === '' || order.id_proveedor.toLowerCase().includes(filterProveedor.toLowerCase())) &&
-                (filterOrderNumber === '' || order.numero_orden.includes(filterOrderNumber)) &&
-                (filterDate === '' || new Date(order.fecha_creacion).toLocaleDateString() === filterDate)
-            );
+            const matchState = filterState === 'Todos' || order.estado === filterState;
+            const matchProveedor = filterProveedor === '' || order.id_proveedor.toString().toLowerCase().includes(filterProveedor.toLowerCase());
+            const matchOrderNumber = filterOrderNumber === '' || order.id_orden_de_compra.toString().includes(filterOrderNumber);
+            const matchDate = filterDate === '' || new Date(order.fecha_creacion).toISOString().split('T')[0] === filterDate;
+    
+            return matchState && matchProveedor && matchOrderNumber && matchDate;
         });
         setFilteredOrders(filtered);
-    };
+    }, [orders, filterState, filterProveedor, filterOrderNumber, filterDate]);
 
-    // Handlers para cada filtro individual
-    const handleStateFilterChange = (e) => {
-        setFilterState(e.target.value);
-        handleFilterChange();
-    };
 
-    const handleProveedorFilterChange = (e) => {
-        setFilterProveedor(e.target.value);
-        handleFilterChange();
-    };
-
-    const handleOrderNumberFilterChange = (e) => {
-        setFilterOrderNumber(e.target.value);
-        handleFilterChange();
-    };
-
-    const handleDateFilterChange = (e) => {
-        setFilterDate(e.target.value);
-        handleFilterChange();
-    };
+    const handleStateFilterChange = (e) => setFilterState(e.target.value);
+    const handleProveedorFilterChange = (e) => setFilterProveedor(e.target.value);
+    const handleOrderNumberFilterChange = (e) => setFilterOrderNumber(e.target.value);
+    const handleDateFilterChange = (e) => setFilterDate(e.target.value);
 
     const fetchReceptionDetails = async (orderId) => {
         try {
@@ -160,7 +145,7 @@ const OrdenesDeCompra = () => {
                         order.id_orden_de_compra === orderId ? { ...order, estado: newStatus } : order
                     );
                     setOrders(updatedOrders);
-                    setFilteredOrders(updatedOrders.filter(order => order.estado === filter || filter === 'Todos'));
+                    setFilteredOrders(updatedOrders.filter(order => order.estado === filterState || filterState === 'Todos'));
     
                     Swal.fire('Estado actualizado', 'La orden ha sido actualizada con éxito.', 'success');
                 } catch (error) {
@@ -234,7 +219,7 @@ const OrdenesDeCompra = () => {
                 <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>+</button>
             </div>
             <div className="orders-filter">
-                <select value={filter} onChange={handleFilterChange}>
+                <select value={filterState} onChange={handleStateFilterChange}>
                     <option value="Todos">Filtra por Estado</option>
                     <option value="creada">Creada</option>
                     <option value="aceptada">Aceptada</option>
@@ -268,6 +253,7 @@ const OrdenesDeCompra = () => {
             <table className="orders-table">
                 <thead>
                     <tr>
+                         <th>ID</th>
                         <th>Proveedor</th>
                         <th>Fecha</th>
                         <th>Estado</th>
@@ -278,6 +264,7 @@ const OrdenesDeCompra = () => {
                 <tbody>
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
+                            <td data-label="ID">{order.id_orden_de_compra}</td>
                             <td data-label="Proveedor">{order.id_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
