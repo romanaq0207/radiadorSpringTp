@@ -14,15 +14,12 @@ const ProveedoresViewer = () => {
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/proveedores`); // Endpoint de la API para obtener los proveedores
-        const proveedoresActivos = response.data.filter(
-          (proveedor) => proveedor.activo
-        );
-        setProveedores(proveedoresActivos);
+        const response = await axios.get(`${API_BASE_URL}/proveedores/activos`); // Endpoint de la API para obtener los proveedores
+        setProveedores(response.data);
       } catch (error) {
         console.error("Error al obtener los proveedores de la API:", error);
       }
-    };
+    };    
     fetchProveedores();
   }, []);
 

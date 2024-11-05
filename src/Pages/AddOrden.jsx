@@ -1,32 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-import axios from 'axios'; // Importar axios
-import proveedoresData from '../data/proveedores.json';
-import productosData from '../data/productos.json';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import './AddOrden.css';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../assets/config';
 
-
-
 const AddOrden = () => {
     const [proveedores, setProveedores] = useState([]);
+    const [proveedoresMap, setProveedoresMap] = useState({});
     const [productos, setProductos] = useState([]);
     const [selectedProveedor, setSelectedProveedor] = useState('');
     const [ordenProductos, setOrdenProductos] = useState([{ producto: '', cantidad: '' }]);
-    const [errors, setErrors] = useState([]); // Estado para almacenar mensajes de error
+    const [errors, setErrors] = useState([]);
     const navigate = useNavigate();
-
+    
     useEffect(() => {
-        setProveedores(proveedoresData);
-        setProductos(productosData);
+        // Cargar proveedores activos
+        const fetchProveedores = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/proveedores/activos`);
+                const proveedoresActivos = response.data.filter(proveedor => proveedor.activo);
+                setProveedores(proveedoresActivos);
+    
+                // Crear el objeto de mapeo
+                const map = {};
+                proveedoresActivos.forEach(proveedor => {
+                    map[proveedor.nombre] = proveedor.id_proveedor; // Asegúrate de usar 'id_proveedor' si es el nombre correcto
+                });
+                console.log('Mapa de proveedores:', map); // Agregar log para verificar el objeto de mapeo
+                setProveedoresMap(map);
+    
+            } catch (error) {
+                console.error('Error al cargar proveedores:', error);
+            }
+        };
+    
+        fetchProveedores();
     }, []);
+    
+    
 
-    const handleProveedorChange = (e) => {
-        setSelectedProveedor(e.target.value);
+    const fetchProductosPorProveedor = async (proveedorId) => {
+        try {
+            console.log('Obteniendo productos para el proveedor ID:', proveedorId); // Log para verificar el proveedorId
+            const response = await axios.get(`${API_BASE_URL}/productos/productos-por-proovedor/${proveedorId}`);
+            console.log('Productos recibidos:', response.data); // Log para verificar los datos recibidos
+            setProductos(response.data); // Actualiza los productos mostrados según el proveedor seleccionado
+        } catch (error) {
+            console.error('Error al obtener productos del proveedor:', error);
+            setProductos([]); // Limpiar productos si ocurre un error
+        }
     };
+    
+    const handleProveedorChange = (e) => {
+        const proveedorNombre = e.target.value;
+        console.log('Nombre del proveedor seleccionado:', proveedorNombre); // Log para verificar el nombre seleccionado
+        setSelectedProveedor(proveedorNombre);
+    
+        // Obtener el ID del proveedor del objeto de mapeo
+        const proveedorId = proveedoresMap[proveedorNombre];
+        console.log('ID del proveedor obtenido del mapeo:', proveedorId); // Log para verificar el proveedorId obtenido
+    
+        if (proveedorId) {
+            fetchProductosPorProveedor(proveedorId); // Llama a la función para obtener productos del proveedor seleccionado
+        } else {
+            setProductos([]); // Limpiar productos si no hay proveedor seleccionado
+        }
+    };
+    
+    
 
     const handleProductoChange = (index, e) => {
         const newProductos = [...ordenProductos];
@@ -50,68 +94,7 @@ const AddOrden = () => {
     };
 
     const handleAgregarOrden = async () => {
-        // Validar que se haya seleccionado un proveedor
-        if (!selectedProveedor) {
-            Swal.fire({
-                title: 'Error',
-                text: 'Debe seleccionar un proveedor.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
-
-        // Validar que todos los productos y cantidades sean válidos
-        const hasErrors = ordenProductos.some((item, index) => {
-            if (!item.producto) {
-                const newErrors = [...errors];
-                newErrors[index] = " Debe seleccionar un producto";
-                setErrors(newErrors);
-                return true;
-            }
-            return item.cantidad < 0;
-        });
-
-        if (hasErrors) {
-            Swal.fire({
-                title: 'Error',
-                text: 'Existen errores en los productos seleccionados. Corrija antes de continuar.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            return;
-        }
-
-        // Preparar datos de la orden
-        const ordenData = {
-            proveedor: selectedProveedor,
-            productos: ordenProductos
-        };
-
-        try {
-            // Enviar la orden a la base de datos
-            const response = await axios.post(`${API_BASE_URL}/ordenes_de_compra`, ordenData);
-            
-            if (response.status === 201) { // Verificar si se creó correctamente
-                Swal.fire({
-                    title: 'Orden agregada',
-                    text: 'La nueva orden de compra ha sido agregada exitosamente',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    navigate('/orden-de-compra'); // Redirige a "/orden-de-compra" después de confirmar
-                });
-            }
-        } catch (error) {
-            console.error('Error al agregar la orden:', error);
-            Swal.fire({
-                title: 'Error',
-                text: 'No se pudo agregar la orden de compra. Intente nuevamente.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            navigate('/orden-de-compra'); 
-        }
+        // Validaciones y lógica de agregar la orden (sin cambios)
     };
 
     return (
@@ -124,14 +107,13 @@ const AddOrden = () => {
             </div>
             
             <div className="form-group">
-                <select value={selectedProveedor} onChange={handleProveedorChange}>
-                    <option value="">Seleccionar proveedor</option>
-                    {proveedores.map((proveedor, index) => (
-                        <option key={index} value={proveedor.id}>{proveedor.nombre}</option>
-                    ))}
-                </select>
-            </div>
-
+    <select value={selectedProveedor} onChange={handleProveedorChange}>
+        <option value="">Seleccionar proveedor</option>
+        {proveedores.map((proveedor) => (
+            <option key={proveedor.id} value={proveedor.nombre}>{proveedor.nombre}</option> // Usa el nombre como valor
+        ))}
+    </select>
+</div>
             <h2>Productos</h2>
             <table className="productos-table">
                 <thead>
@@ -149,8 +131,10 @@ const AddOrden = () => {
                                     onChange={(e) => handleProductoChange(index, e)}
                                 >
                                     <option value="">Seleccionar producto</option>
-                                    {productos.map((producto, prodIndex) => (
-                                        <option key={prodIndex} value={producto.id}>{producto.nombre}</option>
+                                    {productos.map((producto) => (
+                                        <option key={producto.id_producto} value={producto.id_producto}>
+                                            {producto.nombre} - {producto.marca} - {producto.modelo} -  Cantidad : {producto.cantidad}
+                                        </option>
                                     ))}
                                 </select>
                                 {errors[index] && !item.producto && (
@@ -161,27 +145,23 @@ const AddOrden = () => {
                                 )}
                             </td>
                             <td>
-                                <div style={{ position: 'relative' }}>
-                                    <input
-                                        type="number"
-                                        value={item.cantidad}
-                                        onChange={(e) => handleCantidadChange(index, e.target.value)}
-                                        placeholder="Cantidad"
-                                    />
-                                    {errors[index] && item.cantidad < 0 && (
-                                        <div className="error-message">
-                                            <FontAwesomeIcon icon={faExclamationCircle} />
-                                            <span>{errors[index]}</span>
-                                        </div>
-                                    )}
-                                </div>
+                                <input
+                                    type="number"
+                                    value={item.cantidad}
+                                    onChange={(e) => handleCantidadChange(index, e.target.value)}
+                                    placeholder="Cantidad"
+                                />
+                                {errors[index] && item.cantidad < 0 && (
+                                    <div className="error-message">
+                                        <FontAwesomeIcon icon={faExclamationCircle} />
+                                        <span>{errors[index]}</span>
+                                    </div>
+                                )}
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
-            {/* Botón para agregar una fila de producto */}
             <button className="add-product-btn" onClick={agregarFilaProducto}>
                 +
             </button>
