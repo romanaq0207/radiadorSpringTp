@@ -73,10 +73,13 @@ function EditCar() {
     axios
       .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
       .then((response) => {
-        const existingAuto = response.data.find((auto) => auto.id !== id);
+        const existingAuto = response.data.some(
+          (auto) => auto.nro_patente === autoData.nro_patente && auto.id !== id
+        );
+      
   
         // Solo mostrar la alerta si hay otro auto con esa patente y no es el auto actual
-        if (existingAuto && existingAuto.id !== id) {
+        if (existingAuto){
           Swal.fire({
             title: "Error",
             text: "Ya existe otro vehículo con esta patente en el sistema.",
@@ -126,6 +129,7 @@ function EditCar() {
         });
       });
   };
+  
   
   
   const handleDownloadQR = () => {
