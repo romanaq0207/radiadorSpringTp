@@ -24,6 +24,8 @@ function RouteCreate() {
   const [suggestionsDesde, setSuggestionsDesde] = useState([]);
   const [suggestionsHasta, setSuggestionsHasta] = useState([]);
   const [conductores, setConductores] = useState([]);
+  const [distanciaTotal, setDistanciaTotal] = useState(0);
+  const [trazado, setTrazado] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +44,7 @@ function RouteCreate() {
       alert("Una o ambas ubicaciones no han sido seleccionadas.");
       return;
     }
-    // Geocodificar y crear ruta
+    // Crear ruta y calcular datos
     geocodeAndCreateRoute(desdeCoords, hastaCoords);
   };
 
@@ -92,13 +94,15 @@ function RouteCreate() {
         show: false, // Oculta el panel de instrucciones de ruta
       }).addTo(mapRef.current);
 
-      // Añadir marcadores
-      L.marker([desdeCoords.lat, desdeCoords.lon]).addTo(mapRef.current);
-      L.marker([hastaCoords.lat, hastaCoords.lon]).addTo(mapRef.current);
+      routingControlRef.current.on("routesfound", function (e) {
+        const route = e.routes[0];
+        setDistanciaTotal(route.summary.totalDistance / 1000); // Guardar distancia en km
+        setTrazado(route.coordinates); // Guardar el trazado de la ruta
+      });
 
       Swal.fire({
         title: "¡Ruta creada!",
-        text: "La ruta fue crada con exito.",
+        text: "La ruta fue creada con éxito.",
         icon: "success",
         confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
         customClass: {
@@ -139,6 +143,38 @@ function RouteCreate() {
     setCoords({ lat, lon });
     setRutaData((prev) => ({ ...prev, [field]: display_name }));
     setSuggestions([]);
+  };
+
+  const submitRoute = async () => {
+    const routeData = {
+      conductor: rutaData.conductor,
+      dni_conductor: rutaData.conductorDni,
+      latitudA: desdeCoords.lat,
+      longitudA: desdeCoords.lon,
+      latitudB: hastaCoords.lat,
+      longitudB: hastaCoords.lon,
+      trazado,
+      estado: "pendiente",
+      distancia_total_km: distanciaTotal,
+      id_gerente: 1, // Cambia esto si es necesario
+    };
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/rutas`, routeData);
+      Swal.fire({
+        title: "¡Ruta enviada!",
+        text: "La ruta se ha enviado al servidor.",
+        icon: "success",
+      });
+      navigate("/"); // Navegar a otra ruta después de enviar
+    } catch (error) {
+      console.error("Error al enviar la ruta:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un error al enviar la ruta.",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -200,20 +236,31 @@ function RouteCreate() {
             ))}
           </ul>
         )}
-        <select name="conductor" className="conductor-route-create" required>
-          {" "}
+        <select
+          name="conductor"
+          className="conductor-route-create"
+          required
+          onChange={(e) =>
+            setRutaData((prev) => ({
+              ...prev,
+              conductor: e.target.selectedOptions[0].text,
+              conductorDni: e.target.value,
+            }))
+          }
+        >
           <option value="" selected disabled>
-            {" "}
-            Selecciona un conductor{" "}
-          </option>{" "}
+            Selecciona un conductor
+          </option>
           {conductores.map((conductor) => (
             <option key={conductor.dni} value={conductor.dni}>
-              {" "}
-              {conductor.nombre} {"("} {conductor.dni} {")"}
+              {conductor.nombre} ({conductor.dni})
             </option>
-          ))}{" "}
+          ))}
         </select>
-        <input id="submit-ruta" type="submit" value="+" />
+        <input id="submit-ruta" type="submit" value="Crear Ruta" />
+        <button type="button" onClick={submitRoute}>
+          Enviar Ruta
+        </button>
       </form>
 
       <div
