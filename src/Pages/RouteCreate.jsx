@@ -4,7 +4,9 @@ import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet/dist/leaflet.css";
 import "./RouteCreate.css";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
+import { API_BASE_URL } from "../assets/config";
+import axios from "axios";
 
 function RouteCreate() {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ function RouteCreate() {
   const [hastaCoords, setHastaCoords] = useState(null);
   const [suggestionsDesde, setSuggestionsDesde] = useState([]);
   const [suggestionsHasta, setSuggestionsHasta] = useState([]);
+  const [conductores, setConductores] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +47,21 @@ function RouteCreate() {
   };
 
   useEffect(() => {
+    const fetchConductores = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/conductores`);
+        const conductoresHabilitados = response.data.filter(
+          (conductor) => conductor.habilitado
+        );
+        setConductores(conductoresHabilitados);
+      } catch (error) {
+        console.error("Error al obtener los conductores:", error);
+      }
+    };
+    fetchConductores();
+  }, []);
+
+  useEffect(() => {
     if (!mapRef.current) {
       mapRef.current = L.map("map", {
         center: [51.505, -0.09],
@@ -53,7 +71,8 @@ function RouteCreate() {
       });
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).addTo(mapRef.current);
     }
   }, []);
@@ -78,23 +97,24 @@ function RouteCreate() {
       L.marker([hastaCoords.lat, hastaCoords.lon]).addTo(mapRef.current);
 
       Swal.fire({
-        title: '¡Ruta creada!',
-        text: 'La ruta fue crada con exito.',
-        icon: 'success',
+        title: "¡Ruta creada!",
+        text: "La ruta fue crada con exito.",
+        icon: "success",
         confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
         customClass: {
-            confirmButton: 'swal-confirm-button'
-        }
-    });
+          confirmButton: "swal-confirm-button",
+        },
+      });
     } else {
       alert("Hubo un problema al generar el mapa.");
-
     }
   };
 
   const handleAutocomplete = async (query, setSuggestions) => {
     if (query.length > 3) {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}&countrycodes=AR&limit=5`;
+      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(
+        query
+      )}&countrycodes=AR&limit=5`;
 
       try {
         const response = await fetch(url);
@@ -109,7 +129,12 @@ function RouteCreate() {
     }
   };
 
-  const handleSuggestionClick = (suggestion, setCoords, setSuggestions, field) => {
+  const handleSuggestionClick = (
+    suggestion,
+    setCoords,
+    setSuggestions,
+    field
+  ) => {
     const { lat, lon, display_name } = suggestion;
     setCoords({ lat, lon });
     setRutaData((prev) => ({ ...prev, [field]: display_name }));
@@ -134,7 +159,12 @@ function RouteCreate() {
               <li
                 key={index}
                 onClick={() =>
-                  handleSuggestionClick(suggestion, setDesdeCoords, setSuggestionsDesde, "desde")
+                  handleSuggestionClick(
+                    suggestion,
+                    setDesdeCoords,
+                    setSuggestionsDesde,
+                    "desde"
+                  )
                 }
               >
                 {suggestion.display_name}
@@ -157,7 +187,12 @@ function RouteCreate() {
               <li
                 key={index}
                 onClick={() =>
-                  handleSuggestionClick(suggestion, setHastaCoords, setSuggestionsHasta, "hasta")
+                  handleSuggestionClick(
+                    suggestion,
+                    setHastaCoords,
+                    setSuggestionsHasta,
+                    "hasta"
+                  )
                 }
               >
                 {suggestion.display_name}
@@ -165,31 +200,26 @@ function RouteCreate() {
             ))}
           </ul>
         )}
-
-        <input
-          type="text"
-          name="conductor"
-          placeholder="Conductor Asignado"
-          value={rutaData.conductor}
-          onChange={handleInputChange}
-          required
-        />
-        <input
-          type="text"
-          maxLength="10"
-          pattern="\d+"
-          title="Solo se permiten números."
-          name="conductorDni"
-          placeholder="DNI de Conductor Asignado"
-          value={rutaData.conductorDni}
-          onChange={handleInputChange}
-          required
-        />
-
+        <select name="conductor" className="conductor-route-create" required>
+          {" "}
+          <option value="" selected disabled>
+            {" "}
+            Selecciona un conductor{" "}
+          </option>{" "}
+          {conductores.map((conductor) => (
+            <option key={conductor.dni} value={conductor.dni}>
+              {" "}
+              {conductor.nombre} {"("} {conductor.dni} {")"}
+            </option>
+          ))}{" "}
+        </select>
         <input id="submit-ruta" type="submit" value="+" />
       </form>
 
-      <div id="map" style={{ height: "400px", width: "100%", marginTop: "20px" }}></div>
+      <div
+        id="map"
+        style={{ height: "400px", width: "100%", marginTop: "20px" }}
+      ></div>
     </div>
   );
 }
