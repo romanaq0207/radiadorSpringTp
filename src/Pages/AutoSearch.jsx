@@ -16,7 +16,7 @@ function AutoSearch() {
 
   useEffect(() => {
     axios
-      .get(`${API_BASE_URL}/autos`)
+      .get(`${API_BASE_URL}/obtener_autos`)
       .then((response) => {
         setAllAutos(response.data);
         setFilteredAutos(response.data);

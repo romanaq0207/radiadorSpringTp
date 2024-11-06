@@ -10,7 +10,7 @@ import { API_BASE_URL } from "../assets/config";
 import Swal from "sweetalert2";
 
 function EditCar() {
-  const { id } = useParams(); // Obtén el ID del auto desde los parámetros de la URL
+  const { id } = useParams();
   const [autoData, setAutoData] = useState({
     marca: "",
     modelo: "",
@@ -18,6 +18,7 @@ function EditCar() {
     kilometraje: "",
     nro_patente: "",
   });
+  const [originalPatente, setOriginalPatente] = useState(""); // Nueva variable
   const [qrCodeValue, setQrCodeValue] = useState("");
   const qrRef = useRef(null);
   const navigate = useNavigate();
@@ -34,19 +35,25 @@ function EditCar() {
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/autos/${id}`)
-      .then((response) => setAutoData(response.data))
+      .then((response) => {
+        setAutoData(response.data);
+        setOriginalPatente(response.data.nro_patente); // Guardar la patente original
+      })
       .catch((error) =>
         console.error("Error al obtener los datos del auto:", error)
       );
   }, [id]);
+
   const [selectedMarca, setSelectedMarca] = useState("");
   const [selectedModelo, setSelectedModelo] = useState("");
+
   const handleMarcaChange = (e) => {
     setSelectedMarca(e.target.value);
     setSelectedModelo("");
     const { value } = e.target;
     setAutoData({ ...autoData, marca: value });
-  }; // Resetear el modelo seleccionado cuando cambia la marca };
+  };
+
   const handleModeloChange = (e) => {
     setSelectedModelo(e.target.value);
     const { value } = e.target;
@@ -57,6 +64,7 @@ function EditCar() {
     const { name, value } = e.target;
     setAutoData({ ...autoData, [name]: value });
   };
+
   const handleKilometerChange = (e) => {
     const { value } = e.target;
     if (value >= 0 || value === "") {
@@ -79,62 +87,69 @@ function EditCar() {
       return;
     }
 
-    // Verificar si ya existe otro auto con la misma patente
-    axios
-      .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
-      .then((response) => {
-        const existingAuto = response.data.some(
-          (auto) => auto.nro_patente === autoData.nro_patente && auto.id !== id
-        );
+    // Verificar si se está cambiando la patente antes de hacer la verificación
+    if (autoData.nro_patente !== originalPatente) {
+      axios
+        .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
+        .then((response) => {
+          const existingAuto = response.data.some(
+            (auto) => auto.nro_patente === autoData.nro_patente && auto.id !== id
+          );
 
-        // Solo mostrar la alerta si hay otro auto con esa patente y no es el auto actual
-        if (existingAuto) {
+          if (existingAuto) {
+            Swal.fire({
+              title: "Error",
+              text: "Ya existe otro vehículo con esta patente en el sistema.",
+              icon: "warning",
+              confirmButtonText: "Aceptar",
+            });
+          } else {
+            updateCarData();
+          }
+        })
+        .catch((error) => {
+          console.error("Error al verificar existencia del auto:", error);
           Swal.fire({
-            title: "Error",
-            text: "Ya existe otro vehículo con esta patente en el sistema.",
-            icon: "warning",
+            title: "¡Error!",
+            text: "Hubo un problema al verificar la patente.",
+            icon: "error",
             confirmButtonText: "Aceptar",
           });
-        } else {
-          // Si la patente es única, proceder a actualizar el auto
-          axios
-            .put(`${API_BASE_URL}/autos/${id}`, autoData)
-            .then(() => {
-              const qrUrl = `${API_BASE_URL}/autos/${id}`;
-              setQrCodeValue(qrUrl);
+        });
+    } else {
+      // Si la patente no cambió, proceder directamente a la actualización
+      updateCarData();
+    }
+  };
 
-              Swal.fire({
-                title: "¡Actualización exitosa!",
-                text: "La información del auto se ha actualizado correctamente.",
-                icon: "success",
-                confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
-                customClass: {
-                  confirmButton: "swal-confirm-button",
-                },
-              }).then(() => {
-                navigate("/gestion-autos");
-              });
-            })
-            .catch((error) => {
-              console.error("Error al actualizar el auto:", error);
-              Swal.fire({
-                title: "¡Error!",
-                text: "No se pudo modificar los datos del auto en el sistema.",
-                icon: "error",
-                confirmButtonText: "Aceptar",
-              }).then(() => {
-                navigate("/gestion-autos");
-              });
-            });
-        }
+  const updateCarData = () => {
+    axios
+      .put(`${API_BASE_URL}/autos/${id}`, autoData)
+      .then(() => {
+        const qrUrl = `${API_BASE_URL}/autos/${id}`;
+        setQrCodeValue(qrUrl);
+
+        Swal.fire({
+          title: "¡Actualización exitosa!",
+          text: "La información del auto se ha actualizado correctamente.",
+          icon: "success",
+          confirmButtonText: '<i class="fas fa-check"></i> Aceptar',
+          customClass: {
+            confirmButton: "swal-confirm-button",
+          },
+        }).then(() => {
+          navigate("/gestion-autos");
+        });
       })
       .catch((error) => {
-        console.error("Error al verificar existencia del auto:", error);
+        console.error("Error al actualizar el auto:", error);
         Swal.fire({
           title: "¡Error!",
-          text: "Hubo un problema al verificar la patente.",
+          text: "No se pudo modificar los datos del auto en el sistema.",
           icon: "error",
           confirmButtonText: "Aceptar",
+        }).then(() => {
+          navigate("/gestion-autos");
         });
       });
   };
