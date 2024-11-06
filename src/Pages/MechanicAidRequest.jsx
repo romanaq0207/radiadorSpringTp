@@ -80,16 +80,10 @@ const MechanicAidRequest = () => {
             request.id_peticion === id ? { ...request, estado: 'resuelto' } : request
           )
         );
-<<<<<<< HEAD
         Swal.fire('¡Resuelto!', result.message, 'success').then(() => {
           // Redirigir a /forms-accidente después de que la alerta se cierre
           navigate("/forms-accidente"); 
         });
-=======
-        Swal.fire('¡Resuelto!', result.message, 'success');
-        navigate("/forms-accidente")
-       
->>>>>>> 288e124e57477c44218f1f5e9a7a768012797431
       } else {
         Swal.fire('Error', result.error, 'error');
       }
