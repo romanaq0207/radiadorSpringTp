@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./ViewFormsSupervisor.module.css"; 
+import styles from "./ViewFormsOperador.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_BASE_URL } from "../assets/config";
 
-const ViewFormsSupervisor = () => {
+const ViewFormsOperador = () => {
   const navigate = useNavigate();
   const [formStates, setFormStates] = useState([]);
   const [formData, setFormData] = useState([]);
@@ -14,7 +14,7 @@ const ViewFormsSupervisor = () => {
     const fetchForms = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/informes/obtener-informes-taller` 
+          `${API_BASE_URL}/informes/obtener-informes-taller`
         );
         const informesConProductos = await Promise.all(
           response.data.map(async (informe) => {
@@ -35,30 +35,55 @@ const ViewFormsSupervisor = () => {
 
   const handleConfirm = async (index) => {
     Swal.fire({
-      title: '¿Estás seguro de querer confirmar el formulario?',
-      text: "Se descontarán del stock los productos utilizados.",
-      icon: 'warning',
+      title: "¿Estás seguro de que quieres confirmar?",
+      icon: "question",
       showCancelButton: true,
-      confirmButtonText: 'Sí, confirmar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: "Sí, confirmar",
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log("ID del informe:", formData[index].id_informe);
-          // Actualizar el estado del informe en la base de datos
+          const informeId = formData[index].id_informe;
+          console.log("ID del informe:", informeId);
+
+          // 1. Obtener los productos del informe
+          const productosResponse = await axios.get(
+            `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
+          );
+          const productos = productosResponse.data;
+
+          // 2. Restar la cantidad de cada producto en la base de datos
+          for (const producto of productos) {
+            const { nombre, cantidad_utilizada } = producto; 
+            try {
+              await axios.put(
+                `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
+                { cantidad: cantidad_utilizada }
+              );
+            } catch (error) {
+              console.error(
+                `Error al restar cantidad del producto ${nombre}:`,
+                error
+              );
+              // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
+            }
+          }
+
+          // 3. Actualizar el estado del informe en la base de datos
           await axios.put(
-            `${API_BASE_URL}/informes/${formData[index].id_informe}/confirmar`
+            `${API_BASE_URL}/informes/${informeId}/confirmar`
           );
 
           const newFormStates = [...formStates];
           newFormStates[index].aprobado = true; // Marcar como aprobado
           setFormStates(newFormStates);
 
-          Swal.fire(
-            'Confirmado',
-            'El formulario ha sido confirmado y se descontarán los productos del stock.',
-            'success'
-          ).then(() => {
+          Swal.fire({
+            title: "Formulario confirmado",
+            text: "El formulario ha sido confirmado exitosamente.",
+            icon: "success",
+            confirmButtonText: "Aceptar",
+          }).then(() => {
             navigate("/verificar-formularios"); // Redirigir después de confirmar
           });
         } catch (error) {
@@ -76,15 +101,13 @@ const ViewFormsSupervisor = () => {
 
   const handleDeny = async (index) => {
     Swal.fire({
-      title: '¿Estás seguro de querer rechazar el formulario?',
-      text: "Los elementos utilizados en el formulario no se descontarán del stock.",
-      icon: 'warning',
+      title: "¿Estás seguro de que quieres rechazar este formulario?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: 'Sí, rechazar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: "Sí, rechazar",
+      cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // Pedir al usuario que ingrese el motivo de la denegación
         const { value: motivo } = await Swal.fire({
           title: "Motivo de la denegación",
           input: "text",
@@ -100,25 +123,24 @@ const ViewFormsSupervisor = () => {
         });
 
         if (motivo) {
-          // Si el usuario ingresó un motivo
           try {
             console.log("ID del informe:", formData[index].id_informe);
-            // Actualizar el estado del informe en la base de datos
             await axios.put(
               `${API_BASE_URL}/informes/${formData[index].id_informe}/denegar`,
-              { motivo } // Enviar el motivo en el cuerpo de la solicitud
+              { motivo }
             );
 
             const newFormStates = [...formStates];
-            newFormStates[index].aprobado = false; // Marcar como denegado
+            newFormStates[index].aprobado = false;
             setFormStates(newFormStates);
 
-            Swal.fire(
-              'Rechazado',
-              'El formulario ha sido rechazado y los productos no se descontarán del stock.',
-              'success'
-            ).then(() => {
-              navigate("/verificar-formularios"); // Redirigir después de denegar
+            Swal.fire({
+              title: "Formulario denegado",
+              text: "El formulario ha sido denegado.",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            }).then(() => {
+              navigate("/verificar-formularios");
             });
           } catch (error) {
             console.error("Error al denegar el formulario:", error);
@@ -181,7 +203,7 @@ const ViewFormsSupervisor = () => {
                   <td>{producto.nombre}</td>
                   <td>{producto.marca}</td>
                   <td>{producto.modelo}</td>
-                  <td>{producto.cantidad}</td>
+                  <td>{producto.cantidad_utilizada}</td> {/* Accede a la propiedad cantidad_utilizada */}
                 </tr>
               ))}
             </tbody>
@@ -232,4 +254,4 @@ const ViewFormsSupervisor = () => {
   );
 };
 
-export default ViewFormsSupervisor;
+export default ViewFormsOperador;

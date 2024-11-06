@@ -43,16 +43,41 @@ const ViewFormsOperador = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log("ID del informe:", formData[index].id_informe);
-          // Actualizar el estado del informe en la base de datos
-          await axios.put(
-            `${API_BASE_URL}/informes/${formData[index].id_informe}/confirmar`
+          const informeId = formData[index].id_informe;
+          console.log("ID del informe:", informeId);
+  
+          // 1. Obtener los productos del informe
+          const productosResponse = await axios.get(
+            `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
           );
-
+          const productos = productosResponse.data;
+  
+          // 2. Restar la cantidad de cada producto en la base de datos
+          for (const producto of productos) {
+            const { nombre, cantidad_utilizada } = producto;
+            try {
+              await axios.put(
+                `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
+                { cantidad: cantidad_utilizada }
+              );
+            } catch (error) {
+              console.error(
+                `Error al restar cantidad del producto ${nombre}:`,
+                error
+              );
+              // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
+            }
+          }
+  
+          // 3. Actualizar el estado del informe en la base de datos
+          await axios.put(
+            `${API_BASE_URL}/informes/${informeId}/confirmar`
+          );
+  
           const newFormStates = [...formStates];
           newFormStates[index].aprobado = true; // Marcar como aprobado
           setFormStates(newFormStates);
-
+  
           Swal.fire({
             title: "Formulario confirmado",
             text: "El formulario ha sido confirmado exitosamente.",
@@ -176,15 +201,15 @@ const ViewFormsOperador = () => {
               </tr>
             </thead>
             <tbody>
-              {form.productosUtilizados.map((producto, pIndex) => (
-                <tr key={pIndex}>
-                  <td>{producto.nombre}</td>
-                  <td>{producto.marca}</td>
-                  <td>{producto.modelo}</td>
-                  <td>{producto.cantidad}</td>
-                </tr>
-              ))}
-            </tbody>
+  {form.productosUtilizados.map((producto, pIndex) => (
+    <tr key={pIndex}>
+      <td>{producto.nombre}</td>
+      <td>{producto.marca}</td>
+      <td>{producto.modelo}</td>
+      <td>{producto.cantidad_utilizada}</td>  {/* Cambia aquí */}
+    </tr>
+  ))}
+</tbody>
           </table>
 
           {/* Mostrar estado del informe o botones */}
