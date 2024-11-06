@@ -81,7 +81,7 @@ const MechanicAidRequest = () => {
           )
         );
         Swal.fire('¡Resuelto!', result.message, 'success');
-        navigate("/recuperar-contraseña")
+        navigate("/forms-accidente")
        
       } else {
         Swal.fire('Error', result.error, 'error');
