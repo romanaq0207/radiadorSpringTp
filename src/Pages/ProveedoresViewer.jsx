@@ -51,9 +51,9 @@ const ProveedoresViewer = () => {
         title: 'Motivo de baja',
         input: 'radio',
         inputOptions: {
-          'Motivo 1': 'Incumplimiento en entregas',
-          'Motivo 2': 'Precios no competitivos',
-          'Motivo 3': 'Problemas de calidad',
+          'Incumplimiento en entregas': 'Incumplimiento en entregas',
+          'Precios no competitivos': 'Precios no competitivos',
+          'Problemas de calidad': 'Problemas de calidad',
           'Otro': 'Otro motivo'
         },
         inputValidator: (value) => {
