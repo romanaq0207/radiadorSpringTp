@@ -83,8 +83,10 @@ const MechanicAidRequest = () => {
               : request
           )
         );
-        Swal.fire("¡Resuelto!", result.message, "success");
-        navigate("/forms-accidente");
+        Swal.fire('¡Resuelto!', result.message, 'success').then(() => {
+          // Redirigir a /forms-accidente después de que la alerta se cierre
+          navigate("/forms-accidente"); 
+        });
       } else {
         Swal.fire("Error", result.error, "error");
       }
