@@ -15,10 +15,36 @@ function ModalAddProduct({ onClose }) {
     marca: "",
     modelo: "",
     categoria: "",
-    cantidad: 0,
-    cantidad_minima: 0, // Nuevo campo en el estado
+    cantidad: "",
+    cantidad_minima: "", // Nuevo campo en el estado
     activo: true,
   });
+  const [selectedMarca, setSelectedMarca] = useState("");
+  const [selectedModelo, setSelectedModelo] = useState("");
+  const marcas = ["Mercedez Benz", "Volkswagen", "Renault", "Iveco"];
+  const modelos = {
+    "Mercedez Benz": ["Actros", "Arocs", "Atego", "Econic"],
+    Volkswagen: ["Delivery", "Constellation", "Meteor"],
+    Renault: ["Master", "Trafic", "D-Truck", "Midlum"],
+    Iveco: ["Stralis", "Trakker", "Eurocargo"],
+  };
+  const handleMarcaChange = (e) => {
+    setSelectedMarca(e.target.value);
+    setSelectedModelo("");
+    const { value } = e.target;
+    setFormData({ ...formData, marca: value });
+  }; // Resetear el modelo seleccionado cuando cambia la marca };
+  const handleModeloChange = (e) => {
+    setSelectedModelo(e.target.value);
+    const { value } = e.target;
+    setFormData({ ...formData, modelo: value });
+  };
+  const handleCantidadChange = (e) => {
+    const { name, value } = e.target;
+    if (value >= 0 || value === "") {
+      setFormData({ ...formData, [name]: parseInt(value, 10) || "" });
+    }
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -31,17 +57,6 @@ function ModalAddProduct({ onClose }) {
     };
     fetchProducts();
   }, []);
-
-  const marcas = [
-    "Ford",
-    "Mercedez Benz",
-    "Volkswagen",
-    "Peugeot",
-    "Renault",
-    "Suzuki",
-    "Toyota",
-    "Fiat",
-  ];
 
   const categoriaMap = {
     "Aire acondicionado": 41,
@@ -70,9 +85,7 @@ function ModalAddProduct({ onClose }) {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    if (name === "modelo" && !/^[a-zA-ZÀ-ÿ\s]+$/.test(value)) {
-      setError("El modelo solo puede contener letras.");
-    } else if (!value.trim()) {
+    if (!value.trim()) {
       setError(`El campo ${name} es obligatorio.`);
     } else {
       setError("");
@@ -86,13 +99,14 @@ function ModalAddProduct({ onClose }) {
     if (!formData.modelo.trim()) return setError("El modelo es obligatorio.");
     if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo))
       return setError("El modelo solo puede contener letras.");
-    if (!formData.categoria || formData.categoria === "Selecciona una categoría")
+    if (
+      !formData.categoria ||
+      formData.categoria === "Selecciona una categoría"
+    )
       return setError("La categoría es obligatoria.");
-    if (formData.cantidad <= 0)
-      return setError("La cantidad debe ser mayor que 0.");
     // Validación para cantidad mínima
     if (formData.cantidad_minima <= 0)
-      return setError("La cantidad mínima debe ser mayor que 0."); 
+      return setError("La cantidad mínima debe ser mayor que 0.");
     setError("");
     return true;
   };
@@ -161,30 +175,44 @@ function ModalAddProduct({ onClose }) {
           onChange={handleInputChange}
           required
         />
+
         <select
           name="marca"
+          value={selectedMarca}
+          onChange={handleMarcaChange}
           className="input-producto"
-          defaultValue=""
-          onChange={handleInputChange}
         >
+          {" "}
           <option value="" disabled>
-            Seleccione la marca del producto
-          </option>
+            {" "}
+            Seleccione la marca del vehículo{" "}
+          </option>{" "}
           {marcas.map((marca) => (
             <option key={marca} value={marca}>
-              {marca}
+              {" "}
+              {marca}{" "}
             </option>
-          ))}
+          ))}{" "}
         </select>
-        <input
-          className="input-producto"
+
+        <select
           name="modelo"
-          placeholder="Modelo"
-          value={formData.modelo}
-          disabled={isDisabled}
-          onChange={handleInputChange}
+          value={selectedModelo}
+          onChange={handleModeloChange}
+          className="input-producto"
           required
-        />
+        >
+          <option value="" disabled>
+            Selecciona un modelo
+          </option>{" "}
+          {selectedMarca &&
+            modelos[selectedMarca].map((modelo) => (
+              <option key={modelo} value={modelo}>
+                {modelo}
+              </option>
+            ))}
+        </select>
+
         <select
           id="modal-select-categoria"
           name="categoria"
@@ -200,32 +228,33 @@ function ModalAddProduct({ onClose }) {
             </option>
           ))}
         </select>
+
         <input
+          type="text"
           className="input-producto"
           name="cantidad"
-          type="text"
           placeholder="Cantidad"
           value={formData.cantidad}
           disabled={isDisabled}
-          onChange={(e) =>
-            setFormData({ ...formData, cantidad: e.target.value })
-          }
-          required
+          onChange={handleCantidadChange}
         />
-        <input // Input para cantidad mínima
+
+        <input
+          type="text"
           className="input-producto"
           name="cantidad_minima"
-          type="number"
-          placeholder="Cantidad Mínima"
+          placeholder="Cantidad mínima"
           value={formData.cantidad_minima}
           disabled={isDisabled}
-          onChange={(e) =>
-            setFormData({ ...formData, cantidad_minima: parseInt(e.target.value, 10) || 0 })
-          }
-          required
+          onChange={handleCantidadChange}
         />
+
         {error && <span className="error-message">{error}</span>}
-        <button id="btn-add-producto" disabled={isDisabled} onClick={handleSubmit}>
+        <button
+          id="btn-add-producto"
+          disabled={isDisabled}
+          onClick={handleSubmit}
+        >
           +
         </button>
         <button disabled={isDisabled} onClick={onClose} id="btn-close-modal">

@@ -5,11 +5,11 @@
   flex-direction: column;
   align-items: center;
   width: 50%;
-  height: 72%;
+  height: 82%;
   color: black;
   position: fixed;
   margin: auto; /* Centra el modal horizontal y verticalmente */
-  margin-top: 7.5%;
+  margin-top: 6.5%;
   inset: 0;
   border-radius: 8px; /* Cambiado a un valor más visible */
   background-color: white;
@@ -52,6 +52,7 @@
 
 #btn-close-modal {
   background-color: grey;
+  margin-right: 50px;
 }
 
 #btn-add-producto,
@@ -80,7 +81,7 @@
   #modal-container {
     width: 80%; /* Aumenta el ancho del modal */
     height: auto; /* Ajuste automático de la altura */
-    margin-top: 10%; /* Mayor espacio en la parte superior */
+    margin-top: 8%; /* Mayor espacio en la parte superior */
   }
 
   #tittle {
@@ -89,19 +90,21 @@
 
   .input-producto,
   #modal-select-categoria {
-    height: 40px; /* Ajuste automático de la altura */
+    height: 37px; /* Ajuste automático de la altura */
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    width: 80%; /* Botones más anchos */
-    margin: 10px auto; /* Centrar botones */
+    width: 20%; /* Botones más anchos */
+    height: 7%;
+    margin-left: 120px; /* Centrar botones */
   }
 }
 
 @media (max-width: 768px) {
   #modal-container {
     width: 90%; /* Aumentar el ancho del modal */
+    height: 430px;
   }
 
   #tittle {
@@ -110,19 +113,21 @@
 
   .input-producto,
   #modal-select-categoria {
-    height: auto; /* Ajuste automático de la altura */
+    height: 33px; /* Ajuste automático de la altura */
     padding: 8px; /* Espaciado más pequeño */
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    width: 90%; /* Ancho de los botones */
+    margin-left: 70px;
+    width: 30%; /* Ancho de los botones */
   }
 }
 
 @media (max-width: 480px) {
   #modal-container {
-    height: auto; /* Ajustar la altura */
+    margin-top: 20%;
+    height: 410px; /* Ajustar la altura */
   }
 
   #tittle {
@@ -132,10 +137,12 @@
   .input-producto,
   #modal-select-categoria {
     padding: 8px; /* Espaciado más pequeño */
+    height: 33px;
   }
 
   #btn-add-producto,
   #btn-close-modal {
-    width: 90%; /* Ancho de los botones */
+    margin-left: 40px;
+    width: 30%; /* Ancho de los botones */
   }
 }

@@ -103,7 +103,6 @@
   position: relative;
   width: 100%;
   margin-bottom: 10px; /* Espacio entre elementos */
-
 }
 
 #search-producto {
@@ -234,6 +233,5 @@
   .search-container {
     width: 100%;
     margin-bottom: 10px;
- 
   }
 }
