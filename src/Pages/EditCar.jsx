@@ -23,16 +23,13 @@ function EditCar() {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const years = Array.from(new Array(35), (val, index) => currentYear - index);
-  const marcas = [
-    "Ford",
-    "Mercedez Benz",
-    "Volkswagen",
-    "Peugeot",
-    "Renault",
-    "Suzuki",
-    "Toyota",
-    "Fiat",
-  ];
+  const marcas = ["Mercedez Benz", "Volkswagen", "Renault", "Iveco"];
+  const modelos = {
+    "Mercedez Benz": ["Actros", "Arocs", "Atego", "Econic"],
+    Volkswagen: ["Delivery", "Constellation", "Meteor"],
+    Renault: ["Master", "Trafic", "D-Truck", "Midlum"],
+    Iveco: ["Stralis", "Trakker", "Eurocargo"],
+  };
 
   useEffect(() => {
     axios
@@ -42,6 +39,19 @@ function EditCar() {
         console.error("Error al obtener los datos del auto:", error)
       );
   }, [id]);
+  const [selectedMarca, setSelectedMarca] = useState("");
+  const [selectedModelo, setSelectedModelo] = useState("");
+  const handleMarcaChange = (e) => {
+    setSelectedMarca(e.target.value);
+    setSelectedModelo("");
+    const { value } = e.target;
+    setAutoData({ ...autoData, marca: value });
+  }; // Resetear el modelo seleccionado cuando cambia la marca };
+  const handleModeloChange = (e) => {
+    setSelectedModelo(e.target.value);
+    const { value } = e.target;
+    setAutoData({ ...autoData, modelo: value });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,17 +68,17 @@ function EditCar() {
     e.preventDefault();
     const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
     const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
-  
+
     if (!modeloRegex.test(autoData.modelo)) {
       alert("El modelo solo puede contener letras, números y espacios.");
       return;
     }
-  
+
     if (!patenteRegex.test(autoData.nro_patente)) {
       alert("El número de patente debe seguir el formato ABC123 o AB123CD.");
       return;
     }
-  
+
     // Verificar si ya existe otro auto con la misma patente
     axios
       .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
@@ -76,10 +86,9 @@ function EditCar() {
         const existingAuto = response.data.some(
           (auto) => auto.nro_patente === autoData.nro_patente && auto.id !== id
         );
-      
-  
+
         // Solo mostrar la alerta si hay otro auto con esa patente y no es el auto actual
-        if (existingAuto){
+        if (existingAuto) {
           Swal.fire({
             title: "Error",
             text: "Ya existe otro vehículo con esta patente en el sistema.",
@@ -93,7 +102,7 @@ function EditCar() {
             .then(() => {
               const qrUrl = `${API_BASE_URL}/autos/${id}`;
               setQrCodeValue(qrUrl);
-  
+
               Swal.fire({
                 title: "¡Actualización exitosa!",
                 text: "La información del auto se ha actualizado correctamente.",
@@ -129,9 +138,7 @@ function EditCar() {
         });
       });
   };
-  
-  
-  
+
   const handleDownloadQR = () => {
     if (qrRef.current) {
       toPng(qrRef.current)
@@ -156,15 +163,14 @@ function EditCar() {
       <h2>Editar Auto</h2>
       <select
         name="marca"
-        value={autoData.marca}
-        onChange={handleInputChange}
-        required
+        value={selectedMarca}
+        onChange={handleMarcaChange}
         className="input-edit-car"
       >
         {" "}
         <option value="" disabled>
           {" "}
-          Selecciona la marca del vehículo{" "}
+          Seleccione la marca del vehículo{" "}
         </option>{" "}
         {marcas.map((marca) => (
           <option key={marca} value={marca}>
@@ -173,15 +179,24 @@ function EditCar() {
           </option>
         ))}{" "}
       </select>
-      <input
-        type="text"
+
+      <select
         name="modelo"
-        placeholder="Modelo"
-        value={autoData.modelo}
-        onChange={handleInputChange}
+        value={selectedModelo}
+        onChange={handleModeloChange}
         className="input-edit-car"
         required
-      />
+      >
+        <option value="" disabled>
+          Selecciona un modelo
+        </option>{" "}
+        {selectedMarca &&
+          modelos[selectedMarca].map((modelo) => (
+            <option key={modelo} value={modelo}>
+              {modelo}
+            </option>
+          ))}
+      </select>
       <select
         name="anio"
         value={autoData.anio}
