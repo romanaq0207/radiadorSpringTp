@@ -9,13 +9,14 @@ import Swal from "sweetalert2";
 function ModalAddProduct({ onClose }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [error, setError] = useState("");
-  const [products, setProducts] = useState([]); // Estado para almacenar productos existentes
+  const [products, setProducts] = useState([]);
   const [formData, setFormData] = useState({
     nombre: "",
     marca: "",
     modelo: "",
     categoria: "",
     cantidad: 0,
+    cantidad_minima: 0, // Nuevo campo en el estado
     activo: true,
   });
 
@@ -23,7 +24,7 @@ function ModalAddProduct({ onClose }) {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/productos`);
-        setProducts(response.data); // Guardar los productos existentes
+        setProducts(response.data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       }
@@ -32,8 +33,14 @@ function ModalAddProduct({ onClose }) {
   }, []);
 
   const marcas = [
-    "Ford", "Mercedez Benz", "Volkswagen", "Peugeot",
-    "Renault", "Suzuki", "Toyota", "Fiat"
+    "Ford",
+    "Mercedez Benz",
+    "Volkswagen",
+    "Peugeot",
+    "Renault",
+    "Suzuki",
+    "Toyota",
+    "Fiat",
   ];
 
   const categoriaMap = {
@@ -73,12 +80,19 @@ function ModalAddProduct({ onClose }) {
   };
 
   const validateForm = () => {
-    if (!formData.nombre.trim()) return setError("El nombre del producto es obligatorio.");
+    if (!formData.nombre.trim())
+      return setError("El nombre del producto es obligatorio.");
     if (!formData.marca.trim()) return setError("La marca es obligatoria.");
     if (!formData.modelo.trim()) return setError("El modelo es obligatorio.");
-    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo)) return setError("El modelo solo puede contener letras.");
-    if (!formData.categoria || formData.categoria === "Selecciona una categoría") return setError("La categoría es obligatoria.");
-    if (formData.cantidad <= 0) return setError("La cantidad debe ser mayor que 0.");
+    if (!/^[a-zA-ZÀ-ÿ\s]+$/.test(formData.modelo))
+      return setError("El modelo solo puede contener letras.");
+    if (!formData.categoria || formData.categoria === "Selecciona una categoría")
+      return setError("La categoría es obligatoria.");
+    if (formData.cantidad <= 0)
+      return setError("La cantidad debe ser mayor que 0.");
+    // Validación para cantidad mínima
+    if (formData.cantidad_minima <= 0)
+      return setError("La cantidad mínima debe ser mayor que 0."); 
     setError("");
     return true;
   };
@@ -89,7 +103,8 @@ function ModalAddProduct({ onClose }) {
 
     // Verificación si ya existe un producto con la misma marca y modelo
     const exists = products.some(
-      (product) => product.marca === formData.marca && product.modelo === formData.modelo
+      (product) =>
+        product.marca === formData.marca && product.modelo === formData.modelo
     );
 
     if (exists) {
@@ -97,38 +112,41 @@ function ModalAddProduct({ onClose }) {
         title: "Producto duplicado",
         text: "Ya existe un producto con la misma marca y modelo.",
         icon: "warning",
-        confirmButtonText: "Aceptar"
+        confirmButtonText: "Aceptar",
       });
       return;
     }
 
     try {
-        const formDataWithCategoryID = {
-            ...formData,
-            categoria: categoriaMap[formData.categoria],
-        };
-        await axios.post(`${API_BASE_URL}/productos/agregar-producto`, formDataWithCategoryID);
-        Swal.fire({
-            title: "¡Éxito!",
-            text: "Se agrego el nuevo producto correctamente.",
-            icon: "success",
-            confirmButtonText: "Aceptar",
-            customClass: {
-                container: "my-swal",
-            },
-        }).then(() => {
-            onClose();
-        });
+      const formDataWithCategoryID = {
+        ...formData,
+        categoria: categoriaMap[formData.categoria],
+      };
+      await axios.post(
+        `${API_BASE_URL}/productos/agregar-producto`,
+        formDataWithCategoryID
+      );
+      Swal.fire({
+        title: "¡Éxito!",
+        text: "Se agrego el nuevo producto correctamente.",
+        icon: "success",
+        confirmButtonText: "Aceptar",
+        customClass: {
+          container: "my-swal",
+        },
+      }).then(() => {
+        onClose();
+      });
     } catch (error) {
-        console.error("Error al agregar el producto:", error);
-        Swal.fire({
-            title: "¡Error!",
-            text: "No se pudo agregar el producto al sistema.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-        });
+      console.error("Error al agregar el producto:", error);
+      Swal.fire({
+        title: "¡Error!",
+        text: "No se pudo agregar el producto al sistema.",
+        icon: "error",
+        confirmButtonText: "Aceptar",
+      });
     }
-};
+  };
 
   return (
     <div id="modal-container">
@@ -149,9 +167,13 @@ function ModalAddProduct({ onClose }) {
           defaultValue=""
           onChange={handleInputChange}
         >
-          <option value="" disabled>Seleccione la marca del producto</option>
+          <option value="" disabled>
+            Seleccione la marca del producto
+          </option>
           {marcas.map((marca) => (
-            <option key={marca} value={marca}>{marca}</option>
+            <option key={marca} value={marca}>
+              {marca}
+            </option>
           ))}
         </select>
         <input
@@ -185,7 +207,21 @@ function ModalAddProduct({ onClose }) {
           placeholder="Cantidad"
           value={formData.cantidad}
           disabled={isDisabled}
-          onChange={(e) => setFormData({ ...formData, cantidad: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, cantidad: e.target.value })
+          }
+          required
+        />
+        <input // Input para cantidad mínima
+          className="input-producto"
+          name="cantidad_minima"
+          type="number"
+          placeholder="Cantidad Mínima"
+          value={formData.cantidad_minima}
+          disabled={isDisabled}
+          onChange={(e) =>
+            setFormData({ ...formData, cantidad_minima: parseInt(e.target.value, 10) || 0 })
+          }
           required
         />
         {error && <span className="error-message">{error}</span>}

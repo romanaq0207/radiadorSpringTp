@@ -1,50 +1,39 @@
-import React, { useState } from 'react';
-import Swal from 'sweetalert2';
-import styles from './ViewFormsSupervisor.module.css';
-
-// Datos de ejemplo (conductor es el mismo en cada registro)
-const formData = [
-  {
-    fechaHora: "2024-10-30 14:35:29",
-    usuarioConductor: "Juan Pérez",
-    usuarioMecanico: "Carlos Ramírez",
-    coordenadas: {
-      longitud: "-99.1332",
-      latitud: "19.4326"
-    },
-    stockUtilizado: "Filtro de aceite",
-    descripcion: "Cambio de filtro debido a desgaste."
-  },
-  {
-    fechaHora: "2024-10-30 15:42:10",
-    usuarioConductor: "Juan Pérez",
-    usuarioMecanico: "Luis Fernández",
-    coordenadas: {
-      longitud: "-99.1234",
-      latitud: "19.4321"
-    },
-    stockUtilizado: "Aceite de motor",
-    descripcion: "Se recargó aceite debido a bajo nivel."
-  },
-  {
-    fechaHora: "2024-10-30 16:50:05",
-    usuarioConductor: "Juan Pérez",
-    usuarioMecanico: "José López",
-    coordenadas: {
-      longitud: "-99.1456",
-      latitud: "19.4333"
-    },
-    stockUtilizado: "Refrigerante",
-    descripcion: "Reemplazo de refrigerante por fuga."
-  }
-];
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./ViewFormsSupervisor.module.css"; 
+import Swal from "sweetalert2";
+import axios from "axios";
+import { API_BASE_URL } from "../assets/config";
 
 const ViewFormsSupervisor = () => {
-  const [formStates, setFormStates] = useState(
-    formData.map(() => ({ aprobado: null })) // Estado inicial de cada formulario
-  );
+  const navigate = useNavigate();
+  const [formStates, setFormStates] = useState([]);
+  const [formData, setFormData] = useState([]);
 
-  const handleConfirm = (index) => {
+  useEffect(() => {
+    const fetchForms = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/informes/obtener-informes-taller` 
+        );
+        const informesConProductos = await Promise.all(
+          response.data.map(async (informe) => {
+            const productos = await fetchProductos(informe.id_informe);
+            return { ...informe, productosUtilizados: productos };
+          })
+        );
+        setFormData(informesConProductos);
+        setFormStates(informesConProductos.map(() => ({ aprobado: null })));
+      } catch (error) {
+        console.error("Error al obtener los formularios:", error);
+        setFormData([]);
+        setFormStates([]);
+      }
+    };
+    fetchForms();
+  }, []);
+
+  const handleConfirm = async (index) => {
     Swal.fire({
       title: '¿Estás seguro de querer confirmar el formulario?',
       text: "Se descontarán del stock los productos utilizados.",
@@ -52,21 +41,40 @@ const ViewFormsSupervisor = () => {
       showCancelButton: true,
       confirmButtonText: 'Sí, confirmar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const newFormStates = [...formStates];
-        newFormStates[index].aprobado = true; // Marcar como aprobado
-        setFormStates(newFormStates);
-        Swal.fire(
-          'Confirmado',
-          'El formulario ha sido confirmado y se descontarán los productos del stock.',
-          'success'
-        );
+        try {
+          console.log("ID del informe:", formData[index].id_informe);
+          // Actualizar el estado del informe en la base de datos
+          await axios.put(
+            `${API_BASE_URL}/informes/${formData[index].id_informe}/confirmar`
+          );
+
+          const newFormStates = [...formStates];
+          newFormStates[index].aprobado = true; // Marcar como aprobado
+          setFormStates(newFormStates);
+
+          Swal.fire(
+            'Confirmado',
+            'El formulario ha sido confirmado y se descontarán los productos del stock.',
+            'success'
+          ).then(() => {
+            navigate("/verificar-formularios"); // Redirigir después de confirmar
+          });
+        } catch (error) {
+          console.error("Error al confirmar el formulario:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un error al confirmar el formulario.",
+            icon: "error",
+            confirmButtonText: "Aceptar",
+          });
+        }
       }
     });
   };
 
-  const handleDeny = (index) => {
+  const handleDeny = async (index) => {
     Swal.fire({
       title: '¿Estás seguro de querer rechazar el formulario?',
       text: "Los elementos utilizados en el formulario no se descontarán del stock.",
@@ -74,18 +82,68 @@ const ViewFormsSupervisor = () => {
       showCancelButton: true,
       confirmButtonText: 'Sí, rechazar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        const newFormStates = [...formStates];
-        newFormStates[index].aprobado = false; // Marcar como denegado
-        setFormStates(newFormStates);
-        Swal.fire(
-          'Rechazado',
-          'El formulario ha sido rechazado y los productos no se descontarán del stock.',
-          'success'
-        );
+        // Pedir al usuario que ingrese el motivo de la denegación
+        const { value: motivo } = await Swal.fire({
+          title: "Motivo de la denegación",
+          input: "text",
+          inputPlaceholder: "Ingrese el motivo de la denegación",
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+          inputValidator: (value) => {
+            if (!value) {
+              return "Por favor, ingrese un motivo";
+            }
+          },
+        });
+
+        if (motivo) {
+          // Si el usuario ingresó un motivo
+          try {
+            console.log("ID del informe:", formData[index].id_informe);
+            // Actualizar el estado del informe en la base de datos
+            await axios.put(
+              `${API_BASE_URL}/informes/${formData[index].id_informe}/denegar`,
+              { motivo } // Enviar el motivo en el cuerpo de la solicitud
+            );
+
+            const newFormStates = [...formStates];
+            newFormStates[index].aprobado = false; // Marcar como denegado
+            setFormStates(newFormStates);
+
+            Swal.fire(
+              'Rechazado',
+              'El formulario ha sido rechazado y los productos no se descontarán del stock.',
+              'success'
+            ).then(() => {
+              navigate("/verificar-formularios"); // Redirigir después de denegar
+            });
+          } catch (error) {
+            console.error("Error al denegar el formulario:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Hubo un error al denegar el formulario.",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            });
+          }
+        }
       }
     });
+  };
+
+  const fetchProductos = async (idInforme) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/informes/obtener-productos-informe/${idInforme}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error al obtener los productos del informe:", error);
+      return [];
+    }
   };
 
   return (
@@ -93,24 +151,80 @@ const ViewFormsSupervisor = () => {
       <h2 className={styles.title}>Revisión de formularios</h2>
       {formData.map((form, index) => (
         <div key={index} className={styles.card}>
-          <p><strong>Fecha y Hora:</strong> {form.fechaHora}</p>
-          <p><strong>Usuario Conductor:</strong> {form.usuarioConductor}</p>
-          <p><strong>Usuario Mecánico:</strong> {form.usuarioMecanico}</p>
-          <p><strong>Stock Utilizado:</strong> {form.stockUtilizado}</p>
-          <p><strong>Descripción:</strong> {form.descripcion}</p>
-          <div className={styles.buttonContainer}>
-            <button 
-              onClick={() => handleConfirm(index)} 
-              disabled={formStates[index].aprobado !== null}
-            >
-              Confirmar
-            </button>
-            <button 
-              onClick={() => handleDeny(index)} 
-              disabled={formStates[index].aprobado !== null}
-            >
-              Denegar
-            </button>
+          <p>
+            <strong>ID del Informe:</strong> {form.id_informe}
+          </p>
+          <p>
+            <strong>Descripción:</strong> {form.descripcion}
+          </p>
+          <p>
+            <strong>Taller:</strong> {form.taller ? "Sí" : "No"}
+          </p>
+          <p>
+            <strong>Misma Ubicación:</strong>{" "}
+            {form.misma_ubicacion ? "Sí" : "No"}
+          </p>
+
+          <h3>Productos utilizados:</h3>
+          <table className={styles.productosTable}>
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Cantidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              {form.productosUtilizados.map((producto, pIndex) => (
+                <tr key={pIndex}>
+                  <td>{producto.nombre}</td>
+                  <td>{producto.marca}</td>
+                  <td>{producto.modelo}</td>
+                  <td>{producto.cantidad}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          {/* Mostrar estado del informe o botones */}
+          <div className={styles.estadoContainer}>
+            {form.aceptado === null ? (
+              // Mostrar botones si aceptado es null
+              <div className={styles.buttonContainer}>
+                <button
+                  onClick={() => handleConfirm(index)}
+                  disabled={formStates[index].aprobado !== null}
+                >
+                  Confirmar
+                </button>
+                <button
+                  onClick={() => handleDeny(index)}
+                  disabled={formStates[index].aprobado !== null}
+                >
+                  Denegar
+                </button>
+              </div>
+            ) : (
+              // Mostrar estado si aceptado no es null
+              <>
+                {/* Agrupa el estado y el motivo en un fragmento */}
+                {form.aceptado ? (
+                  <span className={styles.estadoAprobado}>Aceptado</span>
+                ) : (
+                  <>
+                    {/* Agrupa el estado "Rechazado" y el motivo */}
+                    <span className={styles.estadoRechazado}>Rechazado</span>
+                    {form.motivo_rechazo && (
+                      // Mostrar motivo si existe
+                      <p className={styles.motivoRechazo}>
+                        <strong>Motivo:</strong> {form.motivo_rechazo}
+                      </p>
+                    )}
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       ))}

@@ -193,6 +193,7 @@ function Products() {
                 <th>Modelo</th>
                 <th>Categoria</th>
                 <th>Cantidad</th>
+                <th>Cantidad Mínima</th> {/* Nueva columna */}
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -204,6 +205,7 @@ function Products() {
                   <td>{row.modelo}</td>
                   <td>{row.categoria}</td>
                   <td>{row.cantidad}</td>
+                  <td>{row.cantidad_minima}</td> {/* Nueva celda */}
                   <td>
                     <button
                       className="button button-modificar"
