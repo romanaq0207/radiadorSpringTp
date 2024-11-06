@@ -16,3 +16,18 @@
   max-width: auto;
   height: auto;
 }
+
+/* RoutesVerify.css */
+.routes-verify-container {
+  padding: 20px;
+}
+
+.routes-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+h2 {
+  text-align: center;
+}

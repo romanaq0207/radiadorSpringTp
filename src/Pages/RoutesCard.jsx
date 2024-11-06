@@ -1,40 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+// RutesCard.js
+import React from "react";
+import { MapContainer, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import "./RoutesCard.css";
 
-const RutesCard = ({ ruta }) => {
-  const navigate = useNavigate();
+function RutesCard({ ruta, onApprove, onReject }) {
+  const { nombre, distancia_total_km, trazado, conductor, dni_conductor, estado, fecha_creacion } = ruta;
 
-  const handleVerify = () => {
-    navigate(`/rutas/${ruta.id}`); // Navega a la página de detalles del auto
-  };
+  // Convierte el trazado en un formato que Polyline pueda entender
+  const polylineCoords = trazado.map((coord) => [coord.lat, coord.lng]);
+
+  // Asignar el primer y último punto del trazado para los marcadores
+  const puntoA = polylineCoords[0];
+  const puntoB = polylineCoords[polylineCoords.length - 1];
 
   return (
-    <div className="routes-card">
-      <h3>
-        <strong>Desde, </strong>
-        {ruta.desde}
-      </h3>
-      <h3>
-        <strong>Hasta, </strong>
-        {ruta.hasta}
-      </h3>
-      <p>
-        <strong>Fecha:</strong> {ruta.fecha}
-      </p>
-      <p>
-        <strong>Estado:</strong> {ruta.estado}
-      </p>
-      <p>
-        <strong>Número de ruta:</strong> {ruta.id}
-      </p>
-      <button onClick={handleVerify} className="details-button">
-      <FontAwesomeIcon icon={faMagnifyingGlass} />
-      </button>
+    <div className="route-card">
+      <h3>{nombre}</h3>
+      <p><strong>Distancia:</strong> {distancia_total_km} km</p>
+      <p><strong>Conductor:</strong> {conductor} - <strong>DNI:</strong> {dni_conductor}</p>
+      <p><strong>Estado:</strong> {estado}</p>
+      <p><strong>Fecha de creación:</strong> {new Date(fecha_creacion).toLocaleString()}</p>
+
+      <MapContainer center={puntoA} zoom={13} style={{ height: "200px", width: "100%" }}>
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+        />
+        <Polyline positions={polylineCoords} color="blue" />
+
+        {/* Marcador de inicio (punto A) */}
+        <Marker position={puntoA}>
+          <Popup>Punto A (Inicio)</Popup>
+        </Marker>
+
+        {/* Marcador de fin (punto B) */}
+        <Marker position={puntoB}>
+          <Popup>Punto B (Fin)</Popup>
+        </Marker>
+      </MapContainer>
+
+      <div className="route-card-buttons">
+        <button onClick={() => onApprove(ruta.id_ruta)} className="approve-button">Aprobar</button>
+        <button onClick={() => onReject(ruta.id_ruta)} className="reject-button">Rechazar</button>
+      </div>
     </div>
   );
-};
+}
 
 export default RutesCard;

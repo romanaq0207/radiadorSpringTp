@@ -1,3 +1,4 @@
+// RutesVerify.js
 import React, { useState, useEffect } from "react";
 import RutesCard from "./RoutesCard";
 import "./RoutesVerify.css";
@@ -7,42 +8,62 @@ import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
 
 function RutesVerify() {
-  const [allRutas, setAllrutas] = useState([]);
+  const [allRutas, setAllRutas] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("src/data/rutas.json", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setAllrutas(data))
-      .catch((error) => console.error("Error al leer el JSON:", error));
+    axios
+      .get(`${API_BASE_URL}/ver-rutas`)
+      .then((response) => setAllRutas(response.data))
+      .catch((error) => console.error("Error al obtener rutas:", error));
   }, []);
 
+  const handleApprove = (idRuta) => {
+    axios
+      .post(`${API_BASE_URL}/aprobar-ruta`, { id_ruta: idRuta })
+      .then(() => {
+        // Actualiza el estado local para reflejar el cambio
+        setAllRutas((prevRutas) =>
+          prevRutas.map((ruta) =>
+            ruta.id_ruta === idRuta ? { ...ruta, estado: "aprobada" } : ruta
+          )
+        );
+      })
+      .catch((error) => console.error("Error al aprobar ruta:", error));
+  };
+
+  const handleReject = (idRuta) => {
+    axios
+      .post(`${API_BASE_URL}/rechazar-ruta`, { id_ruta: idRuta })
+      .then(() => {
+        // Actualiza el estado local para reflejar el cambio
+        setAllRutas((prevRutas) =>
+          prevRutas.map((ruta) =>
+            ruta.id_ruta === idRuta ? { ...ruta, estado: "rechazada" } : ruta
+          )
+        );
+      })
+      .catch((error) => console.error("Error al rechazar ruta:", error));
+  };
+
   return (
-    <div className="routes-verify-container" id="routes-verify-container">
+    <div className="routes-verify-container">
       <Navbar />
       <h2>RUTAS</h2>
 
-      <div className="routes-card-list" id="routes-card-list">
+      <div className="routes-card-list">
         {allRutas.length > 0 ? (
-          allRutas.map((ruta) => <RutesCard key={ruta.id} ruta={ruta} />)
+          allRutas.map((ruta) => (
+            <RutesCard
+              key={ruta.id_ruta}
+              ruta={ruta}
+              onApprove={handleApprove}
+              onReject={handleReject}
+            />
+          ))
         ) : (
           <p>No se encontraron rutas.</p>
         )}
-        {/* <ul className="lista" id="lista">
-          {rutas.map((ruta, index) => (
-            <div key={index} className="gasto-item">
-              <strong>Descripción:</strong> {ruta.desde} <br />
-              <strong>Monto:</strong> ${ruta.hasta} <br />
-              <strong>Fecha:</strong> {ruta.fecha}
-              <br />
-            </div>
-          ))}
-        </ul> */}
       </div>
     </div>
   );
