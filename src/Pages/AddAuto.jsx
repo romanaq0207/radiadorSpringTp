@@ -21,16 +21,26 @@ function AddAuto() {
   const navigate = useNavigate();
   const currentYear = new Date().getFullYear();
   const years = Array.from(new Array(35), (val, index) => currentYear - index);
-  const marcas = [
-    "Ford",
-    "Mercedez Benz",
-    "Volkswagen",
-    "Peugeot",
-    "Renault",
-    "Suzuki",
-    "Toyota",
-    "Fiat",
-  ];
+  const marcas = ["Mercedez Benz", "Volkswagen", "Renault", "Iveco"];
+  const modelos = {
+    "Mercedez Benz": ["Actros", "Arocs", "Atego", "Econic"],
+    Volkswagen: ["Delivery", "Constellation", "Meteor"],
+    Renault: ["Master", "Trafic", "D-Truck", "Midlum"],
+    Iveco: ["Stralis", "Trakker", "Eurocargo"],
+  };
+  const [selectedMarca, setSelectedMarca] = useState("");
+  const [selectedModelo, setSelectedModelo] = useState("");
+  const handleMarcaChange = (e) => {
+    setSelectedMarca(e.target.value);
+    setSelectedModelo("");
+    const { value } = e.target;
+    setAutoData({ ...autoData, marca: value });
+  }; // Resetear el modelo seleccionado cuando cambia la marca };
+  const handleModeloChange = (e) => {
+    setSelectedModelo(e.target.value);
+    const { value } = e.target;
+    setAutoData({ ...autoData, modelo: value });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,7 +58,7 @@ function AddAuto() {
     const marcaRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
     const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
-  
+
     if (!marcaRegex.test(autoData.marca)) {
       alert("La marca solo puede contener letras y espacios.");
       return;
@@ -61,7 +71,7 @@ function AddAuto() {
       alert("El número de patente debe seguir el formato ABC123 o AB123CD.");
       return;
     }
-  
+
     // Verificar si el auto ya existe
     axios
       .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
@@ -79,7 +89,7 @@ function AddAuto() {
           axios
             .post(`${API_BASE_URL}/autos`, {
               ...autoData,
-              codigo_qr: "", 
+              codigo_qr: "",
             })
             .then((response) => {
               console.log("Auto agregado:", response.data);
@@ -119,7 +129,6 @@ function AddAuto() {
         });
       });
   };
-  
 
   const handleVolver = () => {
     navigate("../gestion-autos");
@@ -143,7 +152,7 @@ function AddAuto() {
   return (
     <div className="add-auto">
       <h2>Agregar Nuevo Auto</h2>
-      <select name="marca" defaultValue="" onChange={handleInputChange}>
+      <select name="marca" value={selectedMarca} onChange={handleMarcaChange}>
         {" "}
         <option value="" disabled>
           {" "}
@@ -156,13 +165,24 @@ function AddAuto() {
           </option>
         ))}{" "}
       </select>
-      <input
-        type="text"
+
+      <select
         name="modelo"
-        placeholder="Modelo"
-        value={autoData.modelo}
-        onChange={handleInputChange}
-      />
+        value={selectedModelo}
+        onChange={handleModeloChange}
+        required
+      >
+        <option value="" disabled>
+          Selecciona un modelo
+        </option>{" "}
+        {selectedMarca &&
+          modelos[selectedMarca].map((modelo) => (
+            <option key={modelo} value={modelo}>
+              {modelo}
+            </option>
+          ))}
+      </select>
+
       <select name="anio" defaultValue="" onChange={handleInputChange}>
         {" "}
         <option value="" disabled>
@@ -176,6 +196,7 @@ function AddAuto() {
           </option>
         ))}{" "}
       </select>
+
       <input
         type="text"
         name="kilometraje"
@@ -183,6 +204,7 @@ function AddAuto() {
         value={autoData.kilometraje}
         onChange={handleKilometerChange}
       />
+
       <input
         type="text"
         name="nro_patente"
@@ -190,6 +212,7 @@ function AddAuto() {
         value={autoData.nro_patente}
         onChange={handleInputChange}
       />
+
       <button onClick={handleAddAuto} className="btn-add-auto">
         Agregar Auto
       </button>
