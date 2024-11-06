@@ -80,9 +80,10 @@ const MechanicAidRequest = () => {
             request.id_peticion === id ? { ...request, estado: 'resuelto' } : request
           )
         );
-        Swal.fire('¡Resuelto!', result.message, 'success');
-        navigate("/recuperar-contraseña")
-       
+        Swal.fire('¡Resuelto!', result.message, 'success').then(() => {
+          // Redirigir a /forms-accidente después de que la alerta se cierre
+          navigate("/forms-accidente"); 
+        });
       } else {
         Swal.fire('Error', result.error, 'error');
       }
