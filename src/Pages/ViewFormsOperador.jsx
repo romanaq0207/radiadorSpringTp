@@ -14,7 +14,7 @@ const ViewFormsOperador = () => {
     const fetchForms = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/informes/obtener-informes-misma-ubicacion`
+          `${API_BASE_URL}/api/informes/obtener-informes-misma-ubicacion`
         );
         const informesConProductos = await Promise.all(
           response.data.map(async (informe) => {
@@ -46,7 +46,7 @@ const ViewFormsOperador = () => {
           console.log("ID del informe:", formData[index].id_informe);
           // Actualizar el estado del informe en la base de datos
           await axios.put(
-            `${API_BASE_URL}/informes/${formData[index].id_informe}/confirmar`
+            `${API_BASE_URL}/api/informes/${formData[index].id_informe}/confirmar`
           );
 
           const newFormStates = [...formStates];
@@ -75,50 +75,59 @@ const ViewFormsOperador = () => {
   };
 
   const handleDeny = async (index) => {
-    Swal.fire({
-      title: "¿Estás seguro de que quieres denegar?",
-      icon: "warning",
+    // Pedir al usuario que ingrese el motivo de la denegación
+    const { value: motivo } = await Swal.fire({
+      title: "Motivo de la denegación",
+      input: "text",
+      inputPlaceholder: "Ingrese el motivo de la denegación",
       showCancelButton: true,
-      confirmButtonText: "Sí, denegar",
+      confirmButtonText: "Aceptar",
       cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          console.log("ID del informe:", formData[index].id_informe);
-          // Actualizar el estado del informe en la base de datos
-          await axios.put(
-            `${API_BASE_URL}/informes/${formData[index].id_informe}/denegar`
-          );
-
-          const newFormStates = [...formStates];
-          newFormStates[index].aprobado = false; // Marcar como denegado
-          setFormStates(newFormStates);
-
-          Swal.fire({
-            title: "Formulario denegado",
-            text: "El formulario ha sido denegado.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          }).then(() => {
-            navigate("/verificar-formularios"); // Redirigir después de denegar
-          });
-        } catch (error) {
-          console.error("Error al denegar el formulario:", error);
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un error al denegar el formulario.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          });
+      inputValidator: (value) => {
+        if (!value) {
+          return "Por favor, ingrese un motivo";
         }
-      }
+      },
     });
+
+    if (motivo) {
+      // Si el usuario ingresó un motivo
+      try {
+        console.log("ID del informe:", formData[index].id_informe);
+        // Actualizar el estado del informe en la base de datos
+        await axios.put(
+          `${API_BASE_URL}/api/informes/${formData[index].id_informe}/denegar`,
+          { motivo } // Enviar el motivo en el cuerpo de la solicitud
+        );
+
+        const newFormStates = [...formStates];
+        newFormStates[index].aprobado = false; // Marcar como denegado
+        setFormStates(newFormStates);
+
+        Swal.fire({
+          title: "Formulario denegado",
+          text: "El formulario ha sido denegado.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        }).then(() => {
+          navigate("/verificar-formularios"); // Redirigir después de denegar
+        });
+      } catch (error) {
+        console.error("Error al denegar el formulario:", error);
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un error al denegar el formulario.",
+          icon: "error",
+          confirmButtonText: "Aceptar",
+        });
+      }
+    }
   };
 
   const fetchProductos = async (idInforme) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/informes/obtener-productos-informe/${idInforme}`
+        `${API_BASE_URL}/api/informes/obtener-productos-informe/${idInforme}`
       );
       return response.data;
     } catch (error) {
