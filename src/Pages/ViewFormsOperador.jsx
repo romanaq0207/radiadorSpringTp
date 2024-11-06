@@ -14,7 +14,7 @@ const ViewFormsOperador = () => {
     const fetchForms = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/api/informes/obtener-informes-misma-ubicacion`
+          `${API_BASE_URL}/informes/obtener-informes-misma-ubicacion`
         );
         const informesConProductos = await Promise.all(
           response.data.map(async (informe) => {
@@ -46,7 +46,7 @@ const ViewFormsOperador = () => {
           console.log("ID del informe:", formData[index].id_informe);
           // Actualizar el estado del informe en la base de datos
           await axios.put(
-            `${API_BASE_URL}/api/informes/${formData[index].id_informe}/confirmar`
+            `${API_BASE_URL}/informes/${formData[index].id_informe}/confirmar`
           );
 
           const newFormStates = [...formStates];
@@ -75,59 +75,69 @@ const ViewFormsOperador = () => {
   };
 
   const handleDeny = async (index) => {
-    // Pedir al usuario que ingrese el motivo de la denegación
-    const { value: motivo } = await Swal.fire({
-      title: "Motivo de la denegación",
-      input: "text",
-      inputPlaceholder: "Ingrese el motivo de la denegación",
+    Swal.fire({
+      title: "¿Estás seguro de que quieres rechazar este formulario?",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Aceptar",
+      confirmButtonText: "Sí, rechazar",
       cancelButtonText: "Cancelar",
-      inputValidator: (value) => {
-        if (!value) {
-          return "Por favor, ingrese un motivo";
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Pedir al usuario que ingrese el motivo de la denegación
+        const { value: motivo } = await Swal.fire({
+          title: "Motivo de la denegación",
+          input: "text",
+          inputPlaceholder: "Ingrese el motivo de la denegación",
+          showCancelButton: true,
+          confirmButtonText: "Aceptar",
+          cancelButtonText: "Cancelar",
+          inputValidator: (value) => {
+            if (!value) {
+              return "Por favor, ingrese un motivo";
+            }
+          },
+        });
+
+        if (motivo) {
+          // Si el usuario ingresó un motivo
+          try {
+            console.log("ID del informe:", formData[index].id_informe);
+            // Actualizar el estado del informe en la base de datos
+            await axios.put(
+              `${API_BASE_URL}/informes/${formData[index].id_informe}/denegar`,
+              { motivo } // Enviar el motivo en el cuerpo de la solicitud
+            );
+
+            const newFormStates = [...formStates];
+            newFormStates[index].aprobado = false; // Marcar como denegado
+            setFormStates(newFormStates);
+
+            Swal.fire({
+              title: "Formulario denegado",
+              text: "El formulario ha sido denegado.",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            }).then(() => {
+              navigate("/verificar-formularios"); // Redirigir después de denegar
+            });
+          } catch (error) {
+            console.error("Error al denegar el formulario:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Hubo un error al denegar el formulario.",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            });
+          }
         }
-      },
-    });
-
-    if (motivo) {
-      // Si el usuario ingresó un motivo
-      try {
-        console.log("ID del informe:", formData[index].id_informe);
-        // Actualizar el estado del informe en la base de datos
-        await axios.put(
-          `${API_BASE_URL}/api/informes/${formData[index].id_informe}/denegar`,
-          { motivo } // Enviar el motivo en el cuerpo de la solicitud
-        );
-
-        const newFormStates = [...formStates];
-        newFormStates[index].aprobado = false; // Marcar como denegado
-        setFormStates(newFormStates);
-
-        Swal.fire({
-          title: "Formulario denegado",
-          text: "El formulario ha sido denegado.",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        }).then(() => {
-          navigate("/verificar-formularios"); // Redirigir después de denegar
-        });
-      } catch (error) {
-        console.error("Error al denegar el formulario:", error);
-        Swal.fire({
-          title: "Error",
-          text: "Hubo un error al denegar el formulario.",
-          icon: "error",
-          confirmButtonText: "Aceptar",
-        });
       }
-    }
+    });
   };
 
   const fetchProductos = async (idInforme) => {
     try {
       const response = await axios.get(
-        `${API_BASE_URL}/api/informes/obtener-productos-informe/${idInforme}`
+        `${API_BASE_URL}/informes/obtener-productos-informe/${idInforme}`
       );
       return response.data;
     } catch (error) {
@@ -197,11 +207,23 @@ const ViewFormsOperador = () => {
               </div>
             ) : (
               // Mostrar estado si aceptado no es null
-              form.aceptado ? (
-                <span className={styles.estadoAprobado}>Aceptado</span>
-              ) : (
-                <span className={styles.estadoRechazado}>Rechazado</span>
-              )
+              <>
+                {/* Agrupa el estado y el motivo en un fragmento */}
+                {form.aceptado ? (
+                  <span className={styles.estadoAprobado}>Aceptado</span>
+                ) : (
+                  <>
+                    {/* Agrupa el estado "Rechazado" y el motivo */}
+                    <span className={styles.estadoRechazado}>Rechazado</span>
+                    {form.motivo_rechazo && (
+                      // Mostrar motivo si existe
+                      <p className={styles.motivoRechazo}>
+                        <strong>Motivo:</strong> {form.motivo_rechazo}
+                      </p>
+                    )}
+                  </>
+                )}
+              </>
             )}
           </div>
         </div>
