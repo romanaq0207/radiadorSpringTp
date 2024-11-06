@@ -60,7 +60,7 @@ const AddProveedor = () => {
     if (validate()) {
       try {
         // Verificar si ya existe un proveedor con el mismo CUIT
-        const response = await axios.get(`${API_BASE_URL}/proveedores/cuit/${formData.cuil}`);
+        const response = await axios.get(`${API_BASE_URL}/proveedores/cuil/${formData.cuil}`);
         const proveedorExistente = response.data;
   
         if (proveedorExistente) {

@@ -29,6 +29,7 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  height: 10vh;
 }
 
 .expenses-list {
@@ -40,9 +41,9 @@
 }
 
 .expense-card {
-  background-color: rgba(255, 0, 0, 0.8);
+  background-color: #f38dc8;
   padding: 20px;
-  border: 1px solid #d10000;
+  border: 1px solid #f38dc8;
   border-radius: 10px;
   width: 100%; /* Mantener el ancho al 100% */
   max-width: 500px; /* Ancho máximo para la tarjeta */
@@ -73,7 +74,7 @@
 
 .mark-paid-button {
   padding: 12px 25px;
-  background-color: #990000;
+  background-color: #e23d9d;;
   color: white;
   border: none;
   border-radius: 25px;
