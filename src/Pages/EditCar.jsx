@@ -124,7 +124,7 @@ function EditCar() {
 
   const updateCarData = () => {
     axios
-      .put(`${API_BASE_URL}/autos/${id}`, autoData)
+      .put(`${API_BASE_URL}/editar_auto/${id}`, autoData)
       .then(() => {
         const qrUrl = `${API_BASE_URL}/autos/${id}`;
         setQrCodeValue(qrUrl);
