@@ -253,7 +253,8 @@ const OrdenesDeCompra = () => {
             <table className="orders-table">
                 <thead>
                     <tr>
-                         <th>ID</th>
+                        <th>ID</th>
+                        <th>Número de Orden</th> {/* Nueva columna */}
                         <th>Proveedor</th>
                         <th>Fecha</th>
                         <th>Estado</th>
@@ -265,7 +266,8 @@ const OrdenesDeCompra = () => {
                     {filteredOrders.map((order, index) => (
                         <tr key={index}>
                             <td data-label="ID">{order.id_orden_de_compra}</td>
-                            <td data-label="Proveedor">{order.id_proveedor}</td>
+                            <td data-label="Número de Orden">{order.numero_orden}</td> {/* Mostrar el número de orden */}
+                            <td data-label="Proveedor">{order.nombre_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
                             <td data-label="Total">${order.total}</td>
@@ -274,7 +276,6 @@ const OrdenesDeCompra = () => {
                     ))}
                 </tbody>
             </table>
-
             {/* Popup para ver detalles */}
 {showDetailsPopup && selectedOrder && (
     <div className="popup-overlay-details">
