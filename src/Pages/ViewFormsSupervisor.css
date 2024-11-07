@@ -27,7 +27,19 @@
     max-width: 600px;
     width: 90%;
   }
+
+  .card p {
+    margin: 10px 0;
+    word-wrap: break-word; /* Permite que el texto se ajuste al ancho */
+    white-space: normal; /* Evita que el texto se mantenga en una sola línea */
+    overflow-wrap: break-word; /* Asegura que las palabras largas se ajusten al ancho */
+  }
+
+  .popupContent button{
+    background-color: #dd4fa2;
+  }
   
+ 
   /* Close Button */
   .closePopupButton {
     background-color: #d9534f;
@@ -96,7 +108,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f38dc8be;
     color: wheat;
+    max-width: 270px; /* Define un ancho máximo para mantener la consistencia */
+    justify-content: space-between;
+
 }
+.buttonContainer {
+    margin-top:auto; /* Empuja los botones hacia el final de la card */
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+  }
 
 .card p {
     margin: 5px 0;
@@ -130,11 +150,11 @@
 }
 
 .buttonContainer button:not(:disabled) {
-    background-color: #28a745; /* Color para botón "Confirmar" */
+    background-color: #eb1ead; /* Color para botón "Confirmar" */
 }
 
 .buttonContainer button:not(:disabled):last-child {
-    background-color: #dc3545; /* Color para botón "Denegar" */
+    background-color: #394181; /* Color para botón "Denegar" */
 }
 
 /* Estilos responsivos */

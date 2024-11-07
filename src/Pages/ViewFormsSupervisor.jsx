@@ -167,17 +167,16 @@ const ViewFormsOperador = () => {
       <h2 className="title">Revisión de formularios</h2>
       {formData.map((form, index) => (
         <div key={index} className="card">
-          <h3>ID del Informe:</h3> {form.id_informe}
-
+          <h3>Informe {form.id_informe}</h3> 
+          <p>
+            <strong>Mecanico:</strong> 
+          </p>
+          <p>
+            <strong>Patente:</strong>{" "}
+            
+          </p>
           <p>
             <strong>Descripción:</strong> {form.descripcion}
-          </p>
-          <p>
-            <strong>Taller:</strong> {form.taller ? "Sí" : "No"}
-          </p>
-          <p>
-            <strong>Misma Ubicación:</strong>{" "}
-            {form.misma_ubicacion ? "Sí" : "No"}
           </p>
 
           <button onClick={() => openProductPopup(form.productosUtilizados)}>
