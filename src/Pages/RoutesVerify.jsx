@@ -19,30 +19,43 @@ function RutesVerify() {
   }, []);
 
   const handleApprove = (idRuta) => {
-    axios
-      .post(`${API_BASE_URL}/aprobar-ruta`, { id_ruta: idRuta })
-      .then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Ruta aprobada",
-          text: "La ruta ha sido aprobada exitosamente.",
-        });
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Quieres aprobar esta ruta?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, aprobar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post(`${API_BASE_URL}/aprobar-ruta`, { id_ruta: idRuta })
+          .then(() => {
+            Swal.fire({
+              icon: "success",
+              title: "Ruta aprobada",
+              text: "La ruta ha sido aprobada exitosamente.",
+            });
 
-        // Actualiza el estado local para reflejar el cambio
-        setAllRutas((prevRutas) =>
-          prevRutas.map((ruta) =>
-            ruta.id_ruta === idRuta ? { ...ruta, estado: "aprobada" } : ruta
-          )
-        );
-      })
-      .catch((error) => {
-        console.error("Error al aprobar ruta:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Hubo un problema al aprobar la ruta.",
-        });
-      });
+            // Actualiza el estado local para reflejar el cambio
+            setAllRutas((prevRutas) =>
+              prevRutas.map((ruta) =>
+                ruta.id_ruta === idRuta ? { ...ruta, estado: "aprobada" } : ruta
+              )
+            );
+          })
+          .catch((error) => {
+            console.error("Error al aprobar ruta:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Hubo un problema al aprobar la ruta.",
+            });
+          });
+      }
+    });
   };
 
   const handleReject = (idRuta) => {

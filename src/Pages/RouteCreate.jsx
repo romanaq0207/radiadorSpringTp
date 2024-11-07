@@ -146,33 +146,50 @@ function RouteCreate() {
   };
 
   const submitRoute = async () => {
-    const routeData = {
-      conductor: rutaData.conductor,
-      dni_conductor: rutaData.conductorDni,
-      latitudA: desdeCoords.lat,
-      longitudA: desdeCoords.lon,
-      latitudB: hastaCoords.lat,
-      longitudB: hastaCoords.lon,
-      trazado,
-      estado: "pendiente",
-      distancia_total_km: distanciaTotal,
-      id_gerente: 1, // Cambia esto si es necesario
-    };
+    const result = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Quieres enviar esta ruta al servidor?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, enviar",
+      cancelButtonText: "Cancelar",
+    });
 
-    try {
-      const response = await axios.post(`${API_BASE_URL}/rutas`, routeData);
+    if (result.isConfirmed) {
+      const routeData = {
+        conductor: rutaData.conductor,
+        dni_conductor: rutaData.conductorDni,
+        latitudA: desdeCoords.lat,
+        longitudA: desdeCoords.lon,
+        latitudB: hastaCoords.lat,
+        longitudB: hastaCoords.lon,
+        trazado,
+        estado: "pendiente",
+        distancia_total_km: distanciaTotal,
+        id_gerente: 1, // Cambia esto si es necesario
+      };
+
+      try {
+        const response = await axios.post(`${API_BASE_URL}/rutas`, routeData);
+        Swal.fire({
+          title: "¡Ruta enviada!",
+          text: "La ruta se ha enviado al servidor.",
+          icon: "success",
+        });
+        navigate("/"); // Navegar a otra ruta después de enviar
+      } catch (error) {
+        console.error("Error al enviar la ruta:", error);
+        Swal.fire({
+          title: "Error",
+          text: "Hubo un error al enviar la ruta.",
+          icon: "error",
+        });
+      }
+    } else {
       Swal.fire({
-        title: "¡Ruta enviada!",
-        text: "La ruta se ha enviado al servidor.",
-        icon: "success",
-      });
-      navigate("/"); // Navegar a otra ruta después de enviar
-    } catch (error) {
-      console.error("Error al enviar la ruta:", error);
-      Swal.fire({
-        title: "Error",
-        text: "Hubo un error al enviar la ruta.",
-        icon: "error",
+        title: "Cancelado",
+        text: "El envío de la ruta fue cancelado.",
+        icon: "info",
       });
     }
   };
