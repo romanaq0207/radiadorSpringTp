@@ -57,17 +57,13 @@ const ViewFormsOperador = () => {
       if (result.isConfirmed) {
         try {
           const informeId = formData[index].id_informe;
-<<<<<<< HEAD
           console.log("ID del informe:", informeId);
   
           // 1. Obtener los productos del informe
-=======
->>>>>>> ab13379f27705bb026f9e3e27fc52d633847b4e4
           const productosResponse = await axios.get(
             `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
           );
           const productos = productosResponse.data;
-<<<<<<< HEAD
   
           // 2. Restar la cantidad de cada producto en la base de datos
           for (const producto of productos) {
@@ -91,19 +87,6 @@ const ViewFormsOperador = () => {
             `${API_BASE_URL}/informes/${informeId}/confirmar`
           );
   
-=======
-
-          for (const producto of productos) {
-            const { nombre, cantidad_utilizada } = producto;
-            await axios.put(
-              `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
-              { cantidad: cantidad_utilizada }
-            );
-          }
-
-          await axios.put(`${API_BASE_URL}/informes/${informeId}/confirmar`);
-
->>>>>>> ab13379f27705bb026f9e3e27fc52d633847b4e4
           const newFormStates = [...formStates];
           newFormStates[index].aprobado = true;
           setFormStates(newFormStates);
