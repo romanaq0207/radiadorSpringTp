@@ -33,6 +33,19 @@ const ViewFormsOperador = () => {
     fetchForms();
   }, []);
 
+  const generarOrdenesDeCompra = async () => {
+    try {
+      // Llamar al endpoint para generar las órdenes de compra
+      await axios.post(`${API_BASE_URL}/ordenes-de-compra/generar-ordenes`); 
+
+      console.log("Órdenes de compra generadas correctamente");
+      // Puedes mostrar un mensaje de éxito al usuario si es necesario
+    } catch (error) {
+      console.error('Error al generar las órdenes de compra:', error);
+      // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
+    }
+  };
+
   const handleConfirm = async (index) => {
     Swal.fire({
       title: "¿Estás seguro de que quieres confirmar?",
@@ -44,24 +57,43 @@ const ViewFormsOperador = () => {
       if (result.isConfirmed) {
         try {
           const informeId = formData[index].id_informe;
+          console.log("ID del informe:", informeId);
+  
+          // 1. Obtener los productos del informe
           const productosResponse = await axios.get(
             `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
           );
           const productos = productosResponse.data;
-
+  
+          // 2. Restar la cantidad de cada producto en la base de datos
           for (const producto of productos) {
             const { nombre, cantidad_utilizada } = producto;
-            await axios.put(
-              `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
-              { cantidad: cantidad_utilizada }
-            );
+            try {
+              await axios.put(
+                `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
+                { cantidad: cantidad_utilizada }
+              );
+            } catch (error) {
+              console.error(
+                `Error al restar cantidad del producto ${nombre}:`,
+                error
+              );
+              // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
+            }
           }
-
-          await axios.put(`${API_BASE_URL}/informes/${informeId}/confirmar`);
-
+  
+          // 3. Actualizar el estado del informe en la base de datos
+          await axios.put(
+            `${API_BASE_URL}/informes/${informeId}/confirmar`
+          );
+  
           const newFormStates = [...formStates];
           newFormStates[index].aprobado = true;
           setFormStates(newFormStates);
+  
+          // 4. Llamar a la función para generar las órdenes de compra
+          await generarOrdenesDeCompra();
+
 
           Swal.fire({
             title: "Formulario confirmado",
