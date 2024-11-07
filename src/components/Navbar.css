@@ -22,7 +22,6 @@
   text-align: center;
   align-items: center; /* Alineación vertical de los elementos */
   justify-content: center; /* Centra los elementos en la barra */
-  
 }
 
 .navbar-link {
@@ -79,6 +78,10 @@
     background-color: #2566b1;
     width: 100%;
     text-align: center;
+    max-height: 80vh; /* Aumenta la altura máxima del menú desplegable */
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    z-index: 999;
+    padding-top: 10px;
   }
 
   .navbar-list.navbar-list-open {
@@ -87,10 +90,15 @@
   }
 
   .navbar-item {
-    margin: 10px 0;
+    margin: 8px 0; /* Reduce el margen para aprovechar el espacio */
+  }
+
+  .navbar-link {
+    padding: 8px 12px; /* Reduce el relleno para ajustar el contenido */
   }
 
   .navbar-link svg {
-    font-size: 1.8rem; /* Aumenta el tamaño de los íconos en pantallas pequeñas */
+    font-size: 1.2rem; /* Ajusta el tamaño del icono para pantallas móviles */
+    margin-right: 5px;
   }
 }

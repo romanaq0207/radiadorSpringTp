@@ -11,9 +11,10 @@ h2{
   color: blanchedalmond;
 }
 
+
 .my-route-container {
   display: flex;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.5);
   padding: 20px;
   margin-top: 80px;
   border-radius: 10px;
