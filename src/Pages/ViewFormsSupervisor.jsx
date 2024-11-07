@@ -33,89 +33,123 @@ const ViewFormsOperador = () => {
     fetchForms();
   }, []);
 
-  const generarOrdenesDeCompra = async () => {
-    try {
-      // Llamar al endpoint para generar las órdenes de compra
-      await axios.post(`${API_BASE_URL}/ordenes-de-compra/generar-ordenes`); 
-
-      console.log("Órdenes de compra generadas correctamente");
-      // Puedes mostrar un mensaje de éxito al usuario si es necesario
-    } catch (error) {
-      console.error('Error al generar las órdenes de compra:', error);
-      // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
-    }
-  };
-
   const handleConfirm = async (index) => {
     Swal.fire({
-      title: "¿Estás seguro de que quieres confirmar?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Sí, confirmar",
-      cancelButtonText: "Cancelar",
+        title: "¿Estás seguro de que quieres confirmar?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, confirmar",
+        cancelButtonText: "Cancelar",
     }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const informeId = formData[index].id_informe;
-          console.log("ID del informe:", informeId);
-  
-          // 1. Obtener los productos del informe
-          const productosResponse = await axios.get(
-            `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
-          );
-          const productos = productosResponse.data;
-  
-          // 2. Restar la cantidad de cada producto en la base de datos
-          for (const producto of productos) {
-            const { nombre, cantidad_utilizada } = producto;
+        if (result.isConfirmed) {
             try {
-              await axios.put(
-                `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
-                { cantidad: cantidad_utilizada }
-              );
+                const informeId = formData[index].id_informe;
+
+                console.log("OBTENIENDO PRODUCTOS DEL INFORME...");
+                await new Promise(resolve => setTimeout(resolve, 10000)); 
+
+                const productosResponse = await axios.get(
+                    `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
+                );
+                const productos = productosResponse.data;
+
+                // 2. Restar la cantidad de cada producto en la base de datos
+                for (const producto of productos) {
+                    const { nombre, cantidad_utilizada } = producto;
+                    try {
+                        console.log(`RESTANDO CANTIDAD DEL PRODUCTO ${nombre}...`); 
+                        await new Promise(resolve => setTimeout(resolve, 10000)); 
+
+                        await axios.put(
+                            `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
+                            { cantidad: cantidad_utilizada }
+                        );
+                    } catch (error) {
+                        console.error(
+                            `Error al restar cantidad del producto ${nombre}:`,
+                            error
+                        );
+                    }
+                }
+
+                console.log("VOLVIENDO A OBTENER PRODUCTOS DEL INFORME CON CANTIDADES ACTUALIZADAS...");
+                await new Promise(resolve => setTimeout(resolve, 10000)); 
+
+                // Volver a obtener los productos del informe con las cantidades actualizadas
+                const productosActualizadosResponse = await axios.get(
+                    `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
+                );
+                const productosActualizados = productosActualizadosResponse.data;
+
+
+                console.log(`ACTUALIZANDO ESTADO DEL INFORME ${informeId}...`); 
+                await new Promise(resolve => setTimeout(resolve, 10000)); 
+
+                // 3. Actualizar el estado del informe en la base de datos
+                await axios.put(
+                    `${API_BASE_URL}/informes/${informeId}/confirmar`
+                );
+
+                const newFormStates = [...formStates];
+                newFormStates[index].aprobado = true;
+                setFormStates(newFormStates);
+
+                // 4. Generar órdenes de compra para cada producto
+                for (const producto of productosActualizados) { // Usar productosActualizados aquí
+                    await generarOrdenDeCompra(producto);
+                }
+
+                Swal.fire({
+                    title: "Formulario confirmado",
+                    text: "El formulario ha sido confirmado exitosamente.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                }).then(() => {
+                    navigate("/formularios-supervisor");
+                });
             } catch (error) {
-              console.error(
-                `Error al restar cantidad del producto ${nombre}:`,
-                error
-              );
-              // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
+                console.error("Error al confirmar el formulario:", error);
+                Swal.fire({
+                    title: "Error",
+                    text: "Hubo un error al confirmar el formulario.",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                });
             }
-          }
-  
-          // 3. Actualizar el estado del informe en la base de datos
-          await axios.put(
-            `${API_BASE_URL}/informes/${informeId}/confirmar`
-          );
-  
-          const newFormStates = [...formStates];
-          newFormStates[index].aprobado = true;
-          setFormStates(newFormStates);
-  
-          // 4. Llamar a la función para generar las órdenes de compra
-          await generarOrdenesDeCompra();
-
-
-          Swal.fire({
-            title: "Formulario confirmado",
-            text: "El formulario ha sido confirmado exitosamente.",
-            icon: "success",
-            confirmButtonText: "Aceptar",
-          }).then(() => {
-            navigate("/verificar-formularios");
-          });
-        } catch (error) {
-          console.error("Error al confirmar el formulario:", error);
-          Swal.fire({
-            title: "Error",
-            text: "Hubo un error al confirmar el formulario.",
-            icon: "error",
-            confirmButtonText: "Aceptar",
-          });
         }
-      }
     });
-  };
+};
 
+const generarOrdenDeCompra = async (producto) => {
+  try {
+      const { cantidad, cantidad_minima, ...restoDelProducto } = producto;
+
+      if (cantidad < cantidad_minima) { 
+          // Renombrar proveedor_id a id_proveedor y agregar id_producto y cantidad_minima
+          const productoConIdProveedor = {
+              ...restoDelProducto,
+              id_proveedor: producto.proveedor_id,
+              id_producto: producto.id_producto,  
+              cantidad_minima: producto.cantidad_minima 
+          };
+          delete productoConIdProveedor.proveedor_id; 
+
+          console.log("Datos del producto enviados al endpoint:", productoConIdProveedor); 
+
+          const response = await axios.post(`${API_BASE_URL}/ordenes-de-compra/generar-orden`, productoConIdProveedor); 
+
+          if (response.status === 201) {  
+              console.log(`Orden de compra generada correctamente para ${producto.nombre}`);
+          } else {
+              console.error(`Error al generar la orden de compra para ${producto.nombre}:`, response.data);
+          }
+      } else {
+          console.log(`No se necesita generar orden de compra para ${producto.nombre}`);
+      }
+  } catch (error) {
+      console.error(`Error al generar la orden de compra para ${producto.nombre}:`, error);
+  }
+};
   const handleDeny = async (index) => {
     Swal.fire({
       title: "¿Estás seguro de que quieres rechazar este formulario?",
