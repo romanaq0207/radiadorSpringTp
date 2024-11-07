@@ -144,70 +144,71 @@ function AutoSearch() {
       <Navbar />
       <h2 className="auto-search__title">Búsqueda de Autos</h2>
       <div className="auto-search__search-add">
-        <div className="auto-search-filters">
-          <input
-            type="text"
-            placeholder="Buscar por patente..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="auto-search__input"
-          />
-          <select
-            name="marca"
-            value={selectedMarca}
-            onChange={handleMarcaChange}
-          >
+        <input
+          type="text"
+          placeholder="Buscar por patente..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="auto-search__input"
+        />
+        <select
+          name="marca"
+          value={selectedMarca}
+          onChange={handleMarcaChange}
+          className="auto-search__input"
+        >
+          {" "}
+          <option value="" disabled>
             {" "}
-            <option value="" disabled>
+            Buscar por marca del vehículo{" "}
+          </option>{" "}
+          <option value="">Todas</option>
+          {marcas.map((marca) => (
+            <option key={marca} value={marca}>
               {" "}
-              Buscar por marca del vehículo{" "}
-            </option>{" "}
-            <option value="">Todas</option>
-            {marcas.map((marca) => (
-              <option key={marca} value={marca}>
-                {" "}
-                {marca}{" "}
-              </option>
-            ))}{" "}
-          </select>
+              {marca}{" "}
+            </option>
+          ))}{" "}
+        </select>
 
-          <select
-            name="modelo"
-            value={selectedModelo}
-            onChange={handleModeloChange}
-            required
-          >
-            <option value="" disabled>
-              Buscar por modelo
-            </option>{" "}
-            <option value="">Todos</option>
-            {selectedMarca &&
-              (selectedMarca === "Todas"
-                ? Object.keys(modelos).flatMap((marca) =>
-                    modelos[marca].map((modelo) => (
-                      <option key={modelo} value={modelo}>
-                        {" "}
-                        {modelo}{" "}
-                      </option>
-                    ))
-                  )
-                : modelos[selectedMarca].map((modelo) => (
+        <select
+          name="modelo"
+          value={selectedModelo}
+          onChange={handleModeloChange}
+          className="auto-search__input"
+          required
+        >
+          <option value="" disabled>
+            Buscar por modelo
+          </option>{" "}
+          <option value="">Todos</option>
+          {selectedMarca &&
+            (selectedMarca === "Todas"
+              ? Object.keys(modelos).flatMap((marca) =>
+                  modelos[marca].map((modelo) => (
                     <option key={modelo} value={modelo}>
                       {" "}
                       {modelo}{" "}
                     </option>
-                  )))}
-          </select>
-        </div>
+                  ))
+                )
+              : modelos[selectedMarca].map((modelo) => (
+                  <option key={modelo} value={modelo}>
+                    {" "}
+                    {modelo}{" "}
+                  </option>
+                )))}
+        </select>
         <button onClick={handleResetKilometraje}>Aplicar</button>
+        <span>{selectedKilometraje} km</span>
         <input
           type="range"
           min="0"
           max="10000"
           value={selectedKilometraje}
           onChange={handleKilometrajeChange}
+          className="auto-search__input_range"
         />
-        <span>{selectedKilometraje} km</span>
 
         <div className="auto-search__buttons">
           <button onClick={handleAddAuto} className="auto-search__add-auto">

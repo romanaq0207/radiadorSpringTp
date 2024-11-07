@@ -7,28 +7,62 @@
 
 #routes-verify-container {
   margin-top: 65px;
-  max-width: 100%;
+  width: 100%;
   height: auto;
-
-}
-
-#routes-card-list {
-  display:flex;
-  max-width: auto;
-  height: auto;
-}
-
-/* RoutesVerify.css */
-.routes-verify-container {
   padding: 20px;
 }
 
-.routes-card-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
+/* Estilos generales */
+.routes-verify-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h2 {
   text-align: center;
+  font-size: 24px;
+  color: blanchedalmond;
+  margin-bottom: 20px;
+}
+
+/* Listado de rutas */
+.routes-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 768px) {
+  #routes-verify-container {
+    padding: 10px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .routes-card-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+/* Estilos para pantallas grandes (PC) */
+@media (min-width: 769px) {
+  #routes-verify-container {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .routes-card-list {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
 }
