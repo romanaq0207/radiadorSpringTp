@@ -13,6 +13,7 @@ function MyRoute() {
   useEffect(() => {
     axios.get(`${API_BASE_URL}/ver-rutas`)
       .then((response) => {
+        // Filtramos las rutas aprobadas
         const rutasAprobadas = response.data.filter(ruta => ruta.estado === 'aprobada');
         setRutasAprobadas(rutasAprobadas);
       })
@@ -24,13 +25,19 @@ function MyRoute() {
   };
 
   const completarRuta = (idRuta) => {
-    axios.post(`${API_BASE_URL}/completar-ruta`, { id_ruta: idRuta })
+    axios.post(`${API_BASE_URL}/completar-ruta`, { id_ruta: idRuta }) // Asegúrate de que la ruta sea correcta
       .then(() => {
-        setRutasAprobadas(rutasAprobadas.filter(ruta => ruta.id_ruta !== idRuta));
+        // Filtramos la ruta completada de la lista
+        setRutasAprobadas(prevRutas => prevRutas.filter(ruta => ruta.id_ruta !== idRuta));
+        // Limpiamos la ruta seleccionada
         setRutaSeleccionada(null);
+        // Mostramos el mensaje de éxito
         alert("Ruta completada exitosamente");
       })
-      .catch((error) => console.error("Error al completar ruta:", error));
+      .catch((error) => {
+        console.error("Error al completar ruta:", error);
+        alert("Hubo un error al completar la ruta.");
+      });
   };
 
   const calcularTiempoEstimado = (distancia) => {
