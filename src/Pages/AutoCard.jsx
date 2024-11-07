@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCircleInfo,faPenToSquare,faTrash} from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import "./AutoCard.css";
+import { API_BASE_URL } from "../assets/config";
 import Swal from 'sweetalert2'; // Importa SweetAlert2
+import axios from "axios";
 
 const AutoCard = ({ auto }) => {
   const navigate = useNavigate();
@@ -28,19 +30,29 @@ const AutoCard = ({ auto }) => {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Lógica para eliminar el auto, como hacer una petición a la API
-        // axios.delete(`URL_API/${auto.id}`)
-        //   .then(() => console.log('Auto eliminado'))
-        //   .catch(error => console.error('Error al eliminar el auto:', error));
-
-        Swal.fire(
-          '¡Eliminado!',
-          'El auto ha sido eliminado.',
-          'success'
-        );
+    
+        axios.delete(`${API_BASE_URL}/autos/eliminar_auto/${auto.nro_patente}`)
+          .then(() => {
+          
+            Swal.fire(
+              '¡Eliminado!',
+              'El auto ha sido eliminado.',
+              'success'
+            );
+            console.log('Auto eliminado');
+          })
+          .catch((error) => {
+            Swal.fire(
+              'Error',
+              'Hubo un problema al eliminar el auto.',
+              'error'
+            );
+            console.error('Error al eliminar el auto:', error);
+          });
       }
     });
   };
+  
 
   return (
     <div className="auto-card">

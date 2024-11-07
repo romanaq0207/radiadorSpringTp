@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./ViewFormsOperador.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { API_BASE_URL } from "../assets/config";
+import "./ViewFormsSupervisor.css";
 
 const ViewFormsOperador = () => {
   const navigate = useNavigate();
   const [formStates, setFormStates] = useState([]);
   const [formData, setFormData] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/informes/obtener-informes-taller`
-        );
+        const response = await axios.get(`${API_BASE_URL}/informes/obtener-informes-taller`);
         const informesConProductos = await Promise.all(
           response.data.map(async (informe) => {
             const productos = await fetchProductos(informe.id_informe);
@@ -57,13 +57,17 @@ const ViewFormsOperador = () => {
       if (result.isConfirmed) {
         try {
           const informeId = formData[index].id_informe;
+<<<<<<< HEAD
           console.log("ID del informe:", informeId);
   
           // 1. Obtener los productos del informe
+=======
+>>>>>>> ab13379f27705bb026f9e3e27fc52d633847b4e4
           const productosResponse = await axios.get(
             `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
           );
           const productos = productosResponse.data;
+<<<<<<< HEAD
   
           // 2. Restar la cantidad de cada producto en la base de datos
           for (const producto of productos) {
@@ -87,8 +91,21 @@ const ViewFormsOperador = () => {
             `${API_BASE_URL}/informes/${informeId}/confirmar`
           );
   
+=======
+
+          for (const producto of productos) {
+            const { nombre, cantidad_utilizada } = producto;
+            await axios.put(
+              `${API_BASE_URL}/productos/${nombre}/restar-cantidad-nombre`,
+              { cantidad: cantidad_utilizada }
+            );
+          }
+
+          await axios.put(`${API_BASE_URL}/informes/${informeId}/confirmar`);
+
+>>>>>>> ab13379f27705bb026f9e3e27fc52d633847b4e4
           const newFormStates = [...formStates];
-          newFormStates[index].aprobado = true; // Marcar como aprobado
+          newFormStates[index].aprobado = true;
           setFormStates(newFormStates);
   
           // 4. Llamar a la función para generar las órdenes de compra
@@ -101,7 +118,7 @@ const ViewFormsOperador = () => {
             icon: "success",
             confirmButtonText: "Aceptar",
           }).then(() => {
-            navigate("/verificar-formularios"); // Redirigir después de confirmar
+            navigate("/verificar-formularios");
           });
         } catch (error) {
           console.error("Error al confirmar el formulario:", error);
@@ -141,7 +158,6 @@ const ViewFormsOperador = () => {
 
         if (motivo) {
           try {
-            console.log("ID del informe:", formData[index].id_informe);
             await axios.put(
               `${API_BASE_URL}/informes/${formData[index].id_informe}/denegar`,
               { motivo }
@@ -185,88 +201,84 @@ const ViewFormsOperador = () => {
     }
   };
 
+  const openProductPopup = (products) => {
+    setSelectedProducts(products);
+    setShowPopup(true);
+  };
+
+  const closeProductPopup = () => {
+    setShowPopup(false);
+    setSelectedProducts([]);
+  };
+
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Revisión de formularios</h2>
+    <div className="container">
+      <h2 className="title">Revisión de formularios</h2>
       {formData.map((form, index) => (
-        <div key={index} className={styles.card}>
+        <div key={index} className="card">
+          <h3>Informe {form.id_informe}</h3> 
           <p>
-            <strong>ID del Informe:</strong> {form.id_informe}
+            <strong>Mecanico:</strong> 
+          </p>
+          <p>
+            <strong>Patente:</strong>{" "}
+            
           </p>
           <p>
             <strong>Descripción:</strong> {form.descripcion}
           </p>
-          <p>
-            <strong>Taller:</strong> {form.taller ? "Sí" : "No"}
-          </p>
-          <p>
-            <strong>Misma Ubicación:</strong>{" "}
-            {form.misma_ubicacion ? "Sí" : "No"}
-          </p>
 
-          <h3>Productos utilizados:</h3>
-          <table className={styles.productosTable}>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Cantidad</th>
-              </tr>
-            </thead>
-            <tbody>
-              {form.productosUtilizados.map((producto, pIndex) => (
-                <tr key={pIndex}>
-                  <td>{producto.nombre}</td>
-                  <td>{producto.marca}</td>
-                  <td>{producto.modelo}</td>
-                  <td>{producto.cantidad_utilizada}</td> {/* Accede a la propiedad cantidad_utilizada */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <button onClick={() => openProductPopup(form.productosUtilizados)}>
+            Ver productos utilizados
+          </button>
 
-          {/* Mostrar estado del informe o botones */}
-          <div className={styles.estadoContainer}>
-            {form.aceptado === null ? (
-              // Mostrar botones si aceptado es null
-              <div className={styles.buttonContainer}>
-                <button
-                  onClick={() => handleConfirm(index)}
-                  disabled={formStates[index].aprobado !== null}
-                >
-                  Confirmar
-                </button>
-                <button
-                  onClick={() => handleDeny(index)}
-                  disabled={formStates[index].aprobado !== null}
-                >
-                  Denegar
-                </button>
-              </div>
-            ) : (
-              // Mostrar estado si aceptado no es null
-              <>
-                {/* Agrupa el estado y el motivo en un fragmento */}
-                {form.aceptado ? (
-                  <span className={styles.estadoAprobado}>Aceptado</span>
-                ) : (
-                  <>
-                    {/* Agrupa el estado "Rechazado" y el motivo */}
-                    <span className={styles.estadoRechazado}>Rechazado</span>
-                    {form.motivo_rechazo && (
-                      // Mostrar motivo si existe
-                      <p className={styles.motivoRechazo}>
-                        <strong>Motivo:</strong> {form.motivo_rechazo}
-                      </p>
-                    )}
-                  </>
-                )}
-              </>
-            )}
+          <div className="buttonContainer">
+            <button
+              onClick={() => handleConfirm(index)}
+              disabled={formStates[index].aprobado !== null}
+            >
+              Confirmar
+            </button>
+            <button
+              onClick={() => handleDeny(index)}
+              disabled={formStates[index].aprobado !== null}
+            >
+              Denegar
+            </button>
           </div>
         </div>
       ))}
+
+      {showPopup && (
+        <div className="popupOverlay">
+          <div className="popupContent">
+            <h3>Productos utilizados</h3>
+            <table className="productosTable">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Cantidad</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedProducts.map((producto, index) => (
+                  <tr key={index}>
+                    <td>{producto.nombre}</td>
+                    <td>{producto.marca}</td>
+                    <td>{producto.modelo}</td>
+                    <td>{producto.cantidad_utilizada}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button onClick={closeProductPopup}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

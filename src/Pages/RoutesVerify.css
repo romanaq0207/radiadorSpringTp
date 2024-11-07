@@ -13,6 +13,7 @@
 }
 
 #routes-card-list {
+  display:flex;
   max-width: auto;
   height: auto;
 }
