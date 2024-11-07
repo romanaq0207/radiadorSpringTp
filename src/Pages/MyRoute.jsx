@@ -33,43 +33,57 @@ function MyRoute() {
       .catch((error) => console.error("Error al completar ruta:", error));
   };
 
+  const calcularTiempoEstimado = (distancia) => {
+    const velocidadPromedio = 60; // km/h
+    const tiempoHoras = distancia / velocidadPromedio;
+    const horas = Math.floor(tiempoHoras);
+    const minutos = Math.round((tiempoHoras - horas) * 60);
+    return `${horas}h ${minutos}min`;
+  };
+
   return (
-    <div>
+    <div className="my-route-container">
       <Navbar />
-      <div className="my-route-container">
-        <div className="route-list">
-          <h3>Rutas Aprobadas</h3>
-          {rutasAprobadas.map((ruta) => (
-            <div key={ruta.id_ruta} className="route-item" onClick={() => handleRutaClick(ruta)}>
-              <p><strong>Fecha de Aprobación:</strong> {new Date(ruta.fecha_aprobacion).toLocaleString()}</p>
-              <p><strong>Conductor:</strong> {ruta.conductor}</p>
-            </div>
-          ))}
-        </div>
+      <div className="route-content">
         <div className="map-section">
           {rutaSeleccionada ? (
-            <div>
-              <h3 className="route-details">Detalles de la Ruta</h3>
-              <MapContainer center={[rutaSeleccionada.latitudA, rutaSeleccionada.longitudA]} zoom={13} style={{ height: "400px", width: "100%" }}>
+            <div className="route-details-container">
+              <MapContainer center={[rutaSeleccionada.trazado[0].lat, rutaSeleccionada.trazado[0].lng]} zoom={13} style={{ height: "400px", width: "100%" }}>
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <Marker position={[rutaSeleccionada.latitudA, rutaSeleccionada.longitudA]}>
-                  <Popup>Punto A</Popup>
+                <Polyline positions={rutaSeleccionada.trazado.map(coord => [coord.lat, coord.lng])} color="blue" />
+                <Marker position={[rutaSeleccionada.trazado[0].lat, rutaSeleccionada.trazado[0].lng]}>
+                  <Popup>Punto de inicio</Popup>
                 </Marker>
-                <Marker position={[rutaSeleccionada.latitudB, rutaSeleccionada.longitudB]}>
-                  <Popup>Punto B</Popup>
+                <Marker position={[rutaSeleccionada.trazado[rutaSeleccionada.trazado.length - 1].lat, rutaSeleccionada.trazado[rutaSeleccionada.trazado.length - 1].lng]}>
+                  <Popup>Punto final</Popup>
                 </Marker>
-                <Polyline positions={rutaSeleccionada.trazado} />
               </MapContainer>
-              <button className="complete-button" onClick={() => completarRuta(rutaSeleccionada.id_ruta)}>
-                Completar Ruta
-              </button>
+              <div className="route-details">
+                <h3>Detalles de la Ruta</h3>
+                <p><strong>Conductor:</strong> {rutaSeleccionada.conductor}</p>
+                <p><strong>DNI del Conductor:</strong> {rutaSeleccionada.dni_conductor}</p>
+                <p><strong>Fecha de Aprobación:</strong> {new Date(rutaSeleccionada.fecha_aprobacion).toLocaleString()}</p>
+                <p><strong>Distancia Total:</strong> {rutaSeleccionada.distancia_total_km} km</p>
+                <p><strong>Tiempo Estimado:</strong> {calcularTiempoEstimado(rutaSeleccionada.distancia_total_km)}</p>
+                <button onClick={() => completarRuta(rutaSeleccionada.id_ruta)}>Completar Ruta</button>
+              </div>
             </div>
           ) : (
-            <p>Seleccione una ruta para ver los detalles</p>
+            <p>Selecciona una ruta para ver los detalles.</p>
           )}
+        </div>
+        <div className="route-list">
+          <h3>Rutas Aprobadas</h3>
+          <ul>
+            {rutasAprobadas.map((ruta) => (
+              <li key={ruta.id_ruta} onClick={() => handleRutaClick(ruta)} className="route-item">
+                {new Date(ruta.fecha_aprobacion).toLocaleDateString()} - {ruta.conductor}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
