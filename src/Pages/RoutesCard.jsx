@@ -1,6 +1,6 @@
 // RutesCard.js
 import React from "react";
-import { MapContainer, TileLayer, Polyline, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Polyline, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./RoutesCard.css";
 
@@ -25,25 +25,20 @@ function RutesCard({ ruta, onApprove, onReject }) {
       <MapContainer center={puntoA} zoom={13} style={{ height: "200px", width: "100%" }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         <Polyline positions={polylineCoords} color="blue" />
-
-        {/* Marcador de inicio (punto A) */}
-        <Marker position={puntoA}>
-          <Popup>Punto A (Inicio)</Popup>
-        </Marker>
-
-        {/* Marcador de fin (punto B) */}
-        <Marker position={puntoB}>
-          <Popup>Punto B (Fin)</Popup>
-        </Marker>
+        <Marker position={puntoA}></Marker>
+        <Marker position={puntoB}></Marker>
       </MapContainer>
 
-      <div className="route-card-buttons">
-        <button onClick={() => onApprove(ruta.id_ruta)} className="approve-button">Aprobar</button>
-        <button onClick={() => onReject(ruta.id_ruta)} className="reject-button">Rechazar</button>
-      </div>
+      {/* Mostrar los botones solo si el estado es "pendiente" */}
+      {estado === "pendiente" && (
+        <div className="action-buttons">
+          <button onClick={() => onApprove(ruta.id_ruta)} className="approve-button">Aprobar</button>
+          <button onClick={() => onReject(ruta.id_ruta)} className="reject-button">Rechazar</button>
+        </div>
+      )}
     </div>
   );
 }
