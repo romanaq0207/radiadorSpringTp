@@ -18,7 +18,7 @@ function AutoSearch() { // Nombre del componente corregido
   useEffect(() => {
     // Llamada a la API para obtener los autos
     axios
-      .get(`${API_BASE_URL}/autos`)
+      .get(`${API_BASE_URL}/obtener_autos`)
       .then((response) => {
         setAllAutos(response.data);
         setFilteredAutos(response.data); // Inicialmente, todos los autos están en la lista filtrada
