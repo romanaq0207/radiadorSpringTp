@@ -73,12 +73,12 @@
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 60px;
+    top: 52px;
     right: 0;
     background-color: #2566b1;
     width: 100%;
     text-align: center;
-    max-height: 80vh; /* Aumenta la altura máxima del menú desplegable */
+    max-height: 770px; /* Aumenta la altura máxima del menú desplegable */
     overflow-y: auto; /* Permite desplazamiento vertical */
     z-index: 999;
     padding-top: 10px;
@@ -90,7 +90,7 @@
   }
 
   .navbar-item {
-    margin: 8px 0; /* Reduce el margen para aprovechar el espacio */
+    margin: -7px; /* Reduce el margen para aprovechar el espacio */
   }
 
   .navbar-link {

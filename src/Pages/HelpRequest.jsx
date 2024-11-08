@@ -10,7 +10,6 @@ const HelpRequest = () => {
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
   const [patente, setPatente] = useState('');
-  const [error, setError] = useState('');
   const [token, setToken] = useState('');
   const [showToken, setShowToken] = useState(false);
   const [latitud, setLatitud] = useState(null);
@@ -20,7 +19,6 @@ const HelpRequest = () => {
   const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
 
   useEffect(() => {
-    // Al cargar el componente, recuperar el token "pendiente" del almacenamiento local
     const storedToken = localStorage.getItem("pendingToken");
     if (storedToken) {
       setToken(storedToken);
@@ -35,10 +33,14 @@ const HelpRequest = () => {
 
   const handleHelpRequest = () => {
     if (!patenteRegex.test(patente)) {
-      setError('Formato de patente incorrecto');
+      Swal.fire({
+        icon: 'error',
+        title: 'Formato incorrecto',
+        text: 'El formato de la patente es incorrecto. Asegúrate de que sea ABC123 o AB123CD.',
+        confirmButtonText: 'Entendido',
+      });
       return;
     }
-    setError('');
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -128,10 +130,7 @@ const HelpRequest = () => {
     try {
       const response = await axios.post(`${API_BASE_URL}/solicitudes`, requestData);
       console.log('Datos enviados a la base de datos:', response.data);
-      console.log('Token enviado:', token);
-      console.log('Respuesta del servidor:', response.data);
 
-      // Almacenar el token "pendiente" en el localStorage
       if (token) {
         localStorage.setItem("pendingToken", token);
         setShowToken(true);
@@ -149,13 +148,10 @@ const HelpRequest = () => {
     setPatente('');
     setDescription('');
     setPhoto(null);
-    setError('');
     setToken('');
     setShowToken(false);
     setLatitud(null);
     setLongitud(null);
-
-    // Eliminar el token del localStorage al finalizar
     localStorage.removeItem("pendingToken");
   };
 
@@ -171,7 +167,6 @@ const HelpRequest = () => {
             value={patente}
             onChange={(e) => setPatente(e.target.value)}
           />
-          {error && <p className="error-message">{error}</p>}
           <button className='help-button' onClick={handleHelpRequest}>
             Pedir por servicio de acarreo
           </button>
@@ -206,7 +201,7 @@ const HelpRequest = () => {
       {showToken && (
         <div className='token-display'>
           <h3>Tu token generado:</h3>
-          <p>{token}</p>
+          <p className='token-value'>{token}</p>
           <button className='finish-button' onClick={resetHelpRequest}>
             Finalizar
           </button>
