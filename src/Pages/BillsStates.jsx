@@ -44,6 +44,17 @@ function BillsStates() {
     <div id="body-gastos">
       <Navbar />
       <div className="bills-states-container">
+      <div id="selectors">
+        <h2>Ordenar por:</h2>
+        <label>Seleccionar:</label>
+        <select id="sortBy" value={sortBy} onChange={handleSortChange}>
+          <option value="">--</option>
+          <option value="date">Fecha</option>
+          <option value="amount">Monto</option>
+        </select>
+
+
+      </div>
         <h1 id="listaGastos">Lista de Gastos</h1>
         <div className="bills-list"> {/* Cambiado ul a div con clase bills-list */}
           {sortedExpenses.map((gasto, index) => (
@@ -58,23 +69,7 @@ function BillsStates() {
         </div>
       </div>
 
-      <div id="selectors">
-        <h2>Ordenar por:</h2>
-        <label>Seleccionar:</label>
-        <select id="sortBy" value={sortBy} onChange={handleSortChange}>
-          <option value="">--</option>
-          <option value="date">Fecha</option>
-          <option value="amount">Monto</option>
-        </select>
 
-        <h2>Ver:</h2>
-        <label>Seleccionar:</label>
-        <select id="sortBy">
-          <option>--</option>
-          <option>Fecha</option>
-          <option>Monto</option>
-        </select>
-      </div>
     </div>
   );
 }

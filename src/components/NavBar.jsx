@@ -2,85 +2,75 @@ import "./Navbar.css";
 import { useState, useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
+import { GiTowTruck } from "react-icons/gi";
+import {
+  FaHome,
+  FaUser,
+  FaCar,
+  FaUserCog,
+  FaChartLine,
+  FaTools,
+  FaUsers,
+  FaTruck,
+  FaBox,
+  FaShoppingCart,
+  FaRoute,
+  FaFileInvoiceDollar,
+  FaHandHoldingUsd,
+  FaClipboardCheck,
+  FaFileAlt,
+} from "react-icons/fa";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { role } = useContext(AuthContext);
   const rol = localStorage.getItem("userData");
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
 
   const navLinks = useMemo(() => {
     const commonLinks = [
-      { to: "/", title: "Inicio", label: "1" },
-      { to: "/mi-perfil", title: "Perfil", label: "" },
+      { to: "/", title: "Inicio", icon: <FaHome /> },
+      { to: "/mi-perfil", title: "Perfil", icon: <FaUser /> },
     ];
 
     const roleBasedLinks = {
       administrador: [
-        { to: "/gestion-autos", title: "Búsqueda de Autos", label: "2" },
-        {
-          to: "/gestion-proveedores",
-          title: "Proveedores",
-          label: "3",
-        },
-        { to: "/gestion-mecanicos", title: "Mecánicos", label: "4" },
-        {
-          to: "/gestion-conductor",
-          title: "Conductores",
-          label: "5",
-        },
-        { to: "/reportes", title: "Reportes", label: "6" },
-        { to: "/admin-gastos", title: "Gastos", label: "7" },
-        {
-          to: "/admin-usuarios",
-          title: "Usuarios",
-          label: "8",
-        },
-        { to: "/admin-flotas", title: "Flotas", label: "9" },
-        { to: "/productos", title: "Productos", label: "10" },
-        { to: "/orden-de-compra", title: "Órdenes de Compra", label: "11" },
+        { to: "/gestion-autos", title: "Búsqueda de Autos", icon: <FaCar /> },
+        { to: "/gestion-proveedores", title: "Proveedores", icon: <FaUserCog /> },
+        { to: "/gestion-mecanicos", title: "Mecánicos", icon: <FaTools /> },
+        { to: "/gestion-conductor", title: "Conductores", icon: <FaUsers /> },
+        { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },
+        { to: "/admin-gastos", title: "Gastos", icon: <FaShoppingCart /> },
+        { to: "/admin-usuarios", title: "Usuarios", icon: <FaUserCog /> },
+        { to: "/admin-flotas", title: "Flotas", icon: <FaTruck /> },
+        { to: "/productos", title: "Productos", icon: <FaBox /> },
+        { to: "/orden-de-compra", title: "Órdenes de Compra", icon: <FaShoppingCart /> },
       ],
       operador: [
-        { to: "/ver-mi-ruta", title: "Rutas", label: "1.1" },
-        { to: "/mis-gastos", title: "Mis Gastos", label: "1.2" },
-        { to: "/pedir-acarreo", title: "Pedir Acarreo", label: "1.3" },
-        {
-          to: "/verificar-formularios",
-          title: "Formularios",
-          label: "1.4",
-        },
+        { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
+        { to: "/mis-gastos", title: "Mis Gastos", icon: <FaFileInvoiceDollar /> },
+        { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
+        { to: "/verificar-formularios", title: "Formularios", icon: <FaClipboardCheck /> },
       ],
       gerente: [
-        {
-          to: "/verificar-rutas",
-          title: "Verificación de Rutas",
-          label: "1.5",
-        },
-        { to: "/reportes-gerencia", title: "Reportes", label: "1.6" },
-        { to: "/ver-gastos", title: "Visualizador de Gastos", label: "1.7" },
+        { to: "/verificar-rutas", title: "Verificación de Rutas", icon: <FaRoute /> },
+        { to: "/reportes-gerencia", title: "Reportes", icon: <FaChartLine /> },
+        { to: "/ver-gastos", title: "Visualizador de Gastos", icon: <FaFileInvoiceDollar /> },
       ],
       supervisor: [
-        { to: "/crear-ruta", title: "Crear Ruta", label: "1.8" },
-        { to: "/formularios-supervisor", title: "Formularios", label: "1.9" },
+        { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
+        { to: "/formularios-supervisor", title: "Formularios", icon: <FaClipboardCheck /> },
       ],
       mecanico: [
-        {
-          to: "/busqueda-auto-mecanico",
-          title: "Vehiculos de Operadores",
-          label: "1.10",
-        },
-        { to: "/pedidos-ayuda", title: "Pedidos de Acarreo", label: "1.11" },
+        { to: "/busqueda-auto-mecanico", title: "Vehículos de Operadores", icon: <FaCar /> },
+        { to: "/pedidos-ayuda", title: "Pedidos de Acarreo", icon: <GiTowTruck /> },
       ],
       cliente: [
-        { to: "/visor-gastos", title: "Visor de Gastos", label: "1.12" },
-        { to: "/visor-flota", title: "Visor de Flotas", label: "1.13" },
-        { to: "/reportes", title: "Reportes", label: "1.14" },
+        { to: "/visor-gastos", title: "Visor de Gastos", icon: <FaFileInvoiceDollar /> },
+        { to: "/visor-flota", title: "Visor de Flotas", icon: <FaTruck /> },
+        { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },
       ],
     };
 
@@ -94,17 +84,16 @@ function Navbar() {
         <span></span>
         <span></span>
       </div>
-
       <ul className={`navbar-list ${isOpen ? "navbar-list-open" : ""}`}>
         {navLinks.map((link, index) => (
           <li key={index} className="navbar-item">
             <Link
               to={link.to}
               className="navbar-link"
-              title={link.title}
+              title={link.title} // Tooltip para indicar el nombre del enlace
               onClick={closeMenu}
             >
-              {link.title}
+              {link.icon}
             </Link>
           </li>
         ))}
