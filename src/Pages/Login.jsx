@@ -79,13 +79,12 @@ function Login() {
 
 export default Login;
 */
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../Services/authServices";
 import { AuthContext } from "../Context/AuthContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { firestore } from "../firebase/credenciales"; // Importa Firestore
+
+/* import { firestore } from "../firebase/credenciales";  */ // Importa Firestore
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
@@ -103,17 +102,11 @@ function Login() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const userCredential = await login(data.email, data.password);
+      await login(data.email, data.password);
       handleLogin();
-      //const user = userCredential.user; // Obtén el usuario autenticado
-      //const userDoc = await firestore.collection('users').doc(user.uid).get(); // Obtener documento de Firestore
-      //const userData = userDoc.data(); // Datos del usuario
-
-      //  console.log('Datos del usuario desde Firestore:', userData); // Muestra los datos en la consola
-
       setAlertMessage("Bienvenido");
       setLoading(false);
-      navigate('/'); 
+      navigate("/");
     } catch (error) {
       setAlertMessage("Error al iniciar sesión: " + error.message);
       setLoading(false);
@@ -164,11 +157,7 @@ function Login() {
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? (
-            "Cargando..."
-          ) : (
-            <FontAwesomeIcon icon={faRightFromBracket} />
-          )}
+          {loading ? "Cargando..." : <h4>Iniciar Sesion</h4>}
         </button>
         <p onClick={handleRestorePass} className="olvide-contraseña">
           Olvide mi contraseña
