@@ -56,9 +56,7 @@ import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
         <MainApp />
-      </Router>
     </AuthProvider>
   );
 };
@@ -443,5 +441,6 @@ const ProtectedRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
   return user ? children : <Login />;
 };
+
 
 export default App;

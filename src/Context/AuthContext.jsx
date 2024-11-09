@@ -1,67 +1,153 @@
+/*// AuthContext.jsx
 import React, { useState, useEffect } from "react";
-import firebase from "../firebase/credenciales"; // Asegúrate de que la ruta sea correcta
+import { login as loginService } from "../Services/authServices";
 
 export const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [login, setLogin] = useState(false);
-  const [role, setRole] = useState(null); // Estado para almacenar el rol
-  const [loading, setLoading] = useState(true); // Estado de carga para esperar la autenticación
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listener de Firebase para verificar el estado de autenticación
-    const unsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
-      if (user) {
-        setLogin(true);
-        localStorage.setItem("user", JSON.stringify(user)); // Guarda el usuario en el localStorage
-        console.log(user);
+    // Verificar si hay una sesión activa al cargar la app
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedRole = localStorage.getItem("role");
 
-        const userDoc = await firebase
-          .firestore()
-          .collection("users")
-          .doc(user.uid)
-          .get();
-        if (userDoc.exists) {
-          setRole(userDoc.data().rol); // Establece el rol en el estado
-          localStorage.setItem("userData", userDoc.data().rol); // Guarda el rol en el localStorage
-        }
-      } else {
-        setLogin(false);
-
-        setRole(null);
-      }
-      setLoading(false); // Deja de mostrar el estado de carga
-    });
-
-    // Listener para desloguear al cerrar la ventana
-    const handleBeforeUnload = async () => {
-      await firebase.auth().signOut(); // Llama a Firebase para cerrar sesión
-      setLogin(false);
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      unsubscribe(); // Limpia el listener de Firebase
-      window.removeEventListener("beforeunload", handleBeforeUnload); // Limpia el listener de cierre de ventana
-    };
+    if (storedUser && storedRole) {
+      setLogin(true);
+      setRole(storedRole);
+    }
+    setLoading(false);
   }, []);
 
-  const handleLogin = async () => {
-    setLogin(true);
+  const handleLogin = async (email, password) => {
+    setLoading(true);
+    const result = await loginService(email, password);
+    if (result.success) {
+      setLogin(true);
+      setRole(result.role);
+    } else {
+      console.error(result.message);
+      setLogin(false);
+      setRole(null);
+    }
+    setLoading(false);
+  };
+
+  /*const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("role");
+    setLogin(false);
+    setRole(null);
+    // Opción: hacer una llamada al servidor para cerrar sesión, si se necesita
+  };
+  const handleLogout = async () => {
+    const sessionId = localStorage.getItem("session_id"); // Obtener el session_id del localStorage
+    
+    try {
+      // Si el sessionId existe, hacer la llamada a la API de logout
+      if (sessionId) {
+        await axios.post("http://localhost:5000/api/logout", { sessionId });
+      }
+  
+      // Limpiar el localStorage y las variables de estado
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+      localStorage.removeItem("session_id"); // Eliminar también el session_id
+  
+      // Establecer el estado de login como falso
+      setLogin(false);
+      setRole(null);
+  
+      // Redirigir a la página de login o home después del logout
+      navigate("/");  // O usa navigate("/") si quieres ir a home
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      // Maneja el error si algo falla
+    }
+  };
+  
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <AuthContext.Provider value={{ login, role, handleLogin, handleLogout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthProvider;
+*/
+import React, { useState, useEffect } from "react";
+import { login as loginService } from "../Services/authServices";
+import { useNavigate } from "react-router-dom";  // Importa useNavigate
+
+export const AuthContext = React.createContext();
+
+const AuthProvider = ({ children }) => {
+  const [login, setLogin] = useState(false);
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Usa el hook useNavigate aquí
+
+  useEffect(() => {
+    // Verificar si hay una sesión activa al cargar la app
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedRole = localStorage.getItem("role");
+
+    if (storedUser && storedRole) {
+      setLogin(true);
+      setRole(storedRole);
+    }
+    setLoading(false);
+  }, []);
+
+  const handleLogin = async (email, password) => {
+    setLoading(true);
+    const result = await loginService(email, password);
+    if (result.success) {
+      setLogin(true);
+      setRole(result.role);
+    } else {
+      console.error(result.message);
+      setLogin(false);
+      setRole(null);
+    }
+    setLoading(false);
   };
 
   const handleLogout = async () => {
-    await firebase.auth().signOut();
-    setLogin(false);
-    localStorage.removeItem("user"); // Elimina el usuario del localStorage
-    localStorage.removeItem("role"); // Elimina el rol del localStorage
-    setRole(null); // Resetea el rol al cerrar sesión
-    window.location.reload(); // Recarga la página
+    const sessionId = localStorage.getItem("session_id"); // Obtener el session_id del localStorage
+    
+    try {
+      // Si el sessionId existe, hacer la llamada a la API de logout
+        console.log(sessionId);
+        await axios.post("http://localhost:5000/api/logout", { sessionId });
+      
+  
+      // Limpiar el localStorage y las variables de estado
+      localStorage.removeItem("user");
+      localStorage.removeItem("role");
+      localStorage.removeItem("session_id"); // Eliminar también el session_id
+  
+      // Establecer el estado de login como falso
+      setLogin(false);
+      setRole(null);
+  
+      // Redirigir a la página de login o home después del logout
+      navigate("/");  // Navegar a la página de login o home
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+      // Maneja el error si algo falla
+    }
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Muestra un mensaje o loader mientras se verifica la autenticación
+    return <div>Loading...</div>;
   }
 
   return (
