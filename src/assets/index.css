@@ -54,6 +54,7 @@
   right: 30px;
   cursor: pointer;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+  font-size: 20px;
 }
 a {
   font-weight: 500;

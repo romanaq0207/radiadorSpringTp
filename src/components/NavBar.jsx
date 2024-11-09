@@ -52,7 +52,7 @@ function Navbar() {
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
         { to: "/mis-gastos", title: "Mis Gastos", icon: <FaFileInvoiceDollar /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
-        { to: "/verificar-formularios", title: "Formularios", icon: <FaClipboardCheck /> },
+        { to: "/verificar-formularios", title: "Fichas de control", icon: <FaClipboardCheck /> },
       ],
       gerente: [
         { to: "/verificar-rutas", title: "Verificación de Rutas", icon: <FaRoute /> },
@@ -61,7 +61,7 @@ function Navbar() {
       ],
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
-        { to: "/formularios-supervisor", title: "Formularios", icon: <FaClipboardCheck /> },
+        { to: "/formularios-supervisor", title: "Fichas de control", icon: <FaClipboardCheck /> },
       ],
       mecanico: [
         { to: "/busqueda-auto-mecanico", title: "Vehículos de Operadores", icon: <FaCar /> },

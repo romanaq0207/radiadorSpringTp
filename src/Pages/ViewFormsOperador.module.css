@@ -1,15 +1,17 @@
 .container {
     display: flex;
-    flex-wrap: wrap; /* Permite que las tarjetas se ajusten a múltiples filas */
+    flex-wrap: wrap;
     justify-content: center;
     padding: 20px;
     gap: 20px;
     margin-top: 65px;
+    max-width: 1200px;
+    margin: auto;
 }
 
 .title {
     width: 100%;
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: bold;
     color: blanchedalmond;
     margin-bottom: 20px;
@@ -17,13 +19,18 @@
 }
 
 .card {
-    flex: 1 1 300px; /* Toma 300px o más si hay espacio */
-    max-width: 300px;
-    padding: 15px;
-    border-radius: 8px;
+    flex: 1 1 300px;
+    max-width: 350px;
+    padding: 20px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fc74fcd7;
     color: wheat;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
 }
 
 .card p {
@@ -35,11 +42,56 @@
     color: #000000;
 }
 
-/* Estilos para los botones */
+.productosTable {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    color: #333;
+    font-size: 10px;
+}
+
+.productosTable th, .productosTable td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.productosTable th {
+    background-color: #484848;
+    color: white;
+}
+
+.productosTable td {
+    background-color: #f8f8f8;
+}
+
+.estadoContainer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.estadoAprobado {
+    color: #084e18;
+    font-weight: bold;
+    
+}
+
+.estadoRechazado {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.motivoRechazo {
+    font-size: 0.9rem;
+    color: #dc3545;
+    margin-top: 5px;
+}
+
 .buttonContainer {
     display: flex;
-    justify-content: space-between; /* Espaciado entre los botones */
-    margin-top: 10px;
+    justify-content: space-between;
+    margin-top: 15px;
 }
 
 .buttonContainer button {
@@ -49,30 +101,49 @@
     cursor: pointer;
     font-size: 1rem;
     color: white;
-    transition: background-color 0.3s; /* Transición suave para el cambio de color */
+    font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 .buttonContainer button:disabled {
-    background-color: #cccccc; /* Color para el botón deshabilitado */
+    background-color: #cccccc;
     cursor: not-allowed;
 }
 
-.buttonContainer button:not(:disabled) {
-    background-color: #28a745; /* Color para botón "Confirmar" */
+.buttonContainer button:not(:disabled):first-child {
+    background-color: #28a745;
 }
 
 .buttonContainer button:not(:disabled):last-child {
-    background-color: #dc3545; /* Color para botón "Denegar" */
+    background-color: #dc3545;
 }
 
-/* Estilos responsivos */
+.buttonContainer button:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
         align-items: center;
+        padding: 10px;
     }
     
     .card {
-        max-width: 100%; /* Las tarjetas ocupan todo el ancho en pantallas pequeñas */
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buttonContainer button {
+        width: 100%;
     }
 }

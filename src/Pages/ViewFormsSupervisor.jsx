@@ -230,7 +230,7 @@ const generarOrdenDeCompra = async (producto) => {
 
   return (
     <div className="container">
-      <h2 className="title">Revisión de formularios</h2>
+      <h2 className="title">Fichas de Control</h2>
       {formData.map((form, index) => (
         <div key={index} className="card">
           <h3>Informe {form.id_informe}</h3> 

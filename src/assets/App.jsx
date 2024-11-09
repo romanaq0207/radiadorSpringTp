@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { MdLogout } from "react-icons/md";
 import {
   BrowserRouter as Router,
   Route,
@@ -423,11 +424,12 @@ const MainApp = () => {
         </Routes>
 
         <button onClick={handleLogout} className="btn-flotante">
-          LOGOUT
+        <MdLogout />
         </button>
         <div className="info-user">
           <p>
             {user ? `Usuario: ${user.email} ` : "No hay usuario autenticado"}
+            
           </p>
           <p>
             {user ? `Rol:  ${localStorage.getItem("userData")}` : "No hay rol"}
