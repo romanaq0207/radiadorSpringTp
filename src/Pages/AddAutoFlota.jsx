@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { IoIosAddCircle } from "react-icons/io";
+import { FcCancel } from "react-icons/fc";
 import { API_BASE_URL } from '../assets/config';
 import './AddAutoFlota.css'; // Crea un archivo CSS para estilos
 
@@ -49,8 +51,9 @@ function AddAutoFlota() {
         onChange={(e) => setPatente(e.target.value)}
         className="auto-input"
       />
-      <button className="add-auto-button" onClick={handleAddAuto}>Agregar Auto a la Flota</button>
-      <button className="cancel-button" onClick={handleCancel}>Cancelar</button>
+      <button className="add-auto-flota-button" onClick={handleAddAuto}>
+      <IoIosAddCircle /></button>
+      <button className="cancel-button" onClick={handleCancel}><FcCancel /></button>
     </div>
   );
 }

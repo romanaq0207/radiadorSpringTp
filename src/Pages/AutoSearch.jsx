@@ -4,6 +4,7 @@ import "./AutoSearch.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faQrcode } from "@fortawesome/free-solid-svg-icons";
+import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/NavBar";
 import { API_BASE_URL } from "../assets/config";
@@ -221,7 +222,7 @@ function AutoSearch() {
                   </option>
                 )))}
         </select>
-        <button onClick={handleResetRange}>Aplicar</button>
+        <button onClick={handleResetRange}><FaSearch /></button>
         <span>{selectedKilometraje} km</span>
         <input
           type="range"

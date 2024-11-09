@@ -63,17 +63,6 @@ function FlotaViewer() {
                 className="flota-search-input"
             />
 
-            <h3>Agregar Nueva Flota</h3>
-            <input
-                type="text"
-                placeholder="Nombre de la nueva flota"
-                value={newFlotaName}
-                onChange={(e) => setNewFlotaName(e.target.value)}
-                className="flota-name-input"
-            />
-            <button onClick={handleAddFlota} className="add-flota-button">
-                Agregar Flota
-            </button>
 
             <div className="flota-list">
                 {filteredFlotas.length > 0 ? (

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // Asegúrate de importar SweetAlert2
 import { useMediaQuery } from "react-responsive";
 import usuariosData from "../data/usuarios.json";
+import { FaTrash } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import "./UsersManagement.css";
 
 const UsersManagement = () => {
@@ -316,13 +318,13 @@ const UsersManagement = () => {
                 onClick={() => handleEdit(usuario.id)}
                 className="add-button"
               >
-                Editar
+                <MdEdit />
               </button>
               <button
                 onClick={() => handleDelete(usuario.id)}
                 className="edit-button"
               >
-                Eliminar
+                <FaTrash />
               </button>
             </div>
           ))
