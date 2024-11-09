@@ -6,7 +6,7 @@
 }
 
 #routes-verify-container {
-  margin-top: 65px;
+  margin-top: 20px;
   width: 100%;
   height: auto;
   padding: 20px;
@@ -17,6 +17,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.routes-verify-filters {
+  margin-bottom: 20px;
+  align-items: center;
+  width: 70%;
+}
+.route-verify-input {
+  margin-bottom: 15px;
+}
+.route-verify-date_label {
+  color: blanchedalmond;
+  font-size: larger;
+  font-weight: 700;
+}
+.route-verify-date {
+  height: 40px;
+  width: 120px;
 }
 
 h2 {
@@ -33,6 +51,7 @@ h2 {
   gap: 20px;
   width: 100%;
   max-width: 1200px;
+  position: sticky;
 }
 
 /* Estilos para pantallas pequeñas (móviles) */
