@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { MdLogout } from "react-icons/md";
 import {
   BrowserRouter as Router,
@@ -66,8 +66,16 @@ const App = () => {
 
 const MainApp = () => {
   const { handleLogout } = useContext(AuthContext);
+  const { disabled, setDisabled } = useState(false);
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
 
+  // const isDisabled = () => {
+  //   if (!user) {
+  //     setDisabled(true);
+  //   } else {
+  //     setDisabled(false);
+  //   }
+  // };
   //
   return (
     <>
@@ -423,17 +431,16 @@ const MainApp = () => {
           {/* Ruta pública */}
         </Routes>
 
-        <button onClick={handleLogout} className="btn-flotante">
-        <MdLogout />
+        <button
+          onClick={handleLogout}
+          className="btn-flotante"
+          disabled={!user}
+        >
+          <MdLogout />
         </button>
-        <div className="info-user">
-          <p>
-            {user ? `Usuario: ${user.email} ` : "No hay usuario autenticado"}
-            
-          </p>
-          <p>
-            {user ? `Rol:  ${localStorage.getItem("userData")}` : "No hay rol"}
-          </p>
+        <div className={!user ? "info-user-disabled" : "info-user"}>
+          <p>{user ? `Usuario: ${user.email} ` : ""}</p>
+          <p>{user ? `Rol:  ${localStorage.getItem("userData")}` : ""}</p>
         </div>
       </main>
     </>

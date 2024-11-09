@@ -21,10 +21,15 @@
   padding: 15px 20px; /* Espaciado interno */
   border-radius: 12px; /* Bordes redondeados */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Sombra para resaltar */
-  font-family: 'Arial', sans-serif; /* Fuente moderna */
+  font-family: "Arial", sans-serif; /* Fuente moderna */
   font-size: 0.6rem;
   max-width: 350px;
   line-height: 1.5;
+}
+.info-user-disabled {
+  position: fixed;
+  background-color: rgba(34, 34, 34, 0); /* Fondo semitransparente */
+  color: #ffffff00; /* Color del texto */
 }
 
 .info-user p {
@@ -56,6 +61,16 @@
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
   font-size: 20px;
 }
+.btn-flotante:disabled {
+  background-color: #007bff00;
+  box-shadow: none;
+  cursor: default;
+  color: #007bff00;
+}
+.btn-flotante:disabled:hover {
+  background-color: #ed61ff00;
+}
+
 a {
   font-weight: 500;
   color: #ffffff;
