@@ -118,13 +118,15 @@ function ModalAddProduct({ onClose }) {
     // Verificación si ya existe un producto con la misma marca y modelo
     const exists = products.some(
       (product) =>
-        product.marca === formData.marca && product.modelo === formData.modelo
+        product.nombre === formData.nombre &&
+        product.marca === formData.marca &&
+        product.modelo === formData.modelo
     );
 
     if (exists) {
       Swal.fire({
         title: "Producto duplicado",
-        text: "Ya existe un producto con la misma marca y modelo.",
+        text: "Ya existe ese producto con esa marca y modelo.",
         icon: "warning",
         confirmButtonText: "Aceptar",
       });
