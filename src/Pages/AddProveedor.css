@@ -80,3 +80,27 @@
 .btn-cancelar:hover {
   background-color: darkgrey;
 }
+
+.input-dir-porveedor {
+  position: relative;
+  width: 100%;
+}
+.suggestions-proveedor {
+  cursor: pointer;
+  list-style-type: none;
+  margin-bottom: 50px;
+  margin-left: 80px;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  top: calc(100% - 93px);
+  z-index: 1000;
+  width: 35%;
+}
+.li-proveedor-dir:hover {
+  background-color: rgba(128, 128, 128, 0.842);
+}
