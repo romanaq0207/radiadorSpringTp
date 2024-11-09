@@ -24,7 +24,11 @@ function AutoSearch() {
   };
   const [selectedMarca, setSelectedMarca] = useState("");
   const [selectedModelo, setSelectedModelo] = useState("");
-  const [selectedKilometraje, setSelectedKilometraje] = useState(0);
+  const maxKilometraje = 1000000;
+  const [selectedKilometraje, setSelectedKilometraje] =
+    useState(maxKilometraje);
+  const currentYear = new Date().getFullYear();
+  const [selectedAnio, setSelectedAnio] = useState(currentYear);
 
   useEffect(() => {
     axios
@@ -64,8 +68,15 @@ function AutoSearch() {
     filterAutosKilometraje(kilometraje);
     applyAllFilters();
   };
-  const handleResetKilometraje = () => {
-    setSelectedKilometraje(0);
+  const handleResetRange = () => {
+    // setSelectedKilometraje(10000);
+    // setSelectedAnio(currentYear);
+    applyAllFilters();
+  };
+  const handleAnioChange = (e) => {
+    const anio = e.target.value;
+    setSelectedAnio(anio);
+    filterAutosAnio(anio);
     applyAllFilters();
   };
 
@@ -112,6 +123,14 @@ function AutoSearch() {
     setFilteredAutos(filtered);
     applyAllFilters();
   };
+  const filterAutosAnio = (anio) => {
+    if (anio === currentYear) {
+      setFilteredAutos(allAutos);
+    }
+    const filtered = allAutos.filter((auto) => auto.anio <= anio);
+    setFilteredAutos(filtered);
+    applyAllFilters();
+  };
 
   const applyAllFilters = () => {
     let filtered = allAutos;
@@ -127,6 +146,9 @@ function AutoSearch() {
       filtered = filtered.filter(
         (auto) => auto.kilometraje <= selectedKilometraje
       );
+    }
+    if (selectedAnio) {
+      filtered = filtered.filter((auto) => auto.anio <= selectedAnio);
     }
     setFilteredAutos(filtered);
   };
@@ -199,14 +221,24 @@ function AutoSearch() {
                   </option>
                 )))}
         </select>
-        <button onClick={handleResetKilometraje}>Aplicar</button>
+        <button onClick={handleResetRange}>Aplicar</button>
         <span>{selectedKilometraje} km</span>
         <input
           type="range"
           min="0"
-          max="10000"
+          max={maxKilometraje}
           value={selectedKilometraje}
           onChange={handleKilometrajeChange}
+          className="auto-search__input_range"
+        />
+
+        <span>Año {selectedAnio}</span>
+        <input
+          type="range"
+          min={currentYear - 30}
+          max={currentYear}
+          value={selectedAnio}
+          onChange={handleAnioChange}
           className="auto-search__input_range"
         />
 
