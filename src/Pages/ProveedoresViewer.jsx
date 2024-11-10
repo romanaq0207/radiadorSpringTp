@@ -1,105 +1,114 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash,faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./ProveedoresViewer.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
-import Swal from 'sweetalert2'; 
+import Swal from "sweetalert2";
 
 const ProveedoresViewer = () => {
   const [proveedores, setProveedores] = useState([]);
+  const [orderProveedores, setOrderProveedores] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/proveedores/activos`); // Endpoint de la API para obtener los proveedores
-        setProveedores(response.data);
+        setOrderProveedores(response.data);
+        const sorted = [...orderProveedores].sort((a, b) =>
+          a.nombre.localeCompare(b.nombre)
+        );
+        setProveedores(sorted);
       } catch (error) {
         console.error("Error al obtener los proveedores de la API:", error);
       }
-    };    
+    };
     fetchProveedores();
   }, []);
 
   const handleDelete = async (id) => {
     try {
       const confirmResult = await Swal.fire({
-        title: '¿Estás seguro?',
+        title: "¿Estás seguro?",
         text: "Eliminar este proveedor es una acción crítica.",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Sí, continuar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (!confirmResult.isConfirmed) return;
-  
+
       const ordersWarning = await Swal.fire({
-        title: 'Advertencia',
+        title: "Advertencia",
         text: "Eliminar este proveedor inactivará las órdenes de compra asociadas a él. ¿Deseas continuar?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonText: 'Sí, continuar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (!ordersWarning.isConfirmed) return;
-  
+
       const motivoResult = await Swal.fire({
-        title: 'Motivo de baja',
-        input: 'radio',
+        title: "Motivo de baja",
+        input: "radio",
         inputOptions: {
-          'Incumplimiento en entregas': 'Incumplimiento en entregas',
-          'Precios no competitivos': 'Precios no competitivos',
-          'Problemas de calidad': 'Problemas de calidad',
-          'Otro': 'Otro motivo'
+          "Incumplimiento en entregas": "Incumplimiento en entregas",
+          "Precios no competitivos": "Precios no competitivos",
+          "Problemas de calidad": "Problemas de calidad",
+          Otro: "Otro motivo",
         },
         inputValidator: (value) => {
           if (!value) {
-            return 'Debes seleccionar un motivo para continuar';
+            return "Debes seleccionar un motivo para continuar";
           }
         },
         showCancelButton: true,
-        cancelButtonText: 'Cancelar',
+        cancelButtonText: "Cancelar",
       });
-  
+
       if (!motivoResult.isConfirmed) return;
-  
+
       let motivoSeleccionado = motivoResult.value;
-  
-      if (motivoSeleccionado === 'Otro') {
+
+      if (motivoSeleccionado === "Otro") {
         const customReason = await Swal.fire({
-          title: 'Especifica el motivo',
-          input: 'text',
-          inputPlaceholder: 'Ingresa el motivo de baja',
+          title: "Especifica el motivo",
+          input: "text",
+          inputPlaceholder: "Ingresa el motivo de baja",
           showCancelButton: true,
-          cancelButtonText: 'Cancelar',
+          cancelButtonText: "Cancelar",
           inputValidator: (value) => {
             if (!value) {
-              return 'Debes ingresar un motivo para continuar';
+              return "Debes ingresar un motivo para continuar";
             }
-          }
+          },
         });
-  
+
         if (!customReason.isConfirmed) return;
         motivoSeleccionado = customReason.value;
       }
-  
+
       // Cambiamos el nombre del campo a 'razon_baja' en el cuerpo de la solicitud
-      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`, { razon_baja: motivoSeleccionado });
+      await axios.put(`${API_BASE_URL}/proveedores/${id}/inactivo`, {
+        razon_baja: motivoSeleccionado,
+      });
       setProveedores((prevProveedores) =>
         prevProveedores.filter((proveedor) => proveedor.id_proveedor !== id)
       );
-  
-      Swal.fire('Proveedor eliminado', 'El proveedor ha sido dado de baja exitosamente.', 'success');
-      
+
+      Swal.fire(
+        "Proveedor eliminado",
+        "El proveedor ha sido dado de baja exitosamente.",
+        "success"
+      );
     } catch (error) {
       console.error("Error al cambiar el estado del proveedor:", error);
     }
   };
-
 
   // Función para redirigir a la página de edición de proveedores
   const handleEdit = (id) => {
@@ -139,13 +148,19 @@ const ProveedoresViewer = () => {
                   className="edit-button"
                   onClick={() => handleEdit(proveedor.id_proveedor)}
                 >
-                  <FontAwesomeIcon icon={faPenToSquare} style={{color: "#ffffff",}} />
+                  <FontAwesomeIcon
+                    icon={faPenToSquare}
+                    style={{ color: "#ffffff" }}
+                  />
                 </button>
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(proveedor.id_proveedor)}
                 >
-                  <FontAwesomeIcon icon={faTrash} style={{color: "#ffffff",}} />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    style={{ color: "#ffffff" }}
+                  />
                 </button>
               </div>
             </div>

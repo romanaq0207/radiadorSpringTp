@@ -134,6 +134,11 @@
   font-size: 1rem;
 }
 
+.driver-search__input {
+  display: block;
+  padding: 20px;
+}
+
 /* Estilos responsive para pantallas pequeñas */
 @media (max-width: 768px) {
   .drivers-management-container {
