@@ -108,6 +108,7 @@ const OrdenesDeCompra = () => {
             ...producto,
             recibido: false,
             cantidadRecibida: producto.cantidad,
+            precioActualizado: producto.precio,
         })));
         setShowReceptionPopup(true);
     };
@@ -157,16 +158,24 @@ const OrdenesDeCompra = () => {
     };
 
     const handleReceptionChange = (index, field, value) => {
-        const updatedReception = [...productReception];
-        updatedReception[index][field] = value;
-        setProductReception(updatedReception);
-    };
+        const updatedProductReception = [...productReception];
+        
+        if (field === 'precioActualizado') {
+          updatedProductReception[index].precioActualizado = value;
+        } else {
+          updatedProductReception[index][field] = value;
+        }
+      
+        setProductReception(updatedProductReception);
+      };
+      
 
     const handleConfirmReception = async () => {
         try {
             const productosRecibidos = productReception.map(producto => ({
                 id_producto: producto.id_producto,
-                cantidadRecibida: producto.recibido ? producto.cantidad : producto.cantidadRecibida
+                cantidadRecibida: producto.recibido ? producto.cantidad : producto.cantidadRecibida,
+                precio: producto.precioActualizado || producto.precio,
             }));
 
             console.log('Productos recibidos:', productosRecibidos);
@@ -310,46 +319,49 @@ const OrdenesDeCompra = () => {
 
             {/* Popup para confirmar recepción */}
             {showReceptionPopup && selectedOrder && (
-                <div className="popup-overlay-confirm">
-                    <div className="popup-content">
-                        <h2>Confirmar Recepción de Productos</h2>
-                        <h3>Productos de la Orden</h3>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Cantidad Solicitada</th>
-                                    <th>Cantidad Recibida</th>
-                                    <th>Recibido</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {productReception.map((producto, index) => (
-                                    <tr key={index}>
-                                        <td>{producto.nombre}</td>
-                                        <td>{producto.cantidad}</td>
-                                        <td>
-                                            <input 
-                                                type="number" 
-                                                value={producto.cantidadRecibida} 
-                                                onChange={(e) => handleReceptionChange(index, 'cantidadRecibida', e.target.value)} 
-                                                min="0" 
-                                            />
-                                        </td>
-                                        <td>
-                                            <input 
-                                                type="checkbox" 
-                                                checked={producto.recibido} 
-                                                onChange={(e) => handleReceptionChange(index, 'recibido', e.target.checked)} 
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                        <button className="popup-btn confirm" onClick={handleConfirmReception}>Confirmar Recepción</button>
-                        <button className="popup-btn" onClick={closeReceptionPopup}>Cerrar</button>
-                    </div>
+    <div className="popup-overlay-confirm">
+        <div className="popup-content">
+            <h2>Confirmar Recepción de Productos</h2>
+            <h3>Productos de la Orden</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad Solicitada</th>
+                        <th>Cantidad Recibida</th>
+                        <th>Precio Guardado</th>
+                        <th>Actualizar Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {productReception.map((producto, index) => (
+                        <tr key={index}>
+                            <td>{producto.nombre}</td>
+                            <td>{producto.cantidad}</td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    value={producto.cantidadRecibida} 
+                                    onChange={(e) => handleReceptionChange(index, 'cantidadRecibida', e.target.value)} 
+                                    min="0" 
+                                />
+                            </td>
+                            <td>{producto.precio}</td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    value={producto.precioActualizado || producto.precio} 
+                                    onChange={(e) => handleReceptionChange(index, 'precioActualizado', e.target.value)} 
+                                    min="0" 
+                                />
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <button className="popup-btn confirm" onClick={handleConfirmReception}>Confirmar Recepción</button>
+            <button className="popup-btn" onClick={closeReceptionPopup}>Cerrar</button>
+            </div>
                 </div>
             )}
         </div>
