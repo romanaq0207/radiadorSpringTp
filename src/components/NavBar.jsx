@@ -24,7 +24,7 @@ import {
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const { role } = useContext(AuthContext);
-  const rol = localStorage.getItem("userData");
+  const rol = localStorage.getItem("role");
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);

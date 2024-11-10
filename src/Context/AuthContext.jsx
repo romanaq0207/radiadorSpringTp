@@ -84,7 +84,6 @@ export default AuthProvider;
 */
 import React, { useState, useEffect } from "react";
 import { login as loginService } from "../Services/authServices";
-import { useNavigate } from "react-router-dom";  // Importa useNavigate
 
 export const AuthContext = React.createContext();
 
@@ -92,7 +91,6 @@ const AuthProvider = ({ children }) => {
   const [login, setLogin] = useState(false);
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); // Usa el hook useNavigate aquí
 
   useEffect(() => {
     // Verificar si hay una sesión activa al cargar la app
@@ -100,8 +98,9 @@ const AuthProvider = ({ children }) => {
     const storedRole = localStorage.getItem("role");
 
     if (storedUser && storedRole) {
-      setLogin(true);
       setRole(storedRole);
+      setLogin(true);
+      
     }
     setLoading(false);
   }, []);
@@ -110,12 +109,14 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     const result = await loginService(email, password);
     if (result.success) {
-      setLogin(true);
       setRole(result.role);
+      setLogin(true);
+      
     } else {
       console.error(result.message);
-      setLogin(false);
       setRole(null);
+      setLogin(false);
+      
     }
     setLoading(false);
   };
