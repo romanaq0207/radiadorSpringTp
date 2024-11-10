@@ -229,7 +229,7 @@ function AutoDetail() {
       <button type="button" onClick={addProductField}>Agregar Producto</button>
 
       <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
-
+      <h2> </h2>
       <Link to="/busqueda-auto-mecanico" className={styles.backLink}><IoArrowBackCircle /></Link>
     </div>
   );
