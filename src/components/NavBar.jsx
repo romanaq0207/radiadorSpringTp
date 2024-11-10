@@ -42,7 +42,6 @@ function Navbar() {
         { to: "/gestion-mecanicos", title: "Mecánicos", icon: <FaTools /> },
         { to: "/gestion-conductor", title: "Conductores", icon: <FaUsers /> },
         { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },
-        { to: "/admin-gastos", title: "Gastos", icon: <FaShoppingCart /> },
         { to: "/admin-usuarios", title: "Usuarios", icon: <FaUserCog /> },
         { to: "/admin-flotas", title: "Flotas", icon: <FaTruck /> },
         { to: "/productos", title: "Productos", icon: <FaBox /> },
@@ -50,25 +49,23 @@ function Navbar() {
       ],
       operador: [
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
-        { to: "/mis-gastos", title: "Mis Gastos", icon: <FaFileInvoiceDollar /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
-        { to: "/verificar-formularios", title: "Formularios", icon: <FaClipboardCheck /> },
+        { to: "/verificar-formularios", title: "Fichas de control", icon: <FaClipboardCheck /> },
       ],
       gerente: [
         { to: "/verificar-rutas", title: "Verificación de Rutas", icon: <FaRoute /> },
         { to: "/reportes-gerencia", title: "Reportes", icon: <FaChartLine /> },
-        { to: "/ver-gastos", title: "Visualizador de Gastos", icon: <FaFileInvoiceDollar /> },
       ],
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
-        { to: "/formularios-supervisor", title: "Formularios", icon: <FaClipboardCheck /> },
+        { to: "/formularios-supervisor", title: "Fichas de control", icon: <FaClipboardCheck /> },
+        { to: "/ordenes-compras-supervisor", title: "Ordenes de Compra", icon: <FaShoppingCart /> },
       ],
       mecanico: [
         { to: "/busqueda-auto-mecanico", title: "Vehículos de Operadores", icon: <FaCar /> },
         { to: "/pedidos-ayuda", title: "Pedidos de Acarreo", icon: <GiTowTruck /> },
       ],
       cliente: [
-        { to: "/visor-gastos", title: "Visor de Gastos", icon: <FaFileInvoiceDollar /> },
         { to: "/visor-flota", title: "Visor de Flotas", icon: <FaTruck /> },
         { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },
       ],

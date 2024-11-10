@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import './HelpRequest.css';
 import axios from 'axios';
+import { IoIosSend } from "react-icons/io";
 import { API_BASE_URL } from '../assets/config';
 
 const HelpRequest = () => {
@@ -183,7 +184,7 @@ const HelpRequest = () => {
             onChange={(e) => setDescription(e.target.value)}
           />
           <button className='send-button' onClick={handleSendDescription}>
-            Enviar
+          <IoIosSend />
           </button>
         </div>
       )}

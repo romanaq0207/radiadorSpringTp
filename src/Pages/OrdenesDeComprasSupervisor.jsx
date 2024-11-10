@@ -185,7 +185,32 @@ const OrdenesDeCompra = () => {
         }
     };
 
-
+    const renderActions = (estado, order) => {
+        switch (estado) {
+            case 'creada':
+                return (
+                    <>
+                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
+                        <button className="orders-btn accept" onClick={async () => await updateOrderStatus(order.id_orden_de_compra, 'aceptada')}>Aceptar</button>
+                        <button className="orders-btn reject" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'rechazada')}>Rechazar</button>
+                    </>
+                );
+            case 'aceptada':
+                return (
+                    <>
+                        <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
+                        <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}>Completar</button>
+                        <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}>Inactivar</button>
+                    </>
+                );
+            case 'completada':
+            case 'rechazada':
+            case 'inactiva':
+                return <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>;
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className="orders-container">
@@ -246,7 +271,7 @@ const OrdenesDeCompra = () => {
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
                             <td data-label="Total">${order.total}</td>
-                            <td data-label="Detalles">{<button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>}</td>
+                            <td data-label="Acciones">{renderActions(order.estado, order)}</td>
                         </tr>
                     ))}
                 </tbody>

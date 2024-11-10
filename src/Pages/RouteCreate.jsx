@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet-routing-machine";
 import "leaflet/dist/leaflet.css";
+import { IoIosSend } from "react-icons/io";
 import "./RouteCreate.css";
 import Swal from "sweetalert2";
 import { API_BASE_URL } from "../assets/config";
@@ -259,7 +260,7 @@ function RouteCreate() {
         </select>
         <input id="submit-ruta" type="submit" value="Crear Ruta" />
         <button type="button" onClick={submitRoute}>
-          Enviar Ruta
+          <IoIosSend />
         </button>
       </form>
 

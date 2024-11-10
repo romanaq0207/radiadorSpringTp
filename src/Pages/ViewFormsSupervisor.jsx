@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ImCross } from "react-icons/im";
+import { FaEye } from "react-icons/fa";
 import axios from "axios";
+import { GiConfirmed } from "react-icons/gi";
 import { API_BASE_URL } from "../assets/config";
+import { IoIosCloseCircle } from "react-icons/io";
 import "./ViewFormsSupervisor.css";
 
 const ViewFormsOperador = () => {
@@ -230,7 +234,7 @@ const generarOrdenDeCompra = async (producto) => {
 
   return (
     <div className="container">
-      <h2 className="title">Revisión de formularios</h2>
+      <h2 className="title">Fichas de Control</h2>
       {formData.map((form, index) => (
         <div key={index} className="card">
           <h3>Informe {form.id_informe}</h3> 
@@ -246,7 +250,7 @@ const generarOrdenDeCompra = async (producto) => {
           </p>
 
           <button onClick={() => openProductPopup(form.productosUtilizados)}>
-            Ver productos utilizados
+          <FaEye color="black"/>
           </button>
 
           <div className="buttonContainer">
@@ -254,13 +258,13 @@ const generarOrdenDeCompra = async (producto) => {
               onClick={() => handleConfirm(index)}
               disabled={formStates[index].aprobado !== null}
             >
-              Confirmar
+              <GiConfirmed />
             </button>
             <button
               onClick={() => handleDeny(index)}
               disabled={formStates[index].aprobado !== null}
             >
-              Denegar
+              <ImCross />
             </button>
           </div>
         </div>
@@ -291,7 +295,7 @@ const generarOrdenDeCompra = async (producto) => {
               </tbody>
             </table>
             <button onClick={closeProductPopup}>
-              Cerrar
+            <IoIosCloseCircle />
             </button>
           </div>
         </div>

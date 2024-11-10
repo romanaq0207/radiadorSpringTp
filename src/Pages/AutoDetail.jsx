@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./AutoDetail.module.css";
+import { IoArrowBackCircle } from "react-icons/io5";
 import { API_BASE_URL } from "../assets/config";
 
 function AutoDetail() {
@@ -228,8 +229,8 @@ function AutoDetail() {
       <button type="button" onClick={addProductField}>Agregar Producto</button>
 
       <button onClick={handleAddMantenimiento}>Agregar Mantenimiento</button>
-
-      <Link to="/busqueda-auto-mecanico" className={styles.backLink}>Volver</Link>
+      <h2> </h2>
+      <Link to="/busqueda-auto-mecanico" className={styles.backLink}><IoArrowBackCircle /></Link>
     </div>
   );
 }

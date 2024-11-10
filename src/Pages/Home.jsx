@@ -5,7 +5,7 @@ const Home = ({ onLogout }) => {
     <div className="conenido">
       <div className="textos">
         <h2>Bienvenido! </h2>
-        <p>Gestiona tu taller desde tu dispositivo!</p>
+        <p>Gestiona tu flota desde tu dispositivo!</p>
       </div>
     </div>
   );

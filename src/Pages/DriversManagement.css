@@ -118,6 +118,7 @@
   border-radius: 10px;
   width: 100%;
   max-width: 500px;
+  position: sticky;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   color: white;
@@ -132,6 +133,11 @@
   margin: 10px 0;
   line-height: 1.5;
   font-size: 1rem;
+}
+
+.driver-search__input {
+  display: block;
+  padding: 20px;
 }
 
 /* Estilos responsive para pantallas pequeñas */

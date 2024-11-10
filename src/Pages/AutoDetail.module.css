@@ -74,3 +74,14 @@
     padding: 10px 20px;
   }
 }
+
+.backLink{
+  font-size: 30px;
+  margin-right: 40px;
+}
+
+@media (max-width: 768px) {
+  .backLink{
+    margin-right: 0px;
+  }
+}

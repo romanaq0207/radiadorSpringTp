@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { IoIosSave } from "react-icons/io";
 import { API_BASE_URL } from '../assets/config';
 import './EditFlota.css'; // Reuse or create a new CSS file for styling
 
@@ -50,7 +51,7 @@ function EditFlota() {
         className="flota-input"
       />
       <button className="save-flota-button" onClick={handleSaveFlota}>
-        Guardar Flota
+      <IoIosSave /> 
       </button>
     </div>
   );

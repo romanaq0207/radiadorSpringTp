@@ -3,6 +3,7 @@ import MechanicAutoCard from "./MechanicAutoCard"; // Componente correcto
 import styles from "./MechanicAutoSearch.module.css"; // Cambia a .module.css
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQrcode } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/NavBar";
@@ -221,7 +222,7 @@ function AutoSearch() {
                   </option>
                 )))}
         </select>
-        <button onClick={handleResetRange}>Aplicar</button>
+        <button onClick={handleResetRange}><FaSearch /></button>
         <span>{selectedKilometraje} km</span>
         <input
           type="range"

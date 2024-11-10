@@ -13,7 +13,7 @@ const ViewFormsOperador = () => {
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get  (
           `${API_BASE_URL}/informes/obtener-informes-misma-ubicacion`
         );
         const informesConProductos = await Promise.all(
@@ -79,8 +79,8 @@ const ViewFormsOperador = () => {
           setFormStates(newFormStates);
   
           Swal.fire({
-            title: "Formulario confirmado",
-            text: "El formulario ha sido confirmado exitosamente.",
+            title: "Ficha de control confirmada",
+            text: "La ficha de control ha sido confirmada exitosamente.",
             icon: "success",
             confirmButtonText: "Aceptar",
           }).then(() => {
@@ -173,7 +173,7 @@ const ViewFormsOperador = () => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Revisión de formularios</h2>
+      <h2 className={styles.title}>Fichas de Control</h2>
       {formData.map((form, index) => (
         <div key={index} className={styles.card}>
           <p>

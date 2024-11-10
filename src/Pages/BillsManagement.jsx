@@ -102,14 +102,6 @@ const BillsManagement = () => {
               Marcar como Pago
             </button>
 
-            {/* Botón "Pagar", deshabilitado si ya está pagado */}
-            <button
-              // onClick={() => handlePay(gasto.id)}
-              disabled={gasto.estado === "pagado"}
-              className="pay-button"
-            >
-              Pagar
-            </button>
           </div>
         ))}
       </div>
