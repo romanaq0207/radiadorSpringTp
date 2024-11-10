@@ -4,12 +4,12 @@
   margin: 12px;
   margin-top: 80px;
   text-align: center;
-  background-color: #1a1a1a70; /* Cambia a un color sólido, por ejemplo, #1a1a1a para un gris oscuro */
+  background-color: #1a1a1a70;
   max-width: 100%;
   color: rgb(255, 255, 255);
 }
 
-.autoDetail h2{
+.autoDetail h2 {
   margin: 25px;
 }
 
@@ -17,7 +17,6 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-  
 }
 
 .maintenanceTable th,
@@ -25,13 +24,14 @@
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-  font-size: 10px; /* Tamaño de texto adecuado para móviles */
+  font-size: 10px;
 }
 
 .autoDetail input {
   padding: 10px;
   width: calc(100% - 20px);
   margin-bottom: 10px;
+  margin-top: 12px;
 }
 
 .autoDetail button {
@@ -40,7 +40,7 @@
   color: white;
   border: none;
   cursor: pointer;
-  width: 50%; 
+  width: 50%;
 }
 
 .backLink {
@@ -55,33 +55,47 @@
   color: #d10000;
 }
 
+/* Estilos para el botón de eliminación del producto */
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: #ff6b6b; /* Color del tacho de basura */
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.deleteButton:hover {
+  color: #ff3b3b; /* Color al pasar el cursor */
+}
+
 /* Estilos para pantallas más grandes (PC) */
 @media (min-width: 768px) {
   .autoDetail {
     padding: 60px;
     margin-top: 80px;
-    max-width: 80%; /* Ajuste del ancho en pantallas grandes */
+    max-width: 80%;
   }
 
   .maintenanceTable th,
   .maintenanceTable td {
     padding: 10px;
-    font-size: 16px; /* Aumentar tamaño del texto en pantallas grandes */
+    font-size: 16px;
   }
 
   .autoDetail button {
-    width: auto; /* Devolver el ancho automático en pantallas grandes */
+    width: auto;
     padding: 10px 20px;
   }
 }
 
-.backLink{
+.backLink {
   font-size: 30px;
   margin-right: 40px;
 }
 
 @media (max-width: 768px) {
-  .backLink{
+  .backLink {
     margin-right: 0px;
   }
 }

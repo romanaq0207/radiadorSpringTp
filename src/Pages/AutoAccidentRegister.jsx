@@ -109,7 +109,7 @@ function AutoAccidentRegister() {
      
 
       <Link to="/busqueda-auto-mecanico" className="back-link">
-        Volver
+        ←
       </Link>
     </div>
   );

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./AutoDetail.module.css";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { FaTrash } from "react-icons/fa"; // Icono de tacho de basura
 import { API_BASE_URL } from "../assets/config";
 
 function AutoDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [auto, setAuto] = useState(null);
   const [mantenimientos, setMantenimientos] = useState([]);
   const [newMantenimiento, setNewMantenimiento] = useState({
@@ -19,17 +21,14 @@ function AutoDetail() {
   const [allProducts, setAllProducts] = useState([]);
 
   useEffect(() => {
-    // Obtener datos del auto
     axios.get(`${API_BASE_URL}/autos/${id}`)
       .then((response) => setAuto(response.data))
       .catch((error) => console.error("Error al obtener los detalles del auto:", error));
 
-    // Obtener historial de mantenimiento
     axios.get(`${API_BASE_URL}/autos/${id}/mantenimientos`)
       .then((response) => setMantenimientos(response.data))
       .catch((error) => console.error("Error al obtener el historial de mantenimiento:", error));
 
-    // Obtener todos los productos
     axios.get(`${API_BASE_URL}/productos`)
       .then((response) => setAllProducts(response.data))
       .catch((error) => console.error("Error al obtener la lista de productos:", error));
@@ -137,6 +136,14 @@ function AutoDetail() {
     }));
   };
 
+  const removeProductField = (index) => {
+    const updatedProducts = newMantenimiento.productos.filter((_, i) => i !== index);
+    setNewMantenimiento((prevState) => ({
+      ...prevState,
+      productos: updatedProducts,
+    }));
+  };
+
   const getAvailableProducts = () => {
     const selectedProductIds = newMantenimiento.productos.map(
       (producto) => producto.producto_id
@@ -224,6 +231,14 @@ function AutoDetail() {
             placeholder="Cantidad"
             onChange={(e) => handleProductChange(index, e)}
           />
+          <button
+            type="button"
+            onClick={() => removeProductField(index)}
+            className={styles.deleteButton}
+            title="Eliminar producto"
+          >
+            <FaTrash />
+          </button>
         </div>
       ))}
       <button type="button" onClick={addProductField}>Agregar Producto</button>
