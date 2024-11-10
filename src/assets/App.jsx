@@ -449,7 +449,7 @@ const MainApp = () => {
         </button>
         <div className={!user ? "info-user-disabled" : "info-user"}>
           <p>{user ? `Usuario: ${user.email} ` : ""}</p>
-          <p>{user ? `Rol:  ${localStorage.getItem("userData")}` : ""}</p>
+          <p>{user ? `Rol:  ${localStorage.getItem("role")}` : ""}</p>
         </div>
       </main>
     </>

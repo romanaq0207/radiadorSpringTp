@@ -83,7 +83,7 @@ import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../Services/authServices";
 import { AuthContext } from "../Context/AuthContext";
-
+import { useCallback } from "react";
 /* import { firestore } from "../firebase/credenciales";  */ // Importa Firestore
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
@@ -99,19 +99,22 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    setLoading(true);
-    try {
-      await login(data.email, data.password);
-      handleLogin();
-      setAlertMessage("Bienvenido");
-      setLoading(false);
-      navigate("/");
-    } catch (error) {
-      setAlertMessage("Error al iniciar sesión: " + error.message);
-      setLoading(false);
-    }
-  };
+  const onSubmit = useCallback(
+    async (data) => {
+      setLoading(true);
+      try {
+        await login(data.email, data.password);
+        handleLogin();
+        setAlertMessage("Bienvenido");
+        setLoading(false);
+        navigate("/");
+      } catch (error) {
+        setAlertMessage("Error al iniciar sesión: " + error.message);
+        setLoading(false);
+      }
+    },
+    [handleLogin, navigate]
+  );
 
   const handleRestorePass = () => {
     navigate("/recuperar-contraseña");
