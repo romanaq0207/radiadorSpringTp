@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import { toPng } from "html-to-image";
+import { faBan } from "@fortawesome/free-solid-svg-icons";
 import "./EditCar.css";
 import { API_BASE_URL } from "../assets/config";
 import Swal from "sweetalert2";
@@ -253,7 +254,7 @@ function EditCar() {
         <FontAwesomeIcon icon={faFloppyDisk} style={{ color: "#ffffff" }} />
       </button>
       <button onClick={handleVolver} className="btn-back-edit-auto">
-        Volver
+      <FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} />
       </button>
 
       {qrCodeValue && (
