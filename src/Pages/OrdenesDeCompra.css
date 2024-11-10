@@ -1,9 +1,7 @@
 .orders-container {
-    margin-top: 80px;
-    padding-top: 50px; 
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
+    width: 950px;
+    margin: 80px auto 0; 
+    padding: 50px 20px 20px 20px;
     background-color: #f850b2b9;
     color: #fff;
     border-radius: 10px;
