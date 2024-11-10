@@ -81,6 +81,7 @@
     background-color: #2566b1;
     width: 100%;
     text-align: center;
+    
   }
 
   .navbar-list.navbar-list-open {
@@ -89,10 +90,10 @@
   }
 
   .navbar-item {
-    margin: 10px 0;
+    margin: -6px;
   }
 
   .navbar-link svg {
-    font-size: 1.8rem; /* Aumenta el tamaño de los íconos en pantallas pequeñas */
+    font-size: 1.0rem; /* Aumenta el tamaño de los íconos en pantallas pequeñas */
   }
 }

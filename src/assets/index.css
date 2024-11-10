@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .info-user {
   position: fixed;
   bottom: 20px;
@@ -26,6 +27,7 @@
   max-width: 350px;
   line-height: 1.5;
 }
+
 .info-user-disabled {
   position: fixed;
   background-color: rgba(34, 34, 34, 0); /* Fondo semitransparente */
@@ -61,12 +63,14 @@
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
   font-size: 20px;
 }
+
 .btn-flotante:disabled {
   background-color: #007bff00;
   box-shadow: none;
   cursor: default;
   color: #007bff00;
 }
+
 .btn-flotante:disabled:hover {
   background-color: #ed61ff00;
 }
@@ -76,6 +80,7 @@ a {
   color: #ffffff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #ffffff;
 }
@@ -111,6 +116,7 @@ button:hover {
   background-color: #ed61ff;
   transform: translateY(-2px);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -121,7 +127,38 @@ button:focus-visible {
     color: #ffffff;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
+  }
+}
+
+/* Ajustes para versión móvil */
+@media (max-width: 768px) {
+  .info-user {
+    bottom: 10px;
+    left: 10px;
+    padding: 10px 15px; /* Reducir espaciado interno */
+    max-width: 280px; /* Reducir ancho máximo */
+    font-size: 0.5rem; /* Disminuir el tamaño de fuente */
+  }
+
+  .btn-flotante {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem; /* Tamaño de icono más grande */
+    bottom: 6px;
+    right: 10px;
+    border-radius: 50%;
+    padding: 0;
+    
+  }
+
+  .info-user p:first-child {
+    font-size: 0.7rem;
+  }
+  
+  .info-user p:nth-child(2) {
+    font-size: 0.6rem;
   }
 }
