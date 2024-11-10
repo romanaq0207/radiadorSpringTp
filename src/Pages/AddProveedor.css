@@ -85,6 +85,17 @@
   position: relative;
   width: 100%;
 }
+/*animación para suggestions*/
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .suggestions-proveedor {
   cursor: pointer;
   list-style-type: none;
@@ -93,14 +104,79 @@
   padding: 0;
   max-height: 150px;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 1px solid white;
   border-radius: 4px;
   background-color: #fff;
   position: absolute;
   top: calc(100% - 93px);
   z-index: 1000;
-  width: 35%;
+  width: 406.42px;
+  animation: slideDown 0.3s ease-in-out;
 }
 .li-proveedor-dir:hover {
   background-color: rgba(128, 128, 128, 0.842);
+}
+
+/*media queries*/
+@media (max-width: 1200px) {
+  .suggestions-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 84px;
+    margin-left: 84px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 405px;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
+  }
+}
+@media (max-width: 768px) {
+  .suggestions-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 74px;
+    margin-left: 148px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 200px;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
+  }
+}
+@media (max-width: 480px) {
+  .suggestions-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 84px;
+    margin-left: 78px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    /* width: 265.11px; */
+    width: 58%;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
+  }
+}
+@media (max-width: 423px) {
+  .suggestions-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 125px;
+    margin-left: 78px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    /* width: 265.11px; */
+    width: 53%;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
+  }
 }

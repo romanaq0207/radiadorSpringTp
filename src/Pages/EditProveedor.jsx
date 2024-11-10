@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFloppyDisk, faBan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFloppyDisk, faBan } from "@fortawesome/free-solid-svg-icons";
 import "./EditProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const EditProveedor = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const EditProveedor = () => {
       } catch (error) {
         console.error("Error al obtener el proveedor de la API:", error);
       }
-    };          
+    };
     fetchProveedor();
   }, [id]);
 
@@ -35,7 +35,7 @@ const EditProveedor = () => {
     const cuilRegex = /^\d{2}-\d{8}-\d{1}$/;
     const addressRegex = /^[A-Za-z0-9\s,]+$/;
     const phoneRegex = /^\d{8}$|^\d{10}$/;
-    
+
     if (!proveedor.nombre || !nameRegex.test(proveedor.nombre)) {
       newErrors.nombre = "El nombre solo debe contener letras y espacios.";
     }
@@ -66,29 +66,31 @@ const EditProveedor = () => {
         // Verificar si el CUIT fue modificado
         if (proveedor.cuil !== originalCuil) {
           // Validar existencia solo si el CUIT es diferente al original
-          const response = await axios.get(`${API_BASE_URL}/proveedores/cuil/${proveedor.cuil}`);
+          const response = await axios.get(
+            `${API_BASE_URL}/proveedores/cuil/${proveedor.cuil}`
+          );
           const proveedorExistente = response.data;
-  
+
           if (proveedorExistente) {
             await Swal.fire({
-              title: 'CUIT existente',
-              text: 'Ya existe otro proveedor con este CUIT.',
-              icon: 'warning',
-              confirmButtonText: 'Aceptar',
+              title: "CUIT existente",
+              text: "Ya existe otro proveedor con este CUIT.",
+              icon: "warning",
+              confirmButtonText: "Aceptar",
             });
             return; // No procede con la edición si existe otro proveedor con el mismo CUIT
           }
         }
-  
+
         // Si no hay duplicados o el CUIT no cambió, proceder con la actualización
         const url = `${API_BASE_URL}/proveedores/modificar-proveedor/${id}`;
         await axios.put(url, proveedor);
-        
+
         Swal.fire({
-          title: '¡Actualización exitosa!',
-          text: 'La información del proveedor se ha actualizado correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
+          title: "¡Actualización exitosa!",
+          text: "La información del proveedor se ha actualizado correctamente.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
         });
         navigate("/gestion-proveedores"); // Redirigir después de guardar
       } catch (error) {
