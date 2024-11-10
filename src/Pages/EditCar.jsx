@@ -91,23 +91,20 @@ function EditCar() {
     // Verificar si se está cambiando la patente antes de hacer la verificación
     if (autoData.nro_patente !== originalPatente) {
       axios
-        .get(`${API_BASE_URL}/autos?patente=${autoData.nro_patente}`)
-        .then((response) => {
-          const existingAuto = response.data.some(
-            (auto) => auto.nro_patente === autoData.nro_patente && auto.id !== id
-          );
-
-          if (existingAuto) {
-            Swal.fire({
-              title: "Error",
-              text: "Ya existe otro vehículo con esta patente en el sistema.",
-              icon: "warning",
-              confirmButtonText: "Aceptar",
-            });
-          } else {
-            updateCarData();
-          }
-        })
+      .get(`${API_BASE_URL}/autos/nro_patente/${autoData.nro_patente}`)
+      .then((response) => {
+        if (response.data && response.data.id !== id) {
+          Swal.fire({
+            title: "Error",
+            text: "Ya existe otro vehículo con esta patente en el sistema.",
+            icon: "warning",
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+          updateCarData();
+        }
+      })
+    
         .catch((error) => {
           console.error("Error al verificar existencia del auto:", error);
           Swal.fire({
