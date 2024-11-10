@@ -53,6 +53,7 @@ import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
+import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor"
 
 const App = () => {
   return (
@@ -416,6 +417,14 @@ const MainApp = () => {
             element={
               <ProtectedRoute>
                 <EditProducto />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ordenes-compras-supervisor"
+            element={
+              <ProtectedRoute>
+                <OrdenesDeComprasSupervisor />
               </ProtectedRoute>
             }
           />

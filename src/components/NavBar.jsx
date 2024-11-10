@@ -59,6 +59,7 @@ function Navbar() {
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
         { to: "/formularios-supervisor", title: "Fichas de control", icon: <FaClipboardCheck /> },
+        { to: "/ordenes-compras-supervisor", title: "Ordenes de Compra", icon: <FaShoppingCart /> },
       ],
       mecanico: [
         { to: "/busqueda-auto-mecanico", title: "Vehículos de Operadores", icon: <FaCar /> },
