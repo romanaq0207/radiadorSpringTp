@@ -37,7 +37,7 @@ function Navbar() {
 
     const roleBasedLinks = {
       administrador: [
-        { to: "/gestion-autos", title: "Búsqueda de Autos", icon: <FaCar /> },
+        { to: "/gestion-autos", title: "Búsqueda de Vehiculos", icon: <FaCar /> },
         { to: "/gestion-proveedores", title: "Proveedores", icon: <FaUserCog /> },
         { to: "/gestion-mecanicos", title: "Mecánicos", icon: <FaTools /> },
         { to: "/gestion-conductor", title: "Conductores", icon: <FaUsers /> },

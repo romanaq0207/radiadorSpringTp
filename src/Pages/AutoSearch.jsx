@@ -165,7 +165,7 @@ function AutoSearch() {
   return (
     <div className="auto-search">
       <Navbar />
-      <h2 className="auto-search__title">Búsqueda de Autos</h2>
+      <h2 className="auto-search__title">Búsqueda de Vehiculos</h2>
       <div className="auto-search__search-add">
         <input
           type="text"
