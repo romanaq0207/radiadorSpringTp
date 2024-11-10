@@ -31,7 +31,7 @@ const AutoCard = ({ auto }) => {
     }).then((result) => {
       if (result.isConfirmed) {
     
-        axios.delete(`${API_BASE_URL}/autos/eliminar_auto/${auto.nro_patente}`)
+        axios.delete(`${API_BASE_URL}/autos/eliminar_auto/${auto.id}`)
           .then(() => {
           
             Swal.fire(
