@@ -16,11 +16,12 @@ const ProveedoresViewer = () => {
     const fetchProveedores = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/proveedores/activos`); // Endpoint de la API para obtener los proveedores
-        setOrderProveedores(response.data);
-        const sorted = [...orderProveedores].sort((a, b) =>
+        const fetchedProveedores = response.data;
+        const sortedProveedores = fetchedProveedores.sort((a, b) =>
           a.nombre.localeCompare(b.nombre)
         );
-        setProveedores(sorted);
+        setProveedores(fetchedProveedores);
+        setOrderProveedores(sortedProveedores);
       } catch (error) {
         console.error("Error al obtener los proveedores de la API:", error);
       }
@@ -125,10 +126,10 @@ const ProveedoresViewer = () => {
         +
       </button>
       <div className="proveedores-list">
-        {proveedores.length === 0 ? (
+        {orderProveedores.length === 0 ? (
           <p>No hay proveedores activos disponibles.</p>
         ) : (
-          proveedores.map((proveedor) => (
+          orderProveedores.map((proveedor) => (
             <div key={proveedor.id_proveedor} className="proveedor-card">
               <h3>{proveedor.nombre}</h3>
               <p>

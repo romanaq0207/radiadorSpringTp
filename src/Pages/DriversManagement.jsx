@@ -18,28 +18,30 @@ const DriversManagement = () => {
   const [allConductores, setAllConductores] = useState([]);
   const [ubicaciones, setUbicaciones] = useState({});
   const [filteredConductores, setFilteredConductores] = useState([]);
-  const [selectedConductor, setSelectedConductor] = useState([]);
+  const [selectedConductor, setSelectedConductor] = useState("");
 
   const handleSearchChange = (e) => {
     const conductor = e.target.value;
     setSelectedConductor(conductor);
     searchConductor(conductor);
   };
-  const searchConductor = (conductor) => {
-    if (conductor === "") {
+  const searchConductor = (term) => {
+    if (term === "Todos") {
       setFilteredConductores(allConductores);
     } else {
       const filtered = allConductores.filter((driver) =>
-        driver.nombre.includes(conductor)
+        driver.nombre.includes(term)
       );
       setFilteredConductores(filtered);
     }
   };
 
   useEffect(() => {
-    setAllConductores(
-      conductoresData.filter((conductor) => conductor.habilitado)
+    const conductoresHabilitados = conductoresData.filter(
+      (conductor) => conductor.habilitado
     );
+    setAllConductores(conductoresHabilitados);
+    setFilteredConductores(conductoresHabilitados);
   }, []);
 
   const fetchUbicacion = async (id) => {
@@ -75,7 +77,7 @@ const DriversManagement = () => {
             {" "}
             Elija un conductor{" "}
           </option>{" "}
-          <option value="">Todos</option>
+          <option value="Todos">Todos</option>
           {allConductores.map((conductor) => (
             <option key={conductor.nombre} value={conductor.nombre}>
               {" "}

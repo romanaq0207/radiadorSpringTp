@@ -118,6 +118,7 @@
   border-radius: 10px;
   width: 100%;
   max-width: 500px;
+  position: sticky;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   color: white;
