@@ -103,7 +103,6 @@ function Login() {
     async (data) => {
       setLoading(true);
       try {
-        console.log("Datos del formulario:", data); // Verifica que los datos no estén indefinidos
         await login(data.email, data.password);
         handleLogin();
         setAlertMessage("Bienvenido");

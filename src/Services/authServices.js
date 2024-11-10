@@ -13,7 +13,6 @@ export const login = async (email, password) => {
       const { user, role } = response.data;
       localStorage.setItem("user", JSON.stringify(user)); // Guardar datos del usuario
       localStorage.setItem("role", role); 
-      localStorage.setItem('sessionId', response.data.sessionId);// Guardar rol del usuario
       return { success: true, user, role };
     } else {
       return { success: false, message: response.data.message };

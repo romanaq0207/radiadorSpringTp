@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { MdLogout } from "react-icons/md";
 import {
   BrowserRouter as Router,
   Route,
@@ -52,19 +53,30 @@ import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
+import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor"
 
 const App = () => {
   return (
     <AuthProvider>
+      <Router>
         <MainApp />
+      </Router>
     </AuthProvider>
   );
 };
 
 const MainApp = () => {
   const { handleLogout } = useContext(AuthContext);
+  const { disabled, setDisabled } = useState(false);
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
 
+  // const isDisabled = () => {
+  //   if (!user) {
+  //     setDisabled(true);
+  //   } else {
+  //     setDisabled(false);
+  //   }
+  // };
   //
   return (
     <>
@@ -409,6 +421,14 @@ const MainApp = () => {
             }
           />
           <Route
+            path="/ordenes-compras-supervisor"
+            element={
+              <ProtectedRoute>
+                <OrdenesDeComprasSupervisor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/mi-perfil"
             element={
               <ProtectedRoute>
@@ -420,16 +440,16 @@ const MainApp = () => {
           {/* Ruta pública */}
         </Routes>
 
-        <button onClick={handleLogout} className="btn-flotante">
-          LOGOUT
+        <button
+          onClick={handleLogout}
+          className="btn-flotante"
+          disabled={!user}
+        >
+          <MdLogout />
         </button>
-        <div className="info-user">
-          <p>
-            {user ? `Usuario: ${user.email} ` : "No hay usuario autenticado"}
-          </p>
-          <p>
-            {user ? `Rol:  ${localStorage.getItem("userData")}` : "No hay rol"}
-          </p>
+        <div className={!user ? "info-user-disabled" : "info-user"}>
+          <p>{user ? `Usuario: ${user.email} ` : ""}</p>
+          <p>{user ? `Rol:  ${localStorage.getItem("userData")}` : ""}</p>
         </div>
       </main>
     </>
@@ -441,6 +461,5 @@ const ProtectedRoute = ({ children }) => {
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
   return user ? children : <Login />;
 };
-
 
 export default App;

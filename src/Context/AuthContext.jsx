@@ -121,30 +121,14 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleLogout = async () => {
-    const sessionId = localStorage.getItem("session_id"); // Obtener el session_id del localStorage
     
-    try {
-      // Si el sessionId existe, hacer la llamada a la API de logout
-        console.log(sessionId);
-        await axios.post("http://localhost:5000/api/logout", { sessionId });
-      
-  
-      // Limpiar el localStorage y las variables de estado
-      localStorage.removeItem("user");
-      localStorage.removeItem("role");
-      localStorage.removeItem("session_id"); // Eliminar también el session_id
-  
-      // Establecer el estado de login como falso
       setLogin(false);
-      setRole(null);
+      localStorage.removeItem("user"); // Elimina el usuario del localStorage
+      localStorage.removeItem("role"); // Elimina el rol del localStorage
+      setRole(null); // Resetea el rol al cerrar sesión
+      window.location.reload(); // Recarga la página
+    };
   
-      // Redirigir a la página de login o home después del logout
-      navigate("/");  // Navegar a la página de login o home
-    } catch (error) {
-      console.error("Error al cerrar sesión:", error);
-      // Maneja el error si algo falla
-    }
-  };
 
   if (loading) {
     return <div>Loading...</div>;
