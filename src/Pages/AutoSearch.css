@@ -28,7 +28,7 @@
 .auto-search__title {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.5rem;
+  font-size: 4rem;
 }
 
 /* Contenedor de búsqueda y botones */
@@ -37,6 +37,13 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+
+.auto-search__slide-input, .auto-search__input-filters{
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: baseline;
 }
 
 /* Input de búsqueda */

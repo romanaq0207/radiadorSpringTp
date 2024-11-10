@@ -167,6 +167,8 @@ function AutoSearch() {
       <Navbar />
       <h2 className="auto-search__title">Búsqueda de Vehiculos</h2>
       <div className="auto-search__search-add">
+      <div className="auto-search__input-filters">
+
         <input
           type="text"
           placeholder="Buscar por patente..."
@@ -223,6 +225,10 @@ function AutoSearch() {
                 )))}
         </select>
         <button onClick={handleResetRange}><FaSearch /></button>
+        </div>
+        <div className="auto-search__slide-input">
+
+ 
         <span>{selectedKilometraje} km</span>
         <input
           type="range"
@@ -242,7 +248,7 @@ function AutoSearch() {
           onChange={handleAnioChange}
           className="auto-search__input_range"
         />
-
+        </div>
         <div className="auto-search__buttons">
           <button onClick={handleAddAuto} className="auto-search__add-auto">
             <FontAwesomeIcon icon={faCirclePlus} style={{ color: "#ffffff" }} />
