@@ -57,7 +57,30 @@
   height: auto; /* Mantener la relación de aspecto */
   margin: 20px 0; /* Espaciado en la parte superior e inferior */
 }
-
+/* .suggestions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 1000;
+  width: 55%;
+} */
+/*animación para suggestions*/
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* Estilos para pantallas más grandes */
 @media (min-width: 600px) {
   .add-route {
@@ -69,11 +92,25 @@
     padding: 15px; /* Aumentar el padding en pantallas más grandes */
     font-size: 18px; /* Aumentar el tamaño de la fuente */
   }
+  .suggestions {
+    list-style-type: none;
+    margin-top: -50px;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 556px;
+    animation: slideDown 0.3s ease-in-out;
+  }
 }
 
 .suggestions {
   list-style-type: none;
-  margin: 0;
+  margin-top: -50px;
   padding: 0;
   max-height: 150px;
   overflow-y: auto;
@@ -82,7 +119,7 @@
   background-color: #fff;
   position: absolute;
   z-index: 1000;
-  width: 100%;
+  animation: slideDown 0.3s ease-in-out;
 }
 
 .suggestions li {
@@ -108,7 +145,7 @@
 .suggestions {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: -15px;
   border: 1px solid #ccc;
   border-top: none;
   max-height: 150px;
