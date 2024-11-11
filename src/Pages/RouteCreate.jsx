@@ -18,8 +18,10 @@ function RouteCreate() {
     hasta: "",
     conductor: "",
     conductorDni: "",
+    autoSeleccionado: "", // Nuevo campo para el auto seleccionado
   });
 
+  const [autos, setAutos] = useState([]); //estado para los autos
   const [desdeCoords, setDesdeCoords] = useState(null);
   const [hastaCoords, setHastaCoords] = useState(null);
   const [suggestionsDesde, setSuggestionsDesde] = useState([]);
@@ -48,6 +50,17 @@ function RouteCreate() {
     // Crear ruta y calcular datos
     geocodeAndCreateRoute(desdeCoords, hastaCoords);
   };
+
+  useEffect(() => {
+    // Actualizamos el endpoint para obtener los autos disponibles
+    axios.get(`${API_BASE_URL}/ver-autos-disponibles`) 
+      .then((response) => {
+        setAutos(response.data); // Guardamos los autos disponibles en el estado
+      })
+      .catch((error) => console.error("Error al obtener autos:", error));
+  }, []);
+  
+
 
   useEffect(() => {
     const fetchConductores = async () => {
@@ -258,6 +271,23 @@ function RouteCreate() {
             </option>
           ))}
         </select>
+        
+        
+        <select
+          name="autoSeleccionado"
+          value={rutaData.autoSeleccionado}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Seleccione un auto</option>
+            {autos.map((auto) => (
+          <option key={auto.id} value={auto.nro_patente}>
+            {auto.nro_patente} - {auto.marca}
+          </option>
+          ))}
+        </select>
+
+
         <input id="submit-ruta" type="submit" value="Crear Ruta" />
         <button type="button" onClick={submitRoute}>
           <IoIosSend />
