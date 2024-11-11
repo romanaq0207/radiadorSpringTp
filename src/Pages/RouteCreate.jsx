@@ -273,19 +273,15 @@ function RouteCreate() {
         </select>
         
         
-        <select
-          name="autoSeleccionado"
-          value={rutaData.autoSeleccionado}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Seleccione un auto</option>
+        <div className="input-group">
+          
+          <select name="autoSeleccionado" value={rutaData.autoSeleccionado} onChange={handleInputChange} required>
+            <option value="">Seleccione un auto</option>
             {autos.map((auto) => (
-          <option key={auto.id} value={auto.nro_patente}>
-            {auto.nro_patente} - {auto.marca}
-          </option>
-          ))}
-        </select>
+              <option key={auto.nro_patente} value={auto.nro_patente}>{auto.nro_patente} - {auto.marca}</option>
+            ))}
+          </select>
+        </div>
 
 
         <input id="submit-ruta" type="submit" value="Crear Ruta" />
