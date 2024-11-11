@@ -80,8 +80,7 @@ const MainApp = () => {
   //
   return (
     <>
-      {user && <Navbar />}{" "}
-      {/* Renderizar Navbar solo si hay un usuario autenticado */}
+      {user && <Navbar />}
       <main>
         <Routes>
           <Route
@@ -89,118 +88,6 @@ const MainApp = () => {
             element={
               <ProtectedRoute>
                 <Home onLogout={handleLogout} />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/gestion-autos"
-            element={
-              <ProtectedRoute>
-                <AutoSearch />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/autos/:id"
-            element={
-              <ProtectedRoute>
-                <AutoDetail />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/autos-admin/:id"
-            element={
-              <ProtectedRoute>
-                <AutoDetailForAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/gestion-mecanicos"
-            element={
-              <ProtectedRoute>
-                <MechanicManagement />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/agregar-auto"
-            element={
-              <ProtectedRoute>
-                <AddAuto />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/escanear-qr"
-            element={
-              <ProtectedRoute>
-                <QRScanner />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/agregar-mecanico"
-            element={
-              <ProtectedRoute>
-                <AddMechanic />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/gestion-conductor"
-            element={
-              <ProtectedRoute>
-                <DriversManagement />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/ver-mi-ruta"
-            element={
-              <ProtectedRoute>
-                <MyRoute />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/mis-gastos"
-            element={
-              <ProtectedRoute>
-                <MyBills />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/agregar-gastos"
-            element={
-              <ProtectedRoute>
-                <AddBills />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/reportes"
-            element={
-              <ProtectedRoute>
-                <Reports />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin-gastos"
-            element={
-              <ProtectedRoute>
-                <BillsManagement />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin-usuarios"
-            element={
-              <ProtectedRoute>
-                <UsersManagement />
               </ProtectedRoute>
             }
           />
@@ -229,114 +116,42 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ver-gastos"
+            path="/admin-gastos"
             element={
               <ProtectedRoute>
-                <BillStates />
+                <BillsManagement />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/verificar-rutas"
+            path="/admin-usuarios"
             element={
               <ProtectedRoute>
-                <RoutesVerify />
+                <UsersManagement />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/rutas/:id"
+            path="/agregar-auto"
             element={
               <ProtectedRoute>
-                <RouteViewVerify />
+                <AddAuto />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/reportes-gerencia"
+            path="/agregar-gastos"
             element={
               <ProtectedRoute>
-                <ReportManagement />
+                <AddBills />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/crear-ruta"
+            path="/agregar-mecanico"
             element={
               <ProtectedRoute>
-                <RouteCreate />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/autos-accidentes/:id"
-            element={
-              <ProtectedRoute>
-                <AutoAccidentRegister />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/busqueda-auto-mecanico"
-            element={
-              <ProtectedRoute>
-                <MechanicAutoSearch />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/formularios-supervisor"
-            element={
-              <ProtectedRoute>
-                <ViewFormsSupervisor />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/visor-gastos"
-            element={
-              <ProtectedRoute>
-                <BillsViewer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/pedidos-ayuda"
-            element={
-              <ProtectedRoute>
-                <MechanicAidRequest />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/autos-accidentes-admin/:id"
-            element={
-              <ProtectedRoute>
-                <AutoAccidentsForAdmin />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/forms-accidente"
-            element={
-              <ProtectedRoute>
-                <FormularioAccidenteMechanic />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/visor-flota"
-            element={
-              <ProtectedRoute>
-                <FlotaViewer />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/gestion-proveedores"
-            element={
-              <ProtectedRoute>
-                <ProveedoresViewer />
+                <AddMechanic />
               </ProtectedRoute>
             }
           />
@@ -349,42 +164,58 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/orden-de-compra"
+            path="/add-orden"
             element={
               <ProtectedRoute>
-                <OrdenesDeCompra />
+                <AddOrden />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/pedir-acarreo"
+            path="/autos/:id"
             element={
               <ProtectedRoute>
-                <HelpRequest />
+                <AutoDetail />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/verificar-formularios"
+            path="/autos-admin/:id"
             element={
               <ProtectedRoute>
-                <ViewFormsOperador />
+                <AutoDetailForAdmin />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/edit-proveedor/:id"
+            path="/autos-accidentes/:id"
             element={
               <ProtectedRoute>
-                <EditProveedor />
+                <AutoAccidentRegister />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/edit-mechanic/:id"
+            path="/autos-accidentes-admin/:id"
             element={
               <ProtectedRoute>
-                <EditMechanic />
+                <AutoAccidentsForAdmin />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/busqueda-auto-mecanico"
+            element={
+              <ProtectedRoute>
+                <MechanicAutoSearch />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/crear-ruta"
+            element={
+              <ProtectedRoute>
+                <RouteCreate />
               </ProtectedRoute>
             }
           />
@@ -397,18 +228,10 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/productos"
+            path="/edit-mechanic/:id"
             element={
               <ProtectedRoute>
-                <Products />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add-orden"
-            element={
-              <ProtectedRoute>
-                <AddOrden />
+                <EditMechanic />
               </ProtectedRoute>
             }
           />
@@ -421,10 +244,74 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ordenes-compras-supervisor"
+            path="/edit-proveedor/:id"
             element={
               <ProtectedRoute>
-                <OrdenesDeComprasSupervisor />
+                <EditProveedor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/escanear-qr"
+            element={
+              <ProtectedRoute>
+                <QRScanner />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/formularios-supervisor"
+            element={
+              <ProtectedRoute>
+                <ViewFormsSupervisor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/forms-accidente"
+            element={
+              <ProtectedRoute>
+                <FormularioAccidenteMechanic />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gestion-autos"
+            element={
+              <ProtectedRoute>
+                <AutoSearch />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gestion-conductor"
+            element={
+              <ProtectedRoute>
+                <DriversManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gestion-mecanicos"
+            element={
+              <ProtectedRoute>
+                <MechanicManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/gestion-proveedores"
+            element={
+              <ProtectedRoute>
+                <ProveedoresViewer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/mis-gastos"
+            element={
+              <ProtectedRoute>
+                <MyBills />
               </ProtectedRoute>
             }
           />
@@ -436,25 +323,121 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/recuperar-contraseña" element={<RestorePassword />} />{" "}
-          {/* Ruta pública */}
+          <Route
+            path="/orden-de-compra"
+            element={
+              <ProtectedRoute>
+                <OrdenesDeCompra />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ordenes-compras-supervisor"
+            element={
+              <ProtectedRoute>
+                <OrdenesDeComprasSupervisor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pedidos-ayuda"
+            element={
+              <ProtectedRoute>
+                <MechanicAidRequest />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/pedir-acarreo"
+            element={
+              <ProtectedRoute>
+                <HelpRequest />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/productos"
+            element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recuperar-contraseña"
+            element={<RestorePassword />}
+          />
+          <Route
+            path="/reportes"
+            element={
+              <ProtectedRoute>
+                <Reports />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reportes-gerencia"
+            element={
+              <ProtectedRoute>
+                <ReportManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/rutas/:id"
+            element={
+              <ProtectedRoute>
+                <RouteViewVerify />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/supervisor-rutas"
+            element={
+              <ProtectedRoute>
+                <RoutesVerify />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/todos-los-gastos"
+            element={
+              <ProtectedRoute>
+                <BillsViewer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ver-gastos"
+            element={
+              <ProtectedRoute>
+                <BillStates />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ver-flotas"
+            element={
+              <ProtectedRoute>
+                <FlotaViewer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ver-formularios-operador"
+            element={
+              <ProtectedRoute>
+                <ViewFormsOperador />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/login" element={<Login />} />
         </Routes>
-
-        <button
-          onClick={handleLogout}
-          className="btn-flotante"
-          disabled={!user}
-        >
-          <MdLogout />
-        </button>
-        <div className={!user ? "info-user-disabled" : "info-user"}>
-          <p>{user ? `Usuario: ${user.email} ` : ""}</p>
-          <p>{user ? `Rol:  ${localStorage.getItem("role")}` : ""}</p>
-        </div>
       </main>
     </>
   );
 };
+
 
 // Componente de ruta protegida
 const ProtectedRoute = ({ children }) => {
