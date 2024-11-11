@@ -73,29 +73,99 @@
   background-color: darkgrey;
 }
 
-/* Media query for larger screens */
-@media (min-width: 768px) {
-  .edit-proveedor h2 {
-    font-size: 28px;
+/*animación para suggestions*/
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-
-  #btn-cancelar,
-  .submit-button {
-    max-width: 400px;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
+.suggestions-edit-proveedor {
+  cursor: pointer;
+  list-style-type: none;
+  margin-bottom: -15px;
+  margin-left: 80px;
+  padding: 0;
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid white;
+  border-radius: 4px;
+  background-color: #fff;
+  position: absolute;
+  top: calc(100% - 93px);
+  z-index: 1000;
+  width: 406.42px;
+  animation: slideDown 0.3s ease-in-out;
+}
+.li-edit-proveedor-dir:hover {
+  background-color: rgba(128, 128, 128, 0.842);
+}
 
-@media (min-width: 1024px) {
-  .edit-proveedor {
-    padding: 40px;
+/*media queries*/
+@media (min-width: 769px) {
+  .suggestions-edit-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: -14px;
+    margin-left: 84px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 405px;
+    border-top: #5c505c;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
   }
-
-  .edit-proveedor h2 {
-    font-size: 32px;
+}
+@media (max-width: 768px) {
+  .suggestions-edit-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 15px;
+    margin-left: 85px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: 200px;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
   }
-
-  #btn-cancelar,
-  .submit-button {
-    max-width: 500px;
+}
+@media (max-width: 480px) {
+  .suggestions-edit-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 15px;
+    margin-left: 78px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    /* width: 265.11px; */
+    width: 58%;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
+  }
+}
+@media (max-width: 423px) {
+  .suggestions-edit-proveedor {
+    cursor: pointer;
+    margin-bottom: 50px;
+    margin-top: 15px;
+    margin-left: 78px;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    /* width: 265.11px; */
+    width: 53%;
+    border-color: white;
+    animation: slideDown 0.3s ease-in-out;
   }
 }

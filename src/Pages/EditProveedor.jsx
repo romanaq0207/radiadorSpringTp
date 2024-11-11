@@ -6,12 +6,17 @@ import { faFloppyDisk, faBan } from "@fortawesome/free-solid-svg-icons";
 import "./EditProveedor.css";
 import { API_BASE_URL } from "../assets/config"; // Asegúrate de que esta ruta sea correcta
 import Swal from "sweetalert2";
+import L from "leaflet";
+import "leaflet-routing-machine";
+import "leaflet/dist/leaflet.css";
 
 const EditProveedor = () => {
   const { id } = useParams();
   const [proveedor, setProveedor] = useState(null);
   const [originalCuil, setOriginalCuil] = useState(""); // Estado para el CUIT original
   const [errors, setErrors] = useState({});
+  const [suggestionsDireccion, setSuggestionsDireccion] = useState([]);
+  const [direccionCoords, setDireccionCoords] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,11 +34,48 @@ const EditProveedor = () => {
     fetchProveedor();
   }, [id]);
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setProveedor({ ...proveedor, direccion: value });
+    handleAutocomplete(value, setSuggestionsDireccion);
+  };
+  const handleAutocomplete = async (query, setSuggestions) => {
+    if (query.length > 3) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(
+        query
+      )}&countrycodes=AR&limit=5`;
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.length > 0) {
+          setSuggestions(data);
+        }
+      } catch (error) {
+        console.error("Error fetching autocomplete suggestions:", error);
+      }
+    } else {
+      setSuggestions([]);
+    }
+  };
+  const handleSuggestionClick = (
+    suggestion,
+    setCoords,
+    setSuggestions,
+    field
+  ) => {
+    const { lat, lon, display_name } = suggestion;
+    setCoords({ lat, lon });
+    setProveedor((prev) => ({ ...prev, [field]: display_name }));
+    setSuggestions([]);
+  };
+
   const validate = () => {
     const newErrors = {};
     const nameRegex = /^[a-zA-Z\s]+$/;
     const cuilRegex = /^\d{2}-\d{8}-\d{1}$/;
-    const addressRegex = /^[A-Za-z0-9\s,]+$/;
+    const addressRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s,\.]+$/;
     const phoneRegex = /^\d{8}$|^\d{10}$/;
 
     if (!proveedor.nombre || !nameRegex.test(proveedor.nombre)) {
@@ -157,14 +199,31 @@ const EditProveedor = () => {
           <label>Dirección:</label>
           <input
             type="text"
+            name="direccion"
             value={proveedor.direccion}
-            onChange={(e) =>
-              setProveedor({ ...proveedor, direccion: e.target.value })
-            }
+            onChange={handleInputChange}
             required
+            className="input-dir-porveedor"
           />
-          {errors.direccion && (
-            <span className="error">{errors.direccion}</span>
+          {suggestionsDireccion.length > 0 && (
+            <ul className="suggestions-edit-proveedor">
+              {suggestionsDireccion.map((suggestion, index) => (
+                <li
+                  className="li-edit-proveedor-dir"
+                  key={index}
+                  onClick={() =>
+                    handleSuggestionClick(
+                      suggestion,
+                      setDireccionCoords,
+                      setSuggestionsDireccion,
+                      "direccion"
+                    )
+                  }
+                >
+                  {suggestion.display_name}
+                </li>
+              ))}
+            </ul>
           )}
         </div>
         <div className="form-group">

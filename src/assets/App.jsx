@@ -53,7 +53,7 @@ import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
-import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor"
+import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor";
 
 const App = () => {
   return (
@@ -363,10 +363,7 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/recuperar-contraseña"
-            element={<RestorePassword />}
-          />
+          <Route path="/recuperar-contraseña" element={<RestorePassword />} />
           <Route
             path="/reportes"
             element={
@@ -433,11 +430,22 @@ const MainApp = () => {
           />
           <Route path="/login" element={<Login />} />
         </Routes>
+
+        <button
+          onClick={handleLogout}
+          className="btn-flotante"
+          disabled={!user}
+        >
+          <MdLogout />
+        </button>
+        <div className={!user ? "info-user-disabled" : "info-user"}>
+          <p>{user ? `Usuario: ${user.email} ` : ""}</p>
+          <p>{user ? `Rol:  ${localStorage.getItem("role")}` : ""}</p>
+        </div>
       </main>
     </>
   );
 };
-
 
 // Componente de ruta protegida
 const ProtectedRoute = ({ children }) => {

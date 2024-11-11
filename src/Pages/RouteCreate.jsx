@@ -144,6 +144,8 @@ function RouteCreate() {
       } catch (error) {
         console.error("Error fetching autocomplete suggestions:", error);
       }
+    } else {
+      setSuggestions([]);
     }
   };
 
