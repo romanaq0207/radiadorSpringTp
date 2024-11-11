@@ -38,6 +38,18 @@ function RouteCreate() {
       handleAutocomplete(value, setSuggestionsDesde);
     } else if (name === "hasta") {
       handleAutocomplete(value, setSuggestionsHasta);
+    } else if (name === "conductor") {
+      // Cuando se selecciona un conductor, también se setea su DNI en el estado
+      const conductorSeleccionado = conductores.find(
+        (conductor) => `${conductor.nombre} ${conductor.apellido}` === value
+      );
+      if (conductorSeleccionado) {
+        setRutaData({
+          ...rutaData,
+          conductor: value,
+          conductorDni: conductorSeleccionado.dni, // Setear el DNI
+        });
+      }
     }
   };
 
