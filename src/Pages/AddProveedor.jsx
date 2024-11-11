@@ -75,7 +75,7 @@ const AddProveedor = () => {
     const newErrors = {};
     const nameRegex = /^[a-zA-Z\s]+$/; // Solo letras y espacios
     const cuilRegex = /^\d{2}-\d{8}-\d{1}$/; // CUIL en formato nn-nnnnnnnn-n
-    const addressRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s,]+$/; // Letras, números, comas y espacios
+    const addressRegex = /^[A-Za-záéíóúÁÉÍÓÚñÑäöüÄÖÜß0-9\s,\.]+$/; // Letras, números, comas y espacios
     const phoneRegex = /^\d{8}$|^\d{10}$/; // 8 o 10 dígitos para teléfono
     if (!formData.nombre || !nameRegex.test(formData.nombre)) {
       newErrors.nombre = "El nombre solo debe contener letras y espacios.";
