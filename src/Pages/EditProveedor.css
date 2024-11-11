@@ -87,7 +87,7 @@
 .suggestions-edit-proveedor {
   cursor: pointer;
   list-style-type: none;
-  margin-bottom: 40px;
+  margin-bottom: -15px;
   margin-left: 80px;
   padding: 0;
   max-height: 150px;
@@ -105,44 +105,19 @@
   background-color: rgba(128, 128, 128, 0.842);
 }
 
-/* Media query for larger screens */
-@media (min-width: 768px) {
-  .edit-proveedor h2 {
-    font-size: 28px;
-  }
-
-  #btn-cancelar,
-  .submit-button {
-    max-width: 400px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .edit-proveedor {
-    padding: 40px;
-  }
-
-  .edit-proveedor h2 {
-    font-size: 32px;
-  }
-
-  #btn-cancelar,
-  .submit-button {
-    max-width: 500px;
-  }
-}
 /*media queries*/
-@media (max-width: 1200px) {
+@media (min-width: 769px) {
   .suggestions-edit-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 84px;
+    margin-top: -14px;
     margin-left: 84px;
     max-height: 150px;
     overflow-y: auto;
     position: absolute;
     z-index: 1000;
-    width: 406px;
+    width: 405px;
+    border-top: #5c505c;
     border-color: white;
     animation: slideDown 0.3s ease-in-out;
   }
@@ -151,8 +126,8 @@
   .suggestions-edit-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 74px;
-    margin-left: 148px;
+    margin-top: 15px;
+    margin-left: 85px;
     max-height: 150px;
     overflow-y: auto;
     position: absolute;
@@ -166,7 +141,7 @@
   .suggestions-edit-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 84px;
+    margin-top: 15px;
     margin-left: 78px;
     max-height: 150px;
     overflow-y: auto;
@@ -182,7 +157,7 @@
   .suggestions-edit-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 125px;
+    margin-top: 15px;
     margin-left: 78px;
     max-height: 150px;
     overflow-y: auto;

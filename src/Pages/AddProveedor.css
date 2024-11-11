@@ -10,6 +10,7 @@
   max-width: 600px;
   margin: 85px auto;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  min-height: 106vh;
 }
 
 .add-proveedor-container h2 {
@@ -121,8 +122,8 @@
 @media (max-width: 1200px) {
   .suggestions-proveedor {
     cursor: pointer;
-    margin-bottom: 50px;
-    margin-top: 84px;
+    margin-bottom: 80px;
+    margin-top: 25px;
     margin-left: 84px;
     max-height: 150px;
     overflow-y: auto;
@@ -137,7 +138,7 @@
   .suggestions-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 74px;
+    margin-top: 15px;
     margin-left: 148px;
     max-height: 150px;
     overflow-y: auto;
@@ -152,7 +153,7 @@
   .suggestions-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 84px;
+    margin-top: 25px;
     margin-left: 78px;
     max-height: 150px;
     overflow-y: auto;
@@ -168,7 +169,7 @@
   .suggestions-proveedor {
     cursor: pointer;
     margin-bottom: 50px;
-    margin-top: 125px;
+    margin-top: 70px;
     margin-left: 78px;
     max-height: 150px;
     overflow-y: auto;
