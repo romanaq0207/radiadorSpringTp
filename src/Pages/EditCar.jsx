@@ -3,9 +3,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import QRCode from "react-qr-code";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faFloppyDisk, faBan } from "@fortawesome/free-solid-svg-icons";
 import { toPng } from "html-to-image";
-import { faBan } from "@fortawesome/free-solid-svg-icons";
 import "./EditCar.css";
 import { API_BASE_URL } from "../assets/config";
 import Swal from "sweetalert2";
@@ -19,7 +18,7 @@ function EditCar() {
     kilometraje: "",
     nro_patente: "",
   });
-  const [originalPatente, setOriginalPatente] = useState(""); // Nueva variable
+  const [originalPatente, setOriginalPatente] = useState("");
   const [qrCodeValue, setQrCodeValue] = useState("");
   const qrRef = useRef(null);
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ function EditCar() {
       .get(`${API_BASE_URL}/autos/${id}`)
       .then((response) => {
         setAutoData(response.data);
-        setOriginalPatente(response.data.nro_patente); // Guardar la patente original
+        setOriginalPatente(response.data.nro_patente);
       })
       .catch((error) =>
         console.error("Error al obtener los datos del auto:", error)
@@ -51,14 +50,12 @@ function EditCar() {
   const handleMarcaChange = (e) => {
     setSelectedMarca(e.target.value);
     setSelectedModelo("");
-    const { value } = e.target;
-    setAutoData({ ...autoData, marca: value });
+    setAutoData({ ...autoData, marca: e.target.value });
   };
 
   const handleModeloChange = (e) => {
     setSelectedModelo(e.target.value);
-    const { value } = e.target;
-    setAutoData({ ...autoData, modelo: value });
+    setAutoData({ ...autoData, modelo: e.target.value });
   };
 
   const handleInputChange = (e) => {
@@ -78,6 +75,16 @@ function EditCar() {
     const modeloRegex = /^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s]+$/;
     const patenteRegex = /^([a-zA-Z]{3}\d{3}|[a-zA-Z]{2}\d{3}[a-zA-Z]{2})$/;
 
+    // Verificar si marca y modelo están seleccionados
+    if (!selectedMarca) {
+      alert("Por favor, selecciona una marca.");
+      return;
+    }
+    if (!selectedModelo) {
+      alert("Por favor, selecciona un modelo.");
+      return;
+    }
+
     if (!modeloRegex.test(autoData.modelo)) {
       alert("El modelo solo puede contener letras, números y espacios.");
       return;
@@ -88,23 +95,21 @@ function EditCar() {
       return;
     }
 
-    // Verificar si se está cambiando la patente antes de hacer la verificación
     if (autoData.nro_patente !== originalPatente) {
       axios
-      .get(`${API_BASE_URL}/autos/nro_patente/${autoData.nro_patente}`)
-      .then((response) => {
-        if (response.data && response.data.id !== id) {
-          Swal.fire({
-            title: "Error",
-            text: "Ya existe otro vehículo con esta patente en el sistema.",
-            icon: "warning",
-            confirmButtonText: "Aceptar",
-          });
-        } else {
-          updateCarData();
-        }
-      })
-    
+        .get(`${API_BASE_URL}/autos/nro_patente/${autoData.nro_patente}`)
+        .then((response) => {
+          if (response.data && response.data.id !== id) {
+            Swal.fire({
+              title: "Error",
+              text: "Ya existe otro vehículo con esta patente en el sistema.",
+              icon: "warning",
+              confirmButtonText: "Aceptar",
+            });
+          } else {
+            updateCarData();
+          }
+        })
         .catch((error) => {
           console.error("Error al verificar existencia del auto:", error);
           Swal.fire({
@@ -115,7 +120,6 @@ function EditCar() {
           });
         });
     } else {
-      // Si la patente no cambió, proceder directamente a la actualización
       updateCarData();
     }
   };
@@ -136,7 +140,7 @@ function EditCar() {
             confirmButton: "swal-confirm-button",
           },
         }).then(() => {
-          navigate("/gestion-autos");
+          navigate("/edit-car/:id");
         });
       })
       .catch((error) => {
@@ -180,17 +184,14 @@ function EditCar() {
         onChange={handleMarcaChange}
         className="input-edit-car"
       >
-        {" "}
         <option value="" disabled>
-          {" "}
-          Seleccione la marca del vehículo{" "}
-        </option>{" "}
+          Seleccione la marca del vehículo
+        </option>
         {marcas.map((marca) => (
           <option key={marca} value={marca}>
-            {" "}
-            {marca}{" "}
+            {marca}
           </option>
-        ))}{" "}
+        ))}
       </select>
 
       <select
@@ -202,7 +203,7 @@ function EditCar() {
       >
         <option value="" disabled>
           Selecciona un modelo
-        </option>{" "}
+        </option>
         {selectedMarca &&
           modelos[selectedMarca].map((modelo) => (
             <option key={modelo} value={modelo}>
@@ -210,6 +211,7 @@ function EditCar() {
             </option>
           ))}
       </select>
+
       <select
         name="anio"
         value={autoData.anio}
@@ -217,18 +219,16 @@ function EditCar() {
         className="input-edit-car"
         required
       >
-        {" "}
         <option value="" disabled>
-          {" "}
-          Selecciona el año del modelo{" "}
-        </option>{" "}
+          Selecciona el año del modelo
+        </option>
         {years.map((year) => (
           <option key={year} value={year}>
-            {" "}
-            {year}{" "}
+            {year}
           </option>
-        ))}{" "}
+        ))}
       </select>
+
       <input
         type="text"
         name="kilometraje"
@@ -251,7 +251,7 @@ function EditCar() {
         <FontAwesomeIcon icon={faFloppyDisk} style={{ color: "#ffffff" }} />
       </button>
       <button onClick={handleVolver} className="btn-back-edit-auto">
-      <FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} />
+        <FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} />
       </button>
 
       {qrCodeValue && (
