@@ -62,20 +62,16 @@ function RouteCreate() {
   
 
 
-  useEffect(() => {
-    const fetchConductores = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/conductores`);
-        const conductoresHabilitados = response.data.filter(
-          (conductor) => conductor.habilitado
-        );
-        setConductores(conductoresHabilitados);
-      } catch (error) {
-        console.error("Error al obtener los conductores:", error);
-      }
-    };
-    fetchConductores();
-  }, []);
+// Obtener conductores habilitados
+useEffect(() => {
+  axios.get(`${API_BASE_URL}/conductores-habilitados`)
+    .then((response) => {
+      setConductores(response.data);
+    })
+    .catch((error) => {
+      console.error("Error al obtener conductores habilitados:", error);
+    });
+}, []);
 
   useEffect(() => {
     if (!mapRef.current) {
@@ -257,28 +253,22 @@ function RouteCreate() {
             ))}
           </ul>
         )}
-        <select
-          name="conductor"
-          className="conductor-route-create"
-          required
-          onChange={(e) =>
-            setRutaData((prev) => ({
-              ...prev,
-              conductor: e.target.selectedOptions[0].text,
-              conductorDni: e.target.value,
-            }))
-          }
-        >
-          <option value="" selected disabled>
-            Selecciona un conductor
-          </option>
-
-          {conductores.map((conductor) => (
-            <option key={conductor.dni} value={conductor.dni}>
-              {conductor.nombre} ({conductor.dni})
-            </option>
-          ))}
-        </select>
+       <select
+            name="conductor"
+            value={rutaData.conductor}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecciona un conductor</option>
+            {conductores.map((conductor) => (
+              <option
+                key={conductor.id_usuario}
+                value={`${conductor.nombre} ${conductor.apellido}`}
+              >
+                {`${conductor.nombre} ${conductor.apellido} - DNI: ${conductor.dni}`}
+              </option>
+            ))}
+          </select>
         
         
         <div className="input-group">
