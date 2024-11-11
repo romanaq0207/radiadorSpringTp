@@ -171,8 +171,13 @@ function RouteCreate() {
       estado: "pendiente",
       distancia_total_km: distanciaTotal,
       id_gerente: 1, // Cambia esto si es necesario
-    };
+      patente_auto: rutaData.autoSeleccionado,
+    }
+    console.log("auto seleccionado: "+rutaData.autoSeleccionado)
+    console.log(routeData);
 
+    ;
+    
     try {
       await axios.post(`${API_BASE_URL}/rutas`, routeData);
       Swal.fire({
@@ -265,6 +270,7 @@ function RouteCreate() {
           <option value="" selected disabled>
             Selecciona un conductor
           </option>
+
           {conductores.map((conductor) => (
             <option key={conductor.dni} value={conductor.dni}>
               {conductor.nombre} ({conductor.dni})
@@ -275,16 +281,21 @@ function RouteCreate() {
         
         <div className="input-group">
           
-          <select name="autoSeleccionado" value={rutaData.autoSeleccionado} onChange={handleInputChange} required>
+          <select name="autoSeleccionado"
+           value={rutaData.autoSeleccionado} 
+           required
+           onChange={handleInputChange}>
+            
             <option value="">Seleccione un auto</option>
             {autos.map((auto) => (
-              <option key={auto.nro_patente} value={auto.nro_patente}>{auto.nro_patente} - {auto.marca}</option>
+              <option key={auto.nro_patente} value={auto.nro_patente}> {auto.nro_patente} - {auto.marca}</option>
             ))}
           </select>
         </div>
 
 
         <input id="submit-ruta" type="submit" value="Crear Ruta" />
+        
         <button type="button" onClick={submitRoute}>
           <IoIosSend />
         </button>
