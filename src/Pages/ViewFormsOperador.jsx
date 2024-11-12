@@ -216,14 +216,13 @@ const ViewFormsOperador = () => {
     }
     let filtered = [];
     if (lugar === "Si") {
-      filtered = formData.filter((ubicacion) => ubicacion.taller === "Sí");
+      filtered = formData.filter((ubicacion) => ubicacion.taller === 1);
     } else if (lugar === "No") {
       filtered = formData.filter(
-        (ubicacion) => ubicacion.misma_ubicacion === "Sí"
+        (ubicacion) => ubicacion.misma_ubicacion === 1
       );
     }
     console.log(lugar);
-    console.log(formData.misma_ubicacion);
     setFilteredFormData(filtered);
   };
 
