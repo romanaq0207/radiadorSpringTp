@@ -4,34 +4,44 @@ import "./MyRoute.css";
 import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import axios from "axios";
-import { API_BASE_URL } from '../assets/config'; 
+import { API_BASE_URL } from '../assets/config';
 
 function MyRoute() {
-  const [rutasAprobadas, setRutasAprobadas] = useState([]);
+  const [rutasPendientes, setRutasPendientes] = useState([]);
   const [rutaSeleccionada, setRutaSeleccionada] = useState(null);
+  const [dniConductor, setDniConductor] = useState(null);
 
   useEffect(() => {
-    axios.get(`${API_BASE_URL}/ver-rutas`)
-      .then((response) => {
-        // Filtramos las rutas aprobadas
-        const rutasAprobadas = response.data.filter(ruta => ruta.estado === 'aprobada');
-        setRutasAprobadas(rutasAprobadas);
-      })
-      .catch((error) => console.error("Error al obtener rutas:", error));
+    // Aquí asumimos que el DNI del conductor está en el localStorage o contexto
+    const storedDni = localStorage.getItem('dniConductor');  // O donde sea que guardes el DNI del conductor logueado
+
+    if (storedDni) {
+      setDniConductor(storedDni);
+    } else {
+      console.error("DNI del conductor no encontrado");
+    }
   }, []);
+
+  useEffect(() => {
+    if (dniConductor) {
+      // Hacemos la solicitud al nuevo endpoint con el DNI del conductor logueado
+      axios.get(`${API_BASE_URL}/rutas-pendientes/${dniConductor}`)
+        .then((response) => {
+          setRutasPendientes(response.data);
+        })
+        .catch((error) => console.error("Error al obtener rutas:", error));
+    }
+  }, [dniConductor]);
 
   const handleRutaClick = (ruta) => {
     setRutaSeleccionada(ruta);
   };
 
   const completarRuta = (idRuta) => {
-    axios.post(`${API_BASE_URL}/completar-ruta`, { id_ruta: idRuta }) // Asegúrate de que la ruta sea correcta
+    axios.post(`${API_BASE_URL}/completar-ruta`, { id_ruta: idRuta })
       .then(() => {
-        // Filtramos la ruta completada de la lista
-        setRutasAprobadas(prevRutas => prevRutas.filter(ruta => ruta.id_ruta !== idRuta));
-        // Limpiamos la ruta seleccionada
+        setRutasPendientes(prevRutas => prevRutas.filter(ruta => ruta.id_ruta !== idRuta));
         setRutaSeleccionada(null);
-        // Mostramos el mensaje de éxito
         alert("Ruta completada exitosamente");
       })
       .catch((error) => {
@@ -83,9 +93,9 @@ function MyRoute() {
           )}
         </div>
         <div className="route-list">
-          <h3>Rutas Aprobadas</h3>
+          <h3>Rutas Pendientes</h3>
           <ul>
-            {rutasAprobadas.map((ruta) => (
+            {rutasPendientes.map((ruta) => (
               <li key={ruta.id_ruta} onClick={() => handleRutaClick(ruta)} className="route-item">
                 {new Date(ruta.fecha_aprobacion).toLocaleDateString()} - {ruta.conductor}
               </li>

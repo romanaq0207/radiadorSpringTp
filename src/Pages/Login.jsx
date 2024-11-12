@@ -1,4 +1,4 @@
-/*import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { login } from '../Services/authServices';
 import { AuthContext } from '../Context/AuthContext';
@@ -17,9 +17,22 @@ function Login() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      await login(data.email, data.password);
-      handleLogin();
-      setAlertMessage('Bienvenido');
+      // Supongamos que la función `login` devuelve un objeto de usuario
+      const user = await login(data.email, data.password, data.dni);
+      
+      if (user) {
+        // Guardamos el DNI en localStorage
+        localStorage.setItem('dniConductor', user.user.dni);
+        
+        console.log("datos de user:"+user.user.dni)
+        console.log(user)
+        
+        handleLogin(); // Llamamos al método de contexto de autenticación
+        setAlertMessage('Bienvenido');
+      } else {
+        setAlertMessage('Usuario no encontrado');
+      }
+      
       setLoading(false);
     } catch (error) {
       setAlertMessage('Error al iniciar sesión: ' + error.message);
@@ -38,7 +51,7 @@ function Login() {
             {...register('email', {
               required: 'El email es obligatorio',
               pattern: {
-                value: `/^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/`,
+                value: /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                 message: 'Ingrese un email válido',
               },
             })}
@@ -70,101 +83,6 @@ function Login() {
         <button type="submit" disabled={loading}>
           {loading ? 'Cargando...' : 'Iniciar sesión'}
         </button>
-
-        {alertMessage && <p className="alert-message">{alertMessage}</p>}
-      </form>
-    </div>
-  );
-}
-
-export default Login;
-*/
-import { useState, useContext } from "react";
-import { useForm } from "react-hook-form";
-import { login } from "../Services/authServices";
-import { AuthContext } from "../Context/AuthContext";
-import { useCallback } from "react";
-/* import { firestore } from "../firebase/credenciales";  */ // Importa Firestore
-import { useNavigate } from "react-router-dom";
-import "./Login.css";
-
-function Login() {
-  const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("");
-  const { handleLogin } = useContext(AuthContext);
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = useCallback(
-    async (data) => {
-      setLoading(true);
-      try {
-        await login(data.email, data.password);
-        handleLogin();
-        setAlertMessage("Bienvenido");
-        setLoading(false);
-        navigate("/");
-      } catch (error) {
-        setAlertMessage("Error al iniciar sesión: " + error.message);
-        setLoading(false);
-      }
-    },
-    [handleLogin, navigate]
-  );
-
-  const handleRestorePass = () => {
-    navigate("/recuperar-contraseña");
-  };
-
-  return (
-    <div className="login-container">
-      <h2>Iniciar sesión</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <input
-            type="email"
-            {...register("email", {
-              required: "El email es obligatorio",
-              pattern: {
-                value:
-                  /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                message: "Ingrese un email válido",
-              },
-            })}
-            placeholder="Ingrese su email"
-          />
-          {errors.email && (
-            <span className="error-message">{errors.email.message}</span>
-          )}
-        </div>
-
-        <div>
-          <input
-            type="password"
-            {...register("password", {
-              required: "La contraseña es obligatoria",
-              minLength: {
-                value: 6,
-                message: "Debe tener al menos 6 caracteres",
-              },
-            })}
-            placeholder="Ingrese su contraseña"
-          />
-          {errors.password && (
-            <span className="error-message">{errors.password.message}</span>
-          )}
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Cargando..." : <h4>Iniciar Sesion</h4>}
-        </button>
-        <p onClick={handleRestorePass} className="olvide-contraseña">
-          Olvide mi contraseña
-        </p>
 
         {alertMessage && <p className="alert-message">{alertMessage}</p>}
       </form>
