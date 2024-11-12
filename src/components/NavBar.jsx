@@ -37,33 +37,69 @@ function Navbar() {
 
     const roleBasedLinks = {
       administrador: [
-        { to: "/gestion-autos", title: "Búsqueda de Vehiculos", icon: <FaCar /> },
-        { to: "/gestion-proveedores", title: "Proveedores", icon: <FaUserCog /> },
+        {
+          to: "/gestion-autos",
+          title: "Búsqueda de Vehiculos",
+          icon: <FaCar />,
+        },
+        {
+          to: "/gestion-proveedores",
+          title: "Proveedores",
+          icon: <FaUserCog />,
+        },
         { to: "/gestion-mecanicos", title: "Mecánicos", icon: <FaTools /> },
         { to: "/gestion-conductor", title: "Conductores", icon: <FaUsers /> },
         { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },
         { to: "/admin-usuarios", title: "Usuarios", icon: <FaUserCog /> },
         { to: "/admin-flotas", title: "Flotas", icon: <FaTruck /> },
         { to: "/productos", title: "Productos", icon: <FaBox /> },
-        { to: "/orden-de-compra", title: "Órdenes de Compra", icon: <FaShoppingCart /> },
+        {
+          to: "/orden-de-compra",
+          title: "Órdenes de Compra",
+          icon: <FaShoppingCart />,
+        },
       ],
-      operador: [
+      conductor: [
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
-        { to: "/verificar-formularios", title: "Fichas de control", icon: <FaClipboardCheck /> },
+        {
+          to: "/verificar-formularios",
+          title: "Fichas de control",
+          icon: <FaClipboardCheck />,
+        },
       ],
       gerente: [
-        { to: "/verificar-rutas", title: "Verificación de Rutas", icon: <FaRoute /> },
+        {
+          to: "/verificar-rutas",
+          title: "Verificación de Rutas",
+          icon: <FaRoute />,
+        },
         { to: "/reportes-gerencia", title: "Reportes", icon: <FaChartLine /> },
       ],
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
-        { to: "/formularios-supervisor", title: "Fichas de control", icon: <FaClipboardCheck /> },
-        { to: "/ordenes-compras-supervisor", title: "Ordenes de Compra", icon: <FaShoppingCart /> },
+        {
+          to: "/formularios-supervisor",
+          title: "Fichas de control",
+          icon: <FaClipboardCheck />,
+        },
+        {
+          to: "/ordenes-compras-supervisor",
+          title: "Ordenes de Compra",
+          icon: <FaShoppingCart />,
+        },
       ],
       mecanico: [
-        { to: "/busqueda-auto-mecanico", title: "Vehículos de Operadores", icon: <FaCar /> },
-        { to: "/pedidos-ayuda", title: "Pedidos de Acarreo", icon: <GiTowTruck /> },
+        {
+          to: "/busqueda-auto-mecanico",
+          title: "Vehículos de Operadores",
+          icon: <FaCar />,
+        },
+        {
+          to: "/pedidos-ayuda",
+          title: "Pedidos de Acarreo",
+          icon: <GiTowTruck />,
+        },
       ],
       cliente: [
         { to: "/visor-flota", title: "Visor de Flotas", icon: <FaTruck /> },

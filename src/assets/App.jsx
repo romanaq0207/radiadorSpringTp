@@ -413,6 +413,14 @@ const MainApp = () => {
             }
           />
           <Route
+            path="/ver-mi-ruta"
+            element={
+              <ProtectedRoute>
+                <MyRoute />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/ver-flotas"
             element={
               <ProtectedRoute>
