@@ -86,7 +86,10 @@
     background-color: #4a90e2;
     color: white;
 }
-
+.orders-status.automática {
+    background-color: #4a90e2;
+    color: white;
+}
 .orders-status.aceptada {
     background-color: #0fff4371;
     color: white;

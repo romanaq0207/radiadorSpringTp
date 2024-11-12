@@ -233,6 +233,14 @@ const OrdenesDeCompra = () => {
                         <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}><FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} /></button>
                     </>
                 );
+                case 'automática':
+                    return (
+                        <>
+                            <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
+                            <button className="orders-btn accept" onClick={async () => await updateOrderStatus(order.id_orden_de_compra, 'aceptada')}><FontAwesomeIcon icon={faCheck} style={{ color: "#ffffff" }} /></button>
+                            <button className="orders-btn reject" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'rechazada')}><FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} /></button>
+                        </>
+                    );
             case 'completada':
 
             case 'rechazada':
