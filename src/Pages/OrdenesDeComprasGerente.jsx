@@ -222,7 +222,7 @@ const OrdenesDeCompra = () => {
                     <>
                         <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
                         <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}>Completar</button>
-                        <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}>Inactivar</button>
+                        <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}>Cancelar</button>
                     </>
                 );
             case 'completada':
