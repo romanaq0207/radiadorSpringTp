@@ -53,7 +53,8 @@ import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
-import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor";
+import OrdenesDeComprasGerente from "../Pages/OrdenesDeComprasGerente";
+import AddOrdenGerente from "../Pages/AddOrdenGerente";
 
 const App = () => {
   return (
@@ -67,7 +68,6 @@ const App = () => {
 
 const MainApp = () => {
   const { handleLogout } = useContext(AuthContext);
-  const { disabled, setDisabled } = useState(false);
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
 
   // const isDisabled = () => {
@@ -332,10 +332,18 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ordenes-compras-supervisor"
+            path="/ordenes-compras-gerente"
             element={
               <ProtectedRoute>
-                <OrdenesDeComprasSupervisor />
+                <OrdenesDeComprasGerente />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-orden-gerente"
+            element={
+              <ProtectedRoute>
+                <AddOrdenGerente />
               </ProtectedRoute>
             }
           />
@@ -429,7 +437,7 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ver-formularios-operador"
+            path="/ver-formularios-conductor"
             element={
               <ProtectedRoute>
                 <ViewFormsOperador />
@@ -444,7 +452,7 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
         </Routes>
 
         <button

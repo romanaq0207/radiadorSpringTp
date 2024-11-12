@@ -327,23 +327,127 @@ button.orders-btn.confirm {
     }
 }
 
-@media screen and (max-width: 480px) {
+/* CSS para pantallas pequeñas */
+@media (max-width: 768px) {
+    /* Contenedor principal */
+    .orders-container {
+        padding: 10px;
+        width: 100%;
+    }
+
+    /* Encabezado */
+    .orders-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
     .orders-header h1 {
-        font-size: 25px;
+        font-size: 1.2em;
+        text-align: center;
+    }
+    .orders-btn.add-order {
+        font-size: 1.5em;
+        margin-top: 10px;
     }
 
+    /* Filtros */
+    .orders-filter {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .orders-filter select,
+    .orders-filter input {
+        font-size: 1em;
+        padding: 8px;
+        width: 100%;
+        margin: 1px;
+    }
+
+    /* Tabla de órdenes */
+    .orders-table {
+        font-size: 0.9em;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+    }
+    .orders-table thead {
+        display: none;
+    }
+    .orders-table tbody tr {
+        display: flex;
+        background-color: #3e4e6c;
+        flex-direction: column;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    .orders-table tbody td {
+        display: flex;
+        justify-content: center;
+        padding: 5px 0;
+    }
+    .orders-status {
+        padding: 3px 5px;
+        font-size: 0.8em;
+    }
+
+    /* Botones de acción */
     .orders-btn {
-        padding: 6px 10px;
-        font-size: 12px;
+        font-size: 0.9em;
+        padding: 8px 10px;
+        margin: 5px 0;
     }
 
-    .orders-table td {
-        font-size: 18px;
+    /* Popups */
+    .popup-overlay-details,
+    .popup-overlay-confirm {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+ 
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+    }
+    .popup-content {
+        background: white;
+        padding: 20px;
+        width: 80%;
+        min-width: 300px;
+        border-radius: 8px;
+        align-items: center;
+    }
+    .popup-content h2,
+    .popup-content h3 {
+        font-size: 1.1em;
+        margin: 0 0 10px 0;
+        text-align: center;
+    }
+    .popup-content table {
+        font-size: 0.9em;
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+    }
+    .popup-content th,.popup-content td {
         padding: 5px;
-        height: 40px;
+        text-align: center;
+   
+    .popup-btn {
+        font-size: 1em;
+        padding: 8px;
+        margin-top: 10px;
+        display: block;
+        width: 100%;
+        background: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
     }
-
-    .popup-close-btn {
-        font-size: 14px;
-    }
-}
+}}

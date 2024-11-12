@@ -63,7 +63,7 @@ function Navbar() {
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
         {
-          to: "/verificar-formularios",
+          to: "/ver-formularios-conductor",
           title: "Fichas de control",
           icon: <FaClipboardCheck />,
         },
@@ -75,6 +75,11 @@ function Navbar() {
           icon: <FaRoute />,
         },
         { to: "/reportes-gerencia", title: "Reportes", icon: <FaChartLine /> },
+        {
+          to: "/ordenes-compras-gerente",
+          title: "Ordenes de Compra",
+          icon: <FaShoppingCart />,
+        },
       ],
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
@@ -82,11 +87,6 @@ function Navbar() {
           to: "/formularios-supervisor",
           title: "Fichas de control",
           icon: <FaClipboardCheck />,
-        },
-        {
-          to: "/ordenes-compras-supervisor",
-          title: "Ordenes de Compra",
-          icon: <FaShoppingCart />,
         },
       ],
       mecanico: [

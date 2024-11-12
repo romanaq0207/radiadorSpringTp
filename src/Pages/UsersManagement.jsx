@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/*import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // Asegúrate de importar SweetAlert2
 import { useMediaQuery } from "react-responsive";
 import usuariosData from "../data/usuarios.json";
@@ -27,6 +27,7 @@ const UsersManagement = () => {
     dni: "",
     mail: "",
     rol: "",
+    password: "",
     habilitado: true,
   });
 
@@ -124,6 +125,7 @@ const UsersManagement = () => {
         dni: "",
         mail: "",
         rol: "",
+        password: "",
         habilitado: true,
       });
     }
@@ -171,6 +173,7 @@ const UsersManagement = () => {
       dni: "",
       mail: "",
       rol: "",
+      password: "",
       habilitado: true,
     });
     setIsEditing(false);
@@ -220,6 +223,202 @@ const UsersManagement = () => {
     );
     setFilteredUsers(filtered);
   }, [searchTermRol, usuarios]);
+*/
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Importa axios para realizar las peticiones HTTP
+import Swal from "sweetalert2";
+import { useMediaQuery } from "react-responsive";
+import { FaTrash } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import "./UsersManagement.css";
+import { API_BASE_URL } from "../assets/config";
+
+const UsersManagement = () => {
+  const [numero, setNumero] = useState("");
+  const [searchTermRol, setSearchTermRol] = useState("");
+  const [searchTermMail, setSearchTermMail] = useState("");
+  const [searchTermDNI, setSearchTermDNI] = useState("");
+  const [FilteredUsers, setFilteredUsers] = useState([]);
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const [usuarios, setUsuarios] = useState([]);
+
+  const [formData, setFormData] = useState({
+    id: "",
+    nombre: "",
+    apellido: "",
+    dni: "",
+    email: "",
+    rol: "",
+    password: "",
+    habilitado: true,
+  });
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const handleRestrictDNI = (event) => {
+    // restricciones para ingresar otra cosa que no sea numeros en tiempo real
+    const term = event.target.value;
+    if (/^[1-9]\d{0,8}$/.test(term) || term === "") {
+      setNumero(term);
+      setErrors("");
+    } else {
+      setErrors("Debe contener exactamente 9 cifras y ser un número positivo");
+    }
+    setSearchTermDNI(term);
+    filterUsuariosDNI(term);
+  };
+  const filterUsuariosDNI = (term) => {
+    if (term === "") {
+      setFilteredUsers(usuarios);
+    } else {
+      const filtered = usuarios.filter((usuario) => usuario.dni.includes(term));
+      setFilteredUsers(filtered);
+    }
+  };
+  // Función para obtener todos los usuarios desde el endpoint
+  const fetchUsuarios = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/usuarios`);
+      //console.log(response.data);
+      setUsuarios(response.data);
+      setFilteredUsers(response.data.filter((usuario) => usuario.habilitado));
+    } catch (error) {
+      console.error("Error al obtener usuarios:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsuarios(); // Llama a la función al cargar la página
+  }, []);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validación de formulario
+    if (!/^[a-zA-Z\s]+$/.test(formData.nombre)) {
+      newErrors.nombre = "El nombre solo puede contener letras y espacios.";
+    }
+    if (!/^[a-zA-Z\s]+$/.test(formData.apellido)) {
+      newErrors.apellido = "El apellido solo puede contener letras y espacios.";
+    }
+    if (!/^\d+$/.test(formData.dni)) {
+      newErrors.dni = "El DNI solo puede contener números.";
+    }
+    if (
+      !/^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/.test(
+        formData.email
+      )
+    ) {
+      newErrors.email = "El formato del correo no es válido.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      try {
+        if (isEditing) {
+          // Aquí podrías agregar lógica para editar el usuario si tienes un endpoint para ello
+        } else {
+          // Crear usuario a través del endpoint de registro
+          await axios.post(`${API_BASE_URL}/registrar`, formData);
+          Swal.fire("¡Éxito!", "Usuario registrado correctamente.", "success");
+          fetchUsuarios(); // Vuelve a cargar los usuarios después de agregar uno nuevo
+        }
+
+        setFormData({
+          id: "",
+          nombre: "",
+          apellido: "",
+          dni: "",
+          email: "",
+          rol: "",
+          password: "",
+          habilitado: true,
+        });
+        setIsEditing(false);
+      } catch (error) {
+        Swal.fire("Error", "No se pudo registrar el usuario.", "error");
+      }
+    }
+  };
+
+  const handleEdit = (id) => {
+    const usuario = usuarios.find((usuario) => usuario.id === id);
+    setFormData(usuario);
+    setIsEditing(true);
+    if (isMobile) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción deshabilitará al usuario.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Deshabilitar el usuario a nivel de estado local
+        setUsuarios(
+          usuarios.map((usuario) =>
+            usuario.id === id ? { ...usuario, habilitado: false } : usuario
+          )
+        );
+        Swal.fire("¡Eliminado!", "El usuario ha sido deshabilitado.", "success");
+      }
+    });
+  };
+
+  const handleCancel = () => {
+    setFormData({
+      id: "",
+      nombre: "",
+      apellido: "",
+      dni: "",
+      email: "",
+      rol: "",
+      password: "",
+      habilitado: true,
+    });
+    setIsEditing(false);
+  };
+
+  // Filtrado de usuarios por mail, DNI, y rol
+  const filterUsuariosMail = (term) => {
+    if (term === "") {
+      setFilteredUsers(usuarios);
+    } else {
+      const filtered = usuarios.filter((usuario) =>
+        usuario.email.toLowerCase().includes(term.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    }
+  };
+
+  const handleSearchChange = (event) => {
+    const term = event.target.value;
+    setSearchTermMail(term);
+    filterUsuariosMail(term);
+  };
+
+
+
+
 
   return (
     <div className="users-management-container">
@@ -260,13 +459,22 @@ const UsersManagement = () => {
 
           <input
             type="text"
-            name="mail"
-            placeholder="Mail"
-            value={formData.mail}
+            name="email"
+            placeholder="email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
-          {errors.mail && <p className="error-message">{errors.mail}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
 
           <select
             type="text"
@@ -277,7 +485,7 @@ const UsersManagement = () => {
             required
           >
             <option value="">Selecciona una opción</option>
-            <option value="operador">Operador</option>
+            <option value="conductor">Operador</option>
             <option value="administrador">Administrador</option>
             <option value="cliente">Cliente</option>
             <option value="gerencia">Gerencia</option>
@@ -308,7 +516,7 @@ const UsersManagement = () => {
                 <strong>DNI:</strong> {usuario.dni}
               </p>
               <p>
-                <strong>Mail:</strong> {usuario.mail}
+                <strong>Email:</strong> {usuario.email}
               </p>
               <p>
                 <strong>Rol:</strong> {usuario.rol}

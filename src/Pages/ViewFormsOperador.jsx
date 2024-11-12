@@ -9,11 +9,14 @@ const ViewFormsOperador = () => {
   const navigate = useNavigate();
   const [formStates, setFormStates] = useState([]);
   const [formData, setFormData] = useState([]);
+  const [selectedUbicacion, setSelectedUbicacion] = useState("");
+  const [selectedEstado, setSelectedEstado] = useState("");
+  const [filteredFormData, setFilteredFormData] = useState([]);
 
   useEffect(() => {
     const fetchForms = async () => {
       try {
-        const response = await axios.get  (
+        const response = await axios.get(
           `${API_BASE_URL}/informes/obtener-informes-misma-ubicacion`
         );
         const informesConProductos = await Promise.all(
@@ -23,6 +26,7 @@ const ViewFormsOperador = () => {
           })
         );
         setFormData(informesConProductos);
+        setFilteredFormData(informesConProductos);
         setFormStates(informesConProductos.map(() => ({ aprobado: null })));
       } catch (error) {
         console.error("Error al obtener los formularios:", error);
@@ -45,13 +49,13 @@ const ViewFormsOperador = () => {
         try {
           const informeId = formData[index].id_informe;
           console.log("ID del informe:", informeId);
-  
+
           // 1. Obtener los productos del informe
           const productosResponse = await axios.get(
             `${API_BASE_URL}/informes/obtener-productos-informe/${informeId}`
           );
           const productos = productosResponse.data;
-  
+
           // 2. Restar la cantidad de cada producto en la base de datos
           for (const producto of productos) {
             const { nombre, cantidad_utilizada } = producto;
@@ -68,16 +72,14 @@ const ViewFormsOperador = () => {
               // Puedes mostrar un mensaje de error al usuario o manejar el error de otra forma
             }
           }
-  
+
           // 3. Actualizar el estado del informe en la base de datos
-          await axios.put(
-            `${API_BASE_URL}/informes/${informeId}/confirmar`
-          );
-  
+          await axios.put(`${API_BASE_URL}/informes/${informeId}/confirmar`);
+
           const newFormStates = [...formStates];
           newFormStates[index].aprobado = true; // Marcar como aprobado
           setFormStates(newFormStates);
-  
+
           Swal.fire({
             title: "Ficha de control confirmada",
             text: "La ficha de control ha sido confirmada exitosamente.",
@@ -171,10 +173,97 @@ const ViewFormsOperador = () => {
     }
   };
 
+  // const handleLugarChange = (e) => {
+  //   const lugar = e.target.value;
+  //   if (lugar === "") {
+  //     setSelectedUbicacion(lugar);
+  //     setFilteredFormData(formData);
+  //   }
+  //   if (lugar === "Si") {
+  //     setSelectedUbicacion(lugar);
+  //     filterEnTallerBy(lugar);
+  //   }
+  //   if (lugar === "No") {
+  //     setSelectedUbicacion(lugar);
+  //     filterEnTallerBy(lugar);
+  //   }
+  // };
+  // const filterEnTallerBy = (lugar) => {
+  //   if (lugar === "") {
+  //     setFilteredFormData(formData);
+  //   } else if (lugar === "Si") {
+  //     const filtered = formData.filter((ubicacion) => {
+  //       const taller = ubicacion.taller ? ubicacion.taller.toString() : "";
+  //       return taller.toLowerCase().includes(lugar.toLowerCase());
+  //     });
+  //     setFilteredFormData(filtered);
+  //   } else if (lugar === "No") {
+  //     console.log("voy bien");
+  //     let noTaller = "Sí";
+  //     const filtered = formData.filter((ubicacion) => {
+  //       const taller = ubicacion.misma_ubicacion
+  //         ? ubicacion.misma_ubicacion.toString()
+  //         : "";
+  //       return taller.toLowerCase().includes(noTaller.toLowerCase());
+  //     });
+  //     setFilteredFormData(filtered);
+  //   }
+  // };
+  const filterEnTallerBy = (lugar) => {
+    setSelectedUbicacion(lugar);
+    if (!lugar) {
+      setFilteredFormData(formData);
+      return;
+    }
+    let filtered = [];
+    if (lugar === "Si") {
+      filtered = formData.filter((ubicacion) => ubicacion.taller === 1);
+    } else if (lugar === "No") {
+      filtered = formData.filter(
+        (ubicacion) => ubicacion.misma_ubicacion === 1
+      );
+    }
+    setFilteredFormData(filtered);
+  };
+  const filterEstadoBy = (estados) => {
+    setSelectedEstado(estados);
+    if (!estados) {
+      setFilteredFormData(formData);
+      return;
+    }
+    let filtered = [];
+    if (estados === "aceptado") {
+      filtered = formData.filter((estado) => estado.aceptado === 1);
+    } else if (estados === "rechazado") {
+      filtered = formData.filter((estado) => estado.aceptado === 0);
+    } else if (estados === "pendiente") {
+      filtered = formData.filter((estado) => estado.aceptado === null);
+    }
+    setFilteredFormData(filtered);
+  };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Fichas de Control</h2>
-      {formData.map((form, index) => (
+      <select
+        value={selectedUbicacion}
+        onChange={(e) => filterEnTallerBy(e.target.value)}
+      >
+        <option value="">Ubicación del mantenimiento</option>
+        <option value="Si">En el taller</option>
+        <option value="No">Fuera del taller</option>
+      </select>
+      <select
+        value={selectedEstado}
+        onChange={(e) => filterEstadoBy(e.target.value)}
+      >
+        <option value="">Estado del mantenimiento</option>
+        <option value="aceptado">Aceptado</option>
+        <option value="rechazado">Rechazado</option>
+        <option value="pendiente">Pendiente</option>
+      </select>
+
+      {filteredFormData.map((form, index) => (
         <div key={index} className={styles.card}>
           <p>
             <strong>ID del Informe:</strong> {form.id_informe}
@@ -186,7 +275,7 @@ const ViewFormsOperador = () => {
             <strong>Taller:</strong> {form.taller ? "Sí" : "No"}
           </p>
           <p>
-            <strong>Misma Ubicación:</strong>{" "}
+            <strong>Misma Ubicación:</strong>
             {form.misma_ubicacion ? "Sí" : "No"}
           </p>
 
@@ -201,15 +290,15 @@ const ViewFormsOperador = () => {
               </tr>
             </thead>
             <tbody>
-  {form.productosUtilizados.map((producto, pIndex) => (
-    <tr key={pIndex}>
-      <td>{producto.nombre}</td>
-      <td>{producto.marca}</td>
-      <td>{producto.modelo}</td>
-      <td>{producto.cantidad_utilizada}</td>  {/* Cambia aquí */}
-    </tr>
-  ))}
-</tbody>
+              {form.productosUtilizados.map((producto, pIndex) => (
+                <tr key={pIndex}>
+                  <td>{producto.nombre}</td>
+                  <td>{producto.marca}</td>
+                  <td>{producto.modelo}</td>
+                  <td>{producto.cantidad_utilizada}</td> {/* Cambia aquí */}
+                </tr>
+              ))}
+            </tbody>
           </table>
 
           {/* Mostrar estado del informe o botones */}
