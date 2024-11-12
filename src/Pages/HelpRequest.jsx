@@ -153,7 +153,7 @@ const HelpRequest = () => {
     const requestData = {
       id_conductor: 1,
       id_mecanico: 1,
-      patente_auto: patente,
+      patente_auto: selectedPatente,
       token: token,
       descripcion: description || "",
       foto: photo || "",
