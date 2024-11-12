@@ -387,6 +387,7 @@ button.orders-btn.confirm {
         display: flex;
         justify-content: center;
         padding: 5px 0;
+        gap: 7px;
     }
     .orders-status {
         padding: 3px 5px;

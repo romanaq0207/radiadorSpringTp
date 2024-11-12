@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './OrdenesDeCompra.css';
+
+import { faCheck, faBan } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo} from '@fortawesome/free-solid-svg-icons';
@@ -219,16 +221,16 @@ const OrdenesDeCompra = () => {
                 return (
                     <>
                         <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
-                        <button className="orders-btn accept" onClick={async () => await updateOrderStatus(order.id_orden_de_compra, 'aceptada')}>Aceptar</button>
-                        <button className="orders-btn reject" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'rechazada')}>Rechazar</button>
+                        <button className="orders-btn accept" onClick={async () => await updateOrderStatus(order.id_orden_de_compra, 'aceptada')}><FontAwesomeIcon icon={faCheck} style={{ color: "#ffffff" }} /></button>
+                        <button className="orders-btn reject" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'rechazada')}><FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} /></button>
                     </>
                 );
             case 'aceptada':
                 return (
                     <>
                         <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>
-                        <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}>Completar</button>
-                        <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}>Cancelar</button>
+                        <button className="orders-btn complete" onClick={() => handleCompleteOrder(order)}><FontAwesomeIcon icon={faCheck} style={{ color: "#ffffff" }} /></button>
+                        <button className="orders-btn inactivate" onClick={() => updateOrderStatus(order.id_orden_de_compra, 'inactiva')}><FontAwesomeIcon icon={faBan} style={{ color: "#ffffff" }} /></button>
                     </>
                 );
             case 'completada':
