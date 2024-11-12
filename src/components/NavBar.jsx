@@ -3,6 +3,7 @@ import { useState, useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 import { GiTowTruck } from "react-icons/gi";
+import { MdTrolley } from "react-icons/md";
 import {
   FaHome,
   FaUser,
@@ -38,7 +39,7 @@ function Navbar() {
     const roleBasedLinks = {
       administrador: [
         { to: "/gestion-autos", title: "Búsqueda de Vehiculos", icon: <FaCar /> },
-        { to: "/gestion-proveedores", title: "Proveedores", icon: <FaUserCog /> },
+        { to: "/gestion-proveedores", title: "Proveedores", icon: <MdTrolley /> },
         { to: "/gestion-mecanicos", title: "Mecánicos", icon: <FaTools /> },
         { to: "/gestion-conductor", title: "Conductores", icon: <FaUsers /> },
         { to: "/reportes", title: "Reportes", icon: <FaChartLine /> },

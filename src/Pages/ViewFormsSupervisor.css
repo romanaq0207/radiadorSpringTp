@@ -86,7 +86,7 @@
     width: 100%;
     font-size: 3rem;
     font-weight: bold;
-    color: blanchedalmond;
+    color: white;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -107,7 +107,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #f38dc8be;
-    color: wheat;
+    color: white;
     max-width: 270px; /* Define un ancho máximo para mantener la consistencia */
     justify-content: space-between;
 
@@ -124,7 +124,7 @@
 }
 
 .card strong {
-    color:wheat;
+    color:white;
 }
 
 /* Estilos para los botones */
