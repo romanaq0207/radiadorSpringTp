@@ -151,9 +151,9 @@ const HelpRequest = () => {
 
   const sendHelpRequest = async () => {
     const requestData = {
-      id_conductor: 1,
-      id_mecanico: 1,
-      patente_auto: patente,
+      id_conductor: 3,
+      id_mecanico: 2,
+      patente_auto: filteredPatente[0],
       token: token,
       descripcion: description || "",
       foto: photo || "",
