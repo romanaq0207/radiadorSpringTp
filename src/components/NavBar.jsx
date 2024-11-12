@@ -63,7 +63,7 @@ function Navbar() {
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
         {
-          to: "/verificar-formularios",
+          to: "/ver-formularios-conductor",
           title: "Fichas de control",
           icon: <FaClipboardCheck />,
         },
@@ -88,7 +88,6 @@ function Navbar() {
           title: "Fichas de control",
           icon: <FaClipboardCheck />,
         },
-        
       ],
       mecanico: [
         {

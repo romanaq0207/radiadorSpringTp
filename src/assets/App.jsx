@@ -429,7 +429,7 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ver-formularios-operador"
+            path="/ver-formularios-conductor"
             element={
               <ProtectedRoute>
                 <ViewFormsOperador />
