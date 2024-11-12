@@ -43,4 +43,5 @@ function RutesCard({ ruta, onApprove, onReject }) {
   );
 }
 
+
 export default RutesCard;

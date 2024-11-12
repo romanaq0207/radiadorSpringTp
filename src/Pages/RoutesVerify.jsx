@@ -83,16 +83,16 @@ function RutesVerify() {
               title: "Ruta aprobada",
               text: "La ruta ha sido aprobada exitosamente.",
             });
-
-            // Actualiza el estado local para reflejar el cambio
-            setAllRutas((prevRutas) =>
+  
+            // Actualiza el estado de las rutas aprobadas
+            setFilteredRutas((prevRutas) =>
               prevRutas.map((ruta) =>
                 ruta.id_ruta === idRuta ? { ...ruta, estado: "aprobada" } : ruta
               )
             );
           })
           .catch((error) => {
-            console.error("Error al aprobar ruta:", error);
+            console.error("Error al aprobar la ruta:", error);
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -102,12 +102,12 @@ function RutesVerify() {
       }
     });
   };
-
+  
   const handleReject = (idRuta) => {
     Swal.fire({
       title: "¿Estás seguro?",
       text: "¿Quieres rechazar esta ruta?",
-      icon: "question",
+      icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -119,22 +119,20 @@ function RutesVerify() {
           .post(`${API_BASE_URL}/rechazar-ruta`, { id_ruta: idRuta })
           .then(() => {
             Swal.fire({
-              icon: "warning",
+              icon: "success",
               title: "Ruta rechazada",
-              text: "La ruta ha sido rechazada.",
+              text: "La ruta ha sido rechazada exitosamente.",
             });
-
-            // Actualiza el estado local para reflejar el cambio
-            setAllRutas((prevRutas) =>
+  
+            // Actualiza el estado de las rutas rechazadas
+            setFilteredRutas((prevRutas) =>
               prevRutas.map((ruta) =>
-                ruta.id_ruta === idRuta
-                  ? { ...ruta, estado: "rechazada" }
-                  : ruta
+                ruta.id_ruta === idRuta ? { ...ruta, estado: "rechazada" } : ruta
               )
             );
           })
           .catch((error) => {
-            console.error("Error al rechazar ruta:", error);
+            console.error("Error al rechazar la ruta:", error);
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -144,6 +142,8 @@ function RutesVerify() {
       }
     });
   };
+  
+  
 
   const filterEstadoRutas = (term) => {
     if (term === "") {
