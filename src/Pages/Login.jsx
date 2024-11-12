@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react';
-import { useForm } from 'react-hook-form';
-import { login } from '../Services/authServices';
-import { AuthContext } from '../Context/AuthContext';
-import './Login.css';
+import React, { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { login } from "../Services/authServices";
+import { Navigate, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
+import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState("");
   const { handleLogin } = useContext(AuthContext);
   const {
     register,
@@ -19,23 +21,24 @@ function Login() {
     try {
       // Supongamos que la función `login` devuelve un objeto de usuario
       const user = await login(data.email, data.password, data.dni);
-      
+
       if (user) {
         // Guardamos el DNI en localStorage
-        localStorage.setItem('dniConductor', user.user.dni);
-        
-        console.log("datos de user:"+user.user.dni)
-        console.log(user)
-        
+        localStorage.setItem("dniConductor", user.user.dni);
+
+        console.log("datos de user:" + user.user.dni);
+        console.log(user);
+
         handleLogin(); // Llamamos al método de contexto de autenticación
-        setAlertMessage('Bienvenido');
+        setAlertMessage("Bienvenido");
+        navigate("/");
       } else {
-        setAlertMessage('Usuario no encontrado');
+        setAlertMessage("Usuario no encontrado");
       }
-      
+
       setLoading(false);
     } catch (error) {
-      setAlertMessage('Error al iniciar sesión: ' + error.message);
+      setAlertMessage("Error al iniciar sesión: " + error.message);
       setLoading(false);
     }
   };
@@ -48,40 +51,41 @@ function Login() {
           <label>Email:</label>
           <input
             type="email"
-            {...register('email', {
-              required: 'El email es obligatorio',
+            {...register("email", {
+              required: "El email es obligatorio",
               pattern: {
-                value: /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                message: 'Ingrese un email válido',
+                value:
+                  /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                message: "Ingrese un email válido",
               },
             })}
             placeholder="Ingrese su email"
           />
-          {errors.email && <span className="error-message">{errors.email.message}</span>}
+          {errors.email && (
+            <span className="error-message">{errors.email.message}</span>
+          )}
         </div>
 
         <div>
           <label>Contraseña:</label>
           <input
             type="password"
-            {...register('password', {
-              required: 'La contraseña es obligatoria',
+            {...register("password", {
+              required: "La contraseña es obligatoria",
               minLength: {
                 value: 6,
-                message: 'Debe tener al menos 6 caracteres',
-              },
-              maxLength: {
-                value: 12,
-                message: 'No puede tener más de 12 caracteres',
+                message: "Debe tener al menos 6 caracteres",
               },
             })}
             placeholder="Ingrese su contraseña"
           />
-          {errors.password && <span className="error-message">{errors.password.message}</span>}
+          {errors.password && (
+            <span className="error-message">{errors.password.message}</span>
+          )}
         </div>
 
         <button type="submit" disabled={loading}>
-          {loading ? 'Cargando...' : 'Iniciar sesión'}
+          {loading ? "Cargando..." : "Iniciar sesión"}
         </button>
 
         {alertMessage && <p className="alert-message">{alertMessage}</p>}

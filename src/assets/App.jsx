@@ -67,7 +67,6 @@ const App = () => {
 
 const MainApp = () => {
   const { handleLogout } = useContext(AuthContext);
-  const { disabled, setDisabled } = useState(false);
   const user = JSON.parse(localStorage.getItem("user")); // Obtener el usuario del localStorage
 
   // const isDisabled = () => {
@@ -444,7 +443,7 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/login" element={<Login />} /> */}
+          <Route path="/login" element={<Login />} />
         </Routes>
 
         <button

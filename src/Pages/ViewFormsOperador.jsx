@@ -212,7 +212,6 @@ const ViewFormsOperador = () => {
     setSelectedUbicacion(lugar);
     if (!lugar) {
       setFilteredFormData(formData);
-      setSelectedUbicacion(lugar);
       return;
     }
     let filtered = [];
@@ -223,7 +222,8 @@ const ViewFormsOperador = () => {
         (ubicacion) => ubicacion.misma_ubicacion === "Sí"
       );
     }
-    setSelectedUbicacion(lugar);
+    console.log(lugar);
+    console.log(formData.misma_ubicacion);
     setFilteredFormData(filtered);
   };
 
