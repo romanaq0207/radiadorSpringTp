@@ -240,7 +240,7 @@ const OrdenesDeCompra = () => {
         <div className="orders-container">
             <div className="orders-header">
                 <h1>Órdenes de compra</h1>
-                <button className="orders-btn add-order" onClick={() => navigate('/add-orden')}>+</button>
+                <button className="orders-btn add-order" onClick={() => navigate('/add-orden-gerente')}>+</button>
             </div>
             <div className="orders-filter">
                 <select value={filterState} onChange={handleStateFilterChange}>

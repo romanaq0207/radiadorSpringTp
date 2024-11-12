@@ -54,6 +54,7 @@ import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
 import OrdenesDeComprasGerente from "../Pages/OrdenesDeComprasGerente";
+import AddOrdenGerente from "../Pages/AddOrdenGerente";
 
 const App = () => {
   return (
@@ -335,6 +336,14 @@ const MainApp = () => {
             element={
               <ProtectedRoute>
                 <OrdenesDeComprasGerente />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-orden-gerente"
+            element={
+              <ProtectedRoute>
+                <AddOrdenGerente />
               </ProtectedRoute>
             }
           />
