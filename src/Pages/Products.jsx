@@ -17,6 +17,19 @@ function Products() {
   );
   const [showModal, setShowModal] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const marcas = ["Mercedez Benz", "Volkswagen", "Renault", "Iveco"];
+  const modelos = {
+    "Mercedez Benz": ["Actros", "Arocs", "Atego", "Econic"],
+    Volkswagen: ["Delivery", "Constellation", "Meteor"],
+    Renault: ["Master", "Trafic", "D-Truck", "Midlum"],
+    Iveco: ["Stralis", "Trakker", "Eurocargo"],
+  };
+  const [searchMarcaTerm, setSearchMarcaTerm] = useState("Todos los productos");
+  const [searchModeloTerm, setSearchModeloTerm] = useState(
+    "Todos los productos"
+  );
+  const [selectedMarca, setSelectedMarca] = useState("");
+  const [selectedModelo, setSelectedModelo] = useState("");
   const navigate = useNavigate();
 
   const fetchProductos = async () => {
@@ -45,10 +58,40 @@ function Products() {
           row.nombre.toLowerCase().includes(searchTerm.toLowerCase())
         );
       }
+      if (
+        searchMarcaTerm !== "Todos los productos" &&
+        searchModeloTerm !== "Todos los productos"
+      ) {
+        filtered = filtered.filter(
+          (row) =>
+            row.marca.toLowerCase().includes(searchMarcaTerm.toLowerCase()) &&
+            row.modelo.toLowerCase().includes(searchModeloTerm.toLowerCase())
+        );
+      } else if (
+        searchMarcaTerm !== "Todos los productos" &&
+        searchModeloTerm === "Todos los productos"
+      ) {
+        filtered = filtered.filter((row) =>
+          row.marca.toLowerCase().includes(searchMarcaTerm.toLowerCase())
+        );
+      }
       setFilteredRows(filtered);
     };
     filterRows();
-  }, [selectedCategoria, searchTerm, rows]);
+  }, [selectedCategoria, searchTerm, rows, searchMarcaTerm, searchModeloTerm]);
+
+  const handleMinStock = () => {
+    const sorted = [...rows].sort(
+      (rowa, rowb) => rowa.cantidad - rowb.cantidad
+    );
+    setFilteredRows(sorted);
+  };
+  const handleMaxStock = () => {
+    const sorted = [...rows].sort(
+      (rowa, rowb) => rowb.cantidad - rowa.cantidad
+    );
+    setFilteredRows(sorted);
+  };
 
   const handleShowModel = () => {
     setShowModal(true);
@@ -61,6 +104,20 @@ function Products() {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleMarcaChange = (e) => {
+    const marca =
+      e.target.value === "" ? "Todos los productos" : e.target.value;
+    setSelectedMarca(marca);
+    setSelectedModelo("");
+    setSearchMarcaTerm(marca);
+  };
+  const handleModeloChange = (e) => {
+    const modelo =
+      e.target.value === "" ? "Todos los productos" : e.target.value;
+    setSelectedModelo(modelo);
+    setSearchModeloTerm(modelo);
   };
 
   const handleEdit = (id) => {
@@ -182,6 +239,59 @@ function Products() {
           <option value="Suspencion"> Suspensión</option>
           <option value="Transmision"> Transmisión</option>
         </select>
+
+        <select
+          name="marca"
+          value={selectedMarca}
+          onChange={handleMarcaChange}
+          className="auto-search__input"
+        >
+          {" "}
+          <option value="" disabled>
+            {" "}
+            Buscar por marca del vehículo{" "}
+          </option>{" "}
+          <option value="">Todas</option>
+          {marcas.map((marca) => (
+            <option key={marca} value={marca}>
+              {" "}
+              {marca}{" "}
+            </option>
+          ))}{" "}
+        </select>
+
+        <select
+          name="modelo"
+          value={selectedModelo}
+          onChange={handleModeloChange}
+          className="auto-search__input"
+          required
+        >
+          <option value="" disabled>
+            Buscar por modelo
+          </option>{" "}
+          <option value="">Todos</option>
+          {selectedMarca &&
+            (selectedMarca === "Todos los productos"
+              ? Object.keys(modelos).flatMap((marca) =>
+                  modelos[marca].map((modelo) => (
+                    <option key={modelo} value={modelo}>
+                      {" "}
+                      {modelo}{" "}
+                    </option>
+                  ))
+                )
+              : modelos[selectedMarca].map((modelo) => (
+                  <option key={modelo} value={modelo}>
+                    {" "}
+                    {modelo}{" "}
+                  </option>
+                )))}
+        </select>
+        <div>
+          <button onClick={handleMinStock}>Menor stock</button>
+          <button onClick={handleMaxStock}>Mayor stock</button>
+        </div>
       </div>
       <div className="product-table">
         {filteredRows.length > 0 ? (
@@ -192,7 +302,7 @@ function Products() {
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Categoria</th>
-                <th>Cantidad</th>
+                <th>Stock</th>
                 <th>Cantidad Mínima</th> {/* Nueva columna */}
                 <th>Acciones</th>
               </tr>

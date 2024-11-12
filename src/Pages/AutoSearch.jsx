@@ -167,87 +167,86 @@ function AutoSearch() {
       <Navbar />
       <h2 className="auto-search__title">Búsqueda de Vehiculos</h2>
       <div className="auto-search__search-add">
-      <div className="auto-search__input-filters">
-
-        <input
-          type="text"
-          placeholder="Buscar por patente..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="auto-search__input"
-        />
-        <select
-          name="marca"
-          value={selectedMarca}
-          onChange={handleMarcaChange}
-          className="auto-search__input"
-        >
-          {" "}
-          <option value="" disabled>
+        <div className="auto-search__input-filters">
+          <input
+            type="text"
+            placeholder="Buscar por patente..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="auto-search__input"
+          />
+          <select
+            name="marca"
+            value={selectedMarca}
+            onChange={handleMarcaChange}
+            className="auto-search__input"
+          >
             {" "}
-            Buscar por marca del vehículo{" "}
-          </option>{" "}
-          <option value="">Todas</option>
-          {marcas.map((marca) => (
-            <option key={marca} value={marca}>
+            <option value="" disabled>
               {" "}
-              {marca}{" "}
-            </option>
-          ))}{" "}
-        </select>
+              Buscar por marca del vehículo{" "}
+            </option>{" "}
+            <option value="">Todas</option>
+            {marcas.map((marca) => (
+              <option key={marca} value={marca}>
+                {" "}
+                {marca}{" "}
+              </option>
+            ))}{" "}
+          </select>
 
-        <select
-          name="modelo"
-          value={selectedModelo}
-          onChange={handleModeloChange}
-          className="auto-search__input"
-          required
-        >
-          <option value="" disabled>
-            Buscar por modelo
-          </option>{" "}
-          <option value="">Todos</option>
-          {selectedMarca &&
-            (selectedMarca === "Todas"
-              ? Object.keys(modelos).flatMap((marca) =>
-                  modelos[marca].map((modelo) => (
+          <select
+            name="modelo"
+            value={selectedModelo}
+            onChange={handleModeloChange}
+            className="auto-search__input"
+            required
+          >
+            <option value="" disabled>
+              Buscar por modelo
+            </option>{" "}
+            <option value="">Todos</option>
+            {selectedMarca &&
+              (selectedMarca === "Todas"
+                ? Object.keys(modelos).flatMap((marca) =>
+                    modelos[marca].map((modelo) => (
+                      <option key={modelo} value={modelo}>
+                        {" "}
+                        {modelo}{" "}
+                      </option>
+                    ))
+                  )
+                : modelos[selectedMarca].map((modelo) => (
                     <option key={modelo} value={modelo}>
                       {" "}
                       {modelo}{" "}
                     </option>
-                  ))
-                )
-              : modelos[selectedMarca].map((modelo) => (
-                  <option key={modelo} value={modelo}>
-                    {" "}
-                    {modelo}{" "}
-                  </option>
-                )))}
-        </select>
-        <button onClick={handleResetRange}><FaSearch /></button>
+                  )))}
+          </select>
+          <button onClick={handleResetRange}>
+            <FaSearch />
+          </button>
         </div>
         <div className="auto-search__slide-input">
+          <span>{selectedKilometraje} km</span>
+          <input
+            type="range"
+            min="0"
+            max={maxKilometraje}
+            value={selectedKilometraje}
+            onChange={handleKilometrajeChange}
+            className="auto-search__input_range"
+          />
 
- 
-        <span>{selectedKilometraje} km</span>
-        <input
-          type="range"
-          min="0"
-          max={maxKilometraje}
-          value={selectedKilometraje}
-          onChange={handleKilometrajeChange}
-          className="auto-search__input_range"
-        />
-
-        <span>Año {selectedAnio}</span>
-        <input
-          type="range"
-          min={currentYear - 30}
-          max={currentYear}
-          value={selectedAnio}
-          onChange={handleAnioChange}
-          className="auto-search__input_range"
-        />
+          <span>Año {selectedAnio}</span>
+          <input
+            type="range"
+            min={currentYear - 30}
+            max={currentYear}
+            value={selectedAnio}
+            onChange={handleAnioChange}
+            className="auto-search__input_range"
+          />
         </div>
         <div className="auto-search__buttons">
           <button onClick={handleAddAuto} className="auto-search__add-auto">
