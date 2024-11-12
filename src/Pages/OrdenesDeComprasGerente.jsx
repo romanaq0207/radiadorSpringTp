@@ -24,6 +24,7 @@ const OrdenesDeCompra = () => {
         const fetchOrders = async () => {
             try {
                 const response = await axios.get(`${API_BASE_URL}/ordenes_de_compra`);
+                console.log(response.data);
                 setOrders(response.data);
                 setFilteredOrders(response.data);
             } catch (error) {
@@ -207,6 +208,11 @@ const OrdenesDeCompra = () => {
         }
     };
 
+    const calcularTotal = (productos) => 
+        productos.reduce((acumulado, producto) => 
+          acumulado + (parseFloat(producto.precio) || 0) * (parseInt(producto.cantidad, 10) || 0), 0);
+      
+
     const renderActions = (estado, order) => {
         switch (estado) {
             case 'creada':
@@ -249,7 +255,7 @@ const OrdenesDeCompra = () => {
                     <option value="aceptada">Aceptada</option>
                     <option value="completada">Completada</option>
                     <option value="rechazada">Rechazada</option>
-                    <option value="inactiva">Inactiva</option>
+                  { /* <option value="inactiva">Inactiva</option>*/}
                 </select>
         
                 <input 
@@ -287,16 +293,17 @@ const OrdenesDeCompra = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredOrders.map((order, index) => (
+                    {filteredOrders.map((order, index) => ( 
                         <tr key={index}>
                             <td data-label="ID">{order.id_orden_de_compra}</td>
                             <td data-label="Número de Orden">{order.numero_orden}</td> {/* Mostrar el número de orden */}
                             <td data-label="Proveedor">{order.nombre_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
-                            <td data-label="Total">${order.total}</td>
+                            <td data-label="Total">${calcularTotal(order.productos)}</td>
                             <td data-label="Acciones">{renderActions(order.estado, order)}</td>
                         </tr>
+                        
                     ))}
                 </tbody>
             </table>
