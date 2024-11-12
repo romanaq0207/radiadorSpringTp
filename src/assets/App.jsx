@@ -428,6 +428,7 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="/verificar-rutas" element={<RoutesVerify />} />
           <Route path="/login" element={<Login />} />
         </Routes>
 
