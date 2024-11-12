@@ -56,13 +56,15 @@ const OrdenesDeCompra = () => {
     const fetchReceptionDetails = async (orderId) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/ordenes_de_compra/${orderId}/recepcion_productos`);
-            return response.data; // Devuelve los datos de recepción
+            return response.data;
+           
         } catch (error) {
             console.error('Error al obtener detalles de recepción de productos:', error);
             alert('Error al obtener detalles de recepción de productos.');
             return [];
         }
     };
+    
 
     const handleViewDetails = async (order) => {
         console.log('Ver detalles de la orden:', order); // Verifica que se esté llamando correctamente
@@ -88,7 +90,8 @@ const OrdenesDeCompra = () => {
             setProductReception(order.productos.map(producto => ({
                 ...producto,
                 recibido: false,
-                cantidadRecibida: producto.cantidad,
+                cantidadRecibida: 0,
+                precioActualizado: producto.precio,
             })));
         }
         
@@ -170,24 +173,34 @@ const OrdenesDeCompra = () => {
       };
       
 
-    const handleConfirmReception = async () => {
+      const handleConfirmReception = async () => {
         try {
             const productosRecibidos = productReception.map(producto => ({
                 id_producto: producto.id_producto,
                 cantidadRecibida: producto.recibido ? producto.cantidad : producto.cantidadRecibida,
-                precio: producto.precioActualizado || producto.precio,
+                precio: producto.precioActualizado || producto.precio, // Usar el precio actualizado o el precio anterior
             }));
-
+    
             console.log('Productos recibidos:', productosRecibidos);
-
+    
+        
             await axios.post(`${API_BASE_URL}/ordenes_de_compra/${selectedOrder.id_orden_de_compra}/confirmar_recepcion`, {
                 productos: productosRecibidos
             });
-
+    
+           
+            await Promise.all(productReception.map(async (producto) => {
+                    await axios.put(`${API_BASE_URL}/productos/${producto.id_producto}/actualizar_precio`, {
+                        precio: parseFloat(producto.precioActualizado) 
+                    });
+                
+            }));
+    
+       
             updateOrderStatus(selectedOrder.id_orden_de_compra, 'completada');
-
+    
             closeReceptionPopup();
-            alert('Recepción de productos confirmada.');
+            Swal.fire('Recepción de productos confirmada.', '', 'success');
         } catch (error) {
             console.error('Error al confirmar la recepción de productos:', error);
             alert('Error al confirmar la recepción de productos.');
@@ -213,7 +226,9 @@ const OrdenesDeCompra = () => {
                     </>
                 );
             case 'completada':
+
             case 'rechazada':
+
             case 'inactiva':
                 return <button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>;
             default:
@@ -299,6 +314,7 @@ const OrdenesDeCompra = () => {
                         <th>Producto</th>
                         <th>Cantidad Solicitada</th>
                         <th>Cantidad Recibida</th>
+                        <th>Precio por Unidad</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -307,6 +323,7 @@ const OrdenesDeCompra = () => {
                             <td>{producto.nombre}</td>
                             <td>{producto.cantidad}</td>
                             <td>{producto.cantidadRecibida}</td>
+                            <td>{producto.precio}</td>
                         </tr>
                     ))}
                 </tbody>
@@ -329,8 +346,8 @@ const OrdenesDeCompra = () => {
                         <th>Producto</th>
                         <th>Cantidad Solicitada</th>
                         <th>Cantidad Recibida</th>
-                        <th>Precio Guardado</th>
-                        <th>Actualizar Precio</th>
+                        <th>Precio Unitario Anterior</th>
+                        <th>Precio Unitario Actualizado</th>
                     </tr>
                 </thead>
                 <tbody>

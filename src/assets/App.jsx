@@ -53,7 +53,7 @@ import AutoAccidentsForAdmin from "../Pages/AutoAccidentsForAdmin";
 import FormularioAccidenteMechanic from "../Pages/FormularioAccidenteMechanic";
 import Perfil from "../Pages/Perfil";
 import ViewFormsSupervisor from "../Pages/ViewFormsSupervisor";
-import OrdenesDeComprasSupervisor from "../Pages/OrdenesDeComprasSupervisor";
+import OrdenesDeComprasGerente from "../Pages/OrdenesDeComprasGerente";
 
 const App = () => {
   return (
@@ -332,10 +332,10 @@ const MainApp = () => {
             }
           />
           <Route
-            path="/ordenes-compras-supervisor"
+            path="/ordenes-compras-gerente"
             element={
               <ProtectedRoute>
-                <OrdenesDeComprasSupervisor />
+                <OrdenesDeComprasGerente />
               </ProtectedRoute>
             }
           />

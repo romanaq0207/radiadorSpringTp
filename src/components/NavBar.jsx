@@ -75,6 +75,11 @@ function Navbar() {
           icon: <FaRoute />,
         },
         { to: "/reportes-gerencia", title: "Reportes", icon: <FaChartLine /> },
+        {
+          to: "/ordenes-compras-gerente",
+          title: "Ordenes de Compra",
+          icon: <FaShoppingCart />,
+        },
       ],
       supervisor: [
         { to: "/crear-ruta", title: "Crear Ruta", icon: <FaRoute /> },
@@ -83,11 +88,7 @@ function Navbar() {
           title: "Fichas de control",
           icon: <FaClipboardCheck />,
         },
-        {
-          to: "/ordenes-compras-supervisor",
-          title: "Ordenes de Compra",
-          icon: <FaShoppingCart />,
-        },
+        
       ],
       mecanico: [
         {
