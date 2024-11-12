@@ -48,7 +48,7 @@ function Navbar() {
         { to: "/productos", title: "Productos", icon: <FaBox /> },
         { to: "/orden-de-compra", title: "Órdenes de Compra", icon: <FaShoppingCart /> },
       ],
-      operador: [
+      conductor: [
         { to: "/ver-mi-ruta", title: "Rutas", icon: <FaRoute /> },
         { to: "/pedir-acarreo", title: "Pedir Acarreo", icon: <GiTowTruck /> },
         { to: "/verificar-formularios", title: "Fichas de control", icon: <FaClipboardCheck /> },
