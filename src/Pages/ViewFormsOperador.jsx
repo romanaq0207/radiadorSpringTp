@@ -10,6 +10,7 @@ const ViewFormsOperador = () => {
   const [formStates, setFormStates] = useState([]);
   const [formData, setFormData] = useState([]);
   const [selectedUbicacion, setSelectedUbicacion] = useState("");
+  const [selectedEstado, setSelectedEstado] = useState("");
   const [filteredFormData, setFilteredFormData] = useState([]);
 
   useEffect(() => {
@@ -222,7 +223,22 @@ const ViewFormsOperador = () => {
         (ubicacion) => ubicacion.misma_ubicacion === 1
       );
     }
-    console.log(lugar);
+    setFilteredFormData(filtered);
+  };
+  const filterEstadoBy = (estados) => {
+    setSelectedEstado(estados);
+    if (!estados) {
+      setFilteredFormData(formData);
+      return;
+    }
+    let filtered = [];
+    if (estados === "aceptado") {
+      filtered = formData.filter((estado) => estado.aceptado === 1);
+    } else if (estados === "rechazado") {
+      filtered = formData.filter((estado) => estado.aceptado === 0);
+    } else if (estados === "pendiente") {
+      filtered = formData.filter((estado) => estado.aceptado === null);
+    }
     setFilteredFormData(filtered);
   };
 
@@ -236,6 +252,15 @@ const ViewFormsOperador = () => {
         <option value="">Ubicación del mantenimiento</option>
         <option value="Si">En el taller</option>
         <option value="No">Fuera del taller</option>
+      </select>
+      <select
+        value={selectedEstado}
+        onChange={(e) => filterEstadoBy(e.target.value)}
+      >
+        <option value="">Estado del mantenimiento</option>
+        <option value="aceptado">Aceptado</option>
+        <option value="rechazado">Rechazado</option>
+        <option value="pendiente">Pendiente</option>
       </select>
 
       {filteredFormData.map((form, index) => (
