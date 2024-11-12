@@ -117,6 +117,11 @@ const OrdenesDeCompra = () => {
         setSelectedOrder(null);
     };
 
+    const calcularTotal = (productos) => 
+        productos.reduce((acumulado, producto) => 
+          acumulado + (parseFloat(producto.precio) || 0) * (parseInt(producto.cantidad, 10) || 0), 0);
+      
+
     const updateOrderStatus = async (orderId, newStatus) => {
         const statusMessages = {
             aceptada: 'Aceptar',
@@ -245,7 +250,7 @@ const OrdenesDeCompra = () => {
                             <td data-label="Proveedor">{order.nombre_proveedor}</td>
                             <td data-label="Fecha">{new Date(order.fecha_creacion).toLocaleDateString()}</td>
                             <td data-label="Estado"><span className={`orders-status ${order.estado.toLowerCase()}`}>{order.estado}</span></td>
-                            <td data-label="Total">${order.total}</td>
+                            <td data-label="Total">${calcularTotal(order.productos)}</td>
                             <td data-label="Detalles">{<button className="orders-btn view" onClick={() => handleViewDetails(order)}><FontAwesomeIcon icon={faCircleInfo} style={{color: "#ffffff",}} /></button>}</td>
                         </tr>
                     ))}
