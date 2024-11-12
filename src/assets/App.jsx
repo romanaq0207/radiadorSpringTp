@@ -428,8 +428,15 @@ const MainApp = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/verificar-rutas" element={<RoutesVerify />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/verificar-rutas"
+            element={
+              <ProtectedRoute>
+                <RoutesVerify />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route path="/login" element={<Login />} /> */}
         </Routes>
 
         <button
